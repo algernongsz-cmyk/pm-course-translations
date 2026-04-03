@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple 50年的集成之路 - Stratechery</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #333;
+            background: #fff;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+        h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 2.5em;
+            margin-bottom: 1em;
+            color: #1a1a1a;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: #2a2a2a;
+        }
+        p {
+            margin-bottom: 1.5em;
+            text-align: justify;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        blockquote {
+            border-left: 4px solid #0066cc;
+            margin: 1.5em 0;
+            padding: 0.5em 1.5em;
+            background: #f8f9fa;
+            color: #555;
+        }
+        blockquote p {
+            margin-bottom: 0.8em;
+        }
+        em {
+            font-style: italic;
+            color: #555;
+        }
+        strong {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            padding-bottom: 1em;
+            border-bottom: 1px solid #eee;
+        }
+        .source-link {
+            display: inline-block;
+            margin-top: 2em;
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 1.5em 0;
+        }
+        ul {
+            padding-left: 2em;
+            margin-bottom: 1.5em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Apple 50年的集成之路</h1>
+    <div class="meta">
+        <p><strong>原文：</strong>Apple's 50 Years of Integration</p>
+        <p><strong>作者：</strong>Ben Thompson</p>
+        <p><strong>来源：</strong>Stratechery</p>
+        <p><strong>发布日期：</strong>2026年4月</p>
+    </div>
+
+    <p><em>收听本文：</em></p>
+
+    <p>作为体育迷，有一种奇怪的现象：场上的运动员一开始比你年长，然后和你同龄，最后全都比你年轻了；对我来说，最后一位我能仰视的运动员——至少在年龄上——是Tom Brady。</p>
+
+    <p>科技公司也有点类似。我喜欢写科技史，喜欢通过起源故事来理解公司文化，我很幸运地见证了大多数公司的诞生。不过，仍有一些公司比我更早——如果可以这么说的话，它们是行业里的Tom Brady——Apple就是其中之一，明天它就要满50岁了。</p>
+
+    <h2>Apple历史</h2>
+
+    <p>我的第一台电脑是一台二手IBM兼容机286——我甚至不记得品牌了——但我在大学里真正开始上手的是用超频的赛扬芯片组装自己的电脑，零件是通过利用不可持续的互联网泡沫时代获客策略获得的（一个独特的电子邮件地址意味着一个有免费25美元的PayPal账户，以及另一个有免费25美元的一次性信用卡，用于注册Value America账户并获得50美元优惠券）。不用说，我不仅见证了许多这类公司的诞生，也见证了它们的消亡！</p>
+
+    <p>我的小学里有Apple II，我会在上面用BASIC写程序，但我第一次认真接触这家公司的产品是在大学报纸社用QuarkXPress做排版；毕业后，我被iMac G4及其可调节支架迷住了，还有iLife套件中的GarageBand；我最后买了一台iBook，现在，四分之一个世纪过去了，我正在MacBook Pro上打这篇文章。</p>
+
+    <p>我的历史中蕴含了Apple的大部分历史。我错过了最早期，那时Apple I只是Steve Wozniak创造的一块电路板；Steve Jobs用net-30条款买下了首批零件，通过从Mountain View一家电脑店收取货到付款来偿还；1977年发布的Apple II成就了这家公司，那是我与Apple的第一次相遇。Mac于1984年问世，在桌面出版领域找到了自己的利基市场；这就是我在大学时重新接触Apple的方式。然而，Apple在面对功能更强的模块化Windows PC时苦苦挣扎，而我当时正愉快地组装这些电脑。</p>
+
+    <p>正是OS X<a href="https://paulgraham.com/mac.html">改变了Apple在技术宅心中的命运</a>，Jony Ive惊艳的设计改变了其他所有人的价值主张；与此同时，iLife让Mac从第一天起就变得有用。正是这三者的结合让我成为了顾客，随着互联网摧毁了锁定效应，操作系统的精致度和Apple独立的开发者生态让我在微软Windows团队的两年变得煎熬；然后，在2020年，<a href="https://stratechery.com/2020/apples-shifting-differentiation/">Apple的差异化完成了一个轮回</a>：Mac成为世界上最快的个人电脑——尤其是笔记本电脑。</p>
+
+    <p>当然，Apple故事中还有其他部分，包括iPod，以及最重要的iPhone。这些产品让Apple多年来成为世界上最有价值的公司（今天Apple仅被Nvidia超越）。然而，这些产品可能以面向更大市场的形式出现，但它们仍然是真正的Apple——这么多年过去了，这家公司在整合硬件和软件方面仍然没有竞争对手。</p>
+
+    <h2>Apple的竞争对手</h2>
+
+    <p>我说"没有竞争"是什么意思？嗯，让我们看看Apple这些年来名义上的竞争对手：</p>
+
+    <p><strong>IBM：</strong>这或许是早期Apple最具标志性的照片：</p>
+
+    <p><em>Jean Pigozzi via Andy Hertzfeld</em></p>
+
+    <p>Apple I诞生在一个计算主要用于企业、且主要在IBM大型机上进行的时代。然而，处理器和内存的普及使得爱好者电脑成为可能，而这正是Apple I的定位。</p>
+
+    <p>然而，Apple II让IBM开始关注；我在2013年的<a href="https://stratechery.com/2013/apple-open-and-learning-from-history/">《Windows与Mac的真相》</a>一文中解释过：</p>
+
+    <blockquote>
+        <p>1970年代末和1980年代初，新一代个人电脑开始出现在市场上，包括Commodore、MITS Altair、Apple II等。一些员工把它们带入工作场所，大公司觉得无法接受，于是IT部门向IBM提出要类似的东西。毕竟，"没有人因为……而被解雇"。</p>
+        <p>IBM在佛罗里达组建了一个独立团队，为IT部门拼凑一些可以销售的东西。时间紧迫，佛罗里达团队用大部分现成组件组装了一台小型机；IBM的RISC处理器和正在开发的操作系统在技术上更优越，但Intel有立即可售的CISC处理器，一家叫Microsoft的新公司说他们的操作系统——DOS——可以在六个月内准备好。为了效率，IBM决定选择Intel和Microsoft。</p>
+    </blockquote>
+
+    <p>IBM最终只是一个硬件制造商；他们懒得做软件。</p>
+
+    <p><strong>Microsoft：</strong>软件落到了Microsoft手中。继续引用那篇2013年的文章：</p>
+
+    <blockquote>
+        <p>剩下的，如他们所说，就是历史了。企业对IBM PC的需求是压倒性的，DOS及其应用程序变得根深蒂固。等到1984年Mac出现时，大局早已注定。最终，Microsoft花了十年时间才接近Mac的易用性，但Windows的DOS基础和相关的应用程序库意味着Microsoft的地位无论如何都是稳固的。</p>
+    </blockquote>
+
+    <p>在此后的几十年里，传统观点认为Microsoft的模块化方法——那种让我可以自己组装电脑的方法——毫无疑问优于Apple软硬件集成的模式。事实上，正是Apple的集成让公司得以维持：所有那些用于桌面出版的Mac都很昂贵，给了Apple足够的收入（勉强）维持运营；公司短暂涉足授权Macintosh OS的做法几乎导致公司破产。</p>
+
+    <p>或者换个说法，Apple只与Microsoft短暂竞争过，而且差点因此丧命。</p>
+
+    <p><strong>消费电子公司：</strong>很难选择一家公司来代表iPod时代，因为Apple并没有真正面临任何有意义的竞争。有Sony和Discman，还有Diamond和Creative的一些早期MP3播放器，但现实是没有人拥有让iPod与众不同的硬件和软件组合；在这种情况下，软件是iTunes，而将iTunes移植到Windows正是推动Apple超越Macintosh的原因，并为接下来的发展奠定了基础。</p>
+
+    <p><strong>RIM、Palm和Nokia：</strong>在我这篇文章的框架下，早期智能手机制造商是Apple遇到过的唯一真正的竞争对手。这三家公司都整合了硬件和软件，这很有道理，因为智能手机品类尚处于萌芽期——这正是集成特别重要的时候。</p>
+
+    <p>然而，iPhone在一个重要方面有所不同：RIM、Palm（也销售搭载Microsoft Windows Mobile的手机）和Nokia首先制造的是手机；iPhone则是一台完整的电脑，建立在OS X的基础之上。这一点，结合iPhone创新的多点触控输入方式，造就了一款功能强大得多、更具吸引力的设备，最终消灭了这三家公司。</p>
+
+    <p><strong>Android：</strong>Android在许多方面是Apple iOS的Windows——这也正是<a href="https://stratechery.com/2013/clayton-christensen-got-wrong/">为什么许多评论员预测Apple注定失败</a>的原因。然而，一个关键的区别在于我在上面摘录的文章中提到的：DOS在Mac之前出现，而iPhone在Android之前出现。这意味着Apple先获得了用户和开发者的临界规模，这与1980年代形成鲜明对比。另一个区别是iPhone直接销售给终端用户，而不是IT部门，这些用户真正关心他们花钱购买的设备的外观和手感。第三个区别是Apple拥有（并且持续拥有）性能优势，这归功于他们对自有芯片的投资，这与公司在Mac上遇到的死胡同形成鲜明对比。</p>
+
+    <p>当然，Android是一个巨大的成功，在全球拥有更多的市场份额（尽管iPhone在美国拥有多数份额）。模块化有一席之地，像Samsung这样的公司在制造高端Android设备方面做得很好，还有许多中国公司填补了低端市场。而且，值得注意的是，Google自己也制造Pixel手机；这是真正的竞争，尽管考虑到Google对整个Android生态系统的投入（几乎没有Pixel独占功能，至少不会持续太久），以及Apple对高端市场的掌控，这种竞争几乎不值一提。</p>
+
+    <p>也许Apple最有趣的新产品是让公司完成一个轮回的产品。MacBook Neo是有史以来最便宜的Mac笔记本电脑，让公司在低端市场有望大幅增长。值得注意的是，与模块化产品通过更便宜和"足够好"抢占份额的假设相悖，Apple通过从操作系统到设备到芯片的全面掌控，正在销售一款在同类产品中质量更高、性能更强、组件成本更低的产品；现在，不再有软件锁定——Neo运行浏览器和AI聊天客户端，就像Windows机器一样——Apple有望在其最古老的市场取得重大进展。</p>
+
+    <h2>Apple聚合AI</h2>
+
+    <p>更广泛地说，Apple在所有市场的市场份额，包括手机，都在持续增长，而非下降。这正在发生，尽管Apple在AI服务器容量方面没有进行有意义的投资——至少与其大型科技同行相比——并且尚未发布它<a href="https://stratechery.com/2025/apple-and-the-ghosts-of-companies-past/">近两年前</a>承诺的新AI赋能的Siri。之所以这不重要，是因为无论AI变得多么强大，你仍然需要通过设备来访问它，而Apple，得益于其硬件和软件的集成，制造了最好的设备。</p>
+
+    <p>现在，<a href="https://www.bloomberg.com/news/articles/2026-03-26/apple-plans-to-open-up-siri-to-rival-ai-assistants-beyond-chatgpt-in-ios-27">据Bloomberg报道</a>，Apple计划利用其与终端用户的地位，提供对多个AI提供商的访问：</p>
+
+    <blockquote>
+        <p>Apple Inc.计划向外部人工智能助手开放Siri，这是加强iPhone作为AI平台的一项重大举措。据知情人士透露，公司准备在其即将推出的iOS 27操作系统更新中，将此作为Siri改革的一部分。该助手已经可以通过与OpenAI的合作接入ChatGPT，但Apple现在将允许竞争服务做同样的事情……</p>
+        <p>知情人士表示，公司正在开发新工具，允许通过App Store安装的AI聊天机器人应用与Siri助手集成。这些聊天机器人还将与即将推出的Siri应用和Apple Intelligence平台中的其他功能配合使用。这意味着，例如，如果用户安装了Alphabet Inc.的Google Gemini或Anthropic PBC的Claude，他们将能够从Siri语音助手中向这些服务发送查询，就像自2024年Apple Intelligence推出以来他们能够使用ChatGPT一样。这种方法还应该允许Apple通过App Store从第三方AI订阅中获得更多收入。</p>
+    </blockquote>
+
+    <p>这不太像Safari搜索——Apple通过iPhone内置浏览器进行的搜索从Google获得收入分成——但考虑到AI助手主要通过订阅变现，这也差不多：Apple将很乐意通过App Store销售订阅，第一年收取价格的30%，之后收取15%。拥有设备意味着Apple可以聚合AI（公司已经<a href="https://www.wsj.com/tech/ai/apple-ai-subscriptions-strategy-7ce4ba7f">每年从聊天机器人订阅中赚取10亿美元</a>）。</p>
+
+    <p>这正是我在Apple宣布与OpenAI初步合作后所预期的；来自2024年的一篇<a href="https://stratechery.com/2024/wwdc-apple-intelligence-apple-aggregates-ai/">更新</a>：</p>
+
+    <blockquote>
+        <p>Apple可能比任何其他公司更深刻地理解自己在所运营的价值链中的地位，并将这种地位用于让其他公司以自己的条件服务于Apple的利益；我们在开发者身上看到这一点，在运营商身上看到这一点，在音乐唱片公司身上看到这一点，现在我认为我们在AI身上也看到了这一点。Apple——假设它兑现了Apple Intelligence的承诺——承诺提供只有它才能提供的功能，并在此过程中锁定其能力，迫使合作伙伴大力投资它无意开发但希望以Apple的条件向Apple用户提供的功能。</p>
+        <p>拥有价值链集成点的公司永远不想有独家供应商；它想要将其互补品商品化，这意味着创建一个模块化接口，让多家公司在集成商的条件下竞争，这正是这些App Store应用的AI扩展听起来像的东西。</p>
+    </blockquote>
+
+    <p>当然，还有让Apple Intelligence正常工作的问题；这个即将推出的功能与Apple与Gemini的Siri基础模型交易是分开的。我在<a href="https://stratechery.com/2026/apple-and-gemini-foundation-vs-aggregation-universal-commerce-protocol/">这篇更新</a>中解释了区别，并得出结论：</p>
+
+    <blockquote>
+        <p>这个愿景的最大问题是它假设Apple Intelligence会有能力，但它根本不行；就像如果iPhone很烂，iPhone搜索交易就不值钱一样，如果Siri很烂，Siri聊天机器人集成也不值钱。然而，现在Google正在销售底层模型让Siri变好，而他们最大的希望是他们能把所有的钱——甚至更多！——付给Apple，让一个赚钱的Gemini坐在上面。</p>
+        <p>Apple会让用户决定谁在上面；我确信公司也愿意被付费成为默认选项！</p>
+    </blockquote>
+
+    <h2>Apple与OpenAI</h2>
+
+    <p>许多人正在庆祝Apple不参与AI模型竞争的决定，声称公司通过不尝试而获胜；<a href="https://stratechery.com/2026/agents-over-bubbles/">我之前链接过</a>Horace Dediu的<a href="https://asymco.com/2026/03/10/the-most-brilliant-move-in-corporate-history/">《企业史上最精彩的举动？》</a>，这是对这个论点的很好阐述：</p>
+
+    <blockquote>
+        <p>超大规模云服务商现在正在将其运营现金流的94%用于AI基础设施。Amazon预计今年将出现负自由现金流，赤字高达280亿美元。Alphabet的自由现金流预计将从730亿美元暴跌90%至80亿美元。这些公司曾经是有史以来最伟大的印钞机。现在他们借钱让数据中心保持运转……</p>
+        <p>这6500亿美元换来了什么？AI服务产生的总收入约为350亿美元，占基础设施支出的5%。当然有更多收入的梦想，但AI的商业模式尚未引起共鸣，尤其是对消费者而言……</p>
+        <p>Apple没有错过AI革命。它只是押注赢家不会是那些建设基础设施的人。赢家将是那些拥有客户的人，地球上没有其他人拥有最好的客户。</p>
+    </blockquote>
+
+    <p>Apple拥有最好的客户，因为它制造最好的设备，这得益于其硬件和软件的集成。而且，正如我上面叙述的那样，五十年过去了，它不知何故仍然是唯一一家这样的公司。然而，Apple正在寻求应对一个正在浮现的威胁。再次来自<a href="https://www.bloomberg.com/news/articles/2026-03-26/apple-gives-iphone-designers-rare-bonuses-to-fight-openai-poaching">Bloomberg</a>：</p>
+
+    <blockquote>
+        <p>Apple Inc.本周向iPhone硬件设计师发放了罕见的奖金，旨在阻止一波流向正在制造自己设备的AI初创公司（如OpenAI）的离职潮。据知情人士透露，公司向iPhone产品设计团队的许多成员发放了周期外奖金，价值数十万美元。</p>
+        <p>Apple领导层对被潜在竞争对手挖走工程师的数量越来越担忧。OpenAI已邀请Apple前设计主管Jony Ive帮助设计新一代以AI为中心的产品，已成为一个特别的威胁……OpenAI的硬件部门部分由Apple资深人士Tang Tan运营。他曾经管理现在获得奖金的iPhone产品设计团队。Tan在OpenAI的团队已经招聘了数十名Apple工程师，不仅仅是iPhone团队的。这家初创公司还吸引了帮助开发iPad、Apple Watch和Vision Pro的员工。</p>
+    </blockquote>
+
+    <p>OpenAI不仅在招聘设计师；公司还在建设运营能力，以便能够真正大规模生产即将推出的Ive设计的设备（推测在中国）。不过，许多人想知道OpenAI硬件设备的状态，考虑到关于Sora的消息；来自<a href="https://www.wsj.com/tech/ai/openai-set-to-discontinue-sora-video-platform-app-a82a9e4e">华尔街日报</a>：</p>
+
+    <blockquote>
+        <p>OpenAI计划关闭其Sora视频平台，这是该公司去年大张旗鼓推出的产品，此后已从公众视野中消失。此举是OpenAI在可能于今年第四季度进行首次公开募股之前重新聚焦于业务和编程功能的一系列步骤之一。CEO Sam Altman周二向员工宣布了这些变化，写道公司将逐步淘汰使用其视频模型的产品。除了消费者应用外，OpenAI也在停止面向开发者的Sora版本，也不再支持ChatGPT内部的视频功能。</p>
+        <p>OpenAI正处于战略转变之中，将公司的计算资源和顶尖人才转向所谓的生产力工具，这些工具可同时供企业和个人用户使用。上周，OpenAI宣布将合并其ChatGPT桌面应用、编码工具Codex和浏览器，成为一个"超级应用"。公司期望这个整合产品能让员工围绕一个愿景保持一致。</p>
+    </blockquote>
+
+    <p>事实上，砍掉Sora但保留硬件计划符合这一战略转变：Sora，以及<a href="https://www.ft.com/content/de9bf0af-b241-424f-8229-5870b1c0d93d">同样无限期推迟的成人模式</a>，都是吸引更多关注的产品，这更适合传统的广告消费者商业模式。另一方面，生产力更适合企业，而Anthropic正在这方面取得重大进展。然而，问题在于大多数消费者不愿意为软件付费；他们愿意付费的是设备。这是iPhone的秘密；来自2016年的<a href="https://stratechery.com/2016/everything-as-a-service/">《一切皆服务》</a>：</p>
+
+    <blockquote>
+        <p>Apple可以说完善了制造模式：公司的大部分企业员工在加州从事标志性设备的设计和营销，这些设备在按照Apple严格标准建造和运营的中国工厂中制造（包括现场的大量员工），然后运往世界各地，送到渴望一流智能手机、平板电脑、电脑和智能手表的消费者手中。</p>
+        <p>让这种模式如此有效——如此有利可图——的是Apple用软件差异化化了原本可商品化的硬件。软件是一种全新的商品类型，它既无限可区分又无限可复制；这意味着任何软件既完全独特又供应无限，导致理论价格为0美元。然而，通过将软件的可区分品质与需要真实资产和商品来制造的硬件相结合，Apple能够为其产品收取令人难以置信的溢价。</p>
+    </blockquote>
+
+    <p>OpenAI正在从相反的方向接近这个领域：它拥有庞大的ChatGPT消费者用户群，以及令人印象深刻的大量订阅者；它也在增加广告。然而，要真正从消费者身上变现，最有吸引力的商业模式是Apple模式：集成的硬件和软件。</p>
+
+    <h2>Apple真正的AI威胁</h2>
+
+    <p>事实是，Apple在AI方面的缺乏投资在短期内总是赢家：公司不必在基础设施上花钱，而每个人仍然需要设备。真正的威胁在中长期：如果AI变得如此之好，以至于它使传统用户界面变得不再必要会怎样？或者，换句话说，如果最引人注目的集成点不是传统的操作系统和硬件设备，而是AI和专用设备会怎样？</p>
+
+    <p>如果这种威胁成为现实，它不会来自OpenAI的初始产品；智能手机是终极形态因素，<a href="https://stratechery.com/2013/apps-people-jobs-to-be-done/">承担了如此多的任务</a>，这些任务依赖于其灵活性和能力以及第三方生态系统，以至于没有任何新进入者能够指望竞争（事实上，Google和Android由于这个原因可以说是一个更大的威胁）。然而，AI可能有多大的能力，不只是明年，而是在五年、十年后？<a href="https://stratechery.com/2024/the-gen-ai-bridge-to-the-future/">如果有一个更好的交互范式要取代智能手机，它肯定会植根于AI</a>——而Apple，如果现在放弃，将无法参与其中。</p>
+
+    <p>这绝对不是预测。事实上，如果要我打赌，我会押注Apple保持其地位：</p>
+
+    <ul>
+        <li>首先，智能手机由于其屏幕、连接性和电池续航，实际上可能是AI的最佳设备，而且，AI将只是智能手机已经拥有的所有功能之外的一个能力。</li>
+        <li>其次，如果AI推理移向边缘，Apple由于其行业领先的芯片而拥有巨大优势。</li>
+        <li>第三，Apple始终可以选择开放其设备，允许与OpenAI以外的第三方AI提供商进行更深层次的集成，以有效抵御潜在威胁。</li>
+    </ul>
+
+    <p>也值得注意的是，OpenAI在其相对短暂的生命中，已经将自己定位为基本上科技界每个人的竞争对手，从Google到Meta到Microsoft，结果却发现自己在面对Anthropic及其专注于企业编码和生产力的方法时被迫转型。与所有人对抗的胆识令人印象深刻；但为一切与所有人对抗的有效性可能就不那么令人印象深刻了。</p>
+
+    <p>尽管如此，OpenAI这里有一个切入点，Apple也有一个薄弱环节。这家公司走过了五十年，没有人在其集成商业模式上真正与它竞争；它下一个五十年的命运可能取决于AI最终会有多引人注目——以及OpenAI能否在Apple的原有领域超越Apple。</p>
+
+    <div class="source-link">
+        <a href="https://stratechery.com/2026/apples-50-years-of-integration/" target="_blank">原文链接：Apple's 50 Years of Integration</a>
+    </div>
+</body>
+</html>
