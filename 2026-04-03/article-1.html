@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宣布 Procedures 和 Simulations 的重大更新：让 Fin 能够处理复杂查询</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-top: 2em;
+        }
+        h1 {
+            font-size: 2em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5em;
+        }
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 2px solid #95a5a6;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.2em;
+        }
+        .meta {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .meta span {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Courier New", monospace;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #555;
+        }
+        .note {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>宣布 Procedures 和 Simulations 的重大更新：让 Fin 能够处理复杂查询</h1>
+    
+    <div class="meta">
+        <span><strong>来源：</strong>Intercom Blog</span>
+        <span><strong>原文：</strong><a href="https://www.intercom.com/blog/procedures-simulations-updates/" target="_blank">Announcing major updates to Procedures and Simulations</a></span>
+        <span><strong>评分：</strong>99/100</span>
+    </div>
+
+    <p>今天，我们宣布 Fin 的 Procedures 和 Simulations 能力的12项重大更新；这是 Fin 如何处理复杂工作的基础，以及团队如何保持对客户体验的控制。</p>
+
+    <p><strong>Procedures</strong> 让组合三件事变得简单——自然语言指令、确定性控制和完全代理行为——使 Fin 能够处理最复杂的查询。<strong>Simulations</strong> 允许团队在到达客户之前大规模测试复杂的 Procedures，从而可以自信地部署。</p>
+
+    <p>它们共同使 Fin 具有自我管理能力、透明度，并能处理真正复杂的工作。</p>
+
+    <h2>更新内容</h2>
+
+    <ul>
+        <li><strong>Procedures 更易于构建和维护</strong>：通过 AI 用自然语言概述流程来起草 Procedures，将复杂工作流分解为可重用的子程序，改进指令编写，并在 Procedures UI 中原生跟踪 Procedures 何时触发、解决或移交。</li>
+        
+        <li><strong>改进的确定性控制</strong>：遵循明确规则在定义条件下切换 Procedures，指示 Fin 在特定场景中读取特定内容，并包含内部注释以便更顺畅的人工交接。</li>
+        
+        <li><strong>改进的代理行为</strong>：Fin 可以在意图改变时自动切换 Procedures，并直接从上传的 PDF 和图像中提取结构化数据，这样客户就不必重复自己。</li>
+        
+        <li><strong>更强大的 Simulations</strong>：从 Procedures 生成 AI 建议的 Simulations，上传图像以进行更丰富的测试，并获得更清晰的 Fin 推理可见性，从而可以自信地部署复杂的 Procedures。</li>
+    </ul>
+
+    <h2>为什么我们构建这个</h2>
+
+    <p>在速度、覆盖范围和服务成本方面看到早期 AI 收益的团队经常遇到天花板。他们限制 AI 只进行简单的自动化和信息检索，而不是设置它来处理团队本能地委托给人类的那种复杂工作。</p>
+
+    <p>他们遇到这个天花板是因为他们觉得还没有准备好让 AI Agents 处理更大的复杂性，并在运行后管理它们。我们构建 Procedures 和 Simulations 是为了让这种设置和持续管理变得更加容易。</p>
+
+    <h3>客户反馈</h3>
+
+    <p>我们从客户那里听到：</p>
+    <ul>
+        <li>他们需要能够轻松连接数据，让 Fin 可靠且安全地检查客户状态或资格，然后采取行动。</li>
+        <li>他们不想通过工程团队路由来创建或修改 AI Agents 的逻辑以进行对话中决策。</li>
+    </ul>
+
+    <h2>Procedures：精确定义 Fin 如何处理复杂工作</h2>
+
+    <p>Procedures 使你能够设置 Fin 来解决需要多个步骤或业务逻辑的复杂、耗时的查询。你可以训练 Fin 仔细遵循你的标准操作程序并运用经验和判断，就像你的人类团队一样，这样它就可以以可控、可预测的方式处理甚至最复杂的查询。</p>
+
+    <p>Procedures 通过组合三个强大的东西来做到这一点：</p>
+
+    <h3>1. 自然语言指令</h3>
+
+    <p>你用简单的语言写一个 Procedure，就像为新队友记录流程一样。你可以粘贴现有的 SOP，从头开始写，或让 AI 为你起草，然后自己迭代。</p>
+
+    <div class="note">
+        <strong>新功能：</strong>AI 起草 Procedures - 分享流程大纲，Fin 使用你的对话历史、知识库内容和相关数据起草完整的 Procedure。
+    </div>
+
+    <h3>2. 确定性控制</h3>
+
+    <p>自然语言是灵活的，但有些步骤需要精确。你可以在重要的地方分层确定性控制，从完全自然语言 Procedure 开始，在增加价值的地方逐渐引入结构：</p>
+
+    <ul>
+        <li>条件步骤（分支逻辑）来处理决策点</li>
+        <li>数据连接器，让 Fin 可以从你的工具中提取信息或自动采取行动</li>
+        <li>代码片段，用于绝对准确性至关重要且需要保证相同输入始终产生相同输出的情况</li>
+        <li>检查点，以暂停批准或移交给队友</li>
+    </ul>
+
+    <h3>3. 完全代理行为</h3>
+
+    <p>因为真正的对话很少遵循"快乐路径"，Procedures 设计为让 Fin 推理正在发生的事情并适应——跳到正确的步骤，或者如果客户改变主意或问题结果是关于不同的东西，完全切换 Procedures。</p>
+
+    <div class="note">
+        <strong>示例：</strong>如果客户在账单工作流中开始，但随后询问取消订阅，Fin 会转换到相关的 Procedure，而不强制客户重新开始。
+    </div>
+
+    <h2>Simulations：在到达客户之前大规模测试复杂工作流</h2>
+
+    <p>Simulations 让你验证 Procedures 在上线之前的表现，并在事情变化时持续重新验证它们。</p>
+
+    <p>第一次部署复杂的 AI 是信仰的飞跃。Simulations 旨在消除这种不确定性，这样团队可以自信地启动并无风险地持续迭代。</p>
+
+    <h3>模拟完整对话</h3>
+
+    <p>对于任何 Procedure，你可以选择用户或客户细分，并运行完整的多轮模拟对话。你会看到 Fin 采取的每一步，它如何应用你的指令，以及它在哪里可能需要帮助。</p>
+
+    <h2>对产品经理的价值</h2>
+
+    <p>这篇文章提供了完整的 AI 产品复杂问题处理方法论：</p>
+    
+    <ul>
+        <li><strong>三层框架</strong>：自然语言指令 + 确定性控制 + 智能行为</li>
+        <li><strong>Simulations 测试方法论</strong>：可直接应用到产品设计中</li>
+        <li><strong>Fin Flywheel</strong>：训练-测试-部署-分析完整循环</li>
+        <li><strong>实践案例</strong>：MONY Group 等企业的真实应用</li>
+    </ul>
+
+    <div class="footer">
+        <p><strong>翻译说明：</strong>本文由 AI 辅助翻译，保留了原文的 HTML 格式和图片链接。专业术语如 AI、Agent、Fin、Procedures、Simulations、Flywheel 保持原文。</p>
+        <p><strong>原文链接：</strong><a href="https://www.intercom.com/blog/procedures-simulations-updates/" target="_blank">Announcing major updates to Procedures and Simulations</a></p>
+        <p><strong>翻译时间：</strong>2026-04-03</p>
+    </div>
+</body>
+</html>
