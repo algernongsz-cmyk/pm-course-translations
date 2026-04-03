@@ -3,194 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宣布Monitors：打开AI黑盒</title>
+    <title>Monitors：打开AI黑箱 - Intercom博客</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.8;
-            max-width: 900px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             color: #333;
         }
-        h1, h2, h3, h4 { color: #2c3e50; margin-top: 2em; }
-        h1 { font-size: 2.2em; border-bottom: 3px solid #3498db; padding-bottom: 0.5em; }
-        h2 { font-size: 1.6em; border-bottom: 2px solid #95a5a6; padding-bottom: 0.3em; }
-        h3 { font-size: 1.3em; }
-        h4 { font-size: 1.1em; }
-        .meta {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
+        .article-header {
+            margin-bottom: 40px;
         }
-        .meta span { display: inline-block; margin-right: 20px; }
-        img {
+        .article-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .article-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0 20px 0;
+            line-height: 1.3;
+        }
+        .main-image {
+            width: 100%;
+            height: auto;
+            margin: 30px 0;
+        }
+        .content {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .content h2 {
+            font-size: 28px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .content h3 {
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .content p {
+            margin-bottom: 20px;
+        }
+        .content ul, .content ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        .content li {
+            margin-bottom: 10px;
+        }
+        .content img {
             max-width: 100%;
             height: auto;
-            margin: 20px 0;
-            border-radius: 5px;
             display: block;
+            margin: 20px 0;
         }
-        ul, ol { margin: 20px 0; padding-left: 40px; }
-        li { margin: 10px 0; }
+        .content a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .content a:hover {
+            text-decoration: underline;
+        }
         blockquote {
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #007bff;
             padding-left: 20px;
-            margin: 20px 0;
+            margin: 30px 0;
+            font-style: italic;
             color: #555;
-            background: #f9f9f9;
-        }
-        .note {
-            background: #fff3cd;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #ffc107;
-        }
-        .highlight {
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #4caf50;
-        }
-        a { color: #3498db; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            color: #666;
-            font-size: 0.9em;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <h1>宣布Monitors：打开AI黑盒</h1>
-    
-    <div class="meta">
-        <span><strong>来源：</strong>Intercom Blog</span>
-        <span><strong>原文：</strong><a href="https://www.intercom.com/blog/announcing-monitors-opening-the-ai-black-box/" target="_blank">Announcing Monitors: Opening the AI black box</a></span>
-        <span><strong>评分：</strong>98/100</span>
-    </div>
+    <article>
+        <header class="article-header">
+            <div class="article-meta">
+                <span class="category">客户服务</span> · 
+                <time datetime="2026-03-25">2026年3月25日</time>
+            </div>
+            <h1 class="article-title">Monitors：打开AI黑箱</h1>
+            <div class="article-meta">
+                <span class="author">作者：Alissa Tyrangiel</span> · 
+                <span class="reading-time">阅读时间：7分钟</span>
+            </div>
+        </header>
 
-    <p>在<a href="https://www.linkedin.com/posts/intercom_a-major-fin-product-announcement-fin-labs-activity-7442568455234449408-ROqa" target="_blank">Fin Labs Paris</a>，我们宣布了 Monitors，这是 Fin 的一个新产品领域，与 Insights 和 Recommendations 并列，为您提供完整的可观测性套件——以及对 Fin 正在做什么的信心。</p>
+        <img width="1160" height="653" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3.png" class="main-image" alt="Fin飞轮（训练、测试、部署、分析），其中分析部分被高亮显示，由Insights、Recommendations和Monitors组成" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3.png 1718w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3-300x169.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3-700x394.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3-768x432.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3-1536x865.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3-1320x743.png 1320w" sizes="auto, (max-width: 1160px) 100vw, 1160px" />
 
-    <p>通过 Monitors，您可以定义哪些对话需要审查（包括 Fin 和人工），并使用自定义记分卡设置评估标准。这确保您监控的是对业务最重要的指标，让您完全控制支持质量。</p>
+        <div class="content">
+            <p>在<a href="https://www.linkedin.com/posts/intercom_a-major-fin-product-announcement-fin-labs-activity-7442568455234449408-ROqa?utm_source=share&utm_medium=member_desktop&rcm=ACoAACaEkvQBRPGM3zDshmzo6Ed7u5qkVPi-slg">Fin Labs Paris</a>，我们宣布了Monitors，这是Fin的一个新产品领域，它与Insights和Recommendations并列，为您提供完整的可观测性套件——让您对Fin的所作所为充满信心。</p>
 
-    <p>当与<a href="https://fin.ai/analyze" target="_blank">Insights 和 Recommendations</a>一起使用时，您就拥有了解支持运营中发生的一切所需的一切，将每次对话都达到您的标准，并持续推动实现完美的客户体验。</p>
+            <p>使用Monitors，您可以定义哪些对话需要被审查（包括Fin和人工），并使用Custom Scorecards设置评估标准。这确保了您正在监控对业务最重要的指标，让您完全掌控支持质量。</p>
 
-    <h2>随着Agents变得更强大，透明度和控制变得至关重要</h2>
+            <p>当与<a href="https://fin.ai/analyze">Insights和Recommendations</a>一起使用时，您就拥有了查看整个支持运营中发生的一切、确保每个对话都达到您的标准、并持续推动完美客户体验所需的一切。</p>
 
-    <p>AI 正在变得越来越强大，速度很快。在这个行业工作的每个人都感觉得到。</p>
+            <h2 id="as-agents-become-more-powerful-transparency-and-control-become-critical">随着Agents变得更强大，透明度和控制力变得至关重要</h2>
 
-    <p>现在我们有执行复杂任务的 Agents，比如处理真实的客户对话并产生真实的后果。Fin 有近 8,000 个客户，平均解决率为 67%，每周解决近 200 万个客户查询，包括受监管行业的高度复杂查询。</p>
+            <p>AI正在变得越来越强大，速度很快。在这个行业工作的每个人都能感受到这一点。</p>
 
-    <p>随着 Agents 在该规模上承担更深层的工作，可观测性变得至关重要。今天大多数支持领导者无法自信地回答关于他们的 Agent 实际在做什么的基本问题：它是否提供了良好的体验，是否完全解决了复杂问题，是否像人类一样代表他们的品牌，是否可靠地完成所有这些，一次又一次的对话。旧的基础设施无法帮助他们，CSAT 分数和 QA 样本在范围上一直有限，它们无法有效扩展。</p>
+            <p>现在我们有了执行复杂任务的Agents，比如处理真正的客户对话并产生真实后果。Fin拥有近8000个客户，平均解决率为67%，每周解决近200万个客户查询，包括受监管行业中的高度复杂查询。</p>
 
-    <p>结果是一个黑盒。</p>
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-31892" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1.png" alt="Fin的解决率图表，截至2025年12月达到67%" width="1999" height="1039" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1.png 1999w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1-300x156.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1-700x364.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1-768x399.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1-1536x798.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1-1320x686.png 1320w" sizes="auto, (max-width: 1999px) 100vw, 1999px" /></p>
 
-    <p>团队现在最需要的是信心。这就是为什么我们将 Fin 设计为以透明度为中心。因为团队应该有能力自己理解和优化它。</p>
+            <p>当Agents承担如此规模的深入工作时，可观测性至关重要。今天大多数支持领导者无法自信地回答关于他们的Agent实际在做什么的基本问题：它是否在提供良好的体验，是否完全解决了复杂问题，是否像人类一样代表他们的品牌，以及是否在每次对话中都可靠地完成所有这些。旧的基础设施无法帮助他们，CSAT评分和QA样本的范围一直有限，它们无法有效扩展。</p>
 
-    <div class="note">
-        在 Intercom，这被称为<strong>Fin Flywheel</strong>：训练、测试、部署、分析。<br><br>
-        <strong>分析</strong>是您发现实际发生什么的步骤，也是改进开始的地方。
-    </div>
+            <p>结果就是一个黑箱。</p>
 
-    <h3>对AI运营的信心需要三件事</h3>
+            <p>团队现在最需要的是信心。这就是为什么我们将Fin设计为以透明度为中心。因为团队应该有能力自己理解和优化它。</p>
 
-    <p>我们相信对 AI 运营有信心需要三件事：</p>
+            <p>在Intercom，这被称为Fin飞轮：训练、测试、部署、分析。</p>
 
-    <ul>
-        <li>完全了解 Fin、您的人工团队和您的客户在谈论什么。</li>
-        <li>一种基于对业务最重要的标准监控和评分对话的方法。</li>
-        <li>AI 驱动的建议，使您可以轻松地对发现的内容采取行动。</li>
-    </ul>
+            <p><img loading="lazy" decoding="async" class="aligncenter wp-image-31904" src="https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-700x700.png" alt="Fin飞轮：训练、测试、部署、分析" width="500" height="500" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-700x700.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-300x300.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-150x150.png 150w, https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-768x768.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-1536x1536.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-2048x2048.png 2048w, https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-1320x1320.png 1320w" sizes="auto, (max-width: 500px) 100vw, 500px" /></p>
 
-    <p>为了解决这些问题，去年我们推出了<a href="https://www.intercom.com/help/en/articles/10576273-measure-customer-service-with-ai-insights-built-for-the-ai-agent-era" target="_blank">Insights</a>和<a href="https://www.intercom.com/help/en/articles/11390088-optimize-fin-instantly-with-the-help-of-ai" target="_blank">Recommendations</a>。现在，我们宣布 Monitors——完成了一个完整可观测性的系统，以及打开黑盒的关键。</p>
+            <p>分析是您发现实际发生了什么的步骤，也是改进开始的地方。</p>
 
-    <h2>Monitors：了解每次对话是否符合您的标准</h2>
+            <p>我们相信，对您的AI运营充满信心需要三件事：</p>
 
-    <p>知道客户对对话的感受与知道它是否被正确处理是不同的；两者对服务质量都很重要。</p>
+            <ol>
+                <li>全面了解Fin、您的人工团队和您的客户正在谈论什么。</li>
+                <li>一种基于对您的业务最重要的标准来监控和评分对话的方法。</li>
+                <li>AI驱动的推荐，使您能够轻松地根据发现采取行动。</li>
+            </ol>
 
-    <p>Monitors 是一种新的 QA 能力，提供了一种结构化、可重复的方式来定义哪些对话需要审查——并根据您设置的质量标准对它们进行评估。它用随着量增长而扩展的系统取代了临时抽样和电子表格驱动的 QA。</p>
+            <p>为了解决这些问题，去年我们推出了<a href="https://www.intercom.com/help/en/articles/10576273-measure-customer-service-with-ai-insights-built-for-the-ai-agent-era">Insights</a>和<a href="https://www.intercom.com/help/en/articles/11390088-optimize-fin-instantly-with-the-help-of-ai">Recommendations</a>。现在，我们宣布Monitors——完成了一个完整的可观测性系统，这是打开黑箱的关键。</p>
 
-    <p>两个组件协同工作：<strong>Monitors</strong>定义要审查的内容，<strong>自定义记分卡</strong>定义如何评估每次对话。</p>
+            <h2 id="monitors-know-whether-every-conversation-met-your-standards">Monitors：了解每个对话是否达到您的标准</h2>
 
-    <h3>正确的对话，正确的覆盖范围</h3>
+            <p>了解客户对对话的感受不同于了解对话是否被正确处理；两者对服务质量都很重要。</p>
 
-    <p>随机抽样一直是一个粗糙的工具。当 AI 每周处理数千次对话时，一个小的任意片段无法可靠地捕获您最高风险的边缘情况、最复杂的升级或质量开始下降的地方。</p>
+            <p>Monitors是一个新的QA功能，它提供了一种结构化、可重复的方式来定义哪些对话需要被审查——并根据您设定的质量标准对其进行评估。它用一种随业务量增长而扩展的系统取代了临时抽样和电子表格驱动的QA。</p>
 
-    <p>通过 Monitors，您可以定义如何选择和评估对话。这可能意味着针对特定风险或失败信号，如"客户表现出财务脆弱的迹象"或"Fin 用相同的答案循环而没有解决问题"。或者它可以意味着创建一致、可重复的通用样本，以随时间基准化质量。您可以从现有过滤器列表中设置此标准，基于客户数据、渠道或 Fin 特定指标，或使用自然语言描述具有更多细微差别的实例。</p>
+            <p>两个组件协同工作：Monitors定义需要审查什么，Custom Scorecards定义如何评估每个对话。</p>
 
-    <p>您可以结合两种方法：专注于最重要的对话，并每周维护一个稳定、结构化的 QA 样本。</p>
+            <h3>正确的对话，正确的覆盖范围</h3>
 
-    <h3>自定义记分卡：一致地执行您的标准</h3>
+            <p>随机抽样一直是一个笨拙的工具。当AI每周处理数千个对话时，一个小的、任意的切片无法可靠地捕获您最高风险的边缘案例、最复杂的升级或质量开始下降的地方。</p>
 
-    <p>每个企业的运作方式不同，因此一刀式的质量评分标准不会反映您的优先级、权衡或客户实际关心的内容。</p>
+            <p>使用Monitors，您可以定义如何选择和评估对话。这可能意味着针对特定的风险或失败信号，例如"客户表现出财务脆弱的迹象"或"Fin用相同的答案循环而没有解决问题"。或者这可能意味着创建一致的、可重复的通用样本以随时间基准化质量。您可以根据现有过滤器列表、基于客户数据、渠道或Fin特定指标设置此标准，或使用自然语言描述具有更多细微差别的实例。</p>
 
-    <p>自定义记分卡让您定义对业务来说"好"是什么样子，并将其转化为每次对话的自定义质量分数。</p>
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-31893" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image2.png" alt="Monitors的截图。包括监控器名称、对话应如何标记、频率和时间。" width="1316" height="854" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image2.png 1316w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image2-300x195.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image2-700x454.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image2-768x498.png 768w" sizes="auto, (max-width: 1316px) 100vw, 1316px" /></p>
 
-    <p>您定义重要的标准、如何衡量每个标准以及每个标准的重要程度。某些标准可以由 AI 自动评分，其他由人工审查，或两者兼有——都在同一个记分卡内。这意味着您不必在规模和判断之间选择；您在一个系统中同时获得两者。</p>
+            <p><span style="font-weight: 400;">您可以结合两种方法：专注于最重要的对话</span><i><span style="font-weight: 400;">并</span></i><span style="font-weight: 400;">每周保持稳定的、结构化的QA样本。</span></p>
 
-    <p>然后，每次对话都会根据这些标准进行评估，系统根据您的配置计算总体质量分数。您可以权衡最重要的内容，或将某些标准标记为关键，这样单个失败可以在需要时使整个评估失败。</p>
+            <blockquote>
+                <p>"当我看到Monitors时，我的第一反应是——这正是我们需要的。持续跟踪质量而不是依赖抽查，这对我们来说是一个重大转变。"——Ineke Oates，Agorapulse支持主管</p>
+            </blockquote>
 
-    <div class="highlight">
-        结果是一个单一的、一致的质量分数，反映您的标准——不是通用指标，也不是不相关检查的集合。这就是使质量随时间可衡量的原因。您可以跟踪您的 AI 和人工支持如何针对相同的"好"定义执行，并看到情况在哪里改进或崩溃。
-    </div>
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-31899" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1.png" alt=""当我看到Monitors时，我的第一反应是——这正是我们需要的。持续跟踪质量而不是依赖抽查，这对我们来说是一个重大转变。" Ineke Oates，Agorapulse支持主管" width="2106" height="1034" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1.png 2106w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1-300x147.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1-700x344.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1-768x377.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1-1536x754.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1-2048x1006.png 2048w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1-1320x648.png 1320w" sizes="auto, (max-width: 2106px) 100vw, 2106px" /></p>
 
-    <p>这里有一个重要区别：<a href="https://www.intercom.com/blog/the-new-cx-score-explained/" target="_blank">CX Score</a>告诉您客户对对话的感受。自定义记分卡告诉您它是否符合您的标准。您需要两者。</p>
+            <h3>Custom Scorecards：始终如一地执行您的标准</h3>
 
-    <h3>审查队列：将标志转化为修复</h3>
+            <p>每个企业的运作方式不同，因此一刀式的质量评分标准无法反映您的优先事项、权衡取舍或客户真正关心的内容。</p>
 
-    <p>当对话根据您的标准被标记为需要人工审查时，它们会被放置在审查队列中。在这里，每个与 Monitor 匹配的对话都会自动分配给正确的审查员，附带其记分卡并跟踪审查状态：</p>
+            <p>Custom Scorecards让您定义对您的业务而言"好"是什么样的，并将其转化为每个对话的自定义质量分数。</p>
 
-    <ul>
-        <li>未审查</li>
-        <li>已审查</li>
-        <li>需要修复</li>
-        <li>修复完成</li>
-    </ul>
+            <p>您定义重要的标准、每个标准应该如何衡量以及每个标准有多重要。某些标准可以由AI自动评分，其他标准由人工审查，或两者兼有——所有这些都在同一个记分卡中。这意味着您不必在规模和判断之间做选择；您在一个系统中同时获得两者。</p>
 
-    <p>审查员直接在 Intercom 内处理对话，在过程中填写记分卡标准。</p>
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-31896" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image5.png" alt="样本记分卡，包括名称、评估内容、评估标准和通过分数的定义。" width="1316" height="854" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image5.png 1316w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image5-300x195.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image5-700x454.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image5-768x498.png 768w" sizes="auto, (max-width: 1316px) 100vw, 1316px" /></p>
 
-    <p>当对话失败时，他们会标记它，添加关于出了什么问题的注释，并可以建议潜在的解决方案，如更新文档。这些对话然后转移到后续处理，团队可以在那里应用修复。</p>
+            <p>然后根据这些标准评估每个对话，系统根据您的配置计算整体质量分数。您可以权衡最重要的内容，或将某些标准标记为关键，这样在需要时，单个失败就可以导致整个评估失败。</p>
 
-    <div class="note">
-        这意味着没有任何东西会在电子表格或 Slack 线程中丢失，QA 不再是以分数结束的循环，而是以改进结束的循环。
-    </div>
+            <p>结果是一个单一的、一致的质量分数，反映了您的标准——而不是通用指标，也不是一组不连贯的检查。这就是使质量随时间可衡量的原因。您可以跟踪您的AI和人工支持如何针对相同的"好"定义执行，并查看哪里在改进或哪里出现问题。</p>
 
-    <h2>报告：将QA用作持续信号</h2>
+            <p>这里有一个重要的区别：<a href="https://www.intercom.com/blog/the-new-cx-score-explained/">CX Score</a>告诉您客户对对话的感受。Custom Scorecards告诉您对话是否符合您的标准。您两者都需要。</p>
 
-    <p>报告是您的质量分数与所有其他内容连接的地方。您可以随时间跟踪审查分数，跨 Monitors 和记分卡，并直接与 CX Score、解决率和其他绩效指标进行比较。</p>
+            <blockquote>
+                <p>"我们查看了专门的QA工具，但Monitors的引人注目之处在于它存在于我们的对话已经发生的地方。我们不需要另一个系统——我们可以在一个地方跨Fin和我们的人工团队运行QA。"——Jared Ellis，Culture Amp全球产品支持高级总监</p>
+            </blockquote>
 
-    <p>以前看不见的模式变得清晰：特定主题持续表现不佳、与最近知识库更改相关的质量下降、团队分数逐周改进。QA 数据成为运营如何改进的持续信号，而不是生活在单独工具中的一次性练习。</p>
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-31900" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709.png" alt=""我们查看了专门的QA工具，但Monitors的引人注目之处在于它存在于我们的对话已经发生的地方。我们不需要另一个系统——我们可以在一个地方跨Fin和我们的人工团队运行QA。" Jared Ellis，Culture Amp全球产品支持高级总监" width="2106" height="1034" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709.png 2106w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-300x147.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-700x344.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-768x377.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1536x754.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-2048x1006.png 2048w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1320x648.png 1320w" sizes="auto, (max-width: 2106px) 100vw, 2106px" /></p>
 
-    <h2>接下来是什么</h2>
+            <h3>Review Queue：将标记转化为修复</h3>
 
-    <p>Fin 对话的 Monitors 今天已上线，我们已经在构建接下来的内容。</p>
+            <p>当对话根据您的标准被标记为需要人工审查时，它们会被放入Review Queue。在这里，每个被Monitor匹配的对话都会自动分配给正确的审查员，附上其记分卡并跟踪审查状态：</p>
 
-    <ul>
-        <li><strong>人工代理 QA</strong>将对您的人工团队对话应用相同的结构化评估，为您的整个支持运营提供一个一致的质量系统。</li>
-        <li><strong>实时警报</strong>将在对话跨越您定义的阈值的那一刻通知您——在问题影响更多客户之前。</li>
-        <li><strong>知识库评估</strong>将 AI 评分直接连接到您的内容，因此对话会根据您的最新政策和文档进行评估，捕获不准确或过时的响应，并提供链接到相关来源的清晰理由。</li>
-    </ul>
+            <ul>
+                <li>未审查</li>
+                <li>已审查</li>
+                <li>需要修复</li>
+                <li>修复完成</li>
+            </ul>
 
-    <p>用 AI 创造完美的客户体验需要透明度。如果您想随时间维护和改进质量，您需要了解系统的执行情况。通过 Insights、Monitors 和 Recommendations，这现在成为可能。这是一个完整的分析套件，允许您看到每次对话中发生的事情，确保它符合您的标准，并在需要时识别改进机会。</p>
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-31895" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image4.png" alt="Review Queue，包含标记为人工审查的对话。每个包含用户名称、识别它们的监控器、审查分数和分配的审查员。" width="1400" height="900" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image4.png 1400w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image4-300x193.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image4-700x450.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image4-768x494.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image4-1320x849.png 1320w" sizes="auto, (max-width: 1400px) 100vw, 1400px" /></p>
 
-    <p>Flywheel 的分析步骤中的所有内容都是与我们的客户密切合作构建的——您的用例、您的反馈、您关于什么不起作用的坦诚对话。这种合作伙伴关系是 Fin 成为市场上最高性能 Agent 的原因。而且我们不会放慢速度。</p>
+            <p>审查员直接在Intercom内部处理对话，在处理过程中填写记分卡标准。</p>
 
-    <div class="footer">
-        <p><strong>翻译说明：</strong></p>
-        <ul>
-            <li>本文由 AI 辅助翻译，保留了原文的核心内容和结构</li>
-            <li>专业术语保持原文：AI、Agent、Fin、Monitors、Insights、Recommendations、Flywheel、QA、CX Score</li>
-            <li>完整的AI产品可观测性方法论</li>
-        </ul>
-        <p><strong>原文链接：</strong><a href="https://www.intercom.com/blog/announcing-monitors-opening-the-ai-black-box/" target="_blank">Announcing Monitors: Opening the AI black box</a></p>
-        <p><strong>翻译时间：</strong>2026-04-03</p>
-        <p><strong>评分：</strong>98/100 - 完整的AI产品可观测性方法论</p>
-    </div>
+            <p>当对话失败时，他们标记它，添加关于出了什么问题的说明，并可以建议潜在的解决方案，例如更新文档。这些对话随后转到跟进，团队可以在那里应用修复。</p>
+
+            <p>这意味着没有任何东西会丢失在电子表格或Slack线程中，QA不再是一个以分数结束的循环，而变成一个以改进结束的循环。</p>
+
+            <h2 id="reporting-use-qa-as-a-continuous-signal">报告：将QA用作持续信号</h2>
+
+            <p>报告是您的质量分数与所有其他内容连接的地方。您可以随时间跟踪审查分数，跨Monitors和Scorecards，并将它们直接与CX Score、解决率和其他性能指标进行比较。</p>
+
+            <p><img loading="lazy" decoding="async" class="alignnone size-full wp-image-31897" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6.png" alt="样本报告，显示五个月期间的升级便捷性、澄清和效率图表。" width="1999" height="1286" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6.png 1999w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6-300x193.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6-700x450.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6-768x494.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6-1536x988.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6-1320x849.png 1320w" sizes="auto, (max-width: 1999px) 100vw, 1999px" /></p>
+
+            <p>以前看不见的模式变得清晰：特定主题持续表现不佳，质量下降与最近的知识库变化相关，团队的分数逐周改善。QA数据成为运营如何改进的持续信号，而不是存在于单独工具中的一次性练习。</p>
+
+            <h2 id="whats-coming-next">接下来的计划</h2>
+
+            <p>针对Fin对话的Monitors今天已经上线，我们已经在构建下一步。</p>
+
+            <ul>
+                <li>人工Agent QA将把同样的结构化评估带到您人工团队的对话中，为您的整个支持运营提供一个一致的质量系统。</li>
+                <li>实时警报将在对话超过您定义的阈值时立即通知您——在问题影响更多客户之前。</li>
+                <li>知识库评估将AI评分直接连接到您的内容，这样对话会根据您最新的政策和文档进行评估，捕获不准确或过时的响应，并提供链接到相关来源的清晰理由。</li>
+            </ul>
+
+            <h2 id="open-the-black-box">打开黑箱</h2>
+
+            <p>使用AI创造完美的客户体验需要透明度。如果您想随着时间的推移保持和改进质量，您需要了解系统的表现如何。有了Insights、Monitors和Recommendations，这现在成为可能。这是一个完整的分析套件，让您可以看到每个对话中发生的事情，确保它符合您的标准，并在需要时识别改进机会。</p>
+
+            <p><span style="font-weight: 400;">飞轮分析步骤中的所有内容都是</span>与我们的客户密切合作构建的——您的用例、您的反馈、您关于什么不起作用的坦诚对话。这种合作关系是Fin成为市场上表现最好的Agent的原因。而且我们不会放慢脚步。</p>
+
+            <p><a href="https://app.intercom.com/admins/sign_up/email?utm_content=post&utm_medium=blog&utm_source=Intercom"><img loading="lazy" decoding="async" class="aligncenter wp-image-31875 size-full" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3.png" alt="立即开始使用排名第一的Agent。开始免费试用。" width="2247" height="839" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3.png 2247w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-300x112.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-700x261.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-768x287.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-1536x574.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-2048x765.png 2048w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-1320x493.png 1320w" sizes="auto, (max-width: 2247px) 100vw, 2247px" /></a></p>
+        </div>
+    </article>
 </body>
 </html>
