@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Agent 的组成部分 | Sebastian Raschka</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { font-size: 2em; margin-bottom: 0.5em; }
+        h2 { font-size: 1.5em; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        h3 { font-size: 1.25em; margin-top: 1.5em; }
+        p { margin: 1em 0; }
+        img { max-width: 100%; height: auto; margin: 1em 0; border-radius: 4px; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        pre { background: #f5f5f5; padding: 1em; border-radius: 4px; overflow-x: auto; }
+        pre code { background: none; padding: 0; }
+        blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding-left: 1em; color: #666; }
+        .subtitle { color: #666; font-size: 1.1em; margin-bottom: 2em; }
+        .author { color: #888; font-size: 0.9em; margin-bottom: 2em; }
+        a { color: #0366d6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        figure { margin: 1.5em 0; text-align: center; }
+        figcaption { color: #666; font-size: 0.9em; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+    <article>
+        <h1>Coding Agent 的组成部分</h1>
+        <p class="subtitle">Coding agent 如何使用工具、内存和仓库上下文让 LLM 在实践中更好地工作</p>
+        <p class="author">作者：Sebastian Raschka, PhD | 翻译：AI | 原文：<a href="https://magazine.sebastianraschka.com/p/components-of-a-coding-agent">Components of A Coding Agent</a></p>
+
+        <p>在这篇文章中，我想介绍 coding agent 和 agent harness 的整体设计：它们是什么、如何工作，以及各个部分在实践中如何组合在一起。我的《Build a Large Language Model (From Scratch)》和《Build a Large Reasoning Model (From Scratch)》两本书的读者经常问起关于 agent 的问题，所以我认为写一篇可以引用的参考文章会很有用。</p>
+
+        <p>更广泛地说，agent 已成为一个重要话题，因为近期实用 LLM 系统的许多进步不仅来自更好的模型，还来自我们如何使用它们。在许多实际应用中，周围系统（如工具使用、上下文管理和内存）扮演着与模型本身同样重要的角色。这也解释了为什么 Claude Code 或 Codex 等系统感觉比在普通聊天界面中使用的相同模型更强大。</p>
+
+        <p>在本文中，我列出了 coding agent 的六个主要构建模块。</p>
+
+        <h2>Claude Code、Codex CLI 和其他 Coding Agent</h2>
+
+        <p>你可能已经熟悉 Claude Code 或 Codex CLI，但为了铺垫背景，它们本质上是将 LLM 包装在应用层中的 agentic 编码工具——所谓的 agentic harness——以便为编码任务提供更方便、更高性能的体验。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc90147bc-4574-4b52-914f-8bda96620063_3467x2270.png" alt="Claude Code CLI, Codex CLI 和 Mini Coding Agent">
+            <figcaption>图1：Claude Code CLI、Codex CLI 和我的 <a href="https://github.com/rasbt/mini-coding-agent">Mini Coding Agent</a></figcaption>
+        </figure>
+
+        <p>Coding agent 是专为软件工作设计的，其显著特点不仅在于模型选择，还在于周围系统，包括仓库上下文、工具设计、提示缓存稳定性、内存和长会话连续性。</p>
+
+        <p>这种区别很重要，因为当我们谈论 LLM 的编码能力时，人们经常将模型、推理行为和 agent 产品混为一谈。但在深入 coding agent 的细节之前，让我先简要介绍一下 LLM、推理模型和 agent 这些更广泛概念之间的区别。</p>
+
+        <h2>LLM、推理模型和 Agent 之间的关系</h2>
+
+        <p>LLM 是核心的 next-token 模型。推理模型仍然是 LLM，但通常是经过训练和/或提示，在中间推理、验证或候选答案搜索上花费更多推理时计算的模型。</p>
+
+        <p>Agent 是上面的一层，可以理解为围绕模型的控制循环。通常，给定一个目标，agent 层（或 harness）决定下一步检查什么、调用哪些工具、如何更新其状态以及何时停止等。</p>
+
+        <p>粗略地说，我们可以这样理解这种关系：LLM 是引擎，推理模型是增强版引擎（更强大，但使用成本更高），而 agent harness 帮助我们使用模型。这个比喻并不完美，因为我们也可以将传统 LLM 和推理 LLM 作为独立模型使用（在聊天 UI 或 Python 会话中），但我希望它能传达主要观点。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F09a4d839-d572-4eab-a2ee-47f644a746e5_3501x885.png" alt="LLM、推理模型和 Agent 的关系">
+            <figcaption>图2：传统 LLM、推理 LLM（或推理模型）和包装在 agent harness 中的 LLM 之间的关系</figcaption>
+        </figure>
+
+        <p>换句话说，agent 是在环境中重复调用模型的系统。</p>
+
+        <p>简而言之，我们可以这样总结：</p>
+        <ul>
+            <li><strong>LLM：</strong>原始模型</li>
+            <li><strong>推理模型：</strong>优化后输出中间推理轨迹并进行更多自我验证的 LLM</li>
+            <li><strong>Agent：</strong>使用模型加上工具、内存和环境反馈的循环</li>
+            <li><strong>Agent harness：</strong>围绕 agent 的软件支架，管理上下文、工具使用、提示、状态和控制流</li>
+            <li><strong>Coding harness：</strong>agent harness 的特例；即用于软件工程的特定任务 harness，管理代码上下文、工具、执行和迭代反馈</li>
+        </ul>
+
+        <p>如上所述，在 agent 和编码工具的语境中，我们还有两个流行术语 <em>agent harness</em> 和（agentic）<em>coding harness</em>。Coding harness 是围绕模型的软件支架，帮助它有效地编写和编辑代码。Agent harness 则更广泛，不特定于编码（例如，想想 OpenClaw）。Codex 和 Claude Code 可以被视为 coding harness。</p>
+
+        <p>无论如何，更好的 LLM 为推理模型提供更好的基础（这涉及额外的训练），而 harness 从这个推理模型中获得更多。</p>
+
+        <p>当然，LLM 和推理模型本身也能够解决编码任务（没有 harness），但编码工作只是部分关于 next-token 生成。很多工作涉及仓库导航、搜索、函数查找、diff 应用、测试执行、错误检查以及将所有相关信息保持在上下文中。（程序员可能知道这是艰苦的脑力工作，这就是为什么我们不喜欢在编码会话中被打断 :)）。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F76f2c37e-1996-4f30-96cd-e2e555169873_2227x992.png" alt="Coding harness 架构">
+            <figcaption>图3：Coding harness 结合了三层：模型家族、agent 循环和运行时支持。模型提供"引擎"，agent 循环驱动迭代问题解决，运行时支持提供基础设施。在循环内，"observe"从环境收集信息，"inspect"分析该信息，"choose"选择下一步，"act"执行它。</figcaption>
+        </figure>
+
+        <p>这里的要点是，好的 coding harness 可以让推理模型和非推理模型感觉比在普通聊天框中强大得多，因为它有助于上下文管理等。</p>
+
+        <h2>The Coding Harness</h2>
+
+        <p>如前一节所述，当我们说 <em>harness</em> 时，我们通常指围绕模型的软件层，它组装提示、暴露工具、跟踪文件状态、应用编辑、运行命令、管理权限、缓存稳定前缀、存储内存等。</p>
+
+        <p>如今，使用 LLM 时，与直接提示模型或使用 Web 聊天 UI（更接近"与上传文件聊天"）相比，这一层塑造了大部分用户体验。</p>
+
+        <p>在我看来，当今 LLM 的原始版本具有非常相似的能力（例如，GPT-5.4、Opus 4.6 和 GLM-5 等的原始版本），harness 往往是使一个 LLM 比另一个更好的区分因素。</p>
+
+        <p>这是推测性的，但我怀疑如果我们将最新、最有能力的开源权重 LLM（如 GLM-5）放入类似的 harness 中，它可能会与 Codex 中的 GPT-5.4 或 Claude Code 中的 Claude Opus 4.6 表现相当。也就是说，一些特定于 harness 的后训练通常是有益的。例如，OpenAI 历史上维护了单独的 GPT-5.3 和 GPT-5.3-Codex 变体。</p>
+
+        <p>在下一节中，我想更深入地讨论使用我的 <em>Mini Coding Agent</em>：<a href="https://github.com/rasbt/mini-coding-agent">https://github.com/rasbt/mini-coding-agent</a> 来介绍 coding harness 的核心组件。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F82c0f343-afec-4a9f-b8fe-b60f7ad5db5f_3396x971.png" alt="Coding Agent 主要特性">
+            <figcaption>图4：Coding agent / coding harness 的主要 harness 特性，将在以下章节中讨论</figcaption>
+        </figure>
+
+        <p>顺便说一句，在本文中，为了简单起见，我某种程度上互换地使用术语"coding agent"和"coding harness"。（严格来说，agent 是模型驱动的决策循环，而 harness 是提供上下文、工具和执行支持的周围软件支架。）</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F89ec8895-15ba-4f84-b600-190a40b58d62_2069x1285.png" alt="Mini Coding Agent">
+            <figcaption>图5：最小但完全可用的、从零开始的 <a href="https://github.com/rasbt/mini-coding-agent/blob/main/mini_coding_agent.py">Mini Coding Agent</a>（用纯 Python 实现）</figcaption>
+        </figure>
+
+        <p>无论如何，以下是 coding agent 的六个主要组件。你可以查看我的最小但完全可用的、从零开始的 <a href="https://github.com/rasbt/mini-coding-agent/blob/main/mini_coding_agent.py">Mini Coding Agent</a>（用纯 Python 实现）的源代码，了解更多具体的代码示例。代码通过代码注释标注了下面讨论的六个组件：</p>
+
+        <pre><code>##############################
+#### Six Agent Components ####
+##############################
+# 1) Live Repo Context -> WorkspaceContext
+# 2) Prompt Shape And Cache Reuse -> build_prefix, memory_text, prompt
+# 3) Structured Tools, Validation, And Permissions -> build_tools, run_tool, validate_tool, approve, parse, path, tool_*
+# 4) Context Reduction And Output Management -> clip, history_text
+# 5) Transcripts, Memory, And Resumption -> SessionStore, record, note_tool, ask, reset
+# 6) Delegation And Bounded Subagents -> tool_delegate
+</code></pre>
+
+        <h2>1. Live Repo Context</h2>
+
+        <p>这可能是最明显的组件，但也是最重要的组件之一。</p>
+
+        <p>当用户说"修复测试"或"实现 xyz"时，模型应该知道它是否在 Git 仓库中、在哪个分支上、哪些项目文档可能包含说明等。</p>
+
+        <p>这是因为这些细节通常会改变或影响正确的操作。例如，"修复测试"不是一个自包含的指令。如果 agent 看到 AGENTS.md 或项目 README，它可能会了解要运行哪个测试命令等。如果它知道仓库根目录和布局，它可以在正确的位置查找而不是猜测。</p>
+
+        <p>此外，git 分支、状态和提交可以帮助提供更多关于当前正在进行哪些更改以及在哪里关注的上下文。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2e3a1e6a-4eb5-4b60-b52f-0a4ee880dbca_2085x1428.png" alt="Live Repo Context">
+            <figcaption>要点是 coding agent 在做任何工作之前先收集信息（作为工作区摘要的"稳定事实"），这样它就不会在每个提示时都从零开始，没有上下文。</figcaption>
+        </figure>
+
+        <h2>2. Prompt Shape And Cache Reuse</h2>
+
+        <p>一旦 agent 有了仓库视图，下一个问题是如何将该信息提供给模型。前面的图展示了一个简化的视图（"Combined prompt: prefix + request"），但在实践中，每次用户查询都合并和重新处理工作区摘要将相对浪费。</p>
+
+        <p>即，编码会话是重复的，agent 规则通常保持不变。工具描述通常也保持不变。甚至工作区摘要通常也（大部分）保持不变。主要变化通常是最新的用户请求、最近的转录和可能的短期记忆。</p>
+
+        <p>"智能"运行时不会在每一轮都重建所有内容作为一个巨大的未分化提示，如下图所示。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F92d9467c-1333-40f3-8d5d-c8bc0ffebb11_2698x1001.png" alt="Prompt Shape And Cache Reuse">
+            <figcaption>与第1节的主要区别是第1节是关于收集仓库事实。这里，我们现在感兴趣的是高效地打包和缓存这些事实以供重复的模型调用。</figcaption>
+        </figure>
+
+        <p>"稳定提示前缀"意味着其中包含的信息变化不大。它通常包含一般说明、工具描述和工作区摘要。如果没有重要变化，我们不想在每次交互中从头重建它而浪费计算。</p>
+
+        <p>其他组件更新更频繁（通常每轮）。这包括短期记忆、最近的转录和最新的用户请求。</p>
+
+        <p>简而言之，"稳定提示前缀"的缓存方面只是智能运行时尝试重用该部分。</p>
+
+        <h2>3. Tool Access and Use</h2>
+
+        <p>工具访问和工具使用是开始感觉不太像聊天而更像 agent 的地方。</p>
+
+        <p>普通模型可以用散文建议命令，但 coding harness 中的 LLM 应该做更窄、更有用的事情，并且实际上能够执行命令并检索结果（而不是我们手动调用命令并将结果粘贴回聊天）。</p>
+
+        <p>但是，harness 通常提供预定义的允许和命名工具列表，具有明确的输入和边界，而不是让模型即兴创作任意语法。（当然，Python <code>subprocess.call</code 之类的东西可以是其中的一部分，以便 agent 也可以执行任意广泛的 shell 命令列表。）</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7aff251f-0ce2-44f1-9792-5449c24d5600_2172x927.png" alt="Tool Use Flow">
+            <figcaption>工具使用流程</figcaption>
+        </figure>
+
+        <p>为了说明这一点，下面是使用我的 Mini Coding Agent 时通常看起来如何的示例。（这不如 Claude Code 或 Codex 漂亮，因为它非常小，使用纯 Python 而没有任何外部依赖。）</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F6ff4770e-c3a5-442f-a657-ef9bec6b9862_2493x2031.png" alt="Tool Use Example">
+            <figcaption>工具使用示例</figcaption>
+        </figure>
+
+        <p>在这里，模型必须选择一个 harness 识别的操作，如列出文件、读取文件、搜索、运行 shell 命令、写入文件等。它还必须提供 harness 可以检查的形状的参数。</p>
+
+        <p>所以当模型要求做某事时，运行时可以停止并运行程序化检查，如：</p>
+        <ul>
+            <li>"这是一个已知的工具吗？"</li>
+            <li>"参数有效吗？"</li>
+            <li>"这需要用户批准吗？"</li>
+            <li>"请求的路径甚至在工作区内吗？"</li>
+        </ul>
+
+        <p>只有在这些检查通过后才实际运行任何东西。</p>
+
+        <p>虽然运行 coding agent 当然带有一些风险，但 harness 检查也提高了可靠性，因为模型不会执行完全任意的命令。</p>
+
+        <p>此外，除了拒绝格式错误的操作和批准门控外，文件访问可以通过检查文件路径保持在仓库内。</p>
+
+        <p>从某种意义上说，harness 给模型更少的自由，但它同时也提高了可用性。</p>
+
+        <h2>4. Minimizing Context Bloat</h2>
+
+        <p>上下文膨胀不是 coding agent 独有的问题，而是 LLM 普遍存在的问题。当然，如今 LLM 支持越来越长的上下文（我最近写了一篇关于使这在计算上更可行的 <a href="https://magazine.sebastianraschka.com/p/visual-attention-variants">注意力变体</a>），但长上下文仍然昂贵，并且可能引入额外的噪音（如果有大量不相关的信息）。</p>
+
+        <p>Coding agent 比多轮聊天期间的普通 LLM 更容易受到上下文膨胀的影响，因为重复的文件读取、冗长的工具输出、日志等。</p>
+
+        <p>如果运行时以全保真度保留所有这些，它将很快用完可用的上下文 token。所以，好的 coding harness 通常非常复杂地处理上下文膨胀，而不仅仅是像普通聊天 UI 那样切割或总结信息。</p>
+
+        <p>从概念上讲，coding agent 中的上下文压缩可能如下图所示。具体来说，我们进一步放大前一节图8中的 clip（步骤6）部分。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d61d701-1f2b-4010-9a1f-2cefc7265bde_2495x1213.png" alt="Context Compaction">
+            <figcaption>上下文压缩</figcaption>
+        </figure>
+
+        <p>最小 harness 至少使用两种压缩策略来管理该问题。</p>
+
+        <p>第一种是裁剪，它缩短长文档片段、大型工具输出、记忆笔记和转录条目。换句话说，它防止任何一段文本仅仅因为它恰好冗长而接管提示预算。</p>
+
+        <p>第二种策略是转录减少或摘要，它将完整会话历史（下一节将详细介绍）转换为较小的可提示摘要。</p>
+
+        <p>这里的一个关键技巧是让最近的事件更丰富，因为它们更可能与当前步骤相关。我们更积极地压缩较早的事件，因为它们可能不太相关。</p>
+
+        <p>此外，我们还去重较早的文件读取，这样模型就不会仅仅因为在会话早期多次读取而不断看到相同的文件内容。</p>
+
+        <p>总的来说，我认为这是好的 coding agent 设计中被低估、乏味的部分之一。许多明显的"模型质量"实际上是上下文质量。</p>
+
+        <h2>5. Structured Session Memory</h2>
+
+        <p>在实践中，这里涵盖的所有这6个核心概念都是高度交织的，不同的部分和图以不同的焦点或缩放级别涵盖它们。在上一节中，我们涵盖了历史的提示时使用以及我们如何构建紧凑的转录。那里的问题是：在下一轮中应该有多少过去的信息返回给模型？所以重点是压缩、裁剪、去重和时效性。</p>
+
+        <p>现在这一节，结构化会话记忆，是关于历史的存储时结构。这里的问题是：agent 随着时间的推移保持什么作为永久记录？所以重点是运行时保持更完整的转录作为持久状态，以及一个更轻的记忆层，它更小，并且被修改和压缩而不是仅仅追加。</p>
+
+        <p>总之，coding agent 将状态分离为（至少）两层：</p>
+        <ul>
+            <li><strong>工作记忆：</strong>agent 明确保持的小型、精炼状态</li>
+            <li><strong>完整转录：</strong>涵盖所有用户请求、工具输出和 LLM 响应</li>
+        </ul>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe58efdfb-9c19-42e8-a016-90b41b51ef15_2438x1346.png" alt="Session Memory">
+            <figcaption>上图展示了两个主要的会话文件，完整转录和工作记忆，通常作为 JSON 文件存储在磁盘上。如前所述，完整转录存储整个历史，如果我们关闭 agent，它是可恢复的。工作记忆更多是一个精炼版本，包含当前最重要的信息，这在某种程度上与紧凑转录相关。</figcaption>
+        </figure>
+
+        <p>但紧凑转录和工作记忆有略微不同的工作。紧凑转录用于提示重建。它的工作是给模型一个压缩的最近历史视图，以便它可以继续对话而不必每轮看到完整转录。工作记忆更多用于任务连续性。它的工作是保持一个小型、明确维护的跨轮次重要事项摘要，如当前任务、重要文件和最近的笔记。</p>
+
+        <p>按照上图的步骤4，最新的用户请求，连同 LLM 响应和工具输出，将被记录为"新事件"在完整转录和工作记忆中，在下一轮，这未显示以减少上图中的混乱。</p>
+
+        <h2>6. Delegation With (Bounded) Subagents</h2>
+
+        <p>一旦 agent 有了工具和状态，下一个有用的能力之一是委托。</p>
+
+        <p>原因是它允许我们通过子代理将某些工作并行化为子任务并加速主任务。例如，主 agent 可能正在执行一个任务，但仍需要一个侧面答案，例如，哪个文件定义了一个符号、配置说什么或测试为什么失败。将其分离为一个有界的子任务很有用，而不是强迫一个循环一次携带每个工作线程。</p>
+
+        <p>（在我的 mini coding agent 中，实现更简单，子代仍然同步运行，但基本思想是相同的。）</p>
+
+        <p>子代理只有在继承了足够的上下文才能做真正的工作时才有用。但如果我们不限制它，我们现在有多个 agent 重复工作、触及相同的文件或产生更多子代理等。</p>
+
+        <p>所以棘手的设计问题不仅是如何产生子代理，还有如何约束它 :)</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F81b2ae42-ea42-40bf-b2ba-fdfcf9b87912_2438x990.png" alt="Subagent Delegation">
+            <figcaption>这里的技巧是子代理继承了足够的上下文才有用，但也受到约束（例如，只读和限制递归深度）</figcaption>
+        </figure>
+
+        <p>Claude Code 很早就支持子代理，Codex 最近也添加了它们。Codex 通常不强制子代理进入只读模式。相反，它们通常继承主 agent 的大部分沙箱和批准设置。所以，边界更多是关于任务范围、上下文和深度。</p>
+
+        <h2>组件总结</h2>
+
+        <p>上面的部分试图涵盖 coding agent 的主要组件。如前所述，它们在实现中或多或少深度交织。然而，我希望逐一涵盖它们有助于建立 coding harness 如何工作的整体心智模型，以及为什么与简单的多轮聊天相比，它们可以使 LLM 更有用。</p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4fe9e9f0-b04f-4c3e-be1f-fbd74b41c4aa_3396x971.png" alt="Components Summary">
+            <figcaption>如果你有兴趣看到这些在干净的、极简主义的 Python 代码中实现，你可能喜欢我的 <a href="https://github.com/rasbt/mini-coding-agent">Mini Coding Agent</a></figcaption>
+        </figure>
+
+        <h2>这与 OpenClaw 相比如何？</h2>
+
+        <p>OpenClaw 可能是一个有趣的比较，但它不是完全相同类型的系统。</p>
+
+        <p>OpenClaw 更像是一个本地、通用 agent 平台，也可以编码，而不是专门的（终端）编码助手。</p>
+
+        <p>与 coding harness 仍有一些重叠：</p>
+        <ul>
+            <li>它使用工作区中的提示和指令文件，如 AGENTS.md、SOUL.md 和 TOOLS.md</li>
+            <li>它保持 JSONL 会话文件并包括转录压缩和会话管理</li>
+            <li>它可以产生助手会话和子代理</li>
+            <li>等等</li>
+        </ul>
+
+        <p>然而，如上所述，重点是不同的。Coding agent 针对在仓库中工作并要求编码助手检查文件、编辑代码和高效运行本地工具的人进行了优化。OpenClaw 更针对在聊天、频道和工作区中运行许多长期存在的本地 agent 进行了优化，编码是其中几个重要工作负载之一。</p>
+
+        <hr>
+        <p><em>我高兴地宣布我完成了《Build A Reasoning Model (From Scratch)》的写作，所有章节目前都在早期访问中。出版商目前正在处理排版，应该会在今年夏天上市。</em></p>
+        <p><em>这可能是我迄今为止最雄心勃勃的书。我花了大约1.5年写它，大量的实验投入其中。这也很可能是在时间、努力和润色方面我工作最努力的书，我希望你会喜欢它。</em></p>
+
+        <figure>
+            <img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F68d954ed-83f7-40f8-9399-3323ecffd6e2_2128x1308.jpeg" alt="Build A Reasoning Model Book">
+        </figure>
+
+        <p>主要主题包括：</p>
+        <ul>
+            <li>评估推理模型</li>
+            <li>推理时扩展</li>
+            <li>自我精炼</li>
+            <li>强化学习</li>
+            <li>蒸馏</li>
+        </ul>
+
+        <p>关于 LLM 中"推理"有很多讨论，我认为在 LLM 语境下理解它真正含义的最好方法是从零开始实现一个！</p>
+        <ul>
+            <li><a href="https://amzn.to/4aAKiFY">Amazon</a>（预购）</li>
+            <li><a href="https://mng.bz/Nwr7">Manning</a>（早期访问中的完整书籍，预最终排版，528页）</li>
+        </ul>
+    </article>
+</body>
+</html>
