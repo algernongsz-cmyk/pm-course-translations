@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026.13: 再见 Sora - Stratechery by Ben Thompson</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        h2, h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .meta {
+            color: #707070;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .cover-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.75rem;
+        }
+        a {
+            color: #faa634;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2rem 0;
+        }
+        .source-link {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            font-size: 0.9rem;
+            color: #707070;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin: 1.5rem 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .free-link {
+            background-color: #FFFAF1;
+            padding: 0 2px;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <h1>2026.13: 再见 Sora</h1>
+        <div class="meta">Friday, March 27, 2026</div>
+        
+        <img src="https://i0.wp.com/stratechery.com/wp-content/uploads/2026/03/2026-3-26-TWIS.jpg?resize=1700%2C956&ssl=1" alt="This Week in Stratechery" class="cover-image">
+        
+        <p>欢迎回到本周 Stratechery！</p>
+        
+        <p>提醒一下，每周五我们都会发送这份 Stratechery 内容概览；<span class="free-link">高亮链接对所有人免费</span>。此外，您可以完全控制我们发送给您的内容。如果您不想收到本周 Stratechery 邮件（没有播客），请在<a href="https://stratechery.passport.online/member/account/delivery">您的投递设置</a>中取消勾选相应选项。</p>
+        
+        <p>接下来，以下是本周我们最喜欢的几篇内容。</p>
+        
+        <ol>
+            <li><strong>R.I.P. Sora, 2025-2026。</strong> AI Sam 来了，AI Sam 看到了，AI Sam 拿走了那些 GPU。我们将永远拥有<a href="https://x.com/gabriel1/status/1973120058907041902?">那些回忆</a>。不幸的是，事实证明 Sam 更<a href="https://x.com/soraofficialapp/status/2036546752535470382">想要 GPU</a>，所以本周在 Sharp Tech 上，<a href="https://sharptech.fm/member/episode/a-spring-break-mailbag-rip-sora-ads-and-surplus-f-1-going-in-reverse-elon-inc-smartphone-parenting-and-more">Ben 和我为这个去年风靡全球大约两周的应用致了悼词</a>。其中包括对可能决定了它命运的版权之争的思考，为什么 Ben 不愿意过于苛刻，以及更多迹象表明 OpenAI 正在认真进行企业转型。来听听那段对话，然后留下来听听热闹的春季读者来信，其中包括关于搜索广告的精彩观点、F1 的吐槽、Vision Pro 和我的妻子、孩子与手机等等。— <em>Andrew Sharp</em></li>
+            
+            <li><strong>2026 靶心榜。</strong>NBA 季后赛只有几周了，这意味着 Ben Golliver 和我已经进入准备模式，包括今天愉快的一集，我们讨论了<a href="https://goat.passport.online/member/episode/the-bullseye-list-in-2026-playoff-questions-for-ant-chet-tatum-mitchell-wemby-and-beyond">一份今年春天将面临压力的超级巨星"靶心榜"</a>。我们讨论了从 Kevin Durant 和 Alperin Sengun 到 Jalen Brunson、Chet Holmgren 和 Victor Wembanyama 的每个人，这是一个有争议的入选，但无可否认他是目前联盟中最具吸引力的明星。是的，考虑到<a href="https://sharptext.net/2026/was-nico-harrison-wrong/"><span class="free-link">我在一月份对 Luka 的看法</span></a>，以及 Luka 在三月份的表现非常出色，我确实承担了责任并把自己加到了靶心榜上。— <em>AS</em></li>
+            
+            <li><strong>Arm 的重大转变。</strong>如果你想要更多证据表明 AI 正在改变一切，看看 Arm 就知道了：这家公司以其高利润率的 IP 授权商业模式而闻名，但本周宣布，除了（仅仅）促进其他公司制造芯片之外，它将开始自己制造和销售芯片。自然，他们的第一个产品明确专注于 AI 数据中心。我在<a href="https://stratechery.com/2026/arm-launches-own-cpu-arms-motivation-constraints-and-systems/">周三的 Update</a>中解释了 Arm 的动机，并在周四<a href="https://stratechery.com/2026/an-interview-with-arm-ceo-rene-haas-about-selling-chips/"><span class="free-link">采访了 Arm CEO Rene Haas</span></a>以了解他的观点。<em>—</em> <em>Ben Thompson</em></li>
+        </ol>
+        
+        <hr>
+        
+        <h2>Stratechery 文章和 Updates</h2>
+        
+        <ul>
+            <li><a href="https://stratechery.com/2026/arm-launches-own-cpu-arms-motivation-constraints-and-systems/">Arm 推出自己的 CPU，Arm 的动机、约束和系统</a> <em>— Arm 正在销售自己的芯片，而不仅仅是授权 IP。与 Arm 的历史相比，这是一个重大变化，但考虑到计算技术的演变并不令人惊讶。</em></li>
+            <li><a href="https://stratechery.com/2026/an-interview-with-arm-ceo-rene-haas-about-selling-chips/"><span class="free-link">采访 Arm CEO Rene Haas 谈销售芯片</span></a> <em>— 采访 Arm CEO Rene Haas 谈公司不仅授权 IP 还要自己制造芯片的决定。</em></li>
+        </ul>
+        
+        <h2>Sharp Text by Andrew Sharp</h2>
+        
+        <ul>
+            <li><a href="https://sharptext.net/2026/tilting-at-windmills/"><span class="free-link">挑战风车</span></a> — <em>随着伊朗战争继续，让我们看看民主党、制度媒体和海上风电场。</em></li>
+        </ul>
+        
+        <h2>Dithering with Ben Thompson and Daring Fireball's John Gruber</h2>
+        
+        <ul>
+            <li><a href="https://dithering.passport.online/member/episode/john-ternus-and-responsible-individuals">John Ternus 和负责任的个人</a></li>
+            <li><a href="https://dithering.passport.online/member/episode/sora-and-mac-pro-dead">Sora 和 Mac Pro 已死</a></li>
+        </ul>
+        
+        <h2>Asianometry with Jon Yu</h2>
+        
+        <ul>
+            <li><a href="https://asianometry.passport.online/member/episode/singapores-sound-card-hero">新加坡的声卡英雄</a></li>
+        </ul>
+        
+        <h2>Sharp China with Andrew Sharp and Sinocism's Bill Bishop</h2>
+        
+        <ul>
+            <li><a href="https://sharpchina.fm/member/episode/a-giant-mess-with-super-micro-completely-correct-xiongan-progress-the-pr-cs-balancing-act-on-iran-manus-apple-and-router-news">Super Micro 的大麻烦；雄安新区进展完全正确；中国在伊朗问题上的平衡术；Manus、Apple 和路由器新闻</a></li>
+        </ul>
+        
+        <h2>Greatest of All Talk with Andrew Sharp and Ben Golliver</h2>
+        
+        <ul>
+            <li><a href="https://goat.passport.online/member/episode/the-intrigue-in-the-east-peterson-and-acuff-on-center-stage-revisiting-draft-kevin-durant">东部的悬念(?)，Peterson 和 Acuff 登场，重新审视 Kevin Durant 选秀</a></li>
+            <li><a href="https://goat.passport.online/member/episode/the-bullseye-list-in-2026-playoff-questions-for-ant-chet-tatum-mitchell-wemby-and-beyond">2026 靶心榜：Ant、Chet、Tatum、Mitchell、Wemby 等人的季后赛问题</a></li>
+        </ul>
+        
+        <h2>Sharp Tech with Andrew Sharp and Ben Thompson</h2>
+        
+        <ul>
+            <li><a href="https://sharptech.fm/member/episode/a-spring-break-mailbag-rip-sora-ads-and-surplus-f-1-going-in-reverse-elon-inc-smartphone-parenting-and-more">春季休息读者来信：再见 Sora、广告与剩余价值、F1 倒退、Elon 帝国、智能手机育儿等等</a></li>
+        </ul>
+        
+        <p>本周的 Stratechery 视频是关于<a href="https://stratechery.com/2026/agents-over-bubbles/"><span class="free-link">Agent 胜过泡沫</span></a>。</p>
+        
+        <div class="video-container">
+            <iframe width="500" height="281" src="https://www.youtube.com/embed/3PSdEudTRPI?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        
+        <div class="source-link">
+            <p><strong>原文：</strong> <a href="https://stratechery.com/2026/so-long-to-sora/">2026.13: So Long to Sora - Stratechery</a></p>
+            <p><strong>翻译说明：</strong> 本文由 AI 翻译，保留专业术语 AI、Agent、API 的原文。高亮链接为原文中的免费内容。</p>
+        </div>
+    </article>
+</body>
+</html>
