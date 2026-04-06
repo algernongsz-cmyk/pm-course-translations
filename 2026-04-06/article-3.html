@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用 LM Studio 的新无头 CLI 和 Claude Code 本地运行 Gemma 4</title>
+    <style>
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .original-url {
+            background: #f5f5f5;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+        .original-url a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>使用 LM Studio 的新无头 CLI 和 Claude Code 本地运行 Gemma 4</h1>
+    
+    <div class="original-url">
+        <strong>原文链接：</strong><a href="https://ai.georgeliu.com/p/running-google-gemma-4-locally-with" target="_blank">https://ai.georgeliu.com/p/running-google-gemma-4-locally-with</a><br>
+        <strong>来源：</strong>Hacker News
+    </div>
+    
+    <p>云端 AI API 很棒，但并不总是完美。速率限制、使用成本、隐私担忧和网络延迟都会累积。对于代码审查、起草或测试提示词等快速任务，完全在您的硬件上运行的本地模型具有真正的优势：零 API 成本、数据不离开您的机器、持续可用。</p>
+    
+    <p>Google 的 Gemma 4 因其混合专家架构而在本地使用中很有趣。260 亿参数的模型每次前向传播仅激活 40 亿参数，这意味着它可以在永远无法处理密集 260 亿模型的硬件上运行良好。在我配备 48 GB 统一内存的 14 英寸 MacBook Pro M4 Pro 上，它运行流畅，生成速度为每秒 51 个 token。不过根据我的经验，在 Claude Code 中使用时会有明显的速度下降。</p>
+    
+    <img src="https://substackcdn.com/image/fetch/$s_!9o_j!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb0321dea-0461-40ae-82da-babbd6fa108e_985x402.png" alt="Google Gemma 4 26B-a4b LLM model served via LM Studio API">
+    
+    <h2>Gemma 4 模型家族</h2>
+    
+    <p>Google 发布的 <a href="https://ai.google.dev/gemma/docs/core/model_card_4">Gemma 4</a> 是一个包含四个模型的家族，而不仅仅是一个模型。产品线覆盖了广泛的硬件目标：</p>
+    
+    <img src="https://substackcdn.com/image/fetch/$s_!-GEC!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3ade04ce-48fd-4ae5-aa80-a463752d7b7c_1932x638.png" alt="Google Gemma 4 LLM models">
+    
+    <p>"E" 模型（E2B、E4B）使用逐层嵌入来优化设备端部署，并且是唯一支持音频输入（语音识别和翻译）的变体。310 亿参数的密集模型能力最强，在 MMLU Pro 上得分 85.2%，在 AIME 2026 上得分 89.2%。</p>
+    
+    <h2>为什么我选择 26B-A4B</h2>
+    
+    <p>混合专家架构是关键。它有 128 个专家加 1 个共享专家，但每个 token 只激活 8 个专家（38 亿参数）。一个常见的经验法则是将 MoE 密集等效质量估计为约 sqrt(总参数 × 激活参数)，这使该模型相当于约 100 亿有效参数。实际上，它以相当于 40 亿密集模型的推理成本提供远超该重量级的质量。在基准测试中，它在 MMLU Pro 上得分 82.6%，在 AIME 2026 上得分 88.3%，接近密集 310 亿模型（85.2% 和 89.2%），同时运行速度快得多。</p>
+    
+    <p>下面的图表讲述了这个故事。它以对数刻度绘制了最近启用思考功能的开源权重模型的 Elo 分数与总模型大小的关系。左上角的蓝色高亮区域是您想要的位置：高性能、小占用空间。</p>
+    
+    <img src="https://substackcdn.com/image/fetch/$s_!T7fm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5e5f4f2a-2153-4208-811c-e2b4751c497f_1622x1436.png" alt="Google Gemma 4 model performance vs size comparison">
+    
+    <p>Gemma 4 26B-A4B（Elo ~1441）稳居该区域，远超其 252 亿参数的重量级。310 亿密集变体得分略高（~1451），但仍然非常紧凑。作为对比，像 Qwen 3.5 397B-A17B（~1450 Elo）和 GLM-5（~1457 Elo）这样的模型需要 1000-6000 亿总参数才能达到相似的分数。Kimi-K2.5（~1457 Elo）需要超过 10000 亿参数。26B-A4B 以极小部分的参数实现了具有竞争力的 Elo，这直接转化为更低的内存需求和更快的本地推理。</p>
+    
+    <p>这就是 MoE 模型对本地使用的变革之处。您不需要集群或高端 GPU 设备来运行与 4000 亿+ 参数巨头竞争的模型。配备 48 GB 统一内存的笔记本电脑就足够了。</p>
+    
+    <p>对于 48 GB Mac 上的本地推理，这是最佳选择。密集 310 亿模型会消耗更多内存，生成 token 更慢，因为每个参数都参与每次前向传播。E4B 更轻量但能力明显较弱。26B-A4B 为您提供 256K 最大上下文、视觉支持（用于分析截图和图表）、原生函数/工具调用和可配置的思考模式推理，所有这些在我的硬件上达到每秒 51 个 token。</p>
+    
+    <h2>LM Studio 0.4.0：无头架构</h2>
+    
+    <p>LM Studio 作为运行本地模型的流行桌面应用已经有一段时间了。0.4.0 版本从根本上改变了架构，引入了 llmster，这是从桌面应用中提取的核心推理引擎，打包为独立服务器。</p>
+    
+    <p>实际结果是：您现在可以使用 lms CLI 完全从命令行运行 LM Studio。无需 GUI。这使其可用于无头服务器、CI/CD 流水线、SSH 会话，或仅适用于喜欢停留在终端中的开发者。</p>
+    
+    <h3>0.4.0 的主要新增功能：</h3>
+    
+    <ul>
+        <li><strong>llmster 守护进程：</strong>一个后台服务，无需桌面应用即可管理模型加载和推理</li>
+        <li><strong>lms CLI：</strong>用于下载、加载、聊天和提供模型的完整命令行界面</li>
+        <li><strong>并行请求处理：</strong>连续批处理而非顺序排队，因此对同一模型的多个请求并发运行</li>
+        <li><strong>有状态 REST API：</strong>一个新的 /v1/chat 端点，跨请求维护对话历史</li>
+        <li><strong>MCP 集成：</strong>本地模型上下文协议支持，带权限密钥门控</li>
+    </ul>
+    
+    <h2>安装和设置</h2>
+    
+    <h3>安装 lms CLI</h3>
+    
+    <pre><code># Linux/Mac
+curl -fsSL https://lmstudio.ai/install.sh | bash
+
+# Windows
+irm https://lmstudio.ai/install.ps1 | iex</code></pre>
+    
+    <h3>启动无头守护进程</h3>
+    
+    <pre><code>lms daemon up</code></pre>
+    
+    <p>在 macOS 上，更新两个推理运行时：</p>
+    
+    <pre><code>lms runtime update llama.cpp
+lms runtime update mlx</code></pre>
+    
+    <h3>下载 Gemma 4</h3>
+    
+    <p>守护进程运行后，下载 Google 的 Gemma 4 26B 模型：</p>
+    
+    <pre><code>lms get google/gemma-4-26b-a4b</code></pre>
+    
+    <p>CLI 会显示它将下载的变体（默认为 Q4_K_M 量化，17.99 GB）并请求确认：</p>
+    
+    <pre><code> ↓ To download: model google/gemma-4-26b-a4b - 64.75 KB
+ └─ ↓ To download: Gemma 4 26B A4B Instruct Q4_K_M [GGUF] - 17.99 GB
+
+About to download 17.99 GB.
+
+? Start download?
+❯ Yes
+ No
+ Change variant selection</code></pre>
+    
+    <p>如果您已有该模型，CLI 会告诉您并显示加载命令：</p>
+    
+    <pre><code>✔ Start download? yes
+Model already downloaded. To use, run: lms load google/gemma-4-26b-a4b</code></pre>
+    
+    <h3>列出所有已下载的模型</h3>
+    
+    <pre><code>lms ls</code></pre>
+    
+    <p>您有 10 个模型，占用 118.17 GB 磁盘空间。</p>
+    
+    <pre><code>LLM                PARAMS   ARCH      SIZE      DEVICE
+gemma-3-270m-it-mlx                      270m     gemma3_text    497.80 MB  Local
+google/gemma-4-26b-a4b (1 variant)       26B-A4B     gemma4        17.99 GB  Local
+gpt-oss-20b-mlx                          20B      gpt_oss        22.26 GB  Local
+llama-3.2-1b-instruct                    1B       Llama           712.58 MB  Local
+nvidia/nemotron-3-nano (1 variant)       30B      nemotron_h     17.79 GB  Local
+openai/gpt-oss-20b (1 variant)           20B      gpt_oss        12.11 GB  Local
+qwen/qwen3.5-35b-a3b (1 variant)         35B-A3B     qwen35moe      22.07 GB  Local
+qwen2.5-0.5b-instruct-mlx                0.5B     Qwen2          293.99 MB  Local
+zai-org/glm-4.7-flash (1 variant)        30B      glm4_moe_lite  24.36 GB  Local
+
+EMBEDDING            PARAMS    ARCH   SIZE      DEVICE
+text-embedding-nomic-embed-text-v1.5     Nomic    BERT    84.11 MB  Local</code></pre>
+    
+    <p>值得注意的是：这些模型中有几个使用混合专家架构（Gemma 4、Qwen 3.5、GLM 4.7 Flash）。MoE 模型在本地推理方面远超其重量级，因为每个 token 只激活一小部分参数。</p>
+    
+    <h3>启动聊天会话</h3>
+    
+    <p>启动启用了统计信息的聊天会话以查看性能数据：</p>
+    
+    <pre><code>lms chat google/gemma-4-26b-a4b --stats</code></pre>
+    
+    <pre><code>╭─────────────────────────────────────────────────╮
+ │ 👾 lms chat                                     │
+ │ Type exit or Ctrl+C to quit                     │
+ │                                                 │
+ │ Chatting with google/gemma-4-26b-a4b           │
+ │                                                 │
+ │ Try one of the following commands:             │
+ │ /model - Load a model (type /model to see list)│
+ │ /download - Download a model                    │
+ │ /clear - Clear the chat history                 │
+ │ /help - Show help information                   │
+ ╰─────────────────────────────────────────────────╯</code></pre>
+    
+    <p>使用 --stats，您会在每次响应后获得预测指标：</p>
+    
+    <pre><code>Prediction Stats:
+ Stop Reason: eosFound
+ Tokens/Second: 51.35
+ Time to First Token: 1.551s
+ Prompt Tokens: 39
+ Predicted Tokens: 176
+ Total Tokens: 215</code></pre>
+    
+    <p>在配备 48 GB 内存的 14 英寸 MacBook Pro M4 Pro 上，260 亿模型达到每秒 51 个 token 是很可靠的。首个 token 时间为 1.5 秒，对交互式使用来说足够响应。</p>
+    
+    <h3>查看当前加载的内容</h3>
+    
+    <pre><code>lms ps</code></pre>
+    
+    <pre><code>IDENTIFIER              MODEL                   STATUS  SIZE      CONTEXT  PARALLEL  DEVICE  TTL
+google/gemma-4-26b-a4b  google/gemma-4-26b-a4b  IDLE    17.99 GB  48000    2         Local   60m / 1h</code></pre>
+    
+    <p>模型在内存中占用 17.99 GB，具有 48K 上下文窗口，支持 2 个并行请求。TTL（生存时间）在 1 小时空闲后自动卸载模型，无需手动干预即可释放内存。</p>
+    
+    <h3>内存估算</h3>
+    
+    <p>在加载模型之前，您可以使用 --estimate-only 估算不同上下文长度下的内存需求。我写了一个小脚本来测试全范围：</p>
+    
+    <img src="https://substackcdn.com/image/fetch/$s_!h3N5!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0d6f7834-a2e2-42ee-afab-33408970edee_1952x1448.png" alt="Memory estimation table">
+    
+    <p>基础模型无论上下文如何都占用约 17.6 GiB。上下文长度每翻倍，大约增加 3-4 GiB。在默认的 48K 上下文中，您需要约 21 GiB。在我 48 GB 的 MacBook Pro 上，我可以推到全 256K 上下文，占用 37.48 GiB，仍有约 10 GB 空间供操作系统和其他应用使用。36 GB 的 Mac 可以舒适地运行 200K 上下文并留有余量。</p>
+    
+    <p>估算命令很简单：</p>
+    
+    <pre><code>lms load google/gemma-4-26b-a4b --estimate-only --context-length 48000</code></pre>
+    
+    <pre><code>Model: google/gemma-4-26b-a4b
+Context Length: 48,000
+Estimated GPU Memory: 21.05 GiB
+Estimated Total Memory: 21.05 GiB
+
+Estimate: This model may be loaded based on your resource guardrails settings.</code></pre>
+    
+    <p>这对容量规划很有用。如果您想与其他应用一起运行 Gemma 4，请先检查目标上下文长度下的估算。</p>
+    
+    <h2>配置选项</h2>
+    
+    <h3>上下文长度</h3>
+    
+    <p>加载特定上下文长度：</p>
+    
+    <pre><code>lms load google/gemma-4-26b-a4b --context-length 128000</code></pre>
+    
+    <p>如果不确定，始终先运行 --estimate-only。它在计算中考虑了 flash attention 和视觉模型开销。</p>
+    
+    <h3>GPU 卸载</h3>
+    
+    <p>在 Apple Silicon 上，统一内存架构意味着 CPU 和 GPU 共享同一内存池，因此 --gpu 主要控制多少计算在 GPU 与 CPU 核心上运行。默认的 auto 设置效果很好，但您可以强制完全 GPU 卸载：</p>
+    
+    <pre><code>lms load google/gemma-4-26b-a4b --gpu=1.0</code></pre>
+    
+    <p>使用 --gpu=max 卸载所有可能的内容。在离散 GPU 系统（配备 NVIDIA 卡的 Linux/Windows）上，这变得更加重要，因为 GPU VRAM 和系统 RAM 是分开的。如果您的模型无法完全装入 VRAM，部分卸载（--gpu=0.5）会将层分配在 GPU 和 CPU 之间，牺牲一些速度以换取运行更大模型的能力。</p>
+    
+    <h3>并行推理</h3>
+    
+    <p>LM Studio 通过连续批处理支持并发推理，其中多个请求动态组合到单个计算批中。这在向多个客户端提供模型或运行并行工具调用时很有用。该功能需要 llama.cpp 运行时（v2.0.0+），尚不支持 MLX 后端。</p>
+    
+    <p>通过 GUI 配置：打开模型加载器，切换"手动选择模型加载参数"，选择模型，然后切换"显示高级设置"以设置最大并发预测数（默认为 4）。没有 CLI 标志用于此设置；它通过桌面应用或每个模型的默认值配置。</p>
+    
+    <p>每个并行槽消耗与上下文长度成比例的额外内存，因此在内存受限的系统上，减少并行计数或降低上下文长度来补偿。在配备 48 GB 的 Gemma 4 上，48K 上下文下的 2 个并行槽是一个很好的平衡。</p>
+    
+    <h3>TTL（生存时间）</h3>
+    
+    <p>生存时间设置在一段不活动期后自动卸载模型，释放内存：</p>
+    
+    <pre><code>lms load google/gemma-4-26b-a4b --ttl 1800</code></pre>
+    
+    <p>这设置了 30 分钟的空闲超时（值以秒为单位）。默认为 3600 秒（1 小时）。对于可能需要多个模型的共享服务器设置，较短的 TTL 有助于在模型之间循环，而无需手动 lms unload 命令。将 TTL 设置为 0 或 -1 以禁用自动卸载。</p>
+    
+    <h2>桌面应用</h2>
+    
+    <p>以上所有内容都使用了无头 CLI，但 LM Studio 还附带完整的 macOS 桌面应用。GUI 对视觉监控和快速实验很有用，在致力于 CLI 工作流之前。</p>
+    
+    <p>桌面应用还支持 Gemma 4 的视觉功能。在下面的截图中，您可以看到模型分析 Timezone Scheduler 推广图片。它正确识别了标题、带时区彩条的世界地图、比较布里斯班/纽约/伦敦的日程网格、功能徽章和底部的技术栈图标。它以 54.51 tok/sec 生成了 504 个 token，首个 token 时间为 3.15 秒。</p>
+    
+    <img src="https://substackcdn.com/image/fetch/$s_!L6Iq!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fff8163e6-6c58-40d5-985f-4fc15e52f5da_3024x2868.png" alt="Gemma 4 vision capabilities">
+    
+    <h2>Claude Code 集成</h2>
+    
+    <p>Anthropic 兼容端点开启了一个有趣的用例：针对本地模型而不是 Anthropic API 运行 Claude Code。这意味着完全离线、零成本的编码辅助，数据不离开您的机器。</p>
+    
+    <p>我在 ~/.zshrc 中设置了一个名为 claude-lm 的 shell 函数，它配置所有必要的环境变量并启动指向本地 LM Studio 服务器的 Claude Code：</p>
+    
+    <pre><code>claude-lm() {
+ export ANTHROPIC_BASE_URL=http://localhost:1234
+ export ANTHROPIC_AUTH_TOKEN=lmstudio
+ export CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY="2"
+ export CLAUDE_CODE_NO_FLICKER="0"
+ export ANTHROPIC_MODEL="gemma-4-26b-a4b"
+ export CLAUDE_CODE_AUTO_COMPACT_WINDOW="48000"
+ export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="90"
+ export ANTHROPIC_DEFAULT_OPUS_MODEL="google/gemma-4-26b-a4b"
+ export ANTHROPIC_DEFAULT_SONNET_MODEL="google/gemma-4-26b-a4b"
+ export ANTHROPIC_DEFAULT_HAIKU_MODEL="google/gemma-4-26b-a4b"
+ export CLAUDE_CODE_SUBAGENT_MODEL="google/gemma-4-26b-a4b"
+ export API_TIMEOUT_MS="30000000"
+ export BASH_DEFAULT_TIMEOUT_MS="2400000"
+ export BASH_MAX_TIMEOUT_MS="2500000"
+ export CLAUDE_CODE_MAX_OUTPUT_TOKENS="8000"
+ export CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS="8000"
+ export CLAUDE_CODE_ATTRIBUTION_HEADER="0"
+ export CLAUDE_CODE_DISABLE_1M_CONTEXT="1"
+ export CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING="1"
+ claude "$@"
+}</code></pre>
+    
+    <p><strong>关键变量说明：</strong></p>
+    
+    <ul>
+        <li>ANTHROPIC_BASE_URL 和 ANTHROPIC_AUTH_TOKEN 将 Claude Code 指向本地 LM Studio 服务器。token 值 lmstudio 是占位符；LM Studio 默认不需要身份验证</li>
+        <li>ANTHROPIC_MODEL 和三个 DEFAULT_*_MODEL 变量强制所有 Claude Code 模型选择（Opus、Sonnet、Haiku）通过 Gemma 4。没有这些，Claude Code 会尝试调用 LM Studio 无法识别的 Anthropic 模型名称</li>
+        <li>CLAUDE_CODE_SUBAGENT_MODEL 确保 Claude Code 生成的任何子 Agent 也使用本地模型</li>
+        <li>CLAUDE_CODE_AUTO_COMPACT_WINDOW 和 CLAUDE_AUTOCOMPACT_PCT_OVERRIDE 管理上下文窗口压缩。在 48K 上下文中，压缩在 90% 使用率时触发，以避免在任务中途达到限制</li>
+        <li>API_TIMEOUT_MS 设置得很高（3000 万毫秒 / 约 8.3 小时），因为本地推理比 Anthropic API 慢，复杂任务需要时间完成</li>
+        <li>BASH_DEFAULT_TIMEOUT_MS 和 BASH_MAX_TIMEOUT_MS 将 shell 命令超时延长到 40-42 分钟，用于长时间运行的操作</li>
+        <li>CLAUDE_CODE_MAX_OUTPUT_TOKENS 和 CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS 将每次响应的输出限制为 8K token，这在本地硬件上保持生成时间合理</li>
+        <li>CLAUDE_CODE_DISABLE_1M_CONTEXT 和 CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING 关闭假设本地模型不支持的 Anthropic API 功能的功能</li>
+    </ul>
+    
+    <p>将其添加到 ~/.zshrc 并运行 source ~/.zshrc 后，您可以启动完全本地的 Claude Code 会话：</p>
+    
+    <pre><code>claude-lm</code></pre>
+    
+    <p>它像正常的 Claude Code 一样工作，但每个请求都停留在您的机器上。权衡是速度：每秒 51 个 token 的 Gemma 4 在大型代码生成任务上明显比 Anthropic API 慢，但对于代码审查、小编辑和探索，它完全可用。</p>
+    
+    <h2>关键要点</h2>
+    
+    <ol>
+        <li><strong>MoE 模型是本地推理的最佳选择。</strong>Gemma 4 的 26B-A4B 架构（260 亿总参数，40 亿激活）以 40 亿推理成本提供约 100 亿密集等效质量。选择本地运行时，寻找类似的 MoE 模型。</li>
+        
+        <li><strong>无头守护进程改变了工作流程。</strong>0.4.0 之前，LM Studio 需要打开桌面应用。现在 lms daemon up 在后台运行，您完全通过 CLI 或 API 交互。这使其对于服务器部署和 SSH 会话变得实用。</li>
+        
+        <li><strong>上下文长度是主要的内存变量。</strong>模型本身占用固定的约 17.6 GiB。上下文缩放大致是线性的，因此您可以在上下文窗口和可用内存之间选择确切的权衡。</li>
+        
+        <li><strong>--estimate-only 防止意外。</strong>在激进的上下文长度下加载大型模型之前，始终检查内存估算。它只需一秒钟，可以避免 OOM 情况。</li>
+        
+        <li><strong>Anthropic 兼容端点是游戏规则改变者。</strong>能够通过 shell 别名将 Claude Code 指向本地模型意味着您可以根据任务在云端和本地推理之间切换。隐私敏感的代码审查、离线工作或仅仅在探索性会话上节省 API 成本都会受益。</li>
+    </ol>
+    
+    <h2>局限性</h2>
+    
+    <ul>
+        <li>Gemma 4 在 lms chat 中不会通过名称识别自己。当问"你是什么模型？"时，它泛泛地回答为"一个 AI 助手"。这是 LM Studio 处理系统提示词方式的次要限制，不是 Gemma 的问题。您可以用自定义系统提示词覆盖它。</li>
+        
+        <li>对于支持 256K 的模型，默认的 48K 上下文是保守的。如果您有内存，值得以更高的上下文长度加载，用于长文档分析或多文件代码审查等任务。</li>
+        
+        <li>使用本地模型运行 Claude Code 不是 Anthropic API 的直接替代品。依赖 Claude 扩展思考或超大型上下文窗口的复杂多步骤任务会遇到限制。本地设置最适合 48K 上下文窗口足够的专注、单文件任务。</li>
+        
+        <li>在加载了 Gemma 4 的 48 GB 机器上，内存压力是真实的。测试期间系统在 48 GB 中使用了 46.69 GB，有 27.49 GB 的交换。如果您与模型一起运行内存密集型应用，预计会有一些交换抖动。64 GB 或更高配置对于持续使用会更舒适。</li>
+    </ul>
+    
+    <h2>开始使用</h2>
+    
+    <p>如果您想尝试此设置：</p>
+    
+    <ul>
+        <li>安装：<code>curl -fsSL https://lmstudio.ai/install.sh | bash</code></li>
+        <li>启动守护进程：<code>lms daemon up</code></li>
+        <li>下载 Gemma 4：<code>lms get google/gemma-4-26b-a4b</code></li>
+        <li>本地聊天：<code>lms chat google/gemma-4-26b-a4b --stats</code></li>
+        <li>连接 Claude Code：将 claude-lm 函数添加到您的 ~/.zshrc，然后运行 claude-lm 而不是 claude</li>
+    </ul>
+    
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px;">
+        <p>翻译日期：2026-04-06 | 来源：Hacker News</p>
+    </footer>
+</body>
+</html>

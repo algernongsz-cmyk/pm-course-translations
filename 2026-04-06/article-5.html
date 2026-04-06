@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>（每晚构建版）Rust 中的尾调用解释器</title>
+    <style>
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .original-url {
+            background: #f5f5f5;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+        }
+        .original-url a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>（每晚构建版）Rust 中的尾调用解释器</h1>
+    
+    <div class="original-url">
+        <strong>原文链接：</strong><a href="https://www.mattkeeter.com/blog/2026-04-05-tailcall/" target="_blank">https://www.mattkeeter.com/blog/2026-04-05-tailcall/</a><br>
+        <strong>来源：</strong>Hacker News
+    </div>
+    
+    <p>上周，我使用 <code>become</code> 关键字写了一个尾调用解释器，这是<a href="https://github.com/rust-lang/rust/pull/144232">最近添加到 nightly Rust</a> 的（七个月前算是最近，对吧？）。</p>
+    
+    <p>这是一个令人惊讶的愉快体验，生成的 VM 性能超过了我之前的 Rust 实现 <em>和</em> 我手写的 ARM64 汇编。尾调用相关技术最近一直很流行（参见<a href="https://blog.reverberate.org/2025/02/10/tail-call-updates.html">这篇概述</a>）；这是我实现一个简单但非平凡系统的旅行报告。</p>
+    
+    <p>对于在家跟踪的人，这是我对 <a href="https://wiki.xxiivv.com/site/uxntal_reference.html">Uxn CPU</a> 高性能模拟探索的最新进展，它运行 <a href="https://100r.co/site/home.html">Hundred Rabbits</a> 生态系统中的<a href="https://wiki.xxiivv.com/site/roms.html">一堆应用</a>。</p>
+    
+    <p>如果您想阅读整个传奇，这是列表：</p>
+    
+    <ul>
+        <li><a href="/projects/raven">Raven 项目报告</a>，我最初的 Rust 实现</li>
+        <li><a href="/blog/2024-07-12-interpreter/">击败编译器</a>，其中我编写了一个性能超过我的 Rust 代码的 ARM64 汇编实现</li>
+        <li><a href="/blog/2025-01-20-guided/">被我们测试套件的美丽所引导</a>，其中我一年后重新审视代码并改进了测试和 CI</li>
+        <li><a href="/blog/2026-03-15-uxn/">raven-uxn 的 x86-64 后端</a>，其中我将汇编实现从 ARM64 移植到 x86（在 Claude Code 的帮助下）</li>
+    </ul>
+    
+    <p>使用 LLM 进行实验<a href="https://news.ycombinator.com/item?id=47387431">被证明是有争议的</a>，这并不令人惊讶；我很高兴地宣布，所有尾调用代码都是人工编写的，新后端可以作为 x86 汇编后端的替代品，只有轻微的性能损失。</p>
+    
+    <p>（这篇博文也完全是人工编写的，根据我的<a href="/about#gen-ai">个人标准</a>）</p>
+    
+    <p>接下来的几节总结了以前的工作，所以如果您已经阅读过，可以略读并直接跳到 <a href="#tailcalls">Rust 中的尾调用</a>。</p>
+    
+    <h2 id="basics">Uxn 模拟基础</h2>
+    
+    <p>Uxn 是一个简单的堆栈机器，有 256 条指令。整个 CPU 只有超过 64K 的空间，分为几个内存：</p>
+    
+    <ul>
+        <li>两个 256 字节的堆栈，每个都有一个索引字节</li>
+        <li>65536 字节的 RAM，用于数据和程序文本</li>
+        <li>一个 2 字节的程序计数器</li>
+        <li>256 字节的"设备内存"，用于外设</li>
+    </ul>
+    
+    <p>最简单的模拟器从 RAM 中的程序计数器读取一个字节，然后调用到一条指令（可能会更新程序计数器）：</p>
+    
+    <pre><code>fn run(core: &mut Uxn, dev: &mut Device, mut pc: u16) -> u16 {
+ loop {
+ let op = core.next(&mut pc);
+ let Some(next) = core.op(op, dev, pc) else {
+ break pc;
+ };
+ pc = next;
+ }
+}</code></pre>
+    
+    <pre><code>impl Uxn {
+ fn op(
+ &mut self, op: u8, dev: &mut Device, pc: u16
+ ) -> Option<u16> {
+ match op {
+ op::BRK => self.brk(pc),
+ op::INC => self.inc::<0b000>(pc),
+ op::POP => self.pop::<0b000>(pc),
+ op::NIP => self.nip::<0b000>(pc),
+ op::SWP => self.swp::<0b000>(pc),
+ // ... etc
+ op::ORA2kr => self.ora::<0b111>(pc),
+ op::EOR2kr => self.eor::<0b111>(pc),
+ op::SFT2kr => self.sft::<0b111>(pc),
+ }
+ }
+}</code></pre>
+    
+    <p>有 256 条指令，其中许多用标志参数化。这是 INC 指令，它增加堆栈顶部的字节：</p>
+    
+    <pre><code>impl Uxn {
+ pub fn inc<const FLAGS: u8>(&mut self, pc: u16) -> Option<u16> {
+ let mut s = self.stack_view::<FLAGS>();
+ let v = s.pop();
+ s.push(v.wrapping_add(1));
+ Some(pc)
+ }
+}</code></pre>
+    
+    <p>所有操作码实现都内联到主 op 函数中，但<a href="/blog/2024-07-12-interpreter/">还有改进空间</a>：某些值存储在内存而不是寄存器中，主 op 选择分支不可预测。</p>
+    
+    <h2 id="assembly">汇编中的线程代码</h2>
+    
+    <p>在我们的汇编实现中，我们可以改为使用线程代码（特别是<a href="https://en.wikipedia.org/wiki/Threaded_code#Token_threading">令牌线程</a>）。我们将所有 CPU 状态存储在寄存器中，然后以跳转到后续指令结束每条指令：</p>
+    
+    <pre><code>; x0 | stack pointer
+; x1 | stack index
+; x4 | ram pointer
+; x5 | program counter
+; x8 | opcode table
+_INC:
+ ldrb w9, [x0, x1] ; read the byte from the top of the stack
+ add w9, w9, #1 ; increment it
+ strb w9, [x0, x1] ; write it back
+ ldrb w9, [x4, x5] ; load the next opcode from RAM
+ add x5, x5, #1 ; increment the program counter
+ and x5, x5, #0xffff ; wrap the program counter
+ ldr x10, [x8, x9, lsl #3] ; load the opcode implementation address
+ br x10 ; jump to the opcode's implementation</code></pre>
+    
+    <p>这将调度操作分布在每个操作码上，使分支预测器更容易学习程序中的操作码序列。总体加速是显著的：ARM64 上快 40-50%，x86-64 上快约 2 倍。</p>
+    
+    <p>不幸的是，它需要维护约<a href="https://github.com/mkeeter/raven/blob/main/raven-uxn/src/native/aarch64/impl.s">2000 行代码</a>，而且非常不安全。在我的 x86 移植中，我引入了一个越界写入，它踩踏了设备 RAM 之外的几个字节；唯一的症状是在运行一个非常特定的程序后，模糊测试器退出时会段错误。</p>
+    
+    <p>那么，该怎么办？</p>
+    
+    <h2 id="tailcalls">Rust 中的尾调用</h2>
+    
+    <p>我们想获得与汇编实现相同的行为——VM 状态存储在寄存器中，调度在每个操作码末尾——而不需要用汇编手写每条指令。幸运的是，有希望！</p>
+    
+    <p>核心思想几乎肯定被重新发明了很多次，但我第一次遇到尾调用解释器的想法是在<a href="https://github.com/wasm3/wasm3/blob/main/docs/Interpreter.md#m3-massey-meta-machine">Massey Meta Machine 报告</a>中，那是一次令人大开眼界的阅读。</p>
+    
+    <p>有两部分：</p>
+    
+    <ul>
+        <li>将程序状态存储在函数参数中，根据系统的调用约定映射到寄存器</li>
+        <li>以调用下一个函数结束每个函数</li>
+    </ul>
+    
+    <p>我们今天可以在 Rust 中写这个；这是我们的 inc 函数：</p>
+    
+    <pre><code>const TABLE: FunctionTable = FunctionTable([
+ brk,
+ inc::<0b000>,
+ pop::<0b000>,
+ nip::<0b000>,
+ swp::<0b000>,
+ rot::<0b000>,
+ dup::<0b000>,
+ // ...etc
+]);</code></pre>
+    
+    <pre><code>fn inc<'a, const FLAGS: u8>(
+ stack_data: &'a mut [u8; 256],
+ stack_index: u8,
+ rstack_data: &'a mut [u8; 256],
+ rstack_index: u8,
+ dev: &'a mut [u8; 256],
+ ram: &'a mut [u8; 65536],
+ mut pc: u16,
+ vdev: &mut dyn Device,
+) -> (Uxn<'a>, u16) {
+ let mut core = Uxn {
+ stack: Stack {
+ data: stack_data,
+ index: stack_index,
+ },
+ ret: Stack {
+ data: rstack_data,
+ index: rstack_index,
+ },
+ dev,
+ ram,
+ };
+ match core.inc::<FLAGS>(pc) {
+ Some(pc) => {
+ let op = core.next(&mut pc);
+ TABLE.0[op as usize](
+ core.stack.data,
+ core.stack.index,
+ core.ret.data,
+ core.ret.index,
+ core.dev,
+ core.ram,
+ pc,
+ vdev,
+ )
+ }
+ None => (core, pc)
+ }
+}</code></pre>
+    
+    <p>我们想重用现有的 Uxn 操作码实现，所以我们在函数开头重建 core: Uxn 对象，调用其 inc 函数，然后在调用下一个操作时再次解构它。有很多样板代码，传递 &mut Uxn 参数很诱人，但这会移除"状态存储在寄存器中"的好处；我们稍后会用宏删除样板代码。</p>
+    
+    <p>不幸的是，这个实现有一个问题：</p>
+    
+    <pre><code>thread 'snapshots::tailcall::mandelbrot' (67889685) has overflowed its stack
+fatal runtime error: stack overflow, aborting
+error: test failed, to rerun pass `-p raven-varvara --test snapshots`</code></pre>
+    
+    <p>即使在发布构建中，编译器也没有优化掉堆栈。随着我们执行越来越多的操作，堆栈越来越深，直到不可避免地溢出。</p>
+    
+    <p>我们需要告诉编译器生成 br（分支到寄存器）而不是 bl（分支和链接）指令，更重要的是——不要在堆栈上分配任何持久空间。换句话说，我们需要一个<a href="https://en.wikipedia.org/wiki/Tail_call">尾调用</a>。</p>
+    
+    <p>在 nightly Rust 中，这是一个单字修复：</p>
+    
+    <pre><code> match core.inc::<FLAGS>(pc) {
+ Some(pc) => {
+ let op = core.next(&mut pc);
+- TABLE.0[op as usize](
++ become TABLE.0[op as usize](
+ core.stack.data,
+ core.stack.index,
+ core.ret.data,
+ core.ret.index,
+ core.dev,
+ core.ram,
+ pc,
+ vdev,
+ )</code></pre>
+    
+    <p>有了这个改变，Rust 编译器做出了<a href="https://doc.rust-lang.org/std/keyword.become.html">保证</a>：</p>
+    
+    <blockquote>当尾调用函数时，不是将其堆栈帧添加到堆栈，而是直接用被调用者的堆栈帧替换调用者的堆栈帧。</blockquote>
+    
+    <p>就是这样，一切正常！报告结束！</p>
+    
+    <h2 id="implementation">实现细节</h2>
+    
+    <p>好吧，好吧，我还有更多要说。</p>
+    
+    <p>首先，我承诺了一个宏来消除样板代码。一如既往，这是一个可怕的东西：</p>
+    
+    <pre><code>macro_rules! tail_fn {
+ ($name:ident $(::<$flags:ident>)?) => {
+ tail_fn!($name $(::<$flags>)?[][vdev: &mut dyn Device]);
+ };
+ ($name:ident $(::<$flags:ident>)?($($arg:ident: $ty:ty),*)) => {
+ tail_fn!($name $(::<$flags>)?[$($arg: $ty),*][]);
+ };
+ ($name:ident $(::<$flags:ident>)?[$($arg0:ident: $ty0:ty),*][$($arg1:ident: $ty1:ty),*]) => {
+ extern "rust-preserve-none" fn $name<'a, $(const $flags: u8)?>(
+ stack_data: &'a mut [u8; 256],
+ stack_index: u8,
+ rstack_data: &'a mut [u8; 256],
+ rstack_index: u8,
+ dev: &'a mut [u8; 256],
+ ram: &'a mut [u8; 65536],
+ pc: u16,
+ $($arg0: $ty0),*
+ $($arg1: $ty1),*
+ ) -> (UxnCore<'a>, u16) {
+ let mut core = UxnCore {
+ stack: Stack {
+ data: stack_data,
+ index: stack_index,
+ },
+ ret: Stack {
+ data: rstack_data,
+ index: rstack_index,
+ },
+ dev,
+ ram,
+ };
+ match core.$name::<$($flags)?>(pc, $($arg0),*) {
+ Some(mut pc) => {
+ let op = core.next(&mut pc);
+ become TABLE.0[op as usize](
+ core.stack.data,
+ core.stack.index,
+ core.ret.data,
+ core.ret.index,
+ core.dev,
+ core.ram,
+ pc,
+ $($arg0),*
+ $($arg1),*
+ )
+ }
+ None => (core, pc),
+ }
+ }
+ };
+}</code></pre>
+    
+    <p>（这现在来自实际实现，所以某些类型与本文前面的简化代码略有不同）</p>
+    
+    <p>宏很笨拙，但它让我们可以声明所有三种函数：</p>
+    
+    <ul>
+        <li>朴素函数</li>
+        <li>带 FLAGS 的函数</li>
+        <li>带 FLAGS 和额外参数的函数</li>
+    </ul>
+    
+    <p>这是所有三种的样子：</p>
+    
+    <pre><code>tail_fn!(brk); // 朴素函数
+tail_fn!(inc::<FLAGS>); // 带 flags 的函数
+tail_fn!(dei::<FLAGS>(dev: &mut dyn Device)); // 带 flags 和参数的函数</code></pre>
+    
+    <p>您不需要花太多时间琢磨这个宏；我们坚定地处于"如果编译通过，就行"的领域。还值得注意的是，这仍然是 100% 安全的 Rust：我们的 #![forbid(unsafe_code)] 属性仍未触发。</p>
+    
+    <h2 id="codegen">代码生成说明</h2>
+    
+    <p>编译器在内联和将函数剥离到基本操作方面做得很好；构建和解构 UxnCore 的样板代码被完全优化掉了。</p>
+    
+    <pre><code>0000000100039c50 <raven_uxn::tailcall::inc::<0>>:
+ and x8, x0, #0xff ; mask stack pointer
+ ldrb w9, [x21, x8] ; read byte
+ add w9, w9, #1 ; increment value
+ strb w9, [x21, x8] ; write back value
+ and x8, x2, #0xffff ; mask pc
+ ldrb w8, [x24, x8] ; look up next opcode
+ adrp x9, 0x100279000 ; load table base
+ add x9, x9, #3776 ; offset??
+ ldr x3, [x9, x8, lsl #3] ; get jump target
+ add w2, w2, #1 ; increment program counter
+ br x3 ; jump!</code></pre>
+    
+    <p>我看到与我们手写实现的两个主要区别：</p>
+    
+    <ul>
+        <li>它在使用前进行寄存器掩码，而不是在修改后。例如，程序计数器（在 x2 中）在用于查找时被掩码，但在增加后没有被掩码</li>
+        <li>表基址从偏移量加载，而不是存储在寄存器中</li>
+    </ul>
+    
+    <p>我们可以通过也将表通过参数列表传递来修复后者，这可以改善 x86 上的性能（但在 ARM64 上似乎无关紧要）。</p>
+    
+    <h2 id="performance">性能结果</h2>
+    
+    <p>说到性能，它表现如何？</p>
+    
+    <p>我有两个主要基准：</p>
+    
+    <ul>
+        <li>一个朴素计算斐波那契数的微基准程序</li>
+        <li>一个渲染 Mandelbrot 分形的<a href="/projects/raven/demo/#mandelbrot">较大程序</a></li>
+    </ul>
+    
+    <p>在我的笔记本电脑（M1 Macbook）上，我很高兴地报告我不再击败编译器：尾调用解释器在两个基准上都轻松击败了我手写的汇编。</p>
+    
+    <table>
+        <tr>
+            <th>VM</th>
+            <th>Fibonacci</th>
+            <th>Mandelbrot</th>
+        </tr>
+        <tr>
+            <td>VM</td>
+            <td>2.41</td>
+            <td>125</td>
+        </tr>
+        <tr>
+            <td>Assembly</td>
+            <td>1.32</td>
+            <td>87</td>
+        </tr>
+        <tr>
+            <td>Tailcall</td>
+            <td>1.19</td>
+            <td>76</td>
+        </tr>
+    </table>
+    
+    <p><em>（所有时间以毫秒为单位，越小越快）</em></p>
+    
+    <p>现在，让我们喝一大口<a href="https://www.harney.com/products/williamsburg-ginger-cake-tin-of-20-sachets">不合时宜的茶</a>并在 x86 上测试——</p>
+    
+    <table>
+        <tr>
+            <th>VM</th>
+            <th>Fibonacci</th>
+            <th>Mandelbrot</th>
+        </tr>
+        <tr>
+            <td>VM</td>
+            <td>4.70</td>
+            <td>264</td>
+        </tr>
+        <tr>
+            <td>Assembly</td>
+            <td>1.84</td>
+            <td>168</td>
+        </tr>
+        <tr>
+            <td>Tailcall</td>
+            <td>3.23</td>
+            <td>175</td>
+        </tr>
+    </table>
+    
+    <p>——哦不。它性能超过 VM，但仍以明显的幅度输给汇编后端（特别是在 Fibonacci 微基准中）。这是怎么回事？</p>
+    
+    <p>让我们先看看 INC 的生成代码，我们最简单的操作码：</p>
+    
+    <pre><code>_RINvNtCs7kxjQDHw3ed_9raven_uxn8tailcall3incKh0_EB4_:
+ movzx eax,dil ; mask stack index
+ inc BYTE PTR [r13+rax] ; increment byte on stack
+ movzx eax,cx ; mask pc register
+ movzx eax,BYTE PTR [rdx+rax] ; read next opcode from RAM
+ inc ecx ; increment pc reigster
+ mov rax,QWORD PTR [r8+rax*8] ; read jump target from table
+ jmp rax ; jump to target
+ ; followed by `int3` operations to pad to 32-byte alignment</code></pre>
+    
+    <p>这个实现看起来大致不错：它进行了最小数量的读取和写入，基本上是我所期望的。实际上，通过地址增加字节可能比我的汇编更高效，后者加载和存储该字节。</p>
+    
+    <p>（另外，我之前没有强调这一点，但将这些函数声明为 extern "rust-preserve-none" 对 x86 实现非常重要。默认调用约定没有为所有参数使用足够的寄存器，这增加了大量的开销）</p>
+    
+    <p>所以，INC 是无害的。现在让我们看看 ADD2，它添加堆栈顶部的两个 16 位值。我先向您展示汇编后端的手工调整实现：</p>
+    
+    <pre><code>_ADD2:
+ movzx eax,BYTE PTR [rbx+r12*1] ; read byte from data stack
+ dec r12b ; decrement data pointer
+ movzx ecx,BYTE PTR [rbx+r12*1] ; read byte from data stack
+ dec r12b ; decrement data pointer
+ shl ecx,0x8 ; build 16-bit value
+ or eax,ecx
+ movzx ecx,BYTE PTR [rbx+r12*1] ; read byte from data stack
+ lea r11,[r12-0x1] ; get next byte address
+ and r11,0xff ; mask index byte
+ movzx edx,BYTE PTR [rbx+r11*1] ; read byte from data stack
+ shl edx,0x8 ; build 16-bit value
+ or ecx,edx
+ add ecx,eax ; do addition
+ mov BYTE PTR [rbx+r12*1],cl ; write byte to data stack
+ shr ecx,0x8 ; shift 16-bit value
+ mov BYTE PTR [rbx+r11*1],cl ; write byte to data stack
+ movzx eax,BYTE PTR [r15+rbp*1] ; read next opcode
+ inc bp ; increment pc
+ lea rcx,[rip+0x22e5c7] ; read jump address
+ jmp QWORD PTR [rcx+rax*8] ; jump</code></pre>
+    
+    <p>这个实现是 79 字节，进行了最少量的读取和写入：4 次字节读取 + 2 次字节写入到数据堆栈，一次从 RAM 读取字节（获取下一个操作码），一次从跳转表读取四字（获取跳转目标）。</p>
+    
+    <p>相比之下，这是编译后的尾调用实现：</p>
+    
+    <pre><code>_RINvNtCs7kxjQDHw3ed_9raven_uxn8tailcall3addKh1_EB4_:
+ push rbp ; spill rbp to the stack
+ mov QWORD PTR [rsp-0x8],r11 ; spill r11 to the stack too?
+ mov r11,r9 ; do the Register Shuffle (??)
+ mov r9,r8
+ mov r8d,ecx
+ mov rax,r13
+ movzx r10d,dil ; get index as byte
+ movzx edi,BYTE PTR [r13+r10] ; read byte from stack
+ lea ebx,[r10-0x1] ; get next index
+ movzx ebx,bl ; mask index to byte
+ lea r13d,[r10-0x2] ; precompute another index
+ movzx ebp,BYTE PTR [rax+rbx*1] ; read byte from stack
+ shl ebp,0x8 ; build 16-bit value
+ or ebp,edi
+ movzx edi,r13b ; mask index byte
+ movzx r13d,BYTE PTR [rax+rdi] ; read byte from stack
+ add r10b,0xfd ; compute another address
+ movzx ecx,r10b ; mask index byte
+ movzx ebx,BYTE PTR [rax+rcx] ; read byte from stack
+ shl ebx,0x8 ; build 16-bit value
+ or ebx,r13d
+ add ebx,ebp ; do addition
+ mov BYTE PTR [rax+rcx*1],bh ; write byte to stack
+ mov BYTE PTR [rax+rdi*1],bl ; write byte to stack
+ movzx ecx,r8w ; mask pc word
+ movzx ecx,BYTE PTR [rdx+rcx*1] ; read opcode
+ inc r8d ; increment pc
+ mov r10,QWORD PTR [r9+rcx*8] ; get next jump address
+ mov r13,rax ; do the Reverse Register Shuffle (??)
+ mov ecx,r8d
+ mov r8,r9
+ mov r9,r11
+ mov r11,QWORD PTR [rsp-0x8] ; restore spilled r11
+ mov rax,r10
+ pop rbp ; restore pushed rbp
+ jmp rax ; jump
+ ; followed by `int3` padding to a 32-byte boundary</code></pre>
+    
+    <p>这是 121 字节，而且更令人担忧的是——将两个完整的 64 位寄存器溢出并恢复到堆栈。这看起来像（使用技术术语）糟糕的代码生成。一方面，这是 rustc 中未完成的 nightly 功能，所以可以理解；另一方面，我很惊讶即使 rustc 端不成熟，LLVM 后端也没有很好地优化它。</p>
+    
+    <p>这篇博文变得冗长了，所以我不会再进一步推测，但我会做几个观察：</p>
+    
+    <ul>
+        <li><a href="https://godbolt.org/z/5ExWMnvnh">朴素的 C 代码被 Clang 编译为更优化的东西</a>（我们不要谈论 gcc 在做什么鬼）。</li>
+        <li><a href="https://godbolt.org/z/fKabjvn98">类似朴素的 Rust 代码</a>并不像我看到的那样糟糕，但仍然不必要地将 rbp 溢出到堆栈。</li>
+    </ul>
+    
+    <h2 id="wasm">还有一件事</h2>
+    
+    <p>WebAssembly 也<a href="https://web.dev/blog/wasmgc-wasm-tail-call-optimizations-baseline">支持尾调用</a>，而 Raven 支持编译到 WebAssembly！我想知道尾调用解释器与原生性能和简单 VM 解释器相比会如何？</p>
+    
+    <p>我只能对 Mandelbrot 示例进行基准测试；Fibonacci 程序太快了（鉴于 Web 计时器分辨率的限制）。这是数字：</p>
+    
+    <table>
+        <tr>
+            <th>Engine</th>
+            <th>Backend</th>
+            <th>Time (ms)</th>
+        </tr>
+        <tr>
+            <td>Native</td>
+            <td>VM</td>
+            <td>125</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Tailcall</td>
+            <td>76</td>
+        </tr>
+        <tr>
+            <td>Firefox</td>
+            <td>VM</td>
+            <td>264</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Tailcall</td>
+            <td>311</td>
+        </tr>
+        <tr>
+            <td>Chrome</td>
+            <td>VM</td>
+            <td>244</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Tailcall</td>
+            <td>905</td>
+        </tr>
+        <tr>
+            <td>wasmtime</td>
+            <td>VM</td>
+            <td>128</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Tailcall</td>
+            <td>595</td>
+        </tr>
+    </table>
+    
+    <p>令人惊讶，它很糟糕：Firefox 上慢 1.2 倍，Chrome 上慢 3.7 倍，wasmtime 上慢 4.6 倍。我想生成良好汇编的模式不能很好地映射到 WASM 堆栈机器，而 JIT 不够智能，无法将其降低到最优机器代码。</p>
+    
+    <p>不过 wasmtime 在传统 VM 实现上确实实现了令人印象深刻的性能——与原生 Rust 构建相差几个百分点！</p>
+    
+    <p><em>（所有这些测试都在我的 M1 Max 笔记本电脑上；wasmtime 从 <a href="https://github.com/bytecodealliance/wasmtime/commit/e9e1665c5">e9e1665c5</a> 构建，Firefox 149.0，Chrome 146.0.7680.178）</em></p>
+    
+    <h2 id="conclusion">结论</h2>
+    
+    <p><a href="https://github.com/mkeeter/raven/pull/48">尾调用解释器 PR 已合并</a>，并在 0.3.0 版本中部署。启用时，它是 ARM64 系统上的默认选择，是 x86-64 系统上的第二选择（如果原生功能未启用）。</p>
+    
+    <p>我非常希望能获得改善 x86 和 WASM 性能的技巧；</p>
+    
+    <p>通过<a href="/about/#contact">电子邮件</a>或<a href="https://bsky.app/profile/mattkeeter.com">社交</a><a href="https://hachyderm.io/@mjk">媒体</a>联系我。</p>
+    
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px;">
+        <p>翻译日期：2026-04-06 | 来源：Hacker News</p>
+    </footer>
+</body>
+</html>
