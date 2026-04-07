@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>转型实践：如何在提升 CX 的同时实现 81% 的客户服务自动化</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        article {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        .meta {
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .meta span {
+            margin-right: 15px;
+        }
+        .excerpt {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-left: 4px solid #1FB6FF;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #2a2a2a;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #3a3a3a;
+        }
+        h4 {
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        blockquote {
+            background: #f9f9f9;
+            border-left: 4px solid #1FB6FF;
+            margin: 20px 0;
+            padding: 15px 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        a {
+            color: #1FB6FF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>转型实践：如何在提升 CX 的同时实现 81% 的客户服务自动化</h1>
+            <div class="meta">
+                <span>来源：Intercom</span>
+                <span>作者：Declan Ivory</span>
+                <span>发布日期：2026年3月13日</span>
+                <span>原文：<a href="https://www.intercom.com/blog/automate-customer-service-while-improving-customer-experience/" target="_blank">链接</a></span>
+            </div>
+            <div class="excerpt">
+                我们构建了 Fin，我们也用它来运营自己的支持服务。以下是三年全面拥抱 AI 优先转型所带来的成果。
+            </div>
+        </header>
+        
+        <p>领导一家构建领先 Agent 和 AI 优先客户服务平台的公司的支持职能，是一种独特、令人兴奋且令人敬畏的体验。</p>
+        
+        <p>独特，是因为我们可以使用与客户相同的技术。我们拥有与他们完全相同的体验。很少有支持团队能这样说，这使我们在向组织其他部门传达客户声音方面处于特殊地位。</p>
+        
+        <p>令人兴奋，是因为我们可以试用 Fin 和 Intercom 帮助台的所有新功能和能力。鉴于公司对 AI 创新的关注，这意味着我们可以使用一些卓越的工具来帮助我们提供出色的客户体验。</p>
+        
+        <p>而令人敬畏，是因为对 Intercom 自己的客户支持 (CS) 团队的期望非常高。如果我们不能使用自己的技术提供出色的支持，我们就会削弱其价值主张。</p>
+        
+        <blockquote>
+            <h4>这是我们深入研究新报告"2026年客户服务转型报告"的最后一部分。我们已在博客和 <a href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7396628797963309057" target="_blank" rel="noopener">LinkedIn</a> 上分享了本系列的所有版本。</h4>
+            <h4>如果您想直接获取报告，请<a href="https://www.intercom.com/customer-transformation-report?utm_source=blog&amp;utm_medium=internal&amp;utm_campaign=20260128-report-owned-2026cstransformationreport&amp;utm_content=intercom-case-study-post" target="_blank" rel="noopener">在此下载</a>。</h4>
+        </blockquote>
+        
+        <p>当 Intercom 在 2022 年底改变方向，优先考虑客户服务用例时，我们对提供的支持体验进行了关键性审查，并致力于在 AI 优先框架下推动有意义的变革。</p>
+        
+        <p>三年后，Fin 现在解决了我们所有客户支持量的 81% 以上，提供即时且高质量的解决方案。自 2022 年以来，我们在没有相应人员增长的情况下吸收了 300% 以上的客户需求增长。如果没有 Fin，我们至少需要增加 100 名 CS 团队成员来满足该需求和改善的服务水平——这每年为 Intercom 节省 750 万至 900 万美元的净成本。</p>
+        
+        <p>在本系列中，我们分享了来自 <a href="https://www.intercom.com/customer-transformation-report?utm_source=blog&amp;utm_medium=internal&amp;utm_campaign=20260128-report-owned-2026cstransformationreport&amp;utm_content=intercom-case-study-post"><em>2026年客户服务转型报告</em></a> 的研究，并探讨了前瞻性团队如何用 AI 转型客户服务。</p>
+        
+        <p>这最后一篇文章是我们的转型故事，以及我们如何实现 Fin 的成熟部署。</p>
+        
+        <h2 id="the-problems-we-set-out-to-solve">我们要解决的问题</h2>
+        
+        <p>在 2022 年，我们的挑战对任何现代支持组织来说都很熟悉：</p>
+        
+        <ul>
+            <li><strong>我们面临来自新老客户的支持需求增加：</strong>Intercom 正在快速推出主要功能和变更，推动整体客户对话量上升，并需要为 CS 团队增加人手。</li>
+            <li><strong>我们的支持政策（由服务级别目标定义）基于的标准不高：</strong>在大多数情况下，我们仅对大多数客户承诺"工作时间"覆盖，影响了首次响应时间。即使 SLO 不被认为是最佳实践级别，我们仍在努力履行承诺。</li>
+            <li><strong>我们想做得更多：</strong>随着战略转变，我们希望为支持团队开辟新途径，例如为有技术问题的网站访问者和试用客户提供支持。</li>
+        </ul>
+        
+        <h2 id="what-we-did">我们的做法</h2>
+        
+        <p>我们做出了一个非常有意识的决策，成为自己最好的参考客户。当 Intercom 拥抱生成式 AI 带来的转型客户服务的机会时，我们有意为客户支持团队转向 AI 优先策略。</p>
+        
+        <p>我们从最高频的信息查询开始，看到解决率快速攀升。有了这个基础，我们进一步推进 Fin，在更深入的文档和内部流程上训练它，最终赋予它代表客户采取行动的能力。随着 Fin 承担更复杂的工作，我们的结果开始复合增长。</p>
+        
+        <p>关键重点领域包括：</p>
+        
+        <h3>1. 早期采用和建立信任</h3>
+        
+        <p>当"AI Assist"功能进入 Intercom 收件箱时，CS 团队早期接触了 AI，并被赋权直接向我们的产品团队提供反馈。这在团队中建立了对我们试图用 AI 实现的目标的认识和信任，并帮助塑造了产品路线图。</p>
+        
+        <p>我们的 CS 团队也是 Fin 的第一个 beta 客户。我们首先向一部分客户推出，以仔细评估对客户体验的影响。在没有不良反应且初始解决率超过 25% 的情况下，我们在几周内决定将 Fin 部署到我们的大多数客户细分市场。</p>
+        
+        <h3>2. 知识管理</h3>
+        
+        <p>人们很快认识到，花时间调整帮助中心和其他知识资产为 Fin 服务将会带来回报。我们将帮助中心经理转变为"知识经理"的新角色，专门负责为 Fin 优化内容。</p>
+        
+        <p>我们还将知识创建嵌入到"新产品介绍"(NPI) 流程中，设定目标：Fin 能够在每个新产品和功能发布时解决至少 50% 的客户问题。随着时间的推移，我们向 Fin 引入了新的知识来源，包括我们的"开发人员文档"，帮助它处理日益复杂的问题。</p>
+        
+        <p>我们还在团队中建立了持续改进的文化，鼓励支持同事识别内容差距和改进机会，以进一步增强 Fin 回答问题的能力。我们继续为此项工作分配专门的"收件箱之外"时间。</p>
+        
+        <h3>3. 对话设计</h3>
+        
+        <p>为了确保在将 Fin 引入客户旅程时提供一致、高质量的客户体验，我们建立了一个全新的"对话设计师"角色。这个角色考虑端到端的客户旅程——不仅包括 Fin，还包括当对话移交给人工时客户的体验。它专注于消除摩擦并使跨渠道体验无缝衔接。</p>
+        
+        <p>对话设计角色对于优化客户体验至关重要，因为我们推动了 Fin 解决率的提高。我们使用 Intercom 的 Workflows 引入"基于技能的路由"，确保当客户要求与人工交谈时，对话会快速传递给具有相关技能的团队成员解决。现在这由 Fin 直接使用名为"属性"的功能处理。</p>
+        
+        <h3>4. 组织变革</h3>
+        
+        <p>随着 Fin 使用规模的扩大，我们需要重新思考团队本身的结构。我们在一位高级 CS 领导者下建立了一个专门的 AI 支持团队，专注于持续优化 Fin 并为客户旅程的其他部分定义我们的 AI 采用策略。</p>
+        
+        <p>我们将人工支持角色重组为两个新的职位系列（"技术支持专家"和"技术支持工程师"），以更好地反映传递给团队的日益复杂的工作。我们扩大了支持运营团队，包括优化重点，目标是使用 AI 更好地支持 Enablement、劳动力管理、QA、流程管理和数据 Insights。</p>
+        
+        <p>除了这些结构性变化外，我们还重新设定了直接支持客户与改进 AI 之间的时间平衡期望。这种心态的转变与我们做出的任何结构性变化一样重要。</p>
+        
+        <h3>5. 推动Fin更进一步</h3>
+        
+        <p>随着新功能的上线，我们是早期采用者：</p>
+        
+        <ul>
+            <li><strong>Fin Guidance：</strong>多条 Guidance 规则提供额外的控制，以及更个性化、更有针对性的客户体验。</li>
+            <li><strong>Fin Tasks 和 Procedures：</strong>使 Fin 能够执行活动，如向客户更新事件状态和技术问题的深度故障排除。</li>
+            <li><strong>Insights：</strong>AI 驱动的仪表板深入洞察 Fin 的表现，并提出进一步优化的建议。Insights 还为每次客户互动提供客户体验 (CX) 评分，使改进工作更有针对性，并为有过糟糕体验的客户开辟了新的闭环方式。</li>
+        </ul>
+        
+        <h2 id="what-we-achieved">我们的成果</h2>
+        
+        <p>最初为改善客户支持体验的集中努力，已经变成当组织充分拥抱 Fin 时它能实现的最强案例研究。</p>
+        
+        <p>Fin 现在解决了我们所有客户支持量的 81% 以上，并使我们在没有相应人员增长的情况下吸收了 300% 以上的需求增长。超过 90% 的客户现在受益于改善的首次响应性能、24/7 覆盖和外呼电话支持。</p>
+        
+        <p>数字无法完全捕捉的是 Fin 的参与为团队带来的可能性。随着量被 Fin 吸收，我们的 CS 团队转向咨询支持活动——与客户合作制定下一步最佳行动，深化他们对 Intercom 的使用，并直接为保留和扩展做出贡献。接受这些咨询参与的客户在更深层次上采用 Fin，并取得更大的支持成功。</p>
+        
+        <p>曾经是一个被动的、以量为驱动的团队，现在是一个产生重要收入的职能部门。</p>
+        
+        <h2 id="whats-next">下一步计划</h2>
+        
+        <p>客户期望不断提高，重要的是我们不能停滞不前。我们正在通过拥抱 Fin Flywheel 在已取得的进展基础上继续建设——这是一个用于 Fin 持续改进和优化的可操作框架。</p>
+        
+        <p><img decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-scaled.png" alt="Fin Flywheel" /></p>
+        
+        <p>Fin Flywheel 有四个阶段：</p>
+        
+        <ul>
+            <li><strong>Train（训练）：</strong>教 Fin 使用 Procedures、知识和策略解决最复杂的查询。</li>
+            <li><strong>Test（测试）：</strong>从头到尾运行完全模拟的客户对话，确切了解 Fin 在上线前的行为方式。</li>
+            <li><strong>Deploy（部署）：</strong>在所有渠道——语音、电子邮件、聊天和社交媒体——上线 Fin，为无论客户在哪里联系提供一致的支持。</li>
+            <li><strong>Analyze（分析）：</strong>使用 AI 驱动的 Insights 分析和改进 Fin 的表现，提供更好的客户体验。</li>
+        </ul>
+        
+        <p>我们也在投资支持同事，使他们能够适应 AI 的新世界——承担更复杂的工作，并因其带来的主题专业知识、咨询参与和同理心而受到重视。</p>
+        
+        <p>我们将继续开发和分享部署 Agent 的最佳实践，基于我们自己使用 Fin 的经验以及从最具前瞻性的客户那里学到的教训。这些都在 <a href="https://fin.ai/blueprint"><em>The Agent Blueprint</em></a> 中被捕获并持续演进。</p>
+        
+        <h2 id="transformation-takes-commitment">转型需要承诺</h2>
+        
+        <p>我们在这里描述的是我们自己的经验，但在本系列中，我们看到了在真正用 AI 转型的团队中出现的相同模式。</p>
+        
+        <p>那些取得最大成就的人不是将 AI 视为叠加在现有流程上的工具，而是围绕它重建支持运作方式，在技术的同时投资知识和人员，并将其视为持续学科而非一次性部署。</p>
+        
+        <p>这才是真正需要的改变。对于那些愿意做出改变的支持团队，有一个非常真实的机会来重新定义客户服务能够提供的价值。</p>
+        
+        <hr />
+        
+        <p>您可以在我们的博客上找到完整系列，或<a href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7396628797963309057" target="_blank" rel="noopener">在 LinkedIn 上订阅</a>在您的信息流中查看。</p>
+        
+        <p><a href="https://www.intercom.com/customer-transformation-report?utm_source=blog&amp;utm_medium=internal&amp;utm_campaign=20260128-report-owned-2026cstransformationreport&amp;utm_content=intercom-case-study-post"><img loading="lazy" decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/01/CST26_Blog_CTA_Horizontal.png" alt="获取2026年客户服务转型报告" /></a></p>
+        
+        <footer class="footer">
+            <p>翻译时间：2026年4月7日</p>
+            <p>保留术语：AI, Agent, Fin, Procedures, Simulations, Insights, CX, CS, QA, SLO, NPI, AI Assist, Fin Guidance, Fin Tasks, Workflows, Attributes, Fin Flywheel, The Agent Blueprint</p>
+        </footer>
+    </article>
+</body>
+</html>
