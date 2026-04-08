@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Glasswing：为 AI 时代保护关键软件</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #333;
+            background-color: #fafafa;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+            color: #2a2a2a;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 30px;
+            color: #3a3a3a;
+        }
+        h4 {
+            font-size: 1.2em;
+            margin-top: 20px;
+            color: #4a4a4a;
+        }
+        p {
+            margin: 15px 0;
+        }
+        ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .source {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        blockquote {
+            border-left: 4px solid #ccc;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #555;
+            background-color: #f5f5f5;
+            padding: 15px 20px;
+        }
+        .highlight {
+            background-color: #fff9e6;
+            padding: 2px 4px;
+        }
+        sup {
+            color: #999;
+            font-size: 0.75em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Project Glasswing：为 AI 时代保护关键软件</h1>
+    <p class="source">原文：<a href="https://www.anthropic.com/glasswing">https://www.anthropic.com/glasswing</a></p>
+    
+    <h2>引言</h2>
+    
+    <h4>今天我们宣布 Project Glasswing<sup>1</sup>，这是一项新的倡议，联合了 Amazon Web Services、Anthropic、Apple、Broadcom、Cisco、CrowdStrike、Google、JPMorganChase、Linux Foundation、Microsoft、NVIDIA 和 Palo Alto Networks，致力于保护世界上最关键的软件。</h4>
+    
+    <p>我们发起 Project Glasswing 是因为我们在 Anthropic 训练的一个新前沿模型中观察到了某些能力，这些能力可能会重塑网络安全。Claude Mythos<sup>2</sup> Preview 是一个通用的、未发布的前沿模型，它揭示了一个严峻的事实：AI 模型在编码能力上已经达到了一个水平，可以在发现和利用软件漏洞方面超越除最熟练的人类之外的所有人。</p>
+    
+    <p>Mythos Preview 已经发现了数千个高危漏洞，包括在每一个主要操作系统和每一个主要网页浏览器中的漏洞。考虑到 AI 的进步速度，这些能力不久之后就会扩散，可能超出那些致力于安全部署这些能力的参与者。对经济、公共安全和国家安全的影响可能是严重的。Project Glasswing 是一个紧急尝试，旨在将这些能力用于防御目的。</p>
+    
+    <p>作为 Project Glasswing 的一部分，上述启动合作伙伴将使用 Mythos Preview 作为其防御性安全工作的一部分；Anthropic 将分享我们的学习成果，以便整个行业都能受益。我们还将访问权限扩展到另外 40 多个构建或维护关键软件基础设施的组织，以便它们可以使用该模型扫描和保护自有系统和开源系统。Anthropic 承诺为这些工作提供高达 1 亿美元的 Mythos Preview 使用额度，以及向开源安全组织直接捐赠 400 万美元。</p>
+    
+    <p>Project Glasswing 是一个起点。没有任何一个组织能够独自解决这些网络安全问题：前沿 AI 开发者、其他软件公司、安全研究人员、开源维护者和全球各国政府都扮演着重要角色。防御世界网络基础设施的工作可能需要数年时间；而前沿 AI 能力可能在未来几个月内就会大幅进步。为了让网络防御者占据优势，我们需要现在就行动。</p>
+    
+    <h2>AI 时代的网络安全</h2>
+    
+    <p>我们每天都在依赖的软件——负责运行银行系统、存储医疗记录、连接物流网络、维持电网运行等等——一直以来都包含漏洞。许多漏洞是次要的，但有些是严重的安全缺陷，如果被发现，可能允许网络攻击者劫持系统、破坏操作或窃取数据。</p>
+    
+    <p>我们已经看到了网络攻击对重要的企业网络、医疗系统、能源基础设施、交通枢纽和全球政府机构信息安全的严重后果。在全球舞台上，来自中国、伊朗、朝鲜和俄罗斯等国家支持的攻击者威胁着破坏支撑平民生活和军事准备的基础设施。即使是小规模的攻击，例如针对单个医院或学校的攻击，仍然可能造成巨大的经济损失、暴露敏感数据，甚至危及生命。目前全球网络犯罪的财务成本难以估算，但可能每年约为 5000 亿美元。</p>
+    
+    <p>许多软件缺陷多年来未被注意，因为发现和利用它们需要少数熟练安全专家才具备的专业知识。随着最新的前沿 AI 模型，发现和利用软件漏洞所需的成本、努力和专业水平都大幅下降。在过去一年中，AI 模型在阅读和推理代码方面变得越来越有效——特别是，它们显示出发现漏洞和开发利用方式的惊人能力。Claude Mythos Preview 在这些网络技能上展现了飞跃——它发现的漏洞在某些情况下经历了数十年的人工审查和数百万次自动化安全测试而未被发现，它开发的漏洞利用也越来越复杂。</p>
+    
+    <p>在首次 DARPA 网络大挑战赛十年后，前沿 AI 模型现在在发现和利用漏洞方面正在与最优秀的人类竞争。如果没有必要的保障措施，这些强大的网络能力可能会被用来利用世界上最重要软件中的许多现有缺陷。这可能使各种网络攻击变得更加频繁和具有破坏性，并增强美国及其盟友的对手的能力。因此，解决这些问题是民主国家的重要安全优先事项。</p>
+    
+    <p>虽然 AI 增强的网络攻击风险是严重的，但也有理由乐观：使 AI 模型在错误的手中变得危险的相同能力，使它们在发现和修复重要软件缺陷方面具有不可估量的价值——并且可以生成安全漏洞少得多的新软件。Project Glasswing 是让防御者在即将到来的 AI 驱动的网络安全时代获得持久优势的重要一步。</p>
+    
+    <h2>使用 Claude Mythos Preview 识别漏洞和利用方式</h2>
+    
+    <p>在过去几周内，我们使用 Claude Mythos Preview 识别了数千个零日漏洞（即软件开发者以前不知道的缺陷），其中许多是关键漏洞，涉及每一个主要操作系统和每一个主要网页浏览器，以及其他重要的软件。</p>
+    
+    <p>在我们的前沿红队博客上的一篇文章中，我们提供了已经修补的这些漏洞的一个子集的技术细节，以及 Mythos Preview 发现的利用它们的方式。它能够几乎完全自主地识别几乎所有这些漏洞——并开发许多相关的利用方式——无需任何人工引导。以下是三个例子：</p>
+    
+    <ul>
+        <li>Mythos Preview 在 OpenBSD 中发现了一个 27 年前的漏洞——OpenBSD 作为世界上最安全的操作系统之一而闻名，用于运行防火墙和其他关键基础设施。该漏洞允许攻击者仅通过连接到运行该操作系统的任何机器就能远程使其崩溃；</li>
+        <li>它还在 FFmpeg 中发现了一个 16 年前的漏洞——FFmpeg 被无数软件用于编码和解码视频——在一行代码中，自动化测试工具已经命中了 500 万次，却从未发现问题；</li>
+        <li>该模型自主发现并链接了 Linux 内核中的几个漏洞——Linux 内核是运行世界上大多数服务器的软件——允许攻击者从普通用户访问升级到对机器的完全控制。</li>
+    </ul>
+    
+    <p>我们已经向相关软件的维护者报告了上述漏洞，它们现在都已修补。对于许多其他漏洞，我们今天提供详细信息的加密哈希（见红队博客），我们将在修复到位后揭示具体细节。</p>
+    
+    <p>CyberGym 等评估基准强化了 Mythos Preview 和我们次优模型 Claude Opus 4.6 之间的显著差异：</p>
+    
+    <blockquote>
+        <strong>网络安全漏洞复现</strong><br>
+        Mythos Preview：83.1%<br>
+        Opus 4.6：66.6%
+    </blockquote>
+    
+    <p>除了我们自己的工作，我们的许多合作伙伴已经使用 Claude Mythos Preview 数周了。这是他们的发现：</p>
+    
+    <blockquote>
+        "AI 能力已经跨过了一个门槛，从根本上改变了保护关键基础设施免受网络威胁所需的紧迫性，而且没有回头路。我们与这些模型的基础工作表明，我们可以以前所未有的速度和规模识别和修复硬件和软件中的安全漏洞。这是一个深刻的转变，也是传统系统加固方法不再足够的明确信号。技术提供商必须现在积极采用新方法，客户需要准备好部署。这就是为什么 Cisco 加入 Project Glasswing——这项工作太重要、太紧迫，无法独自完成。"
+        <br><br>
+        — Anthony Grieco，Cisco 高级副总裁兼首席安全与信任官
+    </blockquote>
+    
+    <blockquote>
+        "在 AWS，我们在威胁出现之前就构建防御，从我们的定制芯片到技术栈。安全对我们来说不是一个阶段；它是持续的，嵌入到我们所做的一切中。我们的团队每天分析超过 400 万亿个网络流量以寻找威胁，AI 是我们大规模防御能力的核心。我们一直在自己的安全操作中测试 Claude Mythos Preview，将其应用于关键代码库，它已经在帮助我们加强代码。我们正在将深厚的安全专业知识带到与 Anthropic 的合作中，并帮助加强 Claude Mythos Preview，以便更多组织能够以设定标准的安态推进其最雄心勃勃的工作。"
+        <br><br>
+        — Amy Herzog，Amazon Web Services 副总裁兼 CISO
+    </blockquote>
+    
+    <blockquote>
+        "当我们进入网络安全不再受限于纯粹人类能力的阶段时，负责任地使用 AI 在规模上改善安全和降低风险的机会是前所未有的。加入 Project Glasswing，获得 Claude Mythos Preview 的访问权限，使我们能够早期识别和缓解风险，并增强我们的安全和开发解决方案，以便我们更好地保护客户和 Microsoft。当针对 CTI-REALM（我们的开源安全基准）测试时，Claude Mythos Preview 显示出与先前模型相比的显著改进。我们期待与 Anthropic 和更广泛的行业合作，为所有人改善安全结果。"
+        <br><br>
+        — Igor Tsyganskiy，Microsoft 网络安全和研究执行副总裁
+    </blockquote>
+    
+    <blockquote>
+        "漏洞被发现和被攻击者利用之间的窗口已经崩溃——曾经需要数月的事情现在通过 AI 在几分钟内发生。Claude Mythos Preview 展示了防御者现在可以在规模上做到什么，攻击者不可避免地会寻求利用相同的能力。这不是放慢脚步的理由；这是一起更快前进的理由。如果你想部署 AI，你需要安全。这就是为什么 CrowdStrike 从第一天起就是这个努力的一部分。"
+        <br><br>
+        — Elia Zaitsev，CrowdStrike 首席技术官
+    </blockquote>
+    
+    <blockquote>
+        "在过去，安全专业知识是保留给拥有大型安全团队的组织的奢侈品。开源维护者——他们的软件支撑着世界上大部分关键基础设施——历史上一直被留在自己解决安全问题。开源软件构成了现代系统中绝大多数代码，包括 AI Agent 用来编写新软件的系统本身。通过让这些关键开源代码库的维护者访问新一代 AI 模型，这些模型可以主动在规模上识别和修复漏洞，Project Glasswing 提供了一条可信的路径来改变这个等式。这就是 AI 增强的安全如何成为每个维护者的可信伙伴，而不仅仅是那些负担得起昂贵安全团队的人。"
+        <br><br>
+        — Jim Zemlin，Linux Foundation CEO
+    </blockquote>
+    
+    <p>Claude Mythos Preview 的强大网络能力是其强大的代理编码和推理技能的结果。例如，如下面的评估结果所示，该模型在各种软件编码任务上具有迄今为止开发的任何模型中最高的分数。</p>
+    
+    <blockquote>
+        <strong>SWE-bench Pro</strong><br>
+        Mythos Preview：77.8%<br>
+        Opus 4.6：53.4%
+    </blockquote>
+    
+    <blockquote>
+        <strong>Terminal-Bench 2.0</strong><br>
+        Mythos Preview：82.0%<br>
+        Opus 4.6：65.4%
+    </blockquote>
+    
+    <blockquote>
+        <strong>SWE-bench Multimodal（内部实现）</strong><br>
+        Mythos Preview：59.0%<br>
+        Opus 4.6：27.1%
+    </blockquote>
+    
+    <blockquote>
+        <strong>SWE-bench Multilingual</strong><br>
+        Mythos Preview：87.3%<br>
+        Opus 4.6：77.8%
+    </blockquote>
+    
+    <blockquote>
+        <strong>SWE-bench Verified</strong><br>
+        Mythos Preview：93.9%<br>
+        Opus 4.6：80.8%
+    </blockquote>
+    
+    <p>更多关于模型能力、其安全属性和一般特征的信息可以在 Claude Mythos Preview 系统卡中找到。</p>
+    
+    <p>我们不打算让 Claude Mythos Preview 普遍可用，但我们的最终目标是使我们的用户能够安全地在规模上部署 Mythos 级别的模型——用于网络安全目的，也用于此类高能力模型将带来的无数其他好处。为此，我们需要在开发网络安全（和其他）保障措施方面取得进展，这些保障措施可以检测和阻止模型最危险的输出。我们计划在即将推出的 Claude Opus 模型中推出新的保障措施，使我们能够改进和完善它们，使用的模型不会像 Mythos Preview 那样构成相同级别的风险<sup>3</sup>。</p>
+    
+    <h2>Project Glasswing 的计划</h2>
+    
+    <p>今天的宣布是一个更长期努力的开端。要取得成功，将需要整个技术行业及更广泛领域的广泛参与。</p>
+    
+    <p>Project Glasswing 合作伙伴将获得 Claude Mythos Preview 的访问权限，以发现和修复其基础系统中的漏洞或弱点——这些系统代表了世界上共享网络攻击面的很大一部分。我们预计这项工作将专注于本地漏洞检测、二进制黑盒测试、保护端点和系统渗透测试等任务。</p>
+    
+    <p>Anthropic 承诺为 Project Glasswing 提供 1 亿美元的模型使用额度和额外参与者，将覆盖整个研究预览期间的实质性使用。之后，Claude Mythos Preview 将以每百万输入/输出令牌 25 美元/125 美元的价格提供给参与者（参与者可以在 Claude API、Amazon Bedrock、Google Cloud 的 Vertex AI 和 Microsoft Foundry 上访问该模型）。</p>
+    
+    <p>除了我们的模型使用额度承诺外，我们通过 Linux Foundation 向 Alpha-Omega 和 OpenSSF 捐赠了 250 万美元，向 Apache Software Foundation 捐赠了 150 万美元，使开源软件的维护者能够应对这个不断变化的格局（感兴趣的维护者可以通过 Claude for Open Source 项目申请访问权限）。</p>
+    
+    <p>我们打算让这项工作的范围扩大并持续数月，我们将尽可能多地分享，以便其他组织可以将这些经验应用到自己的安全中。合作伙伴将在可能的范围内相互分享信息和最佳实践；在 90 天内，Anthropic 将公开发布我们学到的内容，以及可以披露的已修复漏洞和改进。我们还将与领先的安全组织合作，制定一套关于安全实践如何在 AI 时代演变的实用建议。这可能包括：</p>
+    
+    <ul>
+        <li>漏洞披露流程；</li>
+        <li>软件更新流程；</li>
+        <li>开源和供应链安全；</li>
+        <li>软件开发生命周期和安全设计实践；</li>
+        <li>受监管行业的标准；</li>
+        <li>分流扩展和自动化；以及</li>
+        <li>补丁自动化。</li>
+    </ul>
+    
+    <p>Anthropic 还一直在与美国政府官员就 Claude Mythos Preview 及其攻击性和防御性网络能力进行持续讨论。正如我们上面指出的，保护关键基础设施是民主国家的首要国家安全优先事项——这些网络能力的出现是美国及其盟友必须保持 AI 技术决定性领先优势的另一个原因。各国政府在帮助保持这一领先优势以及评估和缓解与 AI 模型相关的国家安全风险方面发挥着重要作用。我们准备与地方、州和联邦代表合作，协助完成这些任务。</p>
+    
+    <p>我们希望 Project Glasswing 能够在行业和公共部门之间播下更大努力的种子，各方都帮助解决围绕强大模型对安全影响的最大问题。我们邀请其他 AI 行业成员加入我们，帮助为行业设定标准。在中期，一个独立的第三方机构——可以汇集私营和公共部门组织——可能是继续开展这些大规模网络安全项目的理想场所。</p>
+    
+    <h2>附录</h2>
+    
+    <ol>
+        <li>该项目以玻璃翼蝴蝶 <em>Greta oto</em> 命名。这个隐喻可以从两个方面应用：蝴蝶的透明翅膀让它能够在众目睽睽下隐藏，就像本文讨论的漏洞一样；它们也让它能够逃避伤害——就像我们倡导的方法中的透明度一样。</li>
+        <li>来自古希腊语的"话语"或"叙事"：文明用来理解世界的故事系统。</li>
+        <li>其合法工作受到这些保障措施影响的安全专业人员将能够申请即将推出的网络验证计划。</li>
+    </ol>
+</body>
+</html>
