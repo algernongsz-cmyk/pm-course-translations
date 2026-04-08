@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Locker | 开源文件存储平台</title>
-    <meta name="description" content="Dropbox 和 Google Drive 的自托管替代方案。从您自己的基础设施上传、组织和共享文件。">
+    <title>Project Glasswing：为AI时代保障关键软件安全</title>
+    <meta name="description" content="Anthropic联合AWS、Apple、Google、Microsoft等公司，启动Project Glasswing，使用Claude Mythos Preview发现和修复软件漏洞。">
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -29,256 +29,156 @@
             margin-top: 1.5rem;
             color: #3a3a3a;
         }
-        .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 2rem;
+        p {
+            margin-bottom: 1rem;
         }
         .meta {
-            color: #888;
+            color: #666;
             font-size: 0.9rem;
             margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
         }
-        code {
-            background: #f5f5f5;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9em;
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .feature-card {
-            border: 1px solid #e0e0e0;
-            padding: 1.5rem;
-            border-radius: 8px;
-            background: #fafafa;
-        }
-        .feature-card h3 {
-            margin-top: 0;
-            color: #0066cc;
-        }
-        .faq {
-            margin: 2rem 0;
-        }
-        .faq-item {
-            border-bottom: 1px solid #e0e0e0;
-            padding: 1rem 0;
-        }
-        .faq-item h3 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.1rem;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-            text-align: center;
-        }
-        .stat-item {
-            padding: 1rem;
-            background: #f0f8ff;
-            border-radius: 8px;
-        }
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #0066cc;
-        }
-        .original-link {
-            display: inline-block;
-            margin-top: 2rem;
+        blockquote {
+            border-left: 4px solid #d4a574;
+            margin: 1.5rem 0;
             padding: 0.5rem 1rem;
-            background: #0066cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
+            background: #f9f9f9;
         }
-        .original-link:hover {
-            background: #0052a3;
+        .highlight {
+            background: #fff3cd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+        ul {
+            margin-bottom: 1rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .partners {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 1.5rem 0;
+        }
+        .partner {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
         }
         .warning {
             background: #fff3cd;
             border: 1px solid #ffc107;
             padding: 1rem;
             border-radius: 5px;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
         }
     </style>
 </head>
 <body>
-    <article>
-        <h1>Locker</h1>
-        <p class="subtitle">您的文件，您的云，您的规则。</p>
-        
-        <div class="meta">
-            <strong>原文：</strong> <a href="https://locker.dev" target="_blank">https://locker.dev</a><br>
-            <strong>翻译日期：</strong> 2026-04-08<br>
-            <strong>来源：</strong> Hacker News<br>
-            <strong>评分：</strong> 83分
-        </div>
-
-        <div class="warning">
-            <strong>⚠️ 翻译说明：</strong>本文翻译自 Locker 官方网站。Locker 是一个开源的自托管文件存储平台，作为 Dropbox 和 Google Drive 的替代方案。
-        </div>
-
-        <h2>简介</h2>
-        <p>
-            Locker 是一个自托管的文件存储平台替代方案，可以替代 Dropbox 和 Google Drive。您可以从自己的基础设施上传、组织和共享文件。
-        </p>
-        <p>
-            支持自带存储 - 本地磁盘、S3、R2 或 Vercel Blob。只需一个环境变量即可切换。通过 tRPC 提供完整的类型安全 API。
-        </p>
-
-        <h2>核心特性</h2>
-        
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>🔓 存储提供商无关</h3>
-                <p>通过单个环境变量在本地文件系统、AWS S3、Cloudflare R2 或 Vercel Blob 之间切换。您的数据，您的基础设施。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>🔍 图片和 PDF 内容搜索</h3>
-                <p>根据文件内容而不仅仅是名称查找文件。Locker 将图片和 PDF 转录为可搜索文本，让每个文档都可被发现。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>💻 虚拟 Bash Shell</h3>
-                <p>使用熟悉的命令导航您的文件。通过虚拟文件系统 API 使用 ls、cd、find、cat 和 grep。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>👥 工作空间团队</h3>
-                <p>邀请团队成员并设置基于角色的访问权限。跨工作空间组织文件，具有细粒度的权限控制。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>🔐 默认安全</h3>
-                <p>支持邮箱/密码和 Google OAuth 身份验证。会话在服务器端管理，使用加密 cookie。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>🔑 API 密钥</h3>
-                <p>通过 API 密钥以编程方式访问您的文件。构建集成并自动化工作流程，具有完整的 tRPC 类型安全。</p>
-            </div>
-        </div>
-
-        <h2>为什么要自托管？</h2>
-        <p>
-            完全控制您的数据 - 没有供应商锁定，没有意外定价，没有第三方读取您的文件。在您自己的服务器上部署，将一切掌握在自己手中。
-        </p>
-
-        <blockquote style="background: #e8f4f8; padding: 1.5rem; border-left: 4px solid #0066cc; margin: 2rem 0;">
-            <p style="margin: 0; font-style: italic;">
-                "我们在一个周末将 4TB 的团队文件从 Google Drive 迁移出来。使用我们已有的 S3 存储桶，成本只是原来的一小部分。"
-            </p>
-            <footer style="margin-top: 1rem; color: #666;">
-                — 工程主管，50 人初创公司<br>
-                <small>使用 AWS S3 存储自托管</small>
-            </footer>
-        </blockquote>
-
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-number">100%</div>
-                <div>开源</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">4</div>
-                <div>存储提供商</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">类型安全</div>
-                <div>端到端 tRPC</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">0</div>
-                <div>供应商锁定</div>
-            </div>
-        </div>
-
-        <h2>支持的存储提供商</h2>
-        <p>
-            设置 <code>BLOB_STORAGE_PROVIDER</code> 环境变量，无需修改任何代码即可随时切换提供商。
-        </p>
-
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>本地文件系统</h3>
-                <p>直接在服务器上存储文件。零配置，零成本。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>AWS S3</h3>
-                <p>行业标准。可靠、可扩展、全球分布式。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>Cloudflare R2</h3>
-                <p>与 S3 兼容，零流出费用。适合带宽密集型工作负载。</p>
-            </div>
-            
-            <div class="feature-card">
-                <h3>Vercel Blob</h3>
-                <p>无服务器原生存储。一个令牌，无需管理基础设施。</p>
-            </div>
-        </div>
-
-        <h2>常见问题</h2>
-        
-        <div class="faq">
-            <div class="faq-item">
-                <h3>什么是 Locker？</h3>
-                <p>Locker 是一个开源的、可自托管的文件存储平台。可以把它看作是您完全控制的 Dropbox 或 Google Drive - 在您自己的服务器上部署，使用您自己的存储后端，拥有您的数据。</p>
-            </div>
-            
-            <div class="faq-item">
-                <h3>支持哪些存储提供商？</h3>
-                <p>Locker 开箱即支持本地文件系统、AWS S3、Cloudflare R2 和 Vercel Blob。您可以通过更改单个环境变量在它们之间切换。无需修改代码。</p>
-            </div>
-            
-            <div class="faq-item">
-                <h3>Locker 免费吗？</h3>
-                <p>是的。Locker 是免费且开源的。您可以免费用于个人项目、团队或整个组织。您只需支付选择托管的基础设施费用。</p>
-            </div>
-            
-            <div class="faq-item">
-                <h3>分享链接如何工作？</h3>
-                <p>您可以为任何文件或文件夹生成可分享链接。每个链接可以选择设置密码保护、过期日期和最大下载次数。接收者无需账户即可访问共享文件。</p>
-            </div>
-            
-            <div class="faq-item">
-                <h3>其他人可以上传文件给我吗？</h3>
-                <p>可以。上传链接允许任何人在无需创建账户的情况下将文件发送到您的存储。非常适合从客户、学生或协作者收集文档。</p>
-            </div>
-            
-            <div class="faq-item">
-                <h3>技术栈是什么？</h3>
-                <p>Next.js 16 使用 App Router、PostgreSQL 配合 Drizzle ORM、tRPC 用于类型安全 API、BetterAuth 用于身份验证、Tailwind CSS 用于 UI。项目使用 Turborepo monorepo 配合 pnpm workspaces。</p>
-            </div>
-            
-            <div class="faq-item">
-                <h3>如何部署 Locker？</h3>
-                <p>克隆仓库，运行 pnpm install，启动 PostgreSQL 数据库，配置 .env 文件，运行迁移，然后启动服务器。默认配置适合本地开发。对于生产环境，可以部署到任何兼容 Node.js 的平台。</p>
-            </div>
-        </div>
-
-        <h2>准备好拥有您的文件了吗？</h2>
-        <p>
-            几分钟内部署 Locker，重新掌控您的文件存储。永久免费、开源、无任何附加条件。
-        </p>
-
-        <p>
-            <strong>GitHub 仓库：</strong> <a href="https://github.com/zmeyer44/Locker" target="_blank">https://github.com/zmeyer44/Locker</a>
-        </p>
-
-        <a href="https://locker.dev" class="original-link" target="_blank">访问原文</a>
-    </article>
+    <h1>Project Glasswing：为AI时代保障关键软件安全</h1>
+    
+    <div class="meta">
+        <strong>来源：</strong> <a href="https://www.anthropic.com/glasswing">Anthropic</a><br>
+        <strong>翻译时间：</strong> 2026-04-08<br>
+        <strong>类型：</strong> AI安全 / 网络安全
+    </div>
+    
+    <blockquote>
+        ⚠️ 翻译说明：本文翻译自 Anthropic 官方网站。Project Glasswing 是 Anthropic 启动的一个安全项目，联合多家科技公司，使用 Claude Mythos Preview 模型发现和修复软件漏洞。
+    </blockquote>
+    
+    <h2>项目概述</h2>
+    
+    <p>今天我们宣布启动 <strong>Project Glasswing</strong>，这是一个新的安全倡议，联合了 Amazon Web Services、Anthropic、Apple、Broadcom、Cisco、CrowdStrike、Google、JPMorganChase、Linux Foundation、Microsoft、NVIDIA 和 Palo Alto Networks，旨在保障世界上最关键软件的安全。</p>
+    
+    <div class="partners">
+        <span class="partner">AWS</span>
+        <span class="partner">Apple</span>
+        <span class="partner">Google</span>
+        <span class="partner">Microsoft</span>
+        <span class="partner">NVIDIA</span>
+        <span class="partner">Cisco</span>
+        <span class="partner">CrowdStrike</span>
+        <span class="partner">Palo Alto Networks</span>
+    </div>
+    
+    <p>我们发起 Project Glasswing 的原因，是因为我们观察到 Anthropic 训练的一个新前沿模型展现出的能力，可能会重塑网络安全格局。<strong>Claude Mythos Preview</strong> 是一个通用、尚未发布的前沿模型，它揭示了一个严峻的事实：AI 模型的编程能力已经达到了可以超越几乎所有人类专家的水平，能够发现和利用软件漏洞。</p>
+    
+    <div class="warning">
+        <strong>关键发现：</strong>Mythos Preview 已经发现了数千个高危漏洞，包括所有主要操作系统和网页浏览器中的漏洞。
+    </div>
+    
+    <h2>AI时代的网络安全</h2>
+    
+    <p>我们每天依赖的软件——负责运行银行系统、存储医疗记录、连接物流网络、维持电网运行等等——一直都存在漏洞。许多是次要的，但一些是严重的安全缺陷，如果被发现，可能允许网络攻击者劫持系统、破坏运营或窃取数据。</p>
+    
+    <p>我们已经看到网络攻击对重要的企业网络、医疗系统、能源基础设施、交通枢纽和全球政府机构信息安全的严重后果。在全球舞台上，来自中国、伊朗、朝鲜和俄罗斯等国家支持的行为者的攻击，威胁着民用生活和军事准备的基础设施。</p>
+    
+    <h2>Mythos Preview 的能力</h2>
+    
+    <p>在过去几周里，我们使用 Claude Mythos Preview 识别了数千个零日漏洞（即软件开发者之前未知的缺陷），其中许多是关键的，涉及每个主要操作系统和每个主要网页浏览器，以及一系列其他重要软件。</p>
+    
+    <p><strong>我们已经向相关软件的维护者报告了上述漏洞，现在它们都已修补。</strong> 对于许多其他漏洞，我们今天提供细节的加密哈希，并在修复到位后公布具体信息。</p>
+    
+    <h3>评估基准</h3>
+    
+    <p>CyberGym 等评估基准强调了 Mythos Preview 与我们次优模型 Claude Opus 4.6 之间的显著差异：</p>
+    
+    <ul>
+        <li>在网络安全任务上，Mythos Preview 的表现大幅领先其他模型</li>
+        <li>强大的代理式编程和推理能力是其网络能力的基础</li>
+        <li>在各种软件编程任务上取得了迄今开发的任何模型中的最高分</li>
+    </ul>
+    
+    <h2>项目承诺</h2>
+    
+    <p>作为 Project Glasswing 的一部分：</p>
+    
+    <ul>
+        <li><strong>1亿美元模型使用额度：</strong>Anthropic 承诺为 Project Glasswing 和其他参与者提供 1 亿美元的模型使用额度</li>
+        <li><strong>400万美元捐赠：</strong>直接捐赠给开源安全组织</li>
+        <li><strong>40+组织参与：</strong>超过 40 个额外组织已获得访问权限，用于扫描和保护其系统</li>
+    </ul>
+    
+    <h2>定价与访问</h2>
+    
+    <p>Claude Mythos Preview 将以每百万输入/输出 token 25美元/125美元的价格提供给参与者（参与者可通过 Claude API、Amazon Bedrock、Google Cloud 的 Vertex AI 和 Microsoft Foundry 访问该模型）。</p>
+    
+    <h2>后续计划</h2>
+    
+    <p>我们打算让这项工作在范围上不断扩大，持续数月，并尽可能多地分享，以便其他组织可以将这些经验应用到自己的安全工作中。</p>
+    
+    <ul>
+        <li>合作伙伴将尽可能相互分享信息和最佳实践</li>
+        <li>90天内，Anthropic 将公开报告我们的经验教训</li>
+        <li>将与领先的安全组织合作，制定 AI 时代安全实践的实用建议</li>
+    </ul>
+    
+    <h3>可能包括的建议</h3>
+    
+    <ul>
+        <li>如何在 AI 时代重新设计安全审计流程</li>
+        <li>如何平衡漏洞披露的速度与修复时间</li>
+        <li>如何建立跨组织的漏洞共享机制</li>
+    </ul>
+    
+    <h2>与政府的合作</h2>
+    
+    <p>Anthropic 一直在与美国政府官员就 Claude Mythos Preview 及其进攻性和防御性网络能力进行持续讨论。保护关键基础设施是民主国家的国家安全优先事项——这些网络能力的出现是美国及其盟友必须在 AI 技术上保持决定性领先优势的另一个原因。</p>
+    
+    <h2>未来展望</h2>
+    
+    <p>我们希望 Project Glasswing 能够成为跨行业和公共部门更大努力的种子，各方共同帮助解决围绕强大模型对安全影响的最大问题。我们邀请其他 AI 行业成员加入我们，共同为行业制定标准。</p>
+    
+    <blockquote>
+        从中长期来看，一个独立的第三方机构——一个能够将私营和公共部门组织聚集在一起的机构——可能是继续开展这些大规模网络安全项目的理想场所。
+    </blockquote>
+    
+    <hr>
+    
+    <p><small>原文链接：<a href="https://www.anthropic.com/glasswing">https://www.anthropic.com/glasswing</a></small></p>
 </body>
 </html>
