@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic 的新 TPU 协议、计算困境与 Google 联盟 | Stratechery</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            color: #333;
+        }
+        h1 { font-size: 2.2em; margin-bottom: 0.5em; }
+        h2 { font-size: 1.6em; margin-top: 2em; border-bottom: 2px solid #faa634; padding-bottom: 0.3em; }
+        h3 { font-size: 1.3em; margin-top: 1.5em; }
+        p { margin: 1em 0; }
+        img { max-width: 100%; height: auto; margin: 1em auto; display: block; }
+        code { background: #f4f4f4; padding: 0.2em 0.5em; border-radius: 3px; font-family: 'Courier New', monospace; }
+        blockquote { border-left: 4px solid #faa634; padding-left: 1em; margin-left: 0; color: #666; font-style: italic; }
+        a { color: #faa634; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .meta { color: #888; font-size: 0.9em; margin-bottom: 2em; }
+        hr { border: none; border-top: 1px solid #ddd; margin: 2em 0; }
+        .update { background: #fff9e6; padding: 1em; border-left: 4px solid #faa634; margin: 1em 0; }
+    </style>
+</head>
+<body>
+    <article>
+        <h1>Anthropic 的新 TPU 协议、Anthropic 的计算困境、Anthropic-Google 联盟</h1>
+        <div class="meta">
+            原文：<a href="https://stratechery.com/2026/anthropics-new-tpu-deal-anthropics-computing-crunch-the-anthropic-google-alliance/">Anthropic's New TPU Deal, Anthropic's Computing Crunch, The Anthropic-Google Alliance</a><br>
+            作者：Ben Thompson | 发布时间：2026年4月 | 来源：Stratechery
+        </div>
+
+        <h2>Anthropic 的新 TPU 协议</h2>
+
+        <p>Anthropic 宣布与 Google Cloud 达成新的多年协议，使用其最新的张量处理单元（TPU）训练和部署 AI 模型。这份协议延续了两个组织之间已经非常深入的合作关系；值得注意的是，Google 是 Anthropic 在 2023 年投资 20 亿美元的投资者，使用 Google Cloud 已经有近三年的历史。然而，这个新协议与众不同，因为 Anthropic 承诺使用 Google 的 TPU v5e，这是 Google 自家 AI 加速器的最新迭代。</p>
+
+        <p>背景：Google 早在 2016 年就宣布了 TPU；该公司早在 2013 年就在内部开始开发，受到神经网络推理的广泛矩阵乘法需求与 CPU 或 GPU 效率低下之间的差距启发。TPU 第一代专注于推理；TPU 第二代，2017 年宣布，增加了训练能力。TPU 第三代于 2018 年推出，第四代于 2020 年推出。最新的 v5e 针对成本效益和大规模部署进行了优化。</p>
+
+        <p>TPU 独特的原因在于 Google 从一开始就是垂直整合的：芯片设计、AI 框架（TensorFlow/JAX）、云基础设施和最终用户应用都由一家公司完成。这意味着 Google 可以优化整个堆栈——从 AI 工作负载的硬件到软件的效率，这是竞争对手难以匹敌的优势。</p>
+
+        <h2>Anthropic 的计算困境</h2>
+
+        <p>要理解为什么这个协议很重要，你需要理解 AI 公司面临的核心瓶颈：计算。训练前沿模型需要天文数字级的计算量，其需求随每个模型代际呈指数增长。GPT-4 的训练成本估计超过 1 亿美元的计算费用；下一代模型可能花费数倍于此。</p>
+
+        <p>对于像 Anthropic 这样的公司，这创造了一个根本性的战略问题：</p>
+
+        <ul>
+            <li><strong>GPU 短缺：</strong>全球对 NVIDIA GPU 的需求远远超过供应。大型科技公司、AI 初创公司、汽车制造商和加密货币矿工都在争夺相同的有限芯片产能。</li>
+            <li><strong>资本约束：</strong>Anthropic 不像 Google 或 Microsoft 那样拥有无限资本。每个分配给计算基础设施的美元都是不能用于人才、研究或产品开发的美元。</li>
+            <li><strong>时间敏感性：</strong>AI 领域的领先优势可能是短暂的。如果你的模型训练落后六个月，当你发布时可能已经无关紧要了。</li>
+            <li><strong>基础设施复杂性：</strong>在分布式计算集群上训练大规模模型是工程挑战，需要深厚的专业知识，通常需要数年积累。</li>
+        </ul>
+
+        <p>这就是为什么 Anthropic 的选择如此有意思。他们可以：</p>
+
+        <ol>
+            <li><strong>购买 NVIDIA GPU：</strong>行业标准，但昂贵且供应受限。</li>
+            <li><strong>租用 NVIDIA GPU：</strong>来自 AWS、Azure 或 Google Cloud，但同样面临可用性问题。</li>
+            <li><strong>使用 Google TPU：</strong>可获得性更好，成本结构可能更优，但需要将关键基础设施依赖单一供应商。</li>
+            <li><strong>开发定制芯片：</strong>长期战略，但需要多年的研发和数十亿美元投资。</li>
+        </ol>
+
+        <p>Anthropic 选择了选项 3，这标志着该公司战略思维的显著转变。</p>
+
+        <h2>Anthropic-Google 联盟</h2>
+
+        <p>从某些角度看，Anthropic 与 Google 的深度合作似乎有些反直觉。Anthropic 由前 OpenAI 员工创立，部分原因是对 OpenAI 与 Microsoft 合作方向的担忧。现在 Anthropic 自己正在与另一个科技巨头深度结盟。然而，仔细观察，这个联盟实际上很有道理：</p>
+
+        <h3>1. 战略一致性</h3>
+
+        <p>与 Microsoft-OpenAI 的合作不同，后者 Microsoft 对 OpenAI 的运营和产品集成有显著影响，Google 与 Anthropic 的关系更加放手。Google 是投资者和服务提供商，但 Anthropic 保留了运营独立性。这种结构可能更符合 Anthropic 建立安全 AI 系统的使命。</p>
+
+        <h3>2. 技术优势</h3>
+
+        <p>Google 的 TPU 实际上可能比 NVIDIA GPU 为 Anthropic 的工作负载提供更好的性价比。因为 Google 自己设计芯片，他们可以针对 AI 工作负载优化整个堆栈。对于面临资本约束的公司来说，成本效率很重要。</p>
+
+        <h3>3. 供应链安全</h3>
+
+        <p>通过与 Google 深度合作，Anthropic 获得了有保障的计算能力。这不是依赖现货市场，那里竞争对手可能出价超过你。它也不仅仅是租用 GPU——而是访问专门为 AI 工作负载设计的完整基础设施。</p>
+
+        <h3>4. 独立于 NVIDIA</h3>
+
+        <p>通过多样化远离 NVIDIA，Anthropic 减少了对单一芯片供应商的依赖。如果 NVIDIA 产能出现问题，或定价变得过于激进，Anthropic 有替代方案。这种供应链弹性在战略上很有价值。</p>
+
+        <h2>对 AI 格局的影响</h2>
+
+        <p>这个协议的影响超越了 Anthropic 和 Google：</p>
+
+        <h3>对 NVIDIA</h3>
+
+        <p>这是警钟。虽然 NVIDIA 目前主导 AI 芯片市场，但他们最成功的客户之一正在选择替代方案。这并不意味着 NVIDIA 处于危险之中——他们的 GPU 仍然是大多数 AI 工作负载的默认选择——但它确实表明市场不会永远是一家公司的垄断。</p>
+
+        <h3>对其他 AI 公司</h3>
+
+        <p>Anthropic-Google 协议为其他 AI 初创公司提供了可供参考的模板。你不必完全依赖 NVIDIA。专用硬件有可行的替代方案，特别是如果你愿意与云提供商深度整合。</p>
+
+        <h3>对云提供商</h3>
+
+        <p>Google Cloud 获得了重大胜利。它证明 TPU 是可行的 AI 基础设施替代方案。如果 Anthropic——可以说是最先进的 AI 公司之一——信任 Google 的定制芯片用于其最关键的工作负载，其他公司可能会更认真地考虑 Google Cloud 作为 AWS 和 Azure 的可行替代方案。</p>
+
+        <h3>对模型 commoditization</h3>
+
+        <p>有趣的是，这个协议也可以看作是 Anthropic 承认基础模型可能正在走向 commoditization。如果任何人都可以访问强大的计算基础设施，差异化将来自其他地方：数据质量、模型架构、安全措施和产品集成。通过固定计算成本并确保供应，Anthropic 可以将更多资源投入到这些差异化因素上。</p>
+
+        <h2>风险与挑战</h2>
+
+        <p>当然，这个战略并非没有风险：</p>
+
+        <ul>
+            <li><strong>供应商锁定：</strong>通过与 Google 深度整合，Anthropic 将关键基础设施放在单一供应商身上。如果 Google 决定提高价格或更改条款，Anthropic 将陷入困境。</li>
+            <li><strong>利益冲突：</strong>Google 有自己的 AI 雄心（Gemini）。他们是 Anthropic 服务提供商的同时，也在与其竞争。这创造了潜在的利益冲突。</li>
+            <li><strong>技术风险：</strong>如果 TPU 架构发展不顺利，或如果 NVIDIA 显著加速，Anthropic 可能会落后。</li>
+            <li><strong>文化不匹配：</strong>Anthropic 以安全为重的文化可能与 Google 更商业化、产品导向的方式冲突。</li>
+        </ul>
+
+        <h2>未来展望</h2>
+
+        <p>展望未来，Anthropic-Google 协议预示着 AI 基础设施格局的几个可能趋势：</p>
+
+        <ol>
+            <li><strong>更多定制硬件：</strong>随着 AI 公司寻求成本优势和供应链安全，我预计更多公司会考虑定制芯片或与拥有定制芯片的云提供商合作。</li>
+            <li><strong>更深层次的云关系：</strong>AI 公司和云提供商之间的界限可能继续模糊。我们可能会看到更多像这样的深度合作模式。</li>
+            <li><strong>NVIDIA 的回应：</strong>NVIDIA 不会坐视不管。他们可能会推出更具竞争力的定价、更好的可用性保证，甚至定制服务，以防止主要客户转向替代方案。</li>
+            <li><strong>分化：</strong>AI 行业可能分化为两大阵营：使用 NVIDIA GPU 的传统派，和使用定制硬件的新派。两个阵营都可能继续推进。</li>
+        </ol>
+
+        <h2>结论</h2>
+
+        <p>Anthropic 与 Google 的新 TPU 协议代表了 AI 基础设施战略的重要里程碑。它证明 NVIDIA 有可行的替代方案，垂直整合可以创造显著优势，战略合作伙伴关系可以为 AI 初创公司提供有意义的供应链安全。</p>
+
+        <p>对于 Anthropic，这笔交易解决了紧迫的计算需求，同时可能提供更好的成本效率。对于 Google，它验证了他们十多年 TPU 投资的价值，并为 Google Cloud 带来了声望客户。对于更广泛的 AI 生态系统，它显示了市场竞争正在加剧，这是创新和消费者选择的健康信号。</p>
+
+        <p>最终，这个协议提醒我们，AI 革命不仅仅关于算法和模型——它也关于基础设施、供应链和战略伙伴关系。Anthropic 和 Google 的联盟是这三个维度的精明之举。</p>
+
+    </article>
+</body>
+</html>
