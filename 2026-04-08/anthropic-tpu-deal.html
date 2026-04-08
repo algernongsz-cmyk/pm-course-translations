@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic的新TPU交易、Anthropic的计算困境、Anthropic-谷歌联盟</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-top: 1.5em;
+        }
+        h1 {
+            font-size: 2em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #34495e;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            margin: 1em 0;
+            padding: 1em 1.5em;
+            background-color: #f9f9f9;
+            font-style: italic;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .meta {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2em 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anthropic的新TPU交易、Anthropic的计算困境、Anthropic-谷歌联盟</h1>
+    
+    <div class="meta">
+        <p><strong>原文：</strong> <a href="https://stratechery.com/2026/anthropics-new-tpu-deal-anthropics-computing-crunch-the-anthropic-google-alliance/">https://stratechery.com/2026/anthropics-new-tpu-deal-anthropics-computing-crunch-the-anthropic-google-alliance/</a></p>
+        <p><strong>来源：</strong> Stratechery by Ben Thompson</p>
+        <p><strong>翻译日期：</strong> 2026-04-08</p>
+    </div>
+
+    <div class="warning">
+        <div class="warning-title">⚠️ 付费内容提示</div>
+        <p>本文为Stratechery Plus付费订阅内容。以下仅为文章摘要翻译，完整内容需要订阅访问。</p>
+    </div>
+
+    <h2>文章摘要</h2>
+
+    <blockquote>
+        <p>Anthropic需要计算资源，而谷歌拥有最多的计算资源：这是一个天然的合作伙伴关系，尤其是对谷歌而言。</p>
+    </blockquote>
+
+    <hr>
+
+    <h2>关于Stratechery Plus订阅</h2>
+
+    <p>订阅Stratechery Plus可获得完整访问权限。</p>
+
+    <p><strong>价格：</strong>15美元/月 或 150美元/年</p>
+
+    <p>订阅Stratechery Plus后，您将获得：</p>
+    <ul>
+        <li>仅限订阅者的<a href="https://stratechery.com/category/daily-email/">Stratechery Update</a>和<a href="https://stratechery.com/topic/events/interview/">Stratechery Interviews</a></li>
+        <li>Sharp Tech、Sharp China、Dithering、Greatest of All Talk和Asianometry播客</li>
+    </ul>
+
+    <h3>Stratechery Update</h3>
+    <p>通过每周三封邮件或播客提供当日新闻的实质性分析。</p>
+
+    <h3>Stratechery Interviews</h3>
+    <p>采访领先的上市公司CEO、私营公司创始人，以及与分析师同行的讨论。</p>
+
+    <h3>Dithering</h3>
+    <p>John Gruber和我的每周两次播客：每集15分钟，不多不少。</p>
+
+    <h3>Sharp Tech</h3>
+    <p>Andrew Sharp和我讨论技术如何运作及其如何影响我们的生活。</p>
+
+    <h3>Sharp China</h3>
+    <p>Andrew Sharp和Sinocism的Bill Bishop关于理解中国以及中国如何影响世界的每周播客。</p>
+
+    <h3>Greatest Of All Talk</h3>
+    <p>Andrew Sharp和Ben Golliver关于NBA、生活和国家公园的每周两次播客。</p>
+
+    <h3>Sharp Text</h3>
+    <p>Sharp Text是GOAT、Sharp Tech和Sharp China的延伸，Andrew在其中撰写关于篮球、技术和美中关系的每周文章。</p>
+
+    <hr>
+
+    <h4>常见问题</h4>
+
+    <p><strong>如何订阅Stratechery播客？</strong><br>
+    订阅后，请访问您的<a href="https://stratechery.passport.online/member/">交付偏好</a>，您将在那里找到易于遵循的说明，将Stratechery播客添加到您最喜欢的播客播放器。</p>
+
+    <p><strong>可以通过RSS阅读Stratechery吗？</strong><br>
+    可以！<a href="https://stratechery.com/podcasts/">创建Stratechery Passport账户</a>，转到交付偏好，添加您的个性化RSS源。免费账户将获得每周文章访问权限，订阅者还将获得Daily Update访问权限。</p>
+
+    <p><strong>可以与朋友分享Stratechery Update订阅吗？</strong><br>
+    不可以，Stratechery Update和Stratechery播客仅供一位订阅者使用。分享电子邮件、使用共享收件箱或分享RSS源违反Stratechery的<a href="https://stratechery.com/terms-of-service/">服务条款</a>，您的账户可能会被暂停或RSS源被重置。当然，偶尔将有兴趣的朋友或同事转发Stratechery Update是完全没问题的。</p>
+
+    <p><strong>可以为我的团队购买订阅吗？</strong><br>
+    可以！您可以<a href="https://stratechery.passport.online/member/team/4ycW4SE71Cy6ryrijywbTG">在此购买团队订阅</a>。</p>
+
+    <p><strong>可以切换到年度计划吗？</strong><br>
+    可以！只需转到<a href="https://stratechery.passport.online/member">您的账户页面</a>，选择"订阅"标签，然后点击年度升级按钮。您将被立即收费，并对当前月度计划的剩余时间应用按比例折扣。</p>
+
+    <p><strong>提供学生折扣吗？</strong><br>
+    Stratechery故意保持低价——比其他分析师报告或通讯低数千美元——以确保每个人都能获得，包括学生。</p>
+
+    <p><strong>可以创建符合我政府/公司要求的自定义发票吗？</strong><br>
+    我很乐意为年度订阅者创建符合您规格的发票；但是，为月度订阅者提供此服务对我来说是不可行的。因此，如果您需要自定义发票，请订阅或切换到年度订阅并<a href="mailto:blog@stratechery.com">联系Stratechery</a>。</p>
+
+    <p><strong>可以将订阅作为礼物赠送吗？</strong><br>
+    可以！要发送礼物，<a href="https://stratechery.passport.online/member/gift">访问礼物页面</a>。</p>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare 计划在 2029 年实现全面后量子安全</title>
+    <meta name="description" content="量子硬件和软件的最新进展加速了量子攻击可能发生的时间表。Cloudflare 正在响应，将全面后量子安全的目标提前至 2029 年。">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            color: #2a2a2a;
+            border-top: 2px solid #e0e0e0;
+            padding-top: 1.5rem;
+        }
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            color: #3a3a3a;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+        }
+        blockquote {
+            background: #f8f9fa;
+            border-left: 4px solid #0066cc;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+        .highlight-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+        }
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .original-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.5rem 1rem;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .original-link:hover {
+            background: #0052a3;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .timeline {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        .timeline h3 {
+            color: white;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <h1>Cloudflare 计划在 2029 年实现全面后量子安全</h1>
+        
+        <div class="meta">
+            <strong>作者：</strong> Bas Westerbaan<br>
+            <strong>发布日期：</strong> 2026-04-07<br>
+            <strong>阅读时间：</strong> 8 分钟<br>
+            <strong>原文：</strong> <a href="https://blog.cloudflare.com/post-quantum-roadmap/" target="_blank">https://blog.cloudflare.com/post-quantum-roadmap/</a><br>
+            <strong>翻译日期：</strong> 2026-04-08<br>
+            <strong>来源：</strong> Hacker News<br>
+            <strong>评分：</strong> 83分
+        </div>
+
+        <div class="highlight-box">
+            <strong>⚠️ 核心信息：</strong>Cloudflare 正在加速其后量子路线图。我们现在目标在 <strong>2029 年</strong>实现全面后量子（PQ）安全，关键是要包括后量子身份验证。
+        </div>
+
+        <p>
+            在 Cloudflare，我们相信默认让互联网变得私密和安全。我们从 2014 年开始提供<a href="#">免费通用 SSL 证书</a>，2019 年开始准备我们的<a href="#">后量子迁移</a>，并于 2022 年为<a href="#">所有网站</a>和 API 启用了后量子加密，减轻了"现在收集/以后解密"攻击。虽然我们对 Cloudflare 超过 <strong>65% 的人工流量</strong>已进行后量子加密感到兴奋，但我们的工作在身份验证也升级之前还未完成。可信的新研究和快速的行业发展表明，迁移的最后期限比预期要早得多。这是任何组织都必须紧急对待的挑战，这也是为什么我们正在加快自己的内部 Q-Day 准备时间表。
+        </p>
+
+        <h2>发生了什么？</h2>
+        
+        <p>
+            上周，Google <a href="#">宣布</a>他们大幅改进了破解椭圆曲线密码学的量子算法，该算法广泛用于保护互联网安全。他们没有透露该算法，而是提供了<a href="#">零知识证明</a>证明他们拥有一个。
+        </p>
+
+        <p>
+            这还不是最大的突破。同一天，Oratomic <a href="#">发布</a>了在中性原子计算机上破解 RSA-2048 和 P-256 的资源估算。对于 P-256，它只需要令人震惊的低至 <strong>10,000 个量子比特</strong>。Google 最近宣布在超导量子计算机之外也追求<a href="#">中性原子</a>的动机现在变得清晰了。虽然 Oratomic 解释了他们的基本方法，但他们仍然故意<a href="#">省略了关键细节</a>。
+        </p>
+
+        <p>
+            这些独立的进展促使 Google 将其后量子迁移时间表加速到 <strong>2029 年</strong>。更重要的是，在他们的公告和<a href="#">其他谈话</a>中，Google 优先考虑量子安全身份验证，而不是减轻"现在收集/以后解密"攻击。正如我们接下来讨论的，这一优先级表明 Google 担心 Q-Day 可能早在 2030 年就会到来。在这些公告之后，IBM Quantum Safe 的 CTO 更为悲观，不能排除最早在 <strong>2029 年</strong>对高价值目标进行量子"突击攻击"的可能性。
+        </p>
+
+        <h2>量子威胁众所周知</h2>
+        
+        <p>
+            Q-Day 是指足够强大的量子计算机能够破解当今用于保护数据和系统访问的关键密码学的日子。
+        </p>
+
+        <p>
+            密码相关量子计算机（CRQC）还不存在，但世界各地的许多实验室正在追求不同的方法来构建一个。直到最近，CRQC 的进展大多是公开的，但没有理由期望这种情况会持续下去。确实，有充分的理由期望进展将离开公众视野。正如量子计算机科学家 Scott Aaronson 在 2025 年底<a href="#">警告</a>的那样：
+        </p>
+
+        <blockquote>
+            "在某个时候，那些详细估算使用 Shor 算法破解实际部署的密码系统需要多少物理量子比特和门的人将停止发布这些估算，如果仅仅是为了避免向对手提供太多信息的风险。确实，据我们所知，那个时点可能已经过去了。"
+        </blockquote>
+
+        <p>
+            那个时点确实已经过去了。
+        </p>
+
+        <h2>为什么是现在：三个独立战线的进展</h2>
+        
+        <p>
+            我们想花些时间解释为什么预测量子计算的进展很困难。突然的"量子"理解飞跃，就像我们上周目睹的那样，即使一切都发生在公众视野中也可能发生。简而言之，用量子计算机破解密码学需要在三个独立战线上进行工程：量子硬件、纠错和量子软件。每个战线的进展都会促进其他战线的进展。
+        </p>
+
+        <h3>硬件</h3>
+        <p>
+            有许多不同的竞争方法。我们提到了中性原子和超导量子比特，但也有离子阱、光子学和拓扑量子比特等突击方法。互补的方法甚至可以<a href="#">结合</a>。这些方法大多数由世界各地的多个实验室追求。它们在扩展之前都有各自独特的工程挑战和问题需要解决。几年前，它们都有一个长长的开放挑战清单，不清楚是否有任何一种能够扩展。今天，它们中的大多数已经取得了良好进展。还没有一个被证明可以扩展：如果已经扩展了，我们就不会有几年时间了。但这些方法现在更接近了，特别是中性原子。要忽视这一进展，你必须相信每种方法都会碰壁。
+        </p>
+
+        <h3>纠错</h3>
+        <p>
+            所有量子计算机都是嘈杂的，需要纠错码来执行有意义的计算。这增加了相当大的开销，尽管多少取决于架构。更多噪声需要更多纠错，但更有趣的是，改进的量子比特连接性允许更高效的编码。为有一个规模概念：通常大约需要一千个物理量子比特来为一个嘈杂且只有相邻量子比特连接性的超导量子计算机提供一个逻辑量子比特。我们知道中性原子机器的"可重构量子比特"允许好一个数量级的纠错码。令人惊讶的是，Oratomic 显示优势甚至更大：每个逻辑量子比特只需要大约 3-4 个物理中性原子量子比特。
+        </p>
+
+        <h3>软件</h3>
+        <p>
+            最后，破解密码学的量子算法可以改进。这是 Google 的突破：他们大幅加速了破解 P-256 的算法。在此基础上，Oratomic 展示了针对可重构量子比特的进一步架构特定优化。
+        </p>
+
+        <div class="info-box">
+            <strong>整体图景：</strong>2025 年中性原子被证明比预期更具可扩展性，现在 Oratomic 找出了如何用这些高度连接的量子比特做更好的纠错码。在此基础上，破解 P-256 需要的工作量少得多。结果是 Q-Day 已从典型的 <strong>2035+ 时间表</strong>大大提前，中性原子领先，其他方法紧随其后。
+        </div>
+
+        <p>
+            在之前的博客文章中，我们讨论了不同的量子计算机在物理量子比特数量和保真度方面如何比较，与在超导量子比特架构上破解 RSA-2048 的保守目标相比。这种分析让我们粗略了解我们有多少时间，当然比跟踪<a href="#">量子因式分解记录</a>要好，但它错过了架构特定的优化和软件改进。现在要观察的是每个架构最终缺失的<a href="#">能力</a>何时实现。
+        </p>
+
+        <h2>是时候关注身份验证了</h2>
+        
+        <p>
+            历史上，行业对后量子密码学（PQC）的关注主要基于 PQ 加密，它阻止"现在收集/以后解密"（HNDL）攻击。在 HNDL 攻击中，对手今天收集敏感的加密网络流量并存储起来，直到未来的某个日期，当它可以使用强大的量子计算机解密数据时。当 Q-Day 很远时，HNDL 攻击是主要威胁。这就是为什么我们的重点一直是减轻这一风险，自 2022 年以来在我们的产品中默认采用后量子加密。今天，正如我们上面提到的，<a href="#">大多数 Cloudflare 产品</a>对 HNDL 攻击是安全的，我们正在升级其余产品。
+        </p>
+
+        <p>
+            另一类攻击是针对身份验证：配备功能正常的量子计算机的对手冒充服务器或伪造访问凭证。如果 Q-Day 很远，身份验证并不紧迫：部署 PQ 证书和签名不会增加任何价值，只会增加工作量。
+        </p>
+
+        <div class="warning">
+            <strong>迫在眉睫的 Q-Day 改变了剧本：</strong>数据泄露是严重的，但身份验证被破解是灾难性的。任何被忽视的量子脆弱远程登录密钥都是攻击者随心所欲的访问点，无论是勒索、关闭还是窥探您的系统。任何自动软件更新机制都变成<a href="#">远程代码执行</a>载体。一个活跃的量子攻击者很容易——他们只需要找到一个可信的量子脆弱密钥就能进入。
+        </div>
+
+        <p>
+            当构建量子计算机领域的专家开始修补身份验证系统时，我们都应该倾听。问题不再是"我们的加密数据何时会面临风险？"而是"攻击者用量子伪造的密钥从前门走进来还有多久？"
+        </p>
+
+        <h2>优先考虑最脆弱的系统</h2>
+        
+        <p>
+            如果量子计算机在未来几年到来，它们将是稀缺和昂贵的。攻击者将优先考虑高价值目标，如解锁大量资产或持久访问的长期密钥，例如根证书、API 认证密钥和代码签名证书。如果攻击者能够攻破一个这样的密钥，他们将保留无限期的访问权限，直到被发现或该密钥被撤销。
+        </p>
+
+        <p>
+            这表明应该优先考虑长期密钥。如果单个密钥的量子攻击昂贵且缓慢，这当然是正确的，这也是第一代中性原子量子计算机的预期情况。但对于可扩展的超导量子计算机和后代中性原子量子计算机来说并非如此，它们可能更快地破解密钥。这种快速的 CRQC 再次改变了剧本，拥有一个的对手可能纯粹专注于 HNDL 攻击，以便他们的攻击不被发现。Google 的 Sophie Schmieg 将此场景比作改变了二战方向的 Enigma 密码分析。
+        </p>
+
+        <h3>关键步骤：</h3>
+        <ol>
+            <li><strong>添加 PQ 密码学支持是不够的。</strong>系统必须禁用量子脆弱密码学的支持，以防止<a href="#">降级攻击</a>。在更大的，特别是联合系统如网络中，这不可行，因为并非每个客户端（浏览器）都支持后量子证书，服务器需要继续支持这些旧客户端。但是，使用"PQ HSTS"和/或<a href="#">证书透明度</a>，HTTPS 的降级保护仍然可以实现。</li>
+            <li><strong>禁用量子脆弱密码学不是最后一步：</strong>一旦完成，所有以前在量子脆弱系统中暴露的秘密（如密码和访问令牌）都需要轮换。与后量子加密不同（后者需要一次大推动），迁移到后量子身份验证有一个漫长的依赖链——更不用说第三方验证和欺诈监控。这将需要数年，而不是数月。</li>
+        </ol>
+
+        <p>
+            阅读本文的组织自然而然会急于思考他们需要升级哪些内部系统。但这并不是故事的结束。Q-day 威胁所有系统。因此，了解潜在 Q-day 对第三方依赖项（直接和间接）的影响很重要。不仅是您与之进行密码学通信的第三方，还包括任何关键业务依赖项，如金融服务和公用事业。
+        </p>
+
+        <div class="highlight-box">
+            <strong>总结：</strong>随着 Q-day 在更短的时间表上临近，后量子身份验证是首要任务。长期密钥应首先升级。深度依赖链和每个人都有第三方供应商这一事实意味着这项工作将需要数年时间，而不是数月。升级到后量子密码学是不够的：为了防止降级，还必须关闭量子脆弱密码学。
+        </div>
+
+        <h2>Cloudflare 的全面后量子安全路线图</h2>
+        
+        <p>
+            今天，Cloudflare 为我们的大多数产品提供后量子加密，减轻"现在收集/以后解密"攻击。这是我们<a href="#">十多年前</a>开始的工作成果，旨在保护我们的客户和整个互联网。
+        </p>
+
+        <div class="timeline">
+            <h3>📅 目标时间表</h3>
+            <p>我们的目标是在 <strong>2029 年</strong>为整个产品套件实现全面的后量子安全，包括身份验证。在这里，我们分享我们设定的一些中间里程碑，这些里程碑可能会随着我们对风险和部署挑战的理解演变而变化。</p>
+        </div>
+
+        <h2>我们的建议</h2>
+
+        <h3>对于企业</h3>
+        <p>
+            我们建议将后量子支持作为任何采购的要求。常见的最佳实践，如保持软件更新和自动化证书颁发，是有意义的，会让您走得很远。我们建议尽早评估关键供应商，看他们不采取行动会对您的业务意味着什么。
+        </p>
+
+        <h3>对于监管机构和政府</h3>
+        <p>
+            通过设定早期时间表来引领，对迄今为止的行业范围进展至关重要。我们现在处于一个关键位置，不同司法管辖区之间和内部的标准和努力分散可能会使进展面临风险。我们建议政府指定并授权一个牵头机构在明确的时间表上协调迁移，保持安全重点，并促进使用现有国际标准。政府不必恐慌，但可以自信地领导迁移。
+        </p>
+
+        <h3>对于 Cloudflare 客户</h3>
+        <p>
+            关于我们的服务，您不需要采取任何缓解措施。我们密切关注量子计算的最新进展，并采取积极措施保护您的数据。正如我们过去所做的那样，我们将默认开启后量子安全，无需切换开关。我们无法控制的是另一端：浏览器、应用程序和源站需要升级。Cloudflare 上的企业网络流量不必担心：Cloudflare One 在通过我们的后量子加密基础设施传输流量时提供<a href="#">端到端保护</a>。
+        </p>
+
+        <div class="info-box">
+            <p><strong>隐私和安全是互联网的基本要求。</strong>这就是为什么我们构建的每一个后量子升级都将继续以<strong>不额外收费</strong>的方式提供给所有客户、每个计划。让后量子安全成为默认是大规模保护互联网的唯一方法。</p>
+            <p><strong>免费 TLS</strong> 帮助加密了网络。<strong>免费后量子密码学</strong>将帮助保护它的未来。</p>
+        </div>
+
+        <p>
+            Cloudflare 的连接云保护<a href="#">整个企业网络</a>，帮助客户<a href="#">高效构建互联网规模的应用程序</a>，加速任何<a href="#">网站或互联网应用程序</a>，<a href="#">抵御 DDoS 攻击</a>，让<a href="#">黑客远离</a>，并可以帮助您<a href="#">踏上零信任之旅</a>。
+        </p>
+
+        <p>
+            从任何设备访问 <a href="#">1.1.1.1</a> 开始使用我们的免费应用程序，让您的互联网更快更安全。
+        </p>
+
+        <p>
+            要了解更多关于我们帮助构建更好互联网的使命，请<a href="#">从这里开始</a>。如果您正在寻找新的职业方向，请查看<a href="#">我们的开放职位</a>。
+        </p>
+
+        <div style="margin-top: 3rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+            <h3 style="margin-top: 0;">相关主题</h3>
+            <ul style="list-style: none; padding-left: 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <li style="background: #0066cc; color: white; padding: 0.5rem 1rem; border-radius: 20px;">Post-Quantum</li>
+                <li style="background: #0066cc; color: white; padding: 0.5rem 1rem; border-radius: 20px;">Security</li>
+            </ul>
+        </div>
+
+        <a href="https://blog.cloudflare.com/post-quantum-roadmap/" class="original-link" target="_blank">阅读原文</a>
+    </article>
+</body>
+</html>
