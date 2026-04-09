@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逆向工程Gemini的SynthID检测</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #333; }
+        h1 { font-size: 2em; margin-bottom: 0.5em; color: #121212; }
+        .meta { color: #666; margin-bottom: 2em; font-size: 0.9em; }
+        .source { background: #f5f5f5; padding: 10px; border-left: 3px solid #ddd; margin-bottom: 2em; }
+        p { margin-bottom: 1.2em; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', 'Consolas', monospace; }
+        h2 { margin-top: 2em; color: #222; border-bottom: 1px solid #eee; padding-bottom: 0.5em; }
+        h3 { margin-top: 1.5em; color: #333; }
+        ul { margin-bottom: 1.2em; }
+        li { margin-bottom: 0.5em; }
+    </style>
+</head>
+<body>
+    <h1>逆向工程Gemini的SynthID检测</h1>
+    <div class="meta">
+        <p>原文标题：Reverse engineering Gemini's SynthID detection</p>
+        <p>来源：<a href="https://github.com/aloshdenny/reverse-SynthID">GitHub - aloshdenny/reverse-SynthID</a></p>
+        <p>翻译日期：2026-04-10</p>
+    </div>
+    
+    <div class="source">
+        <p><strong>声明</strong>：本文为翻译文章，仅供学习交流使用。专业术语如AI、SynthID等保留原文。</p>
+    </div>
+
+    <p>针对Google DeepMind SynthID水印系统的逆向工程项目。包含V1/V2/V3绕过工具和多分辨率光谱码本（Spectral Codebook），用于从Gemini生成的图像中提取和移除水印。</p>
+    
+    <h2>功能特点</h2>
+    <ul>
+        <li><strong>SpectralCodebook</strong> — 多分辨率码本（1024×1024和1536×2816）</li>
+        <li><strong>SynthIDBypass</strong> — V1/V2/V3三代绕过算法</li>
+        <li><strong>RobustSynthIDExtractor</strong> — 多尺度水印检测器（90%准确率）</li>
+        <li><strong>CLI工具</strong> — 用于码本构建、绕过和检测</li>
+        <li><strong>完整分析</strong> — FFT可视化、相位分析、载波发现</li>
+    </ul>
+    
+    <h2>快速开始</h2>
+    
+    <h3>1. 构建V3码本（多分辨率）</h3>
+    
+    <p>从命令行：</p>
+<pre>
+python src/extraction/synthid_bypass.py build-codebook \
+    --black gemini_black \
+    --white gemini_white \
+    --watermarked gemini_random \
+    --output artifacts/spectral_codebook_v3.npz
+</pre>
+
+    <p>或从Python：</p>
+<pre>
+from src.extraction.synthid_bypass import SpectralCodebook
+
+codebook = SpectralCodebook()
+
+# 方法1：从黑/白参考图像（1024x1024）
+codebook.extract_from_references(
+    black_dir='gemini_black',
+    white_dir='gemini_white',
+)
+
+# 方法2：从带水印的内容图像（1536x2816）
+codebook.build_from_watermarked('gemini_random')
+
+codebook.save('artifacts/spectral_codebook_v3.npz')
+# 保存的配置文件：[1024x1024, 1536x2816]
+</pre>
+
+    <h3>2. 运行V3绕过（任意分辨率）</h3>
+<pre>
+from src.extraction.synthid_bypass import SynthIDBypass, SpectralCodebook
+
+codebook = SpectralCodebook()
+codebook.load('artifacts/spectral_codebook_v3.npz')
+
+bypass = SynthIDBypass()
+result = bypass.bypass_v3(image_rgb, codebook, strength='aggressive')
+
+print(f"PSNR: {result.psnr:.1f} dB")
+print(f"使用的配置: {result.details['profile_resolution']}")
+print(f"精确匹配: {result.details['exact_match']}")
+</pre>
+
+    <p>从命令行：</p>
+<pre>
+python src/extraction/synthid_bypass.py bypass input.png output.png \
+    --codebook artifacts/spectral_codebook_v3.npz \
+    --strength aggressive
+</pre>
+
+    <p><strong>强度级别：</strong><code>gentle</code>（最小，~45 dB）> <code>moderate</code> > <code>aggressive</code>（推荐）> <code>maximum</code></p>
+
+    <h3>3. 检测水印</h3>
+<pre>
+python src/extraction/robust_extractor.py detect image.png \
+    --codebook artifacts/codebook/robust_codebook.pkl
+</pre>
+
+    <h2>项目结构</h2>
+<pre>
+reverse-SynthID/
+├── src/
+│   ├── extraction/
+│   │   ├── synthid_bypass.py              # V1/V2/V3绕过 + 多分辨率SpectralCodebook
+│   │   ├── robust_extractor.py            # 多尺度水印检测
+│   │   ├── watermark_remover.py           # 频域水印移除
+│   │   ├── benchmark_extraction.py        # 基准测试套件
+│   │   └── synthid_codebook_extractor.py  # 传统码本提取器
+│   └── analysis/
+│       ├── deep_synthid_analysis.py       # FFT/相位分析脚本
+│       └── synthid_codebook_finder.py     # 载波频率发现
+│
+├── gemini_black/                          # 100张纯黑Gemini图像（1024x1024）
+├── gemini_white/                          # 100张纯白Gemini图像（1024x1024）
+├── gemini_random/                         # 88张带水印内容图像（1536x2816）
+│
+├── artifacts/
+│   ├── spectral_codebook_v3.npz           # 多分辨率V3码本 [1024x1024, 1536x2816]
+│   ├── codebook/                          # 检测码本（.pkl）
+│   └── visualizations/                    # FFT、相位、载波可视化
+│
+├── assets/                                # README图像和早期分析产物
+├── watermark_investigation/               # 早期Nano-150k分析（已归档）
+└── requirements.txt
+</pre>
+
+    <h2>技术深度解析</h2>
+    
+    <h3>SynthID工作原理（逆向工程）</h3>
+<pre>
+┌──────────────────────────────────────────────────────────────┐
+│                  SynthID编码器（在Gemini中）                    │
+├──────────────────────────────────────────────────────────────┤
+│  1. 选择与分辨率相关的载波频率                                   │
+│  2. 为每个载波分配固定相位值                                    │
+│  3. 神经编码器向图像添加学习到的噪声模式                         │
+│  4. 水印不可见——分布在频谱中                                   │
+├──────────────────────────────────────────────────────────────┤
+│                  SynthID解码器（在Google中）                    │
+├──────────────────────────────────────────────────────────────┤
+│  1. 提取噪声残差（小波去噪）                                    │
+│  2. FFT → 在已知载波频率处检查相位                              │
+│  3. 如果相位与期望值匹配 → 已添加水印                           │
+└──────────────────────────────────────────────────────────────┘
+</pre>
+
+    <h3>多分辨率光谱码本</h3>
+    
+    <p>码本捕获每个可用分辨率的水印配置：</p>
+    
+    <ul>
+        <li><strong>1024×1024配置</strong>：来自100张黑色 + 100张白色纯色Gemini输出
+            <ul>
+                <li>黑色图像：水印几乎是整个像素内容</li>
+                <li>白色图像（反转）：通过交叉验证确认载波</li>
+                <li>黑/白一致性（|cos(phase_diff)|）过滤掉生成偏差</li>
+            </ul>
+        </li>
+        <li><strong>1536×2816配置</strong>：来自88张多样化的带水印内容图像
+            <ul>
+                <li>内容在图像间平均化；固定水印在相位一致性中保留</li>
+                <li>水印幅度估计为<code>avg_mag × coherence²</code></li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h3>V3减法策略</h3>
+    
+    <p>绕过使用<strong>直接已知信号减法</strong>（不是维纳滤波器）：</p>
+    
+    <ol>
+        <li><strong>置信度</strong> = phase_consistency × cross_validation_agreement</li>
+        <li><strong>DC排除</strong> — 软斜坡抑制低频生成偏差</li>
+        <li><strong>每bin减法</strong> = wm_magnitude × confidence × removal_fraction × channel_weight</li>
+        <li><strong>安全上限</strong> — 减法从不超过任何bin中图像能量的90-95%</li>
+        <li><strong>多轮</strong> — 递减强度计划（aggressive → moderate → gentle）捕获残余能量</li>
+    </ol>
+
+    <h2>核心模块</h2>
+    
+    <h3><code>synthid_bypass.py</code></h3>
+    
+    <p><strong>SpectralCodebook</strong> — 多分辨率水印指纹：</p>
+<pre>
+codebook = SpectralCodebook()
+codebook.extract_from_references('gemini_black', 'gemini_white')  # 添加1024x1024配置
+codebook.build_from_watermarked('gemini_random')                  # 添加1536x2816配置
+codebook.save('codebook.npz')
+
+# 之后：
+codebook.load('codebook.npz')
+profile, res, exact = codebook.get_profile(1536, 2816)  # 自动选择
+</pre>
+
+    <p><strong>SynthIDBypass</strong> — 三代绕过：</p>
+<pre>
+bypass = SynthIDBypass()
+
+result = bypass.bypass_simple(image, jpeg_quality=50)           # V1
+result = bypass.bypass_v2(image, strength='aggressive')          # V2
+result = bypass.bypass_v3(image, codebook, strength='aggressive') # V3（最佳）
+</pre>
+
+    <h3><code>robust_extractor.py</code></h3>
+    
+    <p>多尺度水印检测器（90%准确率）：</p>
+<pre>
+from robust_extractor import RobustSynthIDExtractor
+
+extractor = RobustSynthIDExtractor()
+extractor.load_codebook('artifacts/codebook/robust_codebook.pkl')
+result = extractor.detect_array(image)
+print(f"已加水印: {result.is_watermarked}, 置信度: {result.confidence:.4f}")
+</pre>
+
+    <h2>参考资料</h2>
+    
+    <ul>
+        <li><a href="https://deepmind.google/technologies/synthid/">SynthID: Identifying AI-generated images</a></li>
+        <li><a href="https://arxiv.org/abs/2510.09263">SynthID Paper (arXiv:2510.09263)</a></li>
+    </ul>
+
+    <h2>免责声明</h2>
+    
+    <p>本项目<strong>仅供研究和教育目的</strong>。SynthID是Google DeepMind拥有的专有技术。这些工具旨在用于：</p>
+    
+    <ul>
+        <li>对水印鲁棒性的学术研究</li>
+        <li>AI生成内容识别的安全性分析</li>
+        <li>理解扩频编码方法</li>
+    </ul>
+    
+    <p><strong>不要使用这些工具将AI生成的内容误称为人类创作的内容。</strong></p>
+</body>
+</html>
