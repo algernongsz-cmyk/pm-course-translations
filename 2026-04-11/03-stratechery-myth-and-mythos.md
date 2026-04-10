@@ -1,0 +1,60 @@
+# 神话与神话集
+
+> 原文：[2026.15: Myth and Mythos](https://stratechery.com/2026/myth-and-mythos/)
+> 翻译日期：2026-04-11
+
+Anthropic CEO Dario Amodei 从未出现在 TBPN 播客上；既然[它已被 OpenAI 收购](https://stratechery.com/2026/openai-buys-tbpn-tech-and-the-token-tsunami/)，他可能永远不会了
+
+欢迎回到本周 Stratechery！
+
+提醒一下，每周五我们都会发送这份 Stratechery 套装内容概览；高亮链接对所有人免费。此外，您可以完全控制我们发送给您的内容。如果您不想收到本周 Stratechery 邮件（没有播客），请取消选中[您的投递设置](https://stratechery.passport.online/member/account/delivery)中的复选框。
+
+说到这里，以下是我们本周最喜欢的几篇：
+
+- **Anthropic Anthropic Anthropic。** 在当前的 AI 时代，感觉每隔几个月就会有一家公司被加冕为赢家，而现在 Anthropic 正戴着这顶皇冠。然而，我在 [Sharp Tech 上提出的一个观点](https://sharptech.fm/member/episode/mythos-and-project-glasswing-the-year-of-anthropic-continues-apace-q-a-on-the-nyt-altman-de-globalization)是，Anthropic 的指数增长包含了每个人都错过的曲线部分：这家公司已经在这条曾经几乎看不见的轨道上走了近两年。现在这家公司无疑拥有世界上最强大的模型，如此强大，以至于 Anthropic 表示无法公开发布。考虑到 Anthropic 的历史，有理由怀疑，但["狼来了"神话中每个人忘记的部分](https://stratechery.com/2026/anthropics-new-model-the-mythos-wolf-glasswing-and-alignment/)是，狼最后确实来了。—— Ben Thompson
+
+- **纽约时报和另一个范式转变。** 如果你对媒体感兴趣，[本周的 Stratechery 采访纽约时报 CEO Meredith Kopit Levien](https://stratechery.com/2026/an-interview-with-new-york-times-ceo-meredith-kopit-levien-about-betting-on-humans-with-expertise/)是一期精彩的收听。时报比世界上任何媒体公司都更好地掌握了互联网时代，他们通过做出深思熟虑的选择取得了成功——在付费墙还没流行之前就建立了它，有明确的观点，整合了商业和编辑策略——在聚合器和内容丰富的时代，将自己与商品化内容的海洋区分开来。这一策略在前一代互联网中为时报创造了奇迹，我很享受听到 Levien 对其在由 AI 和视频主导的时代更新的想法。—— Andrew Sharp
+
+- **纽约客解释 Sam Altman。** 本周的 Sharp Text 涵盖了几个不同的节拍，包括对霍尔木兹海峡的思考和一段有趣的 E-ZPass 历史，但我以[对纽约客关于 Sam Altman 的长篇报道的看法](https://sharptext.net/2026/hormuz-rushmore-and-a-sam-altman-story-that-missed-the-story/)开头。这篇[16000 字的报道](https://www.newyorker.com/magazine/2026/04/13/sam-altman-may-control-our-future-can-he-be-trusted?utm_source=twitter&utm_medium=social&utm_campaign=dhtwitter&utm_content=null)当然是对十多年来关于 Altman 问题的详尽陈述，但更好的话题却未被探索。令人沮丧的是——这也代表了太多的科技报道——如此多的精力投入到了一篇实际上只是写得很好的维基百科条目，以预定的结论为锚点，却忽略了比 Sam Altman 是否是个好人更具戏剧性的问题。—— AS
+
+### Stratechery 文章和更新
+
+- [OpenAI 收购 TBPN、科技和代币海啸](https://stratechery.com/2026/openai-buys-tbpn-tech-and-the-token-tsunami/)——OpenAI 收购 TBPN 没有任何意义，但这可能符合 OpenAI 的常态。然后，AI 正在破坏东西，从科技服务开始。
+
+- [Anthropic 的新 TPU 协议、Anthropic 的计算紧缩、Anthropic-谷歌联盟](https://stratechery.com/2026/anthropics-new-tpu-deal-anthropics-computing-crunch-the-anthropic-google-alliance/)——Anthropic 需要计算，谷歌拥有最多的计算：这是一个天然的合作伙伴关系，尤其对谷歌而言。
+
+- [Anthropic 的新模型、Mythos 狼、Glasswing 和对齐](https://stratechery.com/2026/anthropics-new-model-the-mythos-wolf-glasswing-and-alignment/)——Anthropic 表示其新模型太危险而无法发布；有理由怀疑，但在 Anthropic 正确的程度上，这会引发更深的担忧。
+
+- [采访纽约时报 CEO Meredith Kopit Levien 关于押注有专业知识的人类](https://stratechery.com/2026/an-interview-with-new-york-times-ceo-meredith-kopit-levien-about-betting-on-humans-with-expertise/)——采访纽约时报公司 CEO Meredith Kopit Levien，关于人类专业知识作为对抗聚合器和 AI 的护城河。
+
+### Andrew Sharp 的 Sharp Text
+
+- [霍尔木兹、拉什莫尔和一个错失故事的 Sam Altman 故事](https://sharptext.net/2026/hormuz-rushmore-and-a-sam-altman-story-that-missed-the-story/)——关于纽约客的 Sam Altman 报道、中东的未来和 E-ZPass 历史的力量。
+
+### Ben Thompson 和 Daring Fireball 的 John Gruber 的 Dithering
+
+- [OpenAI 收购 TBPN](https://dithering.passport.online/member/episode/open-ai-buys-tbpn)
+
+- [Mythos、Altman、纽约时报](https://dithering.passport.online/member/episode/mythos-altman-new-york-times)
+
+### Jon Yu 的 Asianometry
+
+- [VLIW："不可能"的计算机](https://asianometry.passport.online/member/episode/vliw-the-impossible-computer)
+
+- [燃气轮机叶片及其抗热的单晶高温合金](https://asianometry.passport.online/member/episode/gas-turbine-blades-and-their-heat-defying-single-crystal-superalloys)
+
+### Andrew Sharp 和 Sinocism 的 Bill Bishop 的 Sharp China
+
+- [停火和中国施压报告；又一次政治局调查；Mythos、DeepSeek 和代币紧缩](https://sharpchina.fm/member/episode/a-ceasefire-and-reports-of-prc-pressure-another-politburo-investigation-mythos-deep-seek-and-a-token-crunch)
+
+### Andrew Sharp 和 Ben Golliver 的 Greatest of All Talk
+
+- [独家黄蜂-太阳报告和关于 LeBron、Wemby、活塞、NBA ABS、儿童公牛球迷的邮件](https://goat.passport.online/member/episode/an-exclusive-hornets-suns-report-and-mail-on-le-bron-wemby-the-pistons-abs-in-the-nba-bulls-fandom-for-kids)
+
+- [Malone 去卡罗莱纳和 Karnisovas 在芝加哥下台、Cooper 和 Kon 冲刺到终点、丹佛的 Jokic-Wemby 经典之战](https://goat.passport.online/member/episode/malone-to-carolina-and-karnisovas-out-in-chicago-cooper-and-kon-battling-to-the-finish-a-jokic-wemby-classic-in-denver)
+
+### Andrew Sharp 和 Ben Thompson 的 Sharp Tech
+
+- [Mythos 和 Project Glasswing、Anthropic 年继续快速推进、关于 NYT、Altman、去全球化的问答](https://sharptech.fm/member/episode/mythos-and-project-glasswing-the-year-of-anthropic-continues-apace-q-a-on-the-nyt-altman-de-globalization)
+
+本周的 Sharp Tech 视频是关于为什么 OpenAI 的企业转型有道理。
