@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>研究驱动的Agent：当Agent在编码之前先阅读</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.8;
+      color: #333;
+    }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    pre code { background: none; padding: 0; }
+    blockquote {
+      border-left: 4px solid #ddd;
+      margin: 1em 0;
+      padding-left: 1em;
+      color: #666;
+    }
+    img { max-width: 100%; height: auto; }
+    a { color: #0366d6; }
+  </style>
+</head>
+<body>
+
+<article>
+<h1>研究驱动的Agent：当Agent在编码之前先阅读</h1>
+
+<blockquote>原文：<a href="https://blog.skypilot.co/research-driven-agents/">Research-Driven Agents: When an agent reads before it codes</a>  </blockquote>
+<blockquote>作者：Alex Kim  </blockquote>
+<blockquote>发布日期：2026年4月8日</blockquote>
+
+<strong>TL;DR：编码Agent在阅读论文和研究竞争项目之后再编写代码时，会产生更好的优化。</strong> 我们向autoresearch / pi-autoresearch循环添加了一个文献搜索阶段，用4个云VM将其指向llama.cpp，在约3小时内产生了5个优化，使flash attention文本生成在x86上快15%，在ARM上快5%（TinyLlama 1.1B）。<a href="https://github.com/skypilot-org/skypilot/tree/master/examples/autonomous-code-optimization">完整设置</a>适用于任何有benchmark和测试套件的项目。
+
+<strong>关键要点：</strong>
+
+<p>- 在编写代码之前阅读论文和研究竞争项目的Agent会发现仅代码Agent错过的优化。文献研究将Agent指向CUDA/Metal后端中存在但CPU中缺失的算子融合。<br>
+- 30多个实验中有5个成功落地：4个kernel融合和一个自适应并行化。最大的收益是将flash attention的QK tile上的三次遍历融合到单个AVX2 FMA循环中。<br>
+- 研究fork和其他后端比搜索arxiv更有成效。ik_llama.cpp和CUDA后端直接影响了五个最终优化中的两个。<br>
+- 总成本：约$29（$20用于CPU VM，$9用于API调用），在约3小时内使用4个VM。</p>
+
+<p>---</p>
+
+<h2>仅代码上下文有效的地方</h2>
+
+<p>Karpathy的<a href="https://github.com/karpathy/autoresearch">autoresearch</a>表明，编码Agent可以自主改进神经网络训练脚本。在<a href="https://blog.skypilot.co/scaling-autoresearch/">我们之前的文章</a>中，我们将其扩展到16个GPU，观察Agent在8小时内运行约910个实验，将<code>val_bpb</code>降低2.87%。Agent仅从代码上下文中头脑风暴想法，所有实验都是同一个<code>train.py</code>的变体。</p>
+
+<p>从那时起，<a href="https://github.com/davebcn87/pi-autoresearch">pi-autoresearch</a>将循环泛化为任何可benchmark目标的可重用扩展。Shopify CEO Tobi Lütke在<a href="https://github.com/Shopify/liquid/pull/2056">Liquid</a>上运行它，这是处理每年2920亿美元商品交易量的Ruby模板引擎。Agent运行了约120个实验，产生了93个提交，将parse+render时间减少了53%，分配减少了61%，在974个单元测试中零回归（<a href="https://simonwillison.net/2026/Mar/13/liquid/">Simon Willison的writeup</a>，<a href="https://x.com/tobi/status/2032212531846971413">Tobi的帖子</a>）。</p>
+
+<p>在那种情况下，优化表面在源代码中可见。Liquid Agent可以阅读tokenizer，看到<code>StringScanner</code>是瓶颈，并仅从代码库中头脑风暴替代方案。</p>
+
+<h2>仅代码上下文失效的地方</h2>
+
+<p>并非每个优化问题都这样工作。代码库告诉你<strong>代码做什么</strong>，但不告诉你<strong>为什么它慢</strong>或<strong>这个代码库之外存在什么替代方案</strong>。当答案存在于源代码之外（在arxiv论文中，在竞争项目中，例如在高级工程师会带来的领域知识中）时，仅从代码工作的Agent会生成浅薄的假设。</p>
+
+<p>当我们把Agent指向<a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a>的CPU推理路径时，我们看到了这一点。优化搜索空间不是"尝试不同的学习率"。它是"我应该融合这两个内存遍历吗？"，"这个工作负载是compute-bound还是memory-bound？"，"<a href="https://github.com/ikawrakow/ik_llama.cpp">ik_llama.cpp</a>已经尝试了什么？"</p>
+
+<p>Agent的第一波实验显示了问题。仅从代码上下文工作，它直接针对GGML矩阵乘法热路径中量化点积的SIMD微优化。它尝试了：</p>
+
+<p>- Q4_0点积内循环中的AVX2预取（+0.8%）<br>
+- 带双累加器的2x循环展开（+0.9%）<br>
+- 消除<code>mul_mat</code>中的临时缓冲区（-2.8%，回归）<br>
+- 提升块边界计算（+0.6%）</p>
+
+<p>都在噪音范围内。Agent的事后分析：</p>
+
+<blockquote>"Wave 1结果表明计算路径中的微优化给予可忽略的回报，因为文本生成是memory-bandwidth bound，不是compute bound。"</blockquote>
+
+<p>606 MiB模型以约49 tokens/s消耗约30 GB/s的内存带宽，接近c6i.2xlarge的DRAM限制。当CPU停滞等待模型权重从DRAM到达时，任何SIMD技巧都无济于事。但代码本身不会告诉你这一点。你需要知道目标硬件的内存带宽，理解roofline模型，并认识到batch-size-1推理是memory-bound。那是Agent没有的领域知识。</p>
+
+<h2>添加研究阶段</h2>
+
+<p>如果瓶颈是假设质量，就给Agent更好的输入。在运行任何实验之前，让它阅读论文，研究fork，并查看其他项目已经尝试了什么。与高级工程师在接触不熟悉的代码之前会做的准备相同。</p>
+
+<p>原始autoresearch循环是：编辑代码 -> 运行实验 -> 检查指标 -> 保留或丢弃。<code>pi-autoresearch</code>将其泛化为任何有可benchmark指标的项目。我们的版本在此基础上构建并添加了一个研究步骤和并行云执行：</p>
+
+<p>Agent编写自己的benchmark脚本（<code>autoresearch.sh</code>）和正确性检查（<code>autoresearch.checks.sh</code>），然后使用<a href="https://github.com/skypilot-org/skypilot">SkyPilot</a>将实验分发到云VM。每个实验在自己的VM上运行：构建项目，运行benchmark，运行正确性检查，报告指标。Agent通过<code>sky logs</code>检查结果，提交胜者，并排队下一波。</p>
+
+<details>
+<summary><code>experiment.yaml</code>：单个实验的SkyPilot任务模板</summary>
+
+<pre><code class="language-yaml">resources:
+  cpus: 4+
+  memory: 8+
+
+<p>workdir: .</p>
+
+<p>envs:<br>
+  EXPERIMENT_ID: baseline<br>
+  EXPERIMENT_DESC: "baseline measurement"<br>
+  BUILD_CMD: "make -j$(nproc)"<br>
+  BENCH_TIMEOUT: 300<br>
+  CHECK_TIMEOUT: 300</p>
+
+<p>setup: |<br>
+  cd ~/sky_workdir<br>
+  if [ -f setup_deps.sh ]; then<br>
+    bash setup_deps.sh<br>
+  else<br>
+    eval "${BUILD_CMD}"<br>
+  fi  </p>
+
+<p>run: |<br>
+  cd ~/sky_workdir<br>
+  # Build, benchmark, run checks, report METRIC lines<br>
+  eval "${BUILD_CMD}" 2>&1 | tail -30<br>
+  BENCH_OUTPUT=$(timeout "${BENCH_TIMEOUT}" bash autoresearch.sh 2>&1)<br>
+  echo "$BENCH_OUTPUT"<br>
+  # ... extract METRIC lines, run autoresearch.checks.sh ...<br>
+  echo "EXPERIMENT_STATUS: done"<br>
+</code></pre></p>
+
+<p>CPU绑定代码优化不需要GPU。如果您的目标需要GPU benchmarking，请用<code>--gpus</code>覆盖。</p>
+
+</details>
+
+<h2>实验日志</h2>
+
+<p>我们将Claude Code指向llama.cpp，通过SkyPilot给它4个AWS VM，告诉它让CPU推理更快。</p>
+
+<strong>目标：</strong> TinyLlama 1.1B（Q4_0量化）的CPU推理吞吐量，在两种架构上benchmark：
+
+<p>- x86: AWS c6i.2xlarge（Intel Xeon Ice Lake，8 vCPUs，AVX-512）<br>
+- ARM: AWS c7g.2xlarge（Graviton3，8 vCPUs，NEON）</p>
+
+<strong>指标：</strong> prompt处理（pp）和文本生成（tg）的tokens/second，用<code>llama-bench -p 512 -n 128 -t 8 -r 5</code>测量。
+
+<p>它从4个x86 VM开始建立基线并运行实验。后来它配置ARM VM检查可移植性；每个kernel融合包括AVX2/FMA和NEON路径，带有标量回退。</p>
+
+<h3>研究发现了什么</h3>
+
+<p>在实验波次之间，Agent运行了两个并行研究线程：</p>
+
+<p>1. 竞争项目：ik_llama.cpp（一个专注性能的fork），llamafile的tinyBLAS，PowerInfer，ExLlamaV2（这篇文章的作者甚至不知道其中一些项目）<br>
+2. Arxiv论文：<a href="https://arxiv.org/abs/2205.14135">FlashAttention</a>（IO-aware tiled attention），<a href="https://arxiv.org/abs/2505.07829">Blockbuster</a>（块级算子融合），<a href="https://arxiv.org/abs/2502.17728">LLM Inference Acceleration via Efficient Operation Fusion</a>，<a href="https://arxiv.org/abs/1805.02867">Online normalizer calculation for softmax</a>，<a href="https://arxiv.org/abs/2407.07304">Inference Performance Optimization for Large Language Models on CPUs</a>（Intel的缓存感知线程分区）</p>
+
+<p>顶级发现：</p>
+
+<p>- ik_llama.cpp的行交错量化重打包给予2.9x PP改进。它已经通过<code>Q4_0_8x8</code>重打包格式上游到主线llama.cpp。Agent确认它在benchmark中处于活跃状态。<br>
+- <a href="https://arxiv.org/abs/2505.07829">Blockbuster</a>论文提议将整个FFN块（RMSNorm + gate matmul + up matmul + SwiGLU + down matmul）融合到单个缓存常驻的分块遍历中。Agent尝试实现它，但权重矩阵是量化的（<code>Q4_0_8x8</code>），而<code>ggml_concat</code>不适用于重打包的量化张量。正确实现需要模型加载器更改。<br>
+- Agent检查了c6i.2xlarge的AVX-512支持是否被使用。是的。<code>-march=native</code>通过编译器预处理器宏启用它，尽管CMake变量显示<code>GGML_AVX512=OFF</code>（这只影响MSVC构建）。<br>
+- 合并的gate+up权重（<a href="https://github.com/ggml-org/llama.cpp/pull/19139">PR #19139</a>）连接gate和up投影权重矩阵，以消除每个FFN块的一个激活加载。这对MoE模型给予+12% PP，但尚未为密集模型实现。</p>
+
+<p>fork分析比arxiv搜索更有用。几个可操作的的想法来自研究ik_llama.cpp和llamafile已经发布的内容。研究CUDA和Metal后端也直接导致了下面的优化#4：Agent注意到RMS_NORM + MUL融合存在于除CPU外的每个后端。</p>
+
+<h3>转向：从计算到内存</h3>
+
+<p>Wave 1失败后，Agent改变了方向：</p>
+
+<blockquote>"我需要转向减少内存流量或改善内存访问模式的优化。"</blockquote>
+
+<p>Matmul占推理时间的约95%，所以剩余操作（softmax、RMS norm、量化）只留下约5%的余量。但这些操作足够小，是compute-bound而不是memory-bound，所以减少它们内部的内存遍历可以帮助。</p>
+
+<h3>成功落地的优化</h3>
+
+<p>30多个实验中有5个进入了最终代码。每个针对非matmul开销的不同部分：</p>
+
+<p>#### 1. Softmax融合</p>
+
+<p>现有代码在三个单独遍历中执行copy -> scale -> add mask。Agent将它们融合为一个：</p>
+
+<pre><code class="language-c">// Before: 3 passes
+memcpy(wp, sp, nc * sizeof(float));      // pass 1: copy
+ggml_vec_scale_f32(nc, wp, scale);        // pass 2: scale
+ggml_vec_add_f32(nc, wp, wp, mp_f32);     // pass 3: add mask
+
+<p>// After: 1 pass<br>
+for (int i = 0; i < nc; i++) {<br>
+    wp[i] = sp[i] * scale + mp_f32[i];<br>
+}<br>
+</code></pre></p>
+
+<p>#### 2. RMS norm融合</p>
+
+<p>相同模式。原来做<code>memcpy(y, x)</code>然后<code>ggml_vec_scale_f32(y, scale)</code>作为两次遍历。融合为一次遍历的<code>y[i] = x[i] * scale</code>。</p>
+
+<p>#### 3. 自适应from_float并行化</p>
+
+<code>from_float</code>量化循环（将激活转换为点积输入格式）使用一刀切的并行化策略。现在在有许多行时按行分区（prompt处理），在很少行时按元素分区（文本生成）。
+
+<p>在同一个VM上通过干净的A/B比较验证（没有flash attention，以隔离这三个更改的效果）：</p>
+
+<p>| | pp (tokens/s) | tg (tokens/s) |<br>
+|---|---|---|<br>
+| Baseline | 210.65 ± 0.64 | 48.90 ± 0.50 |<br>
+| Optimized | 215.97 ± 1.52 | 49.33 ± 0.37 |<br>
+| Change | <strong>+2.5%</strong> | +0.9% |</p>
+
+<p>文本生成几乎没有变化，如预期：TG是memory-bandwidth bound（如上面Wave 1所述），这些更改不触及matmul路径。Prompt处理获得+2.5%，因为PP是compute-bound，受益于更少的内存遍历。</p>
+
+<p>#### 4. 图级RMS_NORM + MUL融合</p>
+
+<p>这个直接来自研究阶段。在研究其他后端如何处理相同操作时，Agent发现了一个差距：</p>
+
+<blockquote>"RMS norm + MUL融合不存在于CPU后端，它只在CUDA中。不是做RMS norm（读取x，计算sum，写入y=x<em>scale）然后MUL（读取y，读取权重，写入y=y</em>weights），我们在一次遍历中完成：y = x <em> scale </em> weights。"</blockquote>
+
+<p>CUDA和Metal后端已经融合这些，但CPU后端没有。Agent不会在没有研究阶段研究其他后端的情况下寻找这个。仅从CPU代码，两步方法看起来很好。</p>
+
+<p>它在CPU图执行循环中实现了模式检测。当它看到<code>RMS_NORM</code>后跟<code>MUL</code>，其中MUL的输入是RMS_NORM输出时，它调用一个融合kernel，在单个遍历中用显式AVX2和NEON内联函数计算<code>y = x <em> (1/sqrt(mean_sq + eps)) </em> weights</code>：</p>
+
+<pre><code class="language-c">// Fused RMS norm + multiply (AVX2 path)
+__m256 vscale = _mm256_set1_ps(scale);
+for (; i + 7 < ne; i += 8) {
+    __m256 vx = _mm256_loadu_ps(x + i);
+    __m256 vw = _mm256_loadu_ps(w + i);
+    _mm256_storeu_ps(y + i, _mm256_mul_ps(_mm256_mul_ps(vx, vw), vscale));
+}
+</code></pre>
+
+<p>第一个版本没有帮助，Agent找出了原因：</p>
+
+<blockquote>"融合节省了一次内存遍历，但融合的标量循环比原来的SIMD优化单独遍历慢。原代码使用了<code>memcpy</code>（高度优化）+ <code>ggml_vec_scale_f32</code>（SIMD）+ <code>binary_op</code>（SIMD）。我们融合的循环<code>y[i] = x[i] <em> scale </em> w[i]</code>是标量的，编译器可能不会像那样高效地向量化两次乘法。"</blockquote>
+
+<p>所以它用显式AVX2和NEON内联函数重写了kernel。单独看测量影响在噪音内，但它与flash attention融合叠加并减少TG方差，可能来自更可预测的内存访问模式。</p>
+
+<p>#### 5. Flash attention KQ融合</p>
+
+<p>分块的flash attention路径在QK tile上作为单独遍历执行scale -> pad -> add mask -> find max。Agent将它们融合到单个AVX2 FMA遍历：</p>
+
+<pre><code class="language-c">// Before: 3 passes over KQ tile
+ggml_vec_scale_f32(M, kq, scale);         // pass 1
+ggml_vec_add_f32(M, kq, kq, mask_row);    // pass 2
+ggml_vec_max_f32(M, &max, kq);            // pass 3
+
+<p>// After: 1 AVX2 FMA pass<br>
+__m256 vscale = _mm256_set1_ps(scale);<br>
+__m256 vmax = _mm256_set1_ps(-INFINITY);<br>
+for (int i = 0; i < M; i += 8) {<br>
+    __m256 v = _mm256_fmadd_ps(_mm256_loadu_ps(&kq[i]), vscale,<br>
+                                _mm256_loadu_ps(&mask_row[i]));<br>
+    _mm256_storeu_ps(&kq[i], v);<br>
+    vmax = _mm256_max_ps(vmax, v);<br>
+}<br>
+</code></pre></p>
+
+<p>明确一下：Agent的kernel融合专门针对flash attention分块路径。Flash attention（<code>-fa 1</code>）是预先存在的llama.cpp功能，不是Agent发明的。但Agent的融合存在于该代码路径内，所以benchmark需要启用<code>-fa 1</code>来执行它们。Agent中途意识到这一点并相应地切换了benchmark。</p>
+
+<h3>结果</h3>
+
+<p>最终比较是苹果对苹果：启用FA的基线 vs 启用FA的优化。两者使用相同标志；区别是融合kernel。通过5次重复的干净A/B构建验证：</p>
+
+<strong>x86，Intel Xeon（c6i.2xlarge，AVX-512）</strong>
+
+<p>| Configuration | pp512 (t/s) | tg128 (t/s) |<br>
+|---|---|---|<br>
+| Baseline + FA | 241.24 ± 2.24 | 41.37 ± 19.24 |<br>
+| <strong>Optimized + FA</strong> | <strong>244.22 ± 1.78</strong> | <strong>47.62 ± 0.59</strong> |<br>
+| <strong>Change</strong> | +1.2% | <strong>+15.1%</strong> |</p>
+
+<strong>ARM，Graviton3（c7g.2xlarge，NEON）</strong>
+
+<p>| Configuration | pp512 (t/s) | tg128 (t/s) |<br>
+|---|---|---|<br>
+| Baseline + FA | 292.99 ± 2.47 | 94.07 ± 19.87 |<br>
+| <strong>Optimized + FA</strong> | <strong>298.56 ± 4.28</strong> | <strong>98.77 ± 2.59</strong> |<br>
+| <strong>Change</strong> | +1.9% | <strong>+5%</strong> |</p>
+
+<p>TG改进比PP大，因为融合的attention路径在文本生成期间更重要，那里attention是总运行时间的更大比例。方差也值得注意：baseline+FA TG有±19 t/s噪音，而optimized+FA在x86上有±0.59 t/s。融合消除了污染缓存的中间写入，使热路径更可预测。</p>
+
+<p>一个警告：我们在共享租户EC2实例上运行了5次重复。嘈杂的邻居可以在共享硬件上摆动结果（见下面的云VM是嘈杂的）。我们确信方向在两种架构和多个VM上都是真实的，但要相应地对待确切百分比。</p>
+
+<p>我们还没有提交PR。完整的diff在<a href="https://github.com/ggml-org/llama.cpp/compare/master...alex000kim:llama.cpp:autoresearch/cpu-inference-opt?expand=1">这里</a>。</p>
+
+<h2>没有工作的东西</h2>
+
+<h3>失败的实验</h3>
+
+<p>30多个实验中有25个没有成功。一些代表性失败：</p>
+
+<p>- 带延迟水平求和的SIMD softmax：在<code>__m256</code>向量中累加部分和，最后做一次水平归约。0%改进。编译器自动向量化标量循环一样好。<br>
+- Flash attention tile size调优：测试了Q=32/KV=128，Q=128/KV=32，Q=32/KV=32。默认64×64已经是最优的。<br>
+- 通过<code>ggml_concat</code>的合并gate+up matmul：尝试在图构建时连接gate和up权重矩阵以节省一次输入激活加载。崩溃因为<code>ggml_concat</code>不支持重打包的量化张量（<code>Q4_0_8x8</code>）。正确实现需要模型加载器更改，不是图时操作。<br>
+- softmax计算期间的V预取：尝试在计算QK上的softmax时预取V数据。0%改进。硬件预取器已经在处理顺序访问。<br>
+- llamafile的sgemm中的冗余加载消除：Q4_0 <code>load</code>函数做<code>denibble + subtract 8</code>，内循环为同一块调用它3次。Agent缓存了加载的值。0%改进，因为编译器的公共子表达式消除已经处理了它。</p>
+
+<p>一个反复出现的主题：编译器和硬件已经在做许多你会想到手动尝试的事情。没有编译器行为经验，Agent无法预测编译器会处理哪些"优化"。</p>
+
+<h3>benchmark bug</h3>
+
+<p>我们的<code>autoresearch.sh</code>有一个JSON解析bug，报告文本生成为14 t/s而不是52 t/s。多个实验在错误基线上运行，直到我们捕获它。bug：<code>llama-bench</code>输出带有<code>n_prompt</code>和<code>n_gen</code>字段的JSON，解析脚本在一个不存在的字段名上过滤。</p>
+
+<p>人类也会犯这个错误，但可能会更快注意到不合理低的数字。Agent信任自己的脚本。</p>
+
+<h3>云VM是嘈杂的</h3>
+
+<p>共享硬件上的EC2实例显示运行间高达30%的方差，由于嘈杂的邻居。我们学到这个教训：exp-08显示"+2.1%改进"，结果在重新测量基线时在噪音内。VM-02一直显示比其他更高的方差。</p>
+
+<p>缓解措施：用新的替换嘈杂的VM（新VM通常落在更安静的主机上），使用stddev作为质量信号，只信任stddev <平均值2%的结果。</p>
+
+<h3>代码审查</h3>
+
+<p>在产生优化后，Agent针对llama.cpp的代码库惯例和过去的维护者反馈审查了自己的更改。它在自己的图融合代码中捕获了一个正确性bug：手动的模式检测没有检查中间RMS norm输出在图中是否有其他消费者。如果另一个节点从该输出读取，融合kernel（只写入MUL输出）将使其未初始化。</p>
+
+<p>修复：使用现有的<code>ggml_can_fuse()</code>基础设施，它验证使用计数、计算标志、输出标志和视图源链。每个其他后端（CUDA、Metal、Vulkan、OpenCL）已经在使用这个。</p>
+
+<h2>这对编码Agent意味着什么</h2>
+
+<p>标准autoresearch循环（从代码头脑风暴，运行实验，检查指标）在优化表面在源代码中可见时工作。Liquid结果证明了这一点。但对于代码库不包含足够信息来生成好假设的问题，给Agent访问论文和竞争实现会改变它尝试的东西。</p>
+
+<p>llama.cpp上的Wave 1实验都是"让这个循环更快"的变体，当你只有代码作为上下文时你会得到的那种假设。在阅读关于算子融合的论文并研究CUDA/Metal后端如何处理相同操作后，Agent开始问不同的问题："我可以融合这两个操作以消除内存遍历吗？"和"这个模式在其他后端存在但CPU不存在吗？"这些问题导致了优化#4和#5。</p>
+
+<p>这是我们这次运行与我们<a href="https://blog.skypilot.co/scaling-autoresearch/">之前的GPU autoresearch工作</a>的比较。注意这些针对非常不同的问题（ML训练超参数 vs 编译的C++ kernel），所以数字不能直接比较：</p>
+
+<p>| | <a href="https://blog.skypilot.co/scaling-autoresearch/">GPU Autoresearch</a> | Literature-Guided Autoresearch |<br>
+|---|---|---|<br>
+| Target | ML training (karpathy/autoresearch) | 任何OSS项目 |<br>
+| Compute | GPU clusters (H100/H200) | CPU VMs（便宜） |<br>
+| Search strategy | Agent从代码上下文头脑风暴 | Agent阅读论文 + profile瓶颈 |<br>
+| Experiment count | ~910 in 8 hours | 30+ in ~3 hours |<br>
+| Experiment cost | ~5 min each（训练运行） | ~5 min each（构建 + benchmark） |<br>
+| Total cost | ~$300 (GPU) | ~$20 (CPU VMs) + ~$9 (API) |</p>
+
+<p>实验计数较低，因为每个llama.cpp实验涉及完整的CMake构建（约2 min）加benchmark（约3 min），Agent在波次之间花时间阅读论文和profiling。对于GPU autoresearch，Agent可以每波发射10-13个实验并在5分钟内获得结果。在这里，它每波运行4个实验（每个VM一个），并在波次之间花时间做研究。</p>
+
+<h2>在你自己的项目上尝试</h2>
+
+<p>设置适用于任何有benchmark和测试套件的项目。克隆你的目标，下载两个文件，并将你的编码Agent指向指令：</p>
+
+<pre><code class="language-bash"><h1>Clone your target project</h1>
+git clone https://github.com/<org>/<project>.git
+cd <project>
+
+<h1>Download the experiment template and agent instructions</h1>
+curl -fsSL https://raw.githubusercontent.com/skypilot-org/skypilot/master/examples/autonomous-code-optimization/experiment.yaml -o experiment.yaml
+curl -fsSL https://raw.githubusercontent.com/skypilot-org/skypilot/master/examples/autonomous-code-optimization/instructions.md -o instructions.md
+
+<h1>Point your coding agent at the instructions</h1>
+claude "Read instructions.md and optimize <project> for <your metric>."
+</code></pre>
+
+<p>或使用一行设置：</p>
+
+<pre><code class="language-bash">export TARGET_REPO="https://github.com/<org>/<project>.git"
+curl -fsSL https://raw.githubusercontent.com/skypilot-org/skypilot/master/examples/autonomous-code-optimization/setup.sh | bash
+</code></pre>
+
+<p>ML推理框架是好的候选者，因为它们移动快，有清晰的吞吐量指标，新优化机会随着每个主要功能不断出现。一些起点：</p>
+
+<p>| Project | Metric | Literature angle |<br>
+|---|---|---|<br>
+| <a href="https://github.com/vllm-project/vllm">vLLM</a> | tokens/s via <code>benchmark_throughput.py</code> | PagedAttention调度，前缀缓存，推测解码 |<br>
+| <a href="https://github.com/sgl-project/sglang">SGLang</a> | tokens/s, TTFT | RadixAttention，约束解码，分块预填充 |<br>
+| <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> | tokens/s via <code>llama-bench</code> | 算子融合，量化matmul，缓存高效attention |<br>
+| <a href="https://github.com/NVIDIA/TensorRT-LLM">TensorRT-LLM</a> | tokens/s via <code>benchmarks/</code> | Kernel融合，KV缓存优化，in-flight batching |<br>
+| <a href="https://github.com/ggerganov/ggml">ggml</a> | <code>test-backend-ops</code> perf | SIMD kernel，量化格式，图优化 |<br>
+| <a href="https://github.com/ggerganov/whisper.cpp">whisper.cpp</a> | real-time factor via <code>bench</code> | 推测解码，批量beam search |</p>
+
+<p>我们也尝试了更成熟的项目（Valkey/Redis、PostgreSQL、CPython、SQLite），发现更难发现改进。这些代码库已被数百名贡献者优化了数十年，Agent发现的收益在噪音内。</p>
+
+<p>在YAML中设置<code>infra:</code>以针对特定后端（<code>infra: k8s</code>用于Kubernetes，<code>infra: aws</code>用于AWS等）。</p>
+
+<p>完整设置在<a href="https://github.com/skypilot-org/skypilot/tree/master/examples/autonomous-code-optimization"><code>skypilot/examples/autonomous-code-optimization</code></a>。</p>
+
+<p>---</p>
+
+<em>要获取最新更新，请star并watch项目的<a href="https://github.com/skypilot-org/skypilot/">GitHub repo</a>，follow <a href="https://twitter.com/skypilot_org">@skypilot_org</a>，或加入<a href="https://slack.skypilot.co/">SkyPilot community Slack</a>。</em>
+</article>
+
+</body>
+</html>

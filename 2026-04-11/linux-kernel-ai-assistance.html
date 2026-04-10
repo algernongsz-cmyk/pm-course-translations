@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>向 Linux 内核贡献代码时的 AI 辅助</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.8;
+      color: #333;
+    }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    pre code { background: none; padding: 0; }
+    blockquote {
+      border-left: 4px solid #ddd;
+      margin: 1em 0;
+      padding-left: 1em;
+      color: #666;
+    }
+    img { max-width: 100%; height: auto; }
+    a { color: #0366d6; }
+  </style>
+</head>
+<body>
+
+<article>
+<h1>向 Linux 内核贡献代码时的 AI 辅助</h1>
+
+<blockquote>原文：<a href="https://github.com/torvalds/linux/blob/master/Documentation/process/coding-assistants.rst">AI assistance when contributing to the Linux kernel</a></blockquote>
+<blockquote>翻译日期：2026-04-11</blockquote>
+
+<p>本文档为使用 AI 辅助工具向 Linux 内核贡献代码的 AI 工具和开发者提供指导。</p>
+
+<h2>遵循标准开发流程</h2>
+
+<p>协助 Linux 内核开发的 AI 工具应遵循标准内核开发流程：</p>
+
+<p>- Documentation/process/development-process.rst<br>
+- Documentation/process/coding-style.rst<br>
+- Documentation/process/submitting-patches.rst</p>
+
+<h2>许可证合规要求</h2>
+
+<p>所有贡献必须符合内核的许可证要求：</p>
+
+<p>- 所有代码必须与 GPL-2.0-only 兼容<br>
+- 使用适当的 SPDX 许可证标识符<br>
+- 详见 Documentation/process/license-rules.rst</p>
+
+<h2>Signed-off-by 标签规范</h2>
+
+<strong>AI Agent 禁止添加 Signed-off-by 标签。</strong>
+
+<p>只有人类才能合法认证开发者原创证书（DCO）。</p>
+
+<p>人类提交者需负责：</p>
+
+<p>- 审查所有 AI 生成的代码<br>
+- 确保符合许可证要求<br>
+- 添加自己的 Signed-off-by 标签以认证 DCO<br>
+- 对贡献承担全部责任</p>
+
+<h2>AI 辅助的归属标记</h2>
+
+<p>当 AI 工具参与内核开发时，适当的归属有助于追踪 AI 在开发过程中不断演变的角色。</p>
+
+<p>贡献应包含 Assisted-by 标签，格式如下：</p>
+
+<pre><code class="language-">Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
+</code></pre>
+
+<p>字段说明：</p>
+
+<p>- AGENT_NAME：AI 工具或框架的名称<br>
+- MODEL_VERSION：使用的具体模型版本<br>
+- [TOOL1] [TOOL2]：可选的专用分析工具（如 coccinelle、sparse、smatch、clang-tidy）</p>
+
+<p>基础开发工具（git、gcc、make、编辑器）无需列出。</p>
+
+<h2>示例</h2>
+
+<pre><code class="language-">Assisted-by: Claude:claude-3-opus coccinelle sparse
+</code></pre>
+
+</article>
+
+</body>
+</html>
