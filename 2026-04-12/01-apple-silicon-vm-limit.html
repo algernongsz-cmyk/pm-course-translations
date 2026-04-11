@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Silicon 与虚拟机：突破 2 个 VM 的限制</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.8;
+      color: #333;
+    }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    pre code { background: none; padding: 0; }
+    blockquote {
+      border-left: 4px solid #ddd;
+      margin: 1em 0;
+      padding-left: 1em;
+      color: #666;
+    }
+    img { max-width: 100%; height: auto; }
+    a { color: #0366d6; }
+  </style>
+</head>
+<body>
+
+<article>
+<h1>Apple Silicon 与虚拟机：突破 2 个 VM 的限制</h1>
+
+<p><em>原文：<a href="https://khronokernel.com/macos/2023/08/08/AS-VM.html">Apple Silicon and Virtual Machines: Beating the 2 VM Limit</a></em><br>
+<em>翻译日期：2026-04-12</em></p>
+
+<h2>macOS 内核深入探索</h2>
+
+<p>首先，我最初以为这个限制是基于用户空间的，所以应该嵌入在 /System/Library/Frameworks/Virtualization.framework 的某个地方。</p>
+
+<p>由于 macOS Big Sur 的 dyld 框架合并，我们需要手动提取框架，或者使用工具如 <a href="https://www.hopperapp.com">Hopper 反汇编器</a> 来加载 dyld 共享缓存中嵌入的特定二进制文件。</p>
+
+<p>关于 macOS 框架和 dyld 共享缓存的更多信息：<a href="https://khronokernel.github.io/macos/2022/11/01/LEGACY-METAL-PART-1.html#battle-against-on-disk-binaries">与磁盘二进制文件的斗争</a></p>
+
+<p>通过这种方式，我能够更仔细地检查框架。然而，经过数小时的研究，我仍然无法找到 Apple 在哪里设置了 VM 限制。</p>
+
+<p>最多只能确定错误信息是从框架生成的，但用户空间本身并没有定义硬编码的 2 个 VM 限制……</p>
+
+<p>在 Hack Different Discord 服务器上，<a href="https://github.com/jevinskie">jevinskie</a> 给了我一个提示，我了解到 Apple 的客户机限制是在 XNU（macOS 内核）的闭源部分实现的。</p>
+
+<p>虽然我没有任何字符串可以参考，但我知道 Intel 内核不会有相同的代码。因此，通过对比 Intel 和 Apple Silicon 内核的函数和字符串，我发现主要的 VM 栈位于 hv_vm_* 下。</p>
+
+<p>将 macOS Sonoma Beta 4 (23A5301h) 的开发内核放入 <a href="https://hex-rays.com/ida-pro/">IDA</a> 中，我找到了 VM 栈的初始化代码：hv_init()：</p>
+
+<p>要获取开发内核，你需要从开发者门户下载你操作系统的 <a href="https://developer.apple.com/download/all/?q=Kernel%20Debug%20Kit">Kernel Debug Kit</a></p>
+
+<p>这里我们看到 Apple 如何处理 VM 限制：使用 int hv_apple_isa_vm_quota 变量，内核在新的虚拟机启动/停止时递减/递增该变量：</p>
+
+<p>递增函数和递减函数：</p>
+
+<pre><code>void hv_vm_destroy_0(hv_vm_t_0 *vm)
+void hv_trap_vm_create(uint64_t_0 arg)
+</code></pre>
+
+<p>还有更有趣的，2 个新的启动参数：hypervisor= 和 hv_apple_isa_vm_quota=。</p>
+
+<p>前者是后者的简单门控检查，后者更有趣：hv_apple_isa_vm_quota= 可以在内核中覆盖 VM 限制！</p>
+
+<p>然而，经过进一步研究，我发现这个逻辑在发布版内核中并不相同。相反，Apple 将 hypervisor 启动参数替换为通过系统完整性保护的 AppleInternal 检查：</p>
+
+<p>关于 SIP 的更多信息，我之前写过：<a href="https://khronokernel.github.io/macos/2022/12/09/SIP.html">系统完整性保护：被误解的设置</a></p>
+
+<pre><code>/*
+ CSR_ALLOW_APPLE_INTERNAL = 0x10
+
+ From XNU Source:
+ #define CSR_ALLOW_APPLE_INTERNAL (1 << 4)
+ https://opensource.apple.com/source/xnu/xnu-7195.121.3/bsd/sys/csr.h.auto.html
+*/
+if ((*(int8_t *)_csr_config & 0x10) != 0x0) {
+ _PE_parse_boot_argn_internal(*0xfffffe00072696d0 + 0x6c, "hv_apple_isa_vm_quota", 0xfffffe0007b58410, 0x4, 0x0);
+}
+</code></pre>
+
+<p>我们有两个选择：</p>
+
+<ul>
+<li>启动 Apple 的开发内核</li>
+<li>修改发布版内核以移除 AppleInternal 检查</li>
+</ul>
+
+<p>为了保住我仅存的理智，我们选择第一个方案。现在我的下一个挑战：在我的 MacBook Pro 上启动开发内核。</p>
+
+<h2>构建开发内核集合</h2>
+
+<p>要构建开发内核集合，我们需要从 Apple 开发者网站获取相应的 Kernel Debug Kit。注意 KDK 必须与主机匹配，否则在内核和 kext 链接以及启动过程中都可能出现问题。</p>
+
+<p><a href="https://developer.apple.com/download/all/?q=Kernel%20Debug%20Kit">Apple Developer Downloads: Kernel Debug Kit</a></p>
+
+<p>下载并安装 KDK 磁盘映像后，接下来检查你的 Mac 使用的内核类型：</p>
+
+<pre><code>uname -v | awk -F '/' '{print $NF}'| awk -F '_' '{print $NF}'
+</code></pre>
+
+<p>在 M2 Pro MacBook Pro (Mac14,9) 上，这将返回 T6020。在其他 CPU 型号上，尤其是不同代际如 M1 vs M2，内核变体会有所不同。</p>
+
+<p>现在我们可以开始构建内核了！</p>
+
+<p>以下调用假设：</p>
+
+<ul>
+<li>主机使用 T6020 内核</li>
+<li>主机运行 macOS 14.0，Build 23A5301h</li>
+</ul>
+
+<p>请确保调整下面的调用以匹配你的主机。</p>
+
+<p>非常感谢 Apple 的工程师，特别是 <a href="https://twitter.com/afrojer">Jeremy C. Andrus</a> 关于启动自定义内核的博客文章：</p>
+
+<p><a href="https://kernelshaman.blogspot.com/2021/02/building-xnu-for-macos-112-intel-apple.html">为 macOS 11.2 构建 XNU (Intel + Apple Silicon)</a></p>
+
+<pre><code>sudo kmutil create \
+ --arch arm64e \
+ --no-authorization \
+ --variant-suffix development \
+ --new boot \
+ --boot-path VirtualMachine.kc \
+ --kernel /Library/Developer/KDKs/KDK_14.0_23A5301h.kdk/System/Library/Kernels/kernel.development.t6020 \
+ --repository /Library/Developer/KDKs/KDK_14.0_23A5301h.kdk/System/Library/Extensions \
+ --repository /System/Library/Extensions \
+ --repository /System/Library/DriverExtensions \
+ --explicit-only $(kmutil inspect -V release --no-header | grep -v "SEPHiber" | awk '{print " -b "$1; }')
+</code></pre>
+
+<p>这将在你的主目录中创建一个 VirtualMachine.kc 文件。请记住这个路径，因为我们稍后需要从 recoveryOS 访问它。</p>
+
+<h2>配置 Mac 启动开发内核集合</h2>
+
+<p>最后关闭你的 Mac，然后按住电源按钮并选择"Option"进入恢复模式：</p>
+
+<p><a href="https://support.apple.com/en-ca/guide/mac-help/mchl82829c17/mac">在 Apple Silicon Mac 上使用 macOS 恢复</a></p>
+
+<p>接下来，授权用户，然后从菜单栏选择 Utilities -> Terminal。在这里我们将为机器设置一些策略：</p>
+
+<ul>
+<li>禁用系统完整性保护</li>
+<li>允许传递自定义启动参数</li>
+<li>配置 Mac 启动自定义内核集合（将 Macintosh HD 调整为你的卷）</li>
+<li>设置启动参数</li>
+</ul>
+
+<p>kcsuffix=：设置要启动的内核集合变体</p>
+
+<p>hypervisor=：在虚拟化栈中启用特殊功能（即 VM 配额覆盖）</p>
+
+<p>hv_apple_isa_vm_quota=：覆盖 VM 配额，最大值为 0x7FFFFFFF（实际设置为 0xFF (255) 个 VM）</p>
+
+<pre><code>csrutil disable
+bputil --disable-boot-args-restriction
+kmutil configure-boot --volume /Volumes/Macintosh\ HD --custom-boot-object /Volumes/Macintosh\ HD/Users/*/VirtualMachine.kc
+nvram 40A0DDD2-77F8-4392-B4A3-1E7304206516:boot-args='kcsuffix=development hypervisor=0x1 hv_apple_isa_vm_quota=0xFF'
+</code></pre>
+
+<p>重启后，你可以在终端中验证是否生效：</p>
+
+<pre><code>sysctl kern.osbuildconfig
+nvram boot-args
+</code></pre>
+
+<h2>让机器开始工作！</h2>
+
+<p>现在一切准备就绪，你需要获取任何使用 Virtualization.framework 的虚拟化解决方案。一些例子包括：</p>
+
+<ul>
+<li><a href="https://github.com/utmapp/UTM">UTM</a></li>
+<li><a href="https://eclecticlight.co/virtualisation-on-apple-silicon/">Viable</a></li>
+<li><a href="https://www.parallels.com/ca/products/desktop/">Parallels</a></li>
+</ul>
+
+<p>现在我们可以启动 VM 了！下面我在 M2 Pro MacBook Pro 上同时运行了 9 个 macOS VM，而且仍然可以用于测试！</p>
+
+<p>（这也是我第一次听到这台机器的风扇转动，所以我们确实物有所值了 ;p）</p>
+
+<h2>Apple 何时提供了这个功能？</h2>
+
+<p>看起来在 macOS 12 Monterey 中，Apple 添加了这个启动参数以及虚拟化栈。正如我们在 Sonoma 内核中看到的，即使在 Monterey 中 AppleInternal 检查仍然存在。</p>
+
+<p>看来 Apple 在 XNU 中仍然隐藏着大量秘密。</p>
+
+<h2>撤销我们的工作以进行系统更新</h2>
+
+<p>在 Apple Silicon 上使用自定义内核集合时，有一些不幸的缺点。最大的问题是精简的系统更新不再可用。你仍然可以安装更新，但更新完成后机器会报错。</p>
+
+<p>要修复这个问题，你需要将机器恢复到出厂内核集合。</p>
+
+<p>要重置，你只需要在 recoveryOS 中使用 bputil 创建新的启动策略。这可以是完整安全 (--full-security) 或任何其他组合（例如 --disable-boot-args-restriction）。</p>
+
+<p>在 recoveryOS 中运行此命令并重启后，出厂内核应该生效。</p>
+
+<h2>总结</h2>
+
+<p>总的来说，这是一次非常有趣的研究之旅，我很高兴能够弄清楚 Apple 如何实现这个限制。此外，我非常感激尽管这是一个不受支持的用例，CoreOS 的虚拟化团队仍然为爱好者提供了覆盖此限制的选项（即使没有文档记录或不太直观）。</p>
+
+<p>我想到的一些未来改进（虽然不太可能实现）：</p>
+
+<ul>
+<li>开发自动化 KC 构建和启动的工具。下载并为主机生成开发内核集合。</li>
+<li>在 recoveryOS 中配置主机启动内核集合。</li>
+<li>研究开发可以覆盖 hv_apple_isa_vm_quota 变量的内核扩展。这消除了对自定义开发内核集合的需求。</li>
+</ul>
+
+<p>否则，希望社区觉得这篇博文有趣，我的下一个旅程可能会研究 Apple Silicon VM 的 DEP 注册/序列号覆盖是否可行。不过可能不会像这篇文章这么顺利 ;p</p>
+
+</article>
+
+</body>
+</html>
