@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>保持 Postgres 队列健康</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.8;
+      color: #333;
+    }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    pre code { background: none; padding: 0; }
+    blockquote {
+      border-left: 4px solid #ddd;
+      margin: 1em 0;
+      padding-left: 1em;
+      color: #666;
+    }
+    img { max-width: 100%; height: auto; }
+    a { color: #0366d6; }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1em 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th { background-color: #f5f5f5; }
+  </style>
+</head>
+<body>
+
+<article>
+<h1>保持 Postgres 队列健康</h1>
+
+<p><em>原文：<a href="https://planetscale.com/blog/keeping-a-postgres-queue-healthy">Keeping a Postgres Queue Healthy</a></em><br>
+<em>作者：Simeon Griggs | 2026 年 4 月 10 日</em><br>
+<em>翻译日期：2026-04-12</em></p>
+
+<p>一个健康的消化系统能够高效地排出废物。纤维是健康饮食的关键组成部分，不是因为它有营养，而是因为它能让你摄入的所有东西保持流动。</p>
+
+<p>数据库并没有什么不同。如果你想要一个健康的队列表，你需要监控那些设计用来执行清理的系统，要在它们堵塞之前就监控。</p>
+
+<p>Postgres 很早以前就是基于队列工作负载的流行选择，远早于它真正适合这项工作之前。经过多年的发展和多个主要版本，Postgres 只是在这类工作负载上变得更强。</p>
+
+<p>但是，是什么让任务队列特别容易出问题？尽管有这么多进步，还有哪些陷阱依然存在？</p>
+
+<p>这值得了解，因为它们不仅可能搞垮你的任务队列，还可能搞垮你的混合负载数据库和整个应用程序。</p>
+
+<h2>分担负载</h2>
+
+<p>"就用 Postgres" 这个梗让人们相信，每种工作负载都属于 Postgres 数据库。这不是最糟糕的想法。你确实可以把几乎所有东西扔给 Postgres 数据库并让它工作。丰富的扩展生态系统填补了"原生" Postgres 的任何功能空白。</p>
+
+<p>因此，你可能有多种不同的工作负载类型在同一数据库中同时运行。你的 OLTP、OLAP、时间序列、事件溯源、全文搜索、地理空间和/或队列工作负载，可能都在同一个数据库集群中同时运行，有着不同的需求、挑战和优先级——同时争夺相同的资源。</p>
+
+<p>每种工作负载类型都有专门的服务可以单独使用。但是，如果你正在阅读这篇博客文章，你可能正在寻找如何让它们和谐共存的方法。</p>
+
+<p>在 PlanetScale，我们始终支持为每项工作选择合适的工具——无论是 Postgres 还是其他。但如果你对如何在 Postgres 中维护健康的队列和混合负载感兴趣，请继续阅读。</p>
+
+<h2>队列工作负载</h2>
+
+<p>队列表的独特之处在于大多数行都是临时的。插入、读取一次、然后删除。所以表的大小保持大致恒定，而其累积吞吐量是巨大的。</p>
+
+<p>你的应用程序可能使用任务队列来跟踪异步操作，比如发送电子邮件、创建发票或生成报告。在 Postgres 中这样做的主要好处是，你可以让任务状态和数据库中运行的任何其他逻辑与事务保持同步。</p>
+
+<p>如果任务失败，整个事务就会失败并回滚。如果事务失败，任务可能会重试或被删除。使用外部供应商需要仔细协调，以保持与应用程序事务状态的同步。</p>
+
+<h3>今天的示例</h3>
+
+<p>考虑这个简单的队列表，可以用来创建需要完成的单个任务。payload 列包含应用程序完成任务所需的所有信息。</p>
+
+<pre><code>CREATE TABLE jobs (
+ id BIGSERIAL PRIMARY KEY,
+ run_at TIMESTAMPTZ DEFAULT now(),
+ status TEXT DEFAULT 'pending',
+ payload JSONB
+);
+
+CREATE INDEX idx_jobs_fetch ON jobs (run_at) WHERE status = 'pending';</code></pre>
+
+<p>当你的应用程序定期执行查询来检查需要完成的任务时，它会搜索处于待处理状态的最旧任务，执行必要的工作，然后删除该任务。</p>
+
+<p>工作进程打开一个事务并声明下一个待处理任务：</p>
+
+<pre><code>BEGIN;
+
+SELECT * FROM jobs
+WHERE status = 'pending'
+ORDER BY run_at
+LIMIT 1
+FOR UPDATE SKIP LOCKED;</code></pre>
+
+<p>在实践中，保持这个事务尽可能短是至关重要的——它保持打开的时间越长，它阻碍 vacuum 的时间就越长。这篇文章中的示例假设工作进程操作是亚毫秒级的。</p>
+
+<p>工作进程执行任务所需的任何工作。如果工作失败，事务就会回滚——行从未被修改，锁被释放，任务对其他工作进程再次可见。</p>
+
+<p>如果工作成功，工作进程删除任务并提交：</p>
+
+<pre><code>DELETE FROM jobs WHERE id = $1;
+COMMIT;</code></pre>
+
+<p>为了提高并发性和更快的任务处理速度，你可能希望多个工作进程同时执行单个任务。使用上面的示例查询，每个工作进程都受到保护，不会执行重复工作，因为 <code>FOR UPDATE SKIP LOCKED</code> 会"锁定"它正在处理的行，直到事务提交。</p>
+
+<p>如我们所见，任务队列工作负载的本质非常简单。一行被获取然后被删除。但在表面之下，还有更多内容。还有清理工作要做。</p>
+
+<p>导致任务队列和它们运行的数据库退化的常见问题是，数据库无法比新工作积累更快地清理这些事务。</p>
+
+<h3>性能本身不是问题</h3>
+
+<p>Postgres 已被其他人证明可以处理大规模的此类工作负载。所以 Postgres 支持任务队列的能力是毋庸置疑的。</p>
+
+<p>让你的任务队列与数据库中其他竞争工作负载保持和谐通常是挑战所在。</p>
+
+<p>队列表的健康不仅取决于它自己的配置，还取决于在同一个 Postgres 实例上运行的每个其他事务的行为。虽然副本和复制槽也可能对队列表产生负面影响，但这篇文章重点关注主节点上的竞争查询流量。</p>
+
+<h3>清理死元组才是问题</h3>
+
+<p>当行发生变异时，Postgres 可以维护同一行的多个版本，以便不同的事务可以看到查询时的行值。这是 Postgres 对"多版本并发控制"（MVCC）的实现，是其设计的一个核心原则。</p>
+
+<p>这意味着在我们的任务队列中，Postgres 数据库中 DELETE 操作目标的行不会立即被删除。相反，它被标记为删除，对新事务不可见，并保留在数据库中直到被清理。这些尚未删除、不可见的行被称为"死元组"。</p>
+
+<p>死元组通过"vacuum"操作进行清理，可以手动执行，或在健康的 Postgres 数据库中定期自动执行。虽然死元组不会在 SELECT 查询中返回，但它们仍然会产生成本。</p>
+
+<p>对于顺序扫描，执行器从堆页面读取死元组并在丢弃它们之前检查它们的可见性。</p>
+
+<p>对于索引扫描——我们的任务队列依赖的那种，使用 <code>ORDER BY run_at LIMIT 1</code>——成本更加隐蔽：B-tree 索引本身积累了死元组的引用，强制扫描遍历指向不再可见的行的条目。</p>
+
+<p>每个死索引条目都意味着额外的 I/O，用于检查堆页面只是为了丢弃它。这种开销对应用程序是不可见的，但可能会随着死元组的数量大幅增长。</p>
+
+<p>至于尝试清理的频率，autovacuum_naptime 控制启动器在检查每个数据库中需要 vacuum 的表之间休眠多长时间，通常默认为 1 分钟。表何时被 vacuum 取决于死元组阈值 autovacuum_vacuum_threshold 和 autovacuum_vacuum_scale_factor。</p>
+
+<h2>死元组的底层原理</h2>
+
+<p>让我们设想这样一个场景：我们有一个 jobs 表，其中定期创建和处理不同类型的任务。另一个应用程序访问同一个数据库来执行大型分析查询并生成报告。这些是低优先级且完成速度较慢的。</p>
+
+<p>假设你对任务队列表执行查询：</p>
+
+<pre><code>SELECT * FROM jobs WHERE status = 'pending'</code></pre>
+
+<p>你期望看到的响应显示这三个待处理任务：</p>
+
+<pre><code>-- What you see
+ id | run_at | status | payload
+----+-------------------------+---------+-------------------------------
+ 42 | 2026-04-07 09:01:12 UTC | pending | {"type": "email", "to": "..."}
+ 43 | 2026-04-07 09:01:14 UTC | pending | {"type": "invoice", "id": 781}
+ 44 | 2026-04-07 09:01:15 UTC | pending | {"type": "report", "id": 332}
+(3 rows)</code></pre>
+
+<p>每一行内都有元数据，查询执行器读取这些元数据来确定它是否应该包含在响应中，或者对当前事务不可见。虽然你不能查询死元组，但你可以在任何活跃元组的响应中包含这个元数据。</p>
+
+<pre><code>-- This transaction is given an ID (XID) by the database
+SELECT ctid, xmin, xmax, id, status FROM jobs WHERE status = 'pending';
+
+ ctid | xmin | xmax | id | status
+-------+--------+------+----+---------
+ (0,7) | 439821 | 0 | 42 | pending
+ (0,8) | 439825 | 0 | 43 | pending
+ (0,9) | 439830 | 0 | 44 | pending
+(3 rows)</code></pre>
+
+<p>- ctid — 元组在磁盘上的物理位置，表示为表的堆内的（页面，偏移量）。<br>
+- xmin — 插入此行的事务 ID（XID）；读取器使用它来确定行在其事务开始时是否存在。<br>
+- xmax — 删除或锁定此行的 XID；值为 0 表示尚无事务将其标记为删除。</p>
+
+<p>可能还有死元组，即先前删除但尚未物理删除的行，Postgres 执行器在返回响应的途中仍必须扫描这些行。虽然你只看到了三个活跃行，但执行器扫描了更多：</p>
+
+<pre><code>-- Conceptual view: what the executor scans (not real query output)
+ ctid | xmin | xmax | id | status |
+-------+--------+--------+----+---------+
+ (0,1) | 439790 | 439792 | 36 | pending | -- dead: xmax set, deleted by transaction 439792
+ (0,2) | 439795 | 439797 | 37 | pending | -- dead
+ (0,3) | 439800 | 439803 | 38 | pending | -- dead
+ (0,4) | 439804 | 439806 | 39 | pending | -- dead
+ (0,5) | 439808 | 439812 | 40 | pending | -- dead
+ (0,6) | 439814 | 439818 | 41 | pending | -- dead
+ (0,7) | 439821 | 0 | 42 | pending | -- live: xmax is 0, not deleted
+ (0,8) | 439825 | 0 | 43 | pending | -- live
+ (0,9) | 439830 | 0 | 44 | pending | -- live
+(6 dead tuples + 3 live rows scanned, 3 rows returned)</code></pre>
+
+<p>这个故事不限于堆。表上的任何索引都保持叶条目按排序顺序，每个条目引用堆上的 ctid。按索引顺序扫描会跟随这些指针并检查堆。当任何叶条目在其堆元组已死时仍然存在时，该扫描中会有浪费的工作。概念上（当清理尚未删除那些指针时的最坏情况）：</p>
+
+<pre><code>-- Conceptual view: index leaf entries visited in run_at order (not real query output)
+ run_at (pending) | tid | after heap lookup
+----------------------+-------+--------------------
+ 2026-04-07 08:59:01 | (0,1) | dead — discarded
+ 2026-04-07 08:59:03 | (0,2) | dead
+ 2026-04-07 08:59:05 | (0,3) | dead
+ 2026-04-07 08:59:07 | (0,4) | dead
+ 2026-04-07 08:59:09 | (0,5) | dead
+ 2026-04-07 08:59:11 | (0,6) | dead
+ 2026-04-07 09:01:12 | (0,7) | live
+ 2026-04-07 09:01:14 | (0,8) | live
+ 2026-04-07 09:01:15 | (0,9) | live
+(6 dead index targets + 3 live rows reachable, same shape as the heap walk above)</code></pre>
+
+<p>在我们的想象规模中，三个任务和六个死元组不是问题。</p>
+
+<p>然而，如果数据库不能比其工作负载创建死元组更快地回收它们，数据库注定会失败。一个经过良好调优和配置的 Postgres 集群可以处理每秒数万个任务的吞吐量。那么是什么导致表膨胀？</p>
+
+<p>通常，这种情况发生在高写入流失——插入、更新和删除行的快速循环——超过 autovacuum 时。但 autovacuum 落后不仅仅是吞吐量的问题。即使 autovacuum 运行得足够频繁，它也无法删除可能仍对活跃事务可见的死元组。</p>
+
+<h3>当 autovacuum 糟糕时</h3>
+
+<p>有几种常见情况会使 autovacuum 无法有效清理死元组。</p>
+
+<p>某些表锁可以阻止清理，不当的 autovacuum 配置可能导致死元组的清理率次优。</p>
+
+<p>在健康的数据库中，autovacuum 会定期运行并清理对它可见的死元组。</p>
+
+<p>然而，最常见的情况是，当活跃事务阻止死元组变得可回收时，清理会被阻止。Postgres 不会 vacuum 任何可能仍对活跃事务可见的死元组。最旧的此类事务设置截止点——称为"MVCC 视界"。在该事务完成之前，比其快照更新的每个死元组都会被保留。</p>
+
+<p>一个需要 2 分钟才能完成的单个事务会将视界固定整整 2 分钟。</p>
+
+<p>产生相同失败模式的另一种工作负载类型是多个重叠查询，它们都不是单独长时间运行的，但会持续固定视界。</p>
+
+<p>例如，想象三个分析查询，每个运行 40 秒，相隔 20 秒交错。没有一个单独的查询会因为运行时间过长而触发超时。但因为总有一个处于活跃状态，视界永远不会前进，对 vacuum 的影响与一个永不结束的事务相同。</p>
+
+<p>如果你的数据库只有任务队列这一种工作负载，这不太可能发生。但你遵循"就用 Postgres"的理念。所以，你有许多重叠的工作负载，每个都有自己的优先级，都依赖于互不干扰。你的问题不是 Postgres 不适合任务队列，或者它不能足够快地完成任务——而是这些快速任务和它们快速积累的死元组，由于其他并发运行的、重叠的较慢查询，没有被足够快地清理。</p>
+
+<h2>我们可用的工具</h2>
+
+<p>经过多年的发展和 Postgres 的主要版本，已添加新工具来简化队列性能的维护。</p>
+
+<p>如前所述，你可以尝试调整 Postgres 的 autovacuum 设置，例如 autovacuum_vacuum_cost_delay 和 autovacuum_vacuum_cost_limit，以改善操作的频率和效果。但在我们设想的场景中，我们希望修复的不是任务队列的吞吐量；而是其他工作负载如何负面影响它。</p>
+
+<p>为了防止长时间运行的查询运行太久，有几个超时配置选项：</p>
+
+<p>- statement_timeout，在 Postgres 7.3 中引入，会杀死任何超过指定持续时间的单个 SQL 语句。<br>
+- idle_in_transaction_session_timeout，来自 Postgres 9.6，会终止在打开的事务中空闲时间超过指定持续时间的会话。<br>
+- transaction_timeout，来自 Postgres 17.0，会杀死任何超过指定持续时间的活跃或非活跃事务。</p>
+
+<p>然而，这些都不能解决我们的具体问题。它们是只能针对单个查询执行时间的钝器，无法限制并发性或执行成本。我们需要防止任何持续固定 MVCC 视界的工作负载。</p>
+
+<p>需要的是一个能够区分不同"类别"的流量、让高优先级工作负载不受影响、并限制低优先级工作负载消耗资源速率的工具。</p>
+
+<h2>引入 Database Traffic Control™</h2>
+
+<p>Traffic Control 是 Insights 扩展的一部分，由 PlanetScale 开发，专门用于 PlanetScale Postgres。非常适合当你需要对单个查询如何执行以及它们可以消耗多少资源进行细粒度控制的情况。</p>
+
+<p>在 Traffic Control 中被 Resource Budget 定位的查询会被分配有限的资源集；一旦超过该限制，它们可以被阻止。</p>
+
+<p>我们设想场景的解决方案是限制重叠的较慢查询可以运行的频率以及一次可以运行多少。超时是一种钝器，无法给我们那种细粒度的控制。有了这些查询的限制，我们可以确信 autovacuum 更有可能以可接受的速率清理死元组。</p>
+
+<p>由于我们的问题解决方案涉及终止某些查询，我们的应用程序包含重试逻辑至关重要。如果数据库做的更少工作就说它运行得更好，这是不公平的。我们试图平滑执行工作的速率，同时仍然做同样多的工作。</p>
+
+<p>在我们的应用程序中，被阻止的查询不会被永远拒绝；它们会在更合适的时间重试。</p>
+
+<h2>构建演示</h2>
+
+<p>这篇文章的灵感来自一场内部讨论，讨论在 Postgres 数据库中放置任务队列的智慧，其中分享了以下博客文章。</p>
+
+<p>2015 年，Brandur Leach 发布了 <a href="https://brandur.org/postgres-queues">Postgres Job Queues & Failure By MVCC</a>，记录了 Postgres 支持的任务队列中的灾难性失败模式。那篇博客文章还包括一个测试平台，用于演示未关闭的事务如何固定 MVCC 视界并阻止清理。</p>
+
+<p>幸运的是，原始测试平台仍然可以在 <a href="https://github.com/brandur/que-degradation-test">brandur/que-degradation-test</a> 找到，因此为了测试我们目前学到的所有内容，我们可以用它作为灵感来验证我们的解决方案。</p>
+
+<h2>重现问题</h2>
+
+<p>自 2015 年以来发生了很多变化。我的目的是用 Postgres 18 重现相同的应用程序工作负载，看看我是否能重现相同的问题。</p>
+
+<p>原始测试平台需要 Ruby、Que gem（v0.x），并在 Postgres 9.4 上测试。按原样运行将测试现代 Postgres 上十年前的库，而不是现代 Postgres 上的模式。为了在我能理解的代码库中隔离 SQL 级别的行为，我用 TypeScript 和 Bun 重写了测试。</p>
+
+<p>简而言之，我们保持了与 Que 相同的递归 CTE 模式。使用相同的模式、生产者速率、工作持续时间、工作进程数量和长运行模式。在 PlanetScale PS-5 集群上运行（起价每月 $5）。</p>
+
+<p>结果是可见但可控的退化。虽然原始测试在 15 分钟内将数据库置于死亡螺旋中，但我的 PS-5 在相同持续时间内将工作队列保持在接近零。然而，死元组仍有明显的线性增长，表明在更长的时间尺度上，会遇到相同的问题。因此，虽然原始问题在现代版本的 Postgres 中得到缓解（部分归功于 B-tree 索引清理——针对版本流失的自底向上删除、死索引元组的扫描驱动删除和相关行为），但它并未被消除。</p>
+
+<h3>尝试修复</h3>
+
+<p>接下来，我想知道现代版本的 Postgres 是否改进了性能；我们能解决原始问题吗？在 2026 年，有两种特定的改进可供我们使用，这些在 2015 年是不存在的。</p>
+
+<p>- FOR UPDATE SKIP LOCKED 完全用单个 SELECT 替换递归 CTE，跳过其他工作进程锁定的行。<br>
+- 批量处理（每个事务 10 个任务）一次锁获取覆盖 10 个任务而不是 1 个，分摊索引扫描成本。</p>
+
+<p>我们保持其他所有内容相同：8 个工作进程、50 个任务/秒生产者、10ms 工作、长运行者在 45 秒后启动。结果如下：</p>
+
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>原始（递归 CTE）</th>
+<th>增强（SKIP LOCKED + 批量）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基线锁时间</td>
+<td>2-3ms</td>
+<td>1.3-3.0ms</td>
+</tr>
+<tr>
+<td>结束锁时间（典型）</td>
+<td>10-34ms</td>
+<td>9-29ms</td>
+</tr>
+<tr>
+<td>最差峰值</td>
+<td>84.5ms（在 33k 死元组时）</td>
+<td>180ms（在 24k 死元组时）</td>
+</tr>
+<tr>
+<td>队列深度</td>
+<td>0-100（震荡）</td>
+<td>0（大部分）</td>
+</tr>
+<tr>
+<td>结束时的死元组</td>
+<td>42,400</td>
+<td>42,450</td>
+</tr>
+<tr>
+<td>吞吐量</td>
+<td>~89/s</td>
+<td>~50/s</td>
+</tr>
+</tbody>
+</table>
+
+<p>退化曲线几乎相同。这些更新没有影响 MVCC 退化，因为两种方法都扫描相同的 B-tree 索引并遇到相同的死元组。</p>
+
+<p>主要改进是吞吐量差异，但这反映了测试的设计，而不是锁策略。在 50 个任务/秒的生产速率下，CTE 工作进程各自独立获取任务并超过生产者，而批量工作进程排空队列并花时间在退避睡眠中。两个版本都没有真正的压力。</p>
+
+<p>总之，十年前设计的 Postgres 支持的队列可以在 15 分钟内杀死数据库，现在可以存活更长时间，但原始问题仍然存在。现代 Postgres 提高了下限，但没有移除上限。如果我们不是运行 50 个任务/秒，而是运行 500 个任务/秒，相同的问题会更快发生，性能退化，你的应用程序会受苦。</p>
+
+<h3>用 Traffic Control 修复</h3>
+
+<p>Traffic Control 中的 Resource Budget 给我们一些杠杆来管理目标查询可以访问多少资源：</p>
+
+<p>- 服务器份额和突发限制：服务器资源的百分比以及它们可以被消耗的速度。<br>
+- 每个查询限制：查询可以运行的时间，以完整服务器使用秒数衡量。<br>
+- 最大并发工作进程：可用工作进程的百分比。</p>
+
+<p>Resource Budget 配置为使用其中一个或多个限制来防止特定工作负载消耗资源，否则这会对其他工作负载产生负面影响。</p>
+
+<p>查询最常见的是通过附加到查询的 SQLCommenter 标签中包含的元数据来定位。对于我们的示例，分析查询设置了 action=analytics。</p>
+
+<p>由于 idle_in_transaction_session_timeout 可以从原始基准测试中捕获并杀死"长运行者"空闲事务，我将退化触发器切换为更现实的生产场景：多个重叠的分析查询通过活跃工作保持事务打开——你不能只用会话超时杀死的那种。</p>
+
+<p>为了演示 Traffic Control 在遏制这种退化方面的有效性，我将所有 action=analytics 查询的最大并发工作进程限制为 1 个工作进程（max_worker_processes 的 25%），目的是永远只允许单个分析查询一次运行。</p>
+
+<p>为了在 15 分钟的测试窗口内给系统施加足够的压力以产生死亡螺旋，我将生产增加到 800 个任务/秒。</p>
+
+<p>我在同一个 EC2 实例上对同一个 PlanetScale 数据库运行了两次"增强"工作负载：</p>
+
+<p>- 800 个任务/秒<br>
+- 3 个并发分析工作进程运行 120 秒查询，交错以使它们持续重叠<br>
+- 15 分钟持续时间</p>
+
+<p>结果展示了解决核心清理问题的能力。</p>
+
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>Traffic Control 禁用</th>
+<th>Traffic Control 启用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>队列积压</td>
+<td>155,000 个任务</td>
+<td>0 个任务</td>
+</tr>
+<tr>
+<td>锁时间</td>
+<td>300ms+</td>
+<td>2ms</td>
+</tr>
+<tr>
+<td>结束时的死元组</td>
+<td>383,000</td>
+<td>0–23,000（循环）</td>
+</tr>
+<tr>
+<td>分析查询</td>
+<td>3 个并发、重叠</td>
+<td>一次 1 个，2 个重试</td>
+</tr>
+<tr>
+<td>VACUUM 有效性</td>
+<td>被阻止（视界始终固定）</td>
+<td>正常（查询之间的窗口）</td>
+</tr>
+<tr>
+<td>结果</td>
+<td>死亡螺旋</td>
+<td>完全稳定</td>
+</tr>
+</tbody>
+</table>
+
+<p>Traffic Control 能够针对特定工作负载并限制它们的并发性——这是 autovacuum 配置调整或超时无法做到的。分析报告仍然会在容量允许的情况下执行，在 15 分钟的窗口内完成了 15 个。完成更多分析查询需要更长时间，但队列始终保持健康。</p>
+
+<h2>总结</h2>
+
+<p>Postgres 支持的队列中的 MVCC 死元组问题并不是 2015 年的遗迹。现代 Postgres 提高了阈值——B-tree 改进和 SKIP LOCKED 购买了显著的余量——但底层机制没有改变。当 VACUUM 无法清理它们时，死元组会积累，当长时间运行或重叠的事务固定 MVCC 视界时，VACUUM 无法清理它们。</p>
+
+<p>在一个"就用 Postgres"的世界中，队列、分析和应用程序逻辑共享单个数据库，这不是理论风险。这是正常的运行条件。危险的版本不是戏剧性的崩溃——而是一种悄悄退化的平衡，锁时间缓慢上升，任务变慢，没有任何警报触发。</p>
+
+<p>Postgres 提供基于超时的工具，但它们无法区分工作负载类别或限制并发性。如果你将队列与其他工作负载一起运行，你能做的最有影响的事情就是确保 VACUUM 能够跟上。<a href="/docs/postgres/traffic-control">Traffic Control</a> 使这变得简单。</p>
+
+</article>
+
+</body>
+</html>
