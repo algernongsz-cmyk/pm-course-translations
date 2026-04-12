@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>懒惰丧失的危险</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #333; }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    img { max-width: 100%; height: auto; }
+    a { color: #0366d6; }
+  </style>
+</head>
+<body>
+<article>
+<h1>懒惰丧失的危险</h1>
+<p><em>原文：<a href="https://bcantrill.dtrace.org/2026/04/12/the-peril-of-laziness-lost/">The peril of laziness lost</a></em><br>
+<em>翻译日期：2026-04-13</em></p>
+
+<p>在他的经典著作<a href="https://en.wikipedia.org/wiki/Programming_Perl">《Programming Perl》</a>——被一代技术人员亲切地称为"骆驼书"——Larry Wall 著名地写过程序员的三大美德：懒惰、急躁和傲慢：</p>
+
+<p>如果我们要谈论好的软件设计，我们必须谈论懒惰、急躁和傲慢，这是好的软件设计的基础。我们都曾陷入使用复制粘贴的陷阱，而本应该定义一个更高层次的抽象，哪怕只是一个循环或子程序。诚然，有些人走向了相反的极端，定义了不断增长的高层次抽象堆，而他们本应该使用复制粘贴。但总的来说，我们大多数人需要考虑使用更多的抽象而不是更少。</p>
+
+<p>在这些美德中，我一直认为懒惰是最深刻的：在其半开玩笑的自嘲中，蕴含着对抽象需求的评论，以及对抽象美学的评论。懒惰驱使我们使系统尽可能简单（但不能再简单！）——开发强大的抽象，然后让我们能更轻松地做得更多。</p>
+
+<p>当然，这里的暗示是，要懒惰需要付出很多努力：当程序员从事看似懒惰的<a href="https://www.youtube.com/watch?v=f84n5oFoZBc">吊床驱动开发</a>时，我们实际上是在脑海中反复思考这个问题。我们进行艰难的智力工作来开发这些抽象，部分原因是我们正在优化我们未来自我的假设时间，即使以牺牲当前的时间为代价。</p>
+
+<p>当我们把这个计算做对时，它是光荣的，因为抽象不仅服务于我们自己，还服务于所有在我们之后的人。也就是说，我们的懒惰使软件更容易编写，系统更容易组合——让更多的人能编写更多的软件。</p>
+
+<p>理想情况下，你希望那些从抽象中受益的人将懒惰的美德向前传递——利用他们新获得的能力为自己创建的抽象付出努力。但过去二十年软件开发领域的扩展带来的一个后果是，它包括了越来越多不太可能称自己为程序员的人——对他们来说，懒惰的美德会失去其本意。</p>
+
+<p>更糟糕的是，现代抽象带来的非凡生产力催生了对一种虚假勤奋的强调。贬义地说，这就是<a href="https://web.archive.org/web/20120304081438/http://www.businessweek.com/articles/2012-03-01/the-rise-of-the-brogrammer">brogrammer 的崛起</a>，讽刺的懒惰美德和吊床驱动开发被关于疯狂写代码的<a href="https://www.urbandictionary.com/define.php?term=hustle+porn">奋斗色情</a>所取代。</p>
+
+<p>在这堆干燥的火种上，LLM 的闪电劈了下来。无论一个人对软件创作的态度如何，LLM 都能让这种态度以（更大）的力量应用，所以 LLM 成为 brogrammer 群体的类固醇并不令人惊讶。</p>
+
+<p>他们因新获得的体量而欣喜若狂，似乎对此喋喋不休。以著名的 brogrammer <a href="https://en.wikipedia.org/wiki/Garry_Tan">Garry Tan</a> 为例，他一直对自己使用 LLM 的经历喋喋不休，吹嘘他每天三万七千行代码的速度（而且"还在加速"）：</p>
+
+<p><a href="https://x.com/garrytan/status/2038555792052506941">https://x.com/garrytan/status/2038555792052506941</a></p>
+
+<p>如果懒惰是程序员的美德，那么这样思考软件显然是一种恶习。就像按磅评估文学作品一样，它的谬误即使对新手程序员也是显而易见的。</p>
+
+<p>至于 Tan 以如此疯狂的能量构建的产物，我一直广泛地忽视它。然而，波兰软件工程师 Gregorein<a href="https://x.com/Gregorein/status/2038953944475472316">拆解了它</a>，结果既可预测、又好笑、又具有启发性：Tan 的"newsletter-blog-thingy"的单次加载包含多个测试框架（！）、Hello World Rails 应用（？！）、一个隐藏的文本编辑器，以及同一标志的八个不同变体——其中一个零字节。</p>
+
+<p>这里的问题不是这些具体问题本身（都是可以修复的！），甚至不是认为创造这些问题的方法代表了软件工程的未来这一信念（虽然这确实很烦人！）。</p>
+
+<p>问题是 LLM 本质上缺乏懒惰的美德。工作对 LLM 来说没有任何成本。LLM 不觉得需要优化自己（或任何人）的未来时间，它们会乐于在垃圾堆上倾倒越来越多的东西。如果不受约束，LLM 会使系统变得更大，而不是更好——可能会满足虚荣的指标，但代价是一切重要的东西。</p>
+
+<p>因此，LLM 凸显了我们人类懒惰的重要性：我们有限的时间迫使我们开发简洁的抽象，部分原因是我不想在笨拙抽象的后果上浪费我们（人类！）的时间。最好的工程总是源于约束，而我们时间的约束对我们愿意接受的系统认知负载施加了限制。</p>
+
+<p>这驱使我们使系统更简单，尽管它本质上很复杂。正如我在我的演讲<a href="https://www.youtube.com/watch?v=Cum5uN2634o">《简洁的复杂性》</a>中详细阐述的那样，这是一项重大的工作——我们不能期望不受时间或负载约束的 LLM 自愿承担这项工作。</p>
+
+<p>当然，这并不是说 LLM 不会在我们的未来发挥重要作用：它们是软件工程的非凡工具，但——正如我们在<a href="https://rfd.shared.oxide.computer/rfd/0576#_llms_as_programmers">Oxide 的 LLM 使用指南</a>中概述的那样——它们只是一个工具。我们可以用它们来解决程序员懒惰的非讽刺（和非美德！）方面——帮助我们解决技术债务等棘手问题——或<a href="https://oxide-and-friends.transistor.fm/episodes/engineering-rigor-in-the-llm-age">用它们来促进我们的工程严谨性</a>，但必须服务于我们自己有美德的懒惰：产生一个更简单、更强大的系统，不仅服务于我们自己，还服务于我们之后的几代软件工程师。</p>
+</article>
+</body>
+</html>
