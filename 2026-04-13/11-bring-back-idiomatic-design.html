@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回归惯用设计</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #333; }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    img { max-width: 100%; height: auto; }
+    a { color: #0366d6; }
+    blockquote { border-left: 4px solid #ddd; padding-left: 16px; margin-left: 0; color: #666; }
+    ul, ol { padding-left: 20px; }
+    li { margin-bottom: 0.5em; }
+  </style>
+</head>
+<body>
+<article>
+<h1>回归惯用设计</h1>
+<p><em>原文：<a href="https://essays.johnloeber.com/p/4-bring-back-idiomatic-design">Bring Back Idiomatic Design</a></em><br>
+<em>翻译日期：2026-04-13</em></p>
+
+<p>我属于桌面软件一代。从 Windows 95 到 Windows 7，我在使用鼠标和键盘操作的电脑上使用主要离线的软件，远在平板电脑和智能手机之前。</p>
+
+<p>最近，我怀念那个时代的某个特定部分：它的设计一致性。</p>
+
+<p>我想告诉你关于惯用设计，强调同质化界面的重要性，并建议我们失去了一些重要的东西。</p>
+
+<p>假设你正在登录一个网站，它问："你想保持登录吗？"</p>
+
+<p>网站可以用很多方式问你答案：例如，一个文本字段，你可以输入"是"或"否"，或者一个下拉菜单，你可以选择"保持登录"或"关闭窗口时登出"。</p>
+
+<p>但实际上，它总是复选框。为什么？</p>
+
+<p><img src="https://substackcdn.com/image/fetch/$s_!rxaZ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc7b070ba-f4cc-486e-a1c1-000ecb3c1a5d_517x316.png" alt="复选框示例"></p>
+
+<p>复选框是一个设计惯用语：它是一个如此常见的设计，作为用户，你知道如何使用它而不用思考。</p>
+
+<p>如果你正在制作一个网站并必须问这个问题，你也会不经思考地放入一个复选框。</p>
+
+<p>对构建者和用户来说，这是一个每个人都可以依赖的标准设计模式。</p>
+
+<p>复选框也是界面的一部分。你用它通过与系统输入数据来交互。</p>
+
+<p>界面越好，需要的思考就越少：无论是方向盘还是在线表单，如果你必须花任何时间弄清楚如何使用它，那就是糟糕的。</p>
+
+<p>当你与许多事物交互时，你想要同质化的界面，给你一致的体验。</p>
+
+<p>如果你学到 Command + C 是复制的键盘快捷键，你想让它在任何地方都工作。</p>
+
+<p>你不想在某些情况下记住使用 CTRL + Shift + C，或在其他情况下右键 → 复制，那会很烦人。</p>
+
+<p><img src="https://substackcdn.com/image/fetch/$s_!z68x!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F73dddf96-6db9-44f2-8027-89985d06852a_872x633.png" alt="键盘快捷键不一致"></p>
+
+<p>但这正是我们所处的情况。软件现在在互联网上，界面根本不是同质化的。</p>
+
+<p>有数百种不同的网站让你选择日期、输入信用卡号或做任何数量的常见任务。</p>
+
+<p>键盘快捷键从一个应用到另一个应用不同。</p>
+
+<p>有太多不同的交互方式，你根本无法记住或学习它们。</p>
+
+<p>在 2023 年使用 Web 应用是一个反复练习"我在哪里找到我想做的事？"。</p>
+
+<p>相比之下，桌面软件时代的一个优势是通过使用设计惯用语实现界面高度一致性。</p>
+
+<p>看看这张来自 Windows 2000 的图片：</p>
+
+<p><img src="https://substackcdn.com/image/fetch/$s_!1lkQ!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc2464803-c36f-40fa-81a0-32f305ae0ccf_640x480.png" alt="Windows 2000 界面"></p>
+
+<p>视觉效果感觉有点丑陋和过时：它是块状的，字体不太好，颜色暗淡。</p>
+
+<p>但界面正确地做到了几件事：</p>
+
+<ul>
+<li>File、Edit、View… 菜单结构是标准的。无论你在 Adobe Photoshop 还是 Microsoft Excel，你知道保存 在 File 下，重做 在 Edit 下，全屏 在 View 下等。</li>
+<li>菜单可以通过键盘导航：每个菜单项都有一个小下划线，例如 File 中的 F 和 New 中的 N。它们表示键盘快捷键。你可以输入 ALT+F 打开 File 菜单，然后按 N 打开新文件。这迎合了高级用户，同时使快捷键易于学习。</li>
+<li>底部的状态栏告诉你当前状态的一切：页面、列、字数、是否跟踪更改、插入模式等。</li>
+<li>菜单项清晰标记。单词，而不是图标，是操作的主要界面。图标只在最明显的地方使用。整个界面几乎没有想象空间。在上面的图片中，没有"我想知道这个做什么？"你知道如何使用它，即使你以前从未使用过它。</li>
+</ul>
+
+<p>关键是，这些设计惯用语不仅用于 Microsoft Word，而且用于整个 Windows 生态系统。</p>
+
+<p>看看这个 Windows XP 注销屏幕：</p>
+
+<p><img src="https://substackcdn.com/image/fetch/$s_!o7Gx!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d9c4a86-cb01-4f2c-ab0e-1cf2f0d0a2c8_419x304.png" alt="Windows XP 注销屏幕"></p>
+
+<p>每个按钮在视觉上显然是按钮，并确切地说明它做什么。每个都有一个小下划线表示其键盘快捷键。</p>
+
+<p>这不是很好吗？</p>
+
+<p>桌面软件时代是同质化界面的时代，也许是因为操作系统及其 GUI 库决定了设计的广泛范围，那些约束引导开发者走向统一的模式。</p>
+
+<p>浏览器软件时代是异质化界面的时代。看看我最喜欢的两个 Web 应用的截图：Figma 和 Linear。</p>
+
+<p><img src="https://substackcdn.com/image/fetch/$s_!Cjsb!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff4621407-9a9f-4d25-a907-b8c605e3b2ee_1293x969.png" alt="Figma 界面"></p>
+
+<p><img src="https://substackcdn.com/image/fetch/$s_!CWxV!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa5857db2-ec53-4f6a-9379-2f6013e4b1ea_1292x968.png" alt="Linear 界面"></p>
+
+<p>这可能是当今可用的最好的两个企业软件。</p>
+
+<p>尽管它们有许多相同的功能——团队设置、抽象项目层次结构、协作评论等——它们不共享一个图标。</p>
+
+<p>它们没有共同的设计惯用语。它们有不同的键盘快捷键。</p>
+
+<p>两者都从基本原则设计得很好，但不符合用户可能熟悉的其他界面。</p>
+
+<p>我们处于一个个人设计良好、有用的 Web 应用时代，它们都是独特的。</p>
+
+<p>即使在同一家公司的产品中，体验也是异质的：使用 GMail 与使用 GSuites 与使用 Google Docs 完全不同。</p>
+
+<p>总的来说，这非常令人沮丧。</p>
+
+<p>缺乏同质化界面意味着我大部分数字时间不是处于生产性流程状态，而是在屏幕上四处寻找，问自己"我可以点击那个吗？这会在新标签页中打开吗？浏览器的后退按钮会让我回去吗？"</p>
+
+<p>糟糕！</p>
+
+<p>这种缺乏同质化有两个原因：</p>
+
+<p>所有为鼠标键盘应用设计的模式必须随着触摸屏的出现而重新发明。</p>
+
+<p>大多数 Web 应用必须同时支持移动和桌面体验，这些交互形式非常不同。</p>
+
+<p>因此，大多数用户体验自此陷入尴尬的中间状态，例如用于移动应用的汉堡菜单也用于桌面应用等。</p>
+
+<p>结果是，到处都是糟糕的设计模式。</p>
+
+<p>现代前端开发有一种复制和重用模块化组件的文化，所以很容易复制粘贴糟糕的设计模式并延续这个问题。</p>
+
+<p>经过 10 多年的这种情况，对 UI/UX 设计质量产生了代际腐蚀效果。</p>
+
+<p>如果每个人都遵循相同的设计惯用语，那么界面看起来会相当一致。</p>
+
+<p>在互联网早期，有强烈的设计惯用语：到其他页面的超链接是蓝色下划线的，如果你已经访问过则是紫色的。</p>
+
+<p>太好了！</p>
+
+<p>今天，每个网站都呈现自己的猜测游戏，关于界面元素如何样式化。</p>
+
+<p>那是一个链接吗？也许！</p>
+
+<p>现代 Web 设计如此不惯用可能令人惊讶，因为 HTML/CSS 标准非常规范。</p>
+
+<p>问题在于，即使有编写 HTML 的标准，没有人再写 HTML 了。</p>
+
+<p>人们用 TypeScript 或最新框架写 React。他们导入无数的 npm 包。</p>
+
+<p>所有这些都经过复杂的构建过程，输出在浏览器中运行的东西。</p>
+
+<p>前端开发者这样做是正确的。</p>
+
+<p>今天的浏览器极其强大，提供通用 API，如果你有创意，几乎可以做任何事情。</p>
+
+<p>例如，Figma 不遵循任何 HTML 设计惯用语，因为没有 HTML。</p>
+
+<p>它用 Web Assembly 编写；他们处于在浏览器中实现桌面式软件的前沿。</p>
+
+<p>当然，这打破了 HTML-网页-作为-文档模型。</p>
+
+<p>浏览器的后退按钮、键盘快捷键等被抛弃，而人机交互范式被重建。</p>
+
+<p>简而言之，很少有 Web 设计惯用语，因为前端开发移动太快。</p>
+
+<p>工程师更关心什么是可能的，而不是润色问题，这也是正确的。</p>
+
+<p>多用户、实时协作比高级用户的键盘快捷键更有价值。</p>
+
+<p>有无尽的前端包和部署它们的交互格式，所以在如此大的空间中制定一刀切的惯用语非常困难。</p>
+
+<p>前沿冷却下来，最成功的模式变得明显并最终成为惯用语，需要时间。</p>
+
+<p>然而，今天一些最成功的产品组织积极追求自己的设计惯用语，并在其界面中实现一定的同质化。</p>
+
+<p>Apple 是一个很好的例子。</p>
+
+<p>我们谈论过过去的 Microsoft，但今天的 Apple 推动一个非常鲜明的设计系统。</p>
+
+<p>Apple 的字体、按钮、颜色等的通用库，以及其在所有 Apple 原生应用和设备上的一致性，为第三方应用创造了强大的统一效果。</p>
+
+<p>即使在 iPhone 上使用第三方应用，通过键盘交互、捏合缩放等都由 iOS 控制。</p>
+
+<p>这是 Apple "它就是好用" 效果的重要部分。</p>
+
+<p>强烈、有品味、惯用的设计是 Apple 成功的核心。</p>
+
+<p>有趣的是，"它就是好用" 效果让用户信任默认值并避免自定义。</p>
+
+<p>你在像 Substack 这样的平台上看到类似的动态，作为作者，我没有能力选择字体或甚至下划线文本。</p>
+
+<p>但约束的默认值有品味地设置，效果很好。</p>
+
+<p>Substack 和 Apple 的设计原则随着这些产品成功而获得采用，因为设计师将它们视为成功的例子。</p>
+
+<p>那些设计最终成为惯用语，通过 (1) 人们汇聚到它们作为好的设计，和 (2) 在社区中频繁使用。</p>
+
+<p>作为产品构建者，你想尽可能紧密地遵循设计惯用语，因为它使你的软件更容易使用，并最大化跨设备/浏览器的兼容性。</p>
+
+<p>我遵循这些经验法则，很少打破它们：</p>
+
+<ul>
+<li>尽可能学习并遵循 HTML/CSS 惯用语。例如，链接应该下划线、有颜色、鼠标悬停时指针，并写成 &lt;a&gt; 标签。</li>
+<li>避免 HTML 基础的 JavaScript 重新实现，例如 React Button 组件而不是样式化元素。</li>
+<li>尽可能学习并遵循浏览器惯用语。后退按钮应该总是工作。复制粘贴 URL 应该带你到相同界面。CTRL-点击导航元素应该在新标签页中打开它。</li>
+<li>如果你偏离通用惯用语，确保你的设计完全内部一致，至少在你的组织内"惯用"。</li>
+<li>偏好单词而不是图标。只使用普遍理解的图标。</li>
+<li>如果有疑问，让视觉元素看起来明显。应该永远没有困惑，某个东西是按钮还是标签。</li>
+<li>偏好易于理解的而不是视觉上美丽的。</li>
+<li>如果陷入僵局，参考两种类型的资源来帮助你判断：你知道的最好的设计网站；以及几十年前的界面设计书籍。今天大多数界面设计问题不是新的，而是历史的重复，在过去有已解决的类比。</li>
+</ul>
+
+<p>我梦想有一天，互联网上每个日期选择器或信用卡表单完全相同：经过三十年的迭代开发和数百万次尝试，我们终于汇聚到最好的一个。</p>
+
+<p>我梦想一个未来，在每个 Web 应用中，CTRL-Click 在新标签页中打开东西。</p>
+
+<p>那会很好……</p>
+
+</article>
+</body>
+</html>
