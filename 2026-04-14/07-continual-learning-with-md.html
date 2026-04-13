@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show HN: 使用 .md 进行持续学习</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { font-size: 2em; margin-bottom: 0.5em; }
+        h2 { font-size: 1.5em; margin-top: 1.5em; }
+        h3 { font-size: 1.2em; margin-top: 1.2em; }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "Consolas", "Monaco", monospace;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1em;
+        }
+        ul { line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <h1>Show HN: 使用 .md 进行持续学习</h1>
+    
+    <div class="meta">
+        <p>来源：<a href="https://github.com/SunAndClouds/ReadMe" target="_blank">GitHub - SunAndClouds/ReadMe</a></p>
+        <p>原文链接：<a href="https://github.com/SunAndClouds/ReadMe" target="_blank">https://github.com/SunAndClouds/ReadMe</a></p>
+        <p>翻译日期：2026-04-14</p>
+    </div>
+
+    <h2>README</h2>
+    
+    <p>将你的文件转换为 AI Agent 的记忆文件系统。</p>
+    
+    <h3>Agent 扫描本地文件</h3>
+    
+    <p>源文件追踪：</p>
+    <pre><code>├── ~/.codex/sessions/
+├── ~/.claude/sessions/
+├── ...
+├── ~/Downloads/
+└── ~/Projects/</code></pre>
+
+    <h3>构建 ~/.codex/user_context/</h3>
+    
+    <pre><code>~/.codex/user_context/
+└── 2026_agentic_rag_memory_systems/
+    ├── year.md
+    └── 2026-Q2_prompt_programs_context_retrieval/
+        ├── quarter.md
+        └── 2026-04_bootstrap_and_consolidation/
+            ├── month.md
+            └── 2026-04-13_hierarchical_memory_rewrite.md</code></pre>
+
+    <h3>在 ~/.codex/AGENTS.md 中安装提示</h3>
+    
+    <p>用户特定的上下文可能存在于 <code>~/.codex/user_context/</code>...</p>
+    
+    <pre><code>&lt;user_context&gt;
+用户特定的上下文可能存在于 `~/.codex/user_context/`...
+&lt;/user_context&gt;</code></pre>
+
+    <h3>示例问题</h3>
+    
+    <p>我过去 3 个月一直在做什么？</p>
+    
+    <pre><code>ls ~/.codex/user_context/2026_.../</code></pre>
+
+    <h3>示例回答</h3>
+    
+    <p>你一直在研究 Agent 基础设施：记忆系统、上下文检索和面向公众的产物。</p>
+
+    <h3>初始化</h3>
+    
+    <p>运行以下命令初始化：</p>
+    
+    <pre><code>codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - < Init.md</code></pre>
+
+    <h3>启用自动每日更新</h3>
+    
+    <p>使用以下命令启用自动每日更新：</p>
+    
+    <pre><code>REPO_DIR="$(pwd)" && codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral "Install a daily scheduler for: cd \"$REPO_DIR\" && codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - < Update.md. Use cron by default; otherwise use the host scheduler. Do not create wrapper scripts. Verify codex is on PATH, Update.md exists, and the installed scheduler entry is readable. Do not run Update.md during validation."</code></pre>
+
+</body>
+</html>
