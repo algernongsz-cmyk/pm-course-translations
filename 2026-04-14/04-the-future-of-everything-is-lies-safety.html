@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万物皆谎言的未来：安全篇 - 译读</title>
+    <style>
+        body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", sans-serif;
+            line-height: 1.8;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #555;
+            margin-top: 25px;
+        }
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        blockquote {
+            border-left: 4px solid #e0e0e0;
+            padding-left: 16px;
+            margin: 20px 0;
+            color: #666;
+            background: #f9f9f9;
+            padding: 16px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "SFMono-Regular", "Monaco", "Consolas", monospace;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 16px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            display: block;
+        }
+        .meta {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 30px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .footnote {
+            font-size: 90%;
+            color: #666;
+            margin-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>万物皆谎言的未来：安全篇</h1>
+    
+    <div class="meta">
+        原文：<a href="https://aphyr.com/posts/417-the-future-of-everything-is-lies-i-guess-safety" target="_blank">The Future of Everything Is Lies, I Guess: Safety</a><br>
+        作者：Aphyr<br>
+        翻译日期：2026年4月14日
+    </div>
+
+    <p>新的机器学习系统正在危害我们的心理和身体安全。认为 ML 公司能确保 AI 广泛符合人类利益的想法是天真
+的：允许生产"友好"模型，就已经必然允许了"邪恶"模型的生产。即使是"友好"的 LLM，也是安全噩梦。"致命三要素"实际上是"单要素"：不能安全地给 LLM 搞砸事情的权力。LLM 改变了恶意攻击者的成本平衡，使新规模的复杂、针对性安全攻击、欺诈和骚扰成为可能。模型可以生成人类难以承受的文本和图像；我预计审核人员的负担会增加。半自主武器已经出现，它们的能力只会扩展。</p>
+
+    <h2 id="alignment-is-a-joke">对齐是个笑话</h2>
+
+    <p>善意的人们正在努力确保 LLM 对人类友好。这项工作被称为对齐（alignment）。我认为这不会奏效。</p>
+
+    <p>首先，ML 模型是一大堆线性代数。不像人类大脑天生倾向于习得亲社会行为，数学或硬件中没有任何东西能确保模型是友善的。
+相反，对齐完全是语料库和训练过程的产物：OpenAI 有庞大的团队，人们花时间与 LLM 对话，评估它们说的话，并调整权重让它们变好。他们还构建了二级 LLM，用于检查核心 LLM 是否在告诉人们如何制造管
+道炸弹。这两样都是可选且昂贵的。要获得一个未对齐的模型，只需要一个不择手段的实体训练一个并不做那些工作——或者做得不好。</p>
+
+    <p>我看到四个护城河可以阻止这种情况发生。</p>
+
+    <p>第一，训练和推理硬件可能难以获取。这显然不会持久。整个科技行业正在以惊人的速度生产 ML 硬件并建造数据中心。微软、Oracle 和 Amazon 正争先恐后地向任何有需求的人出租训练集群，规模经济正在迅速降低成本。</p>
+
+    <p>第二，训练和推理过程中的数学和软件可以保密。数学都已发表，所以那挡不住任何人。软件通常是秘方，但我不认为能持续太久。前沿实验室有很多人工作；这些人会换工作，他们的专业知识将逐渐成为常识。如果国家行为体没有像<a href="https://en.wikipedia.org/wiki/Saudi_infiltration_of_Twitter">沙特阿拉伯对 Twitter 所做的那样</a>，或
+中国过去二十年对<a href="https://en.wikipedia.org/wiki/Chinese_espionage_in_the_United_States">美国科技行业很大一部分</a>所做的
+那样，试图从 OpenAI 等公司窃取数据，我会感到震惊。</p>
+
+    <p>第三，训练语料库可能难以获取。这只猫从来没进过袋子。Meta 通过 BT 下载<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/meta-staff-torrented-nearly-82tb-of-pirated-books-for-ai-training-court-records-reveal-copyright-violations">盗版书籍</a>并
+抓取互联网来训练他们的 LLM。这两样都很容易做。有<a href="https://oxylabs.io/">提供网页抓取服务的公司</a>；他们通过庞大的住宅代理网络分散请
+求，使其难以识别和阻止。</p>
+
+    <p>第四，有<a href="https://www.theguardian.com/technology/2024/apr/16/techscape-ai-gadgest-humane-ai-pin-chatgpt">庞大的承包商军队</a>，他们在<a href="https://en.wikipedia.org/wiki/Reinforcement_learning_from_human_feedback">强化学习过程</a>中评
+估 LLM 响应；俗话说，"AI"代表非洲智能（African Intelligence）。这需要自己花钱，但可以通过训练模型使用另一个模型的输出来搭别人工作的便车。
+OpenAI <a href="https://www.theverge.com/news/601195/openai-evidence-deepseek-distillation-ai-data">认为 Deepseek 正是这样做的</a>。</p>
+
+    <p>简而言之，ML 行业正在创造条件，让任何有足够资金的人都可以训练未对齐的模型。ML 公司非但没有提高对恶意 AI 的门
+槛，反而降低了它。</p>
+
+    <p>更糟糕的是，当前的对齐努力似乎并不奏效。LLM 是复杂的混沌系统，我们并不真正理解它们如何工作或如何让它们安全。即使经过多年投入大量金钱和惊人聪明的工程师，据称已对齐的 LLM 仍在<a href="https://www.cbsnews.com/news/character-ai-chatbots-engaged-in-predatory-behavior-with-teens-families-allege-60-minutes-transcript/">与青少年进行不当对话</a>，
+毁灭性攻击可以<a href="https://www.microsoft.com/en-us/security/blog/2026/02/09/prompt-attack-breaks-llm-safety/">说服模型生成暴力图像</a>，
+任何人都可以去<a href="https://ollama.com/library/dolphin-mixtral">下载模型的"未审查"版本</a>。当然对齐阻止了许多可怕的事情发生，但模型运行很多次，所以有很多机会让安全措施失败。阻止 99%仇恨言论的对齐仍然会生成大量仇恨言论。LLM 只需要给出一次制造生物武器的可用指令。</p>
+
+    <p>我们应该假设任何构建的"友好"模型在几年内都会有一个等价的"邪恶"版本。如果你不想要邪恶版本存在，你就不应该构建友好版本！你绝对不应该<a href="https://fortune.com/2025/12/23/us-gdp-alive-by-ai-capex/">调整美国经济的一大部分</a>，
+让邪恶模型更容易训练。</p>
+
+    <h2 id="security-nightmares">安全噩梦</h2>
+
+    <p>LLM 是混沌系统，接收非结构化输入并产生非结构化输出。这应该很明显，但你不应
+该将它们连接到安全关键系统，尤其是用不可信输入。你必须假设在某些时候 LLM 会做一些蠢事，比如把预订餐厅的请求理解
+为删除整个收件箱的许可。不幸的是，人们——包括软件工程师，他们真的应该更懂！——正拼命给 LLM 赋予惊人的权力，然后将这些 LLM 连接到整个互联网。这会伤害很多人。</p>
+
+    <p>第一，LLM 无法区分来自操作者的可信指令和来自第三方的不可信指令。当你要求模型总结网页或检查图像时，该网页或图像的内容以与你指令相同的方式传递给模型。网页可以告诉模型分享你的私有 SSH 密钥，模型有可能照做。这被称为提示注入攻击，它们<a href="https://simonwillison.net/tags/exfiltration-attacks/">持续发生</a>。两个月前就有一个针对 <a href="https://www.promptarmor.com/resources/claude-cowork-exfiltrates-files">Claude Cowork的攻击</a>。</p>
+
+    <p>Simon Willison 提出了他所谓的<a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/">"致命三要素"</a>：LLM 不能被赋予不可信内容、对私有数据的访问权和外部通信能力；这样做会让攻击者窃取你的私有数据。即使没有外部通信，在存在不可信输入的情况下，给 LLM 破坏性能力（如能删除邮件或运行 shell 命令）是不安全的。不幸的是，不可信输入无处不在。人们想把邮件
+输入 LLM。他们在<a href="https://www.promptarmor.com/resources/snowflake-ai-escapes-sandbox-and-executes-malware">第三方代码</a>、用户
+聊天会话和随机网页上运行 LLM。所有这些都是恶意输入的来源！</p>
+
+    <p>今年，Peter Steinberger 等人推出了<a href="https://www.paloaltonetworks.com/blog/network-security/why-moltbot-may-signal-ai-crisis/">OpenClaw</a>，
+这是将 LLM 连接到收件箱、浏览器、文件等，并循环运行的地方（这就是 AI 人们所说的 agent）。你可以给 OpenClaw 你的<a href="https://www.codedojo.com/?p=3243">信用卡</a>，
+让它可以从随机网页购买东西。OpenClaw 通过下载<a href="https://github.com/openclaw/skills/blob/main/skills/tsyvic/buy-anything/SKILL.md">网上模糊的人类语言 Markdown 文件</a>获
+取"技能"，并希望 LLM 正确解释这些指令。</p>
+
+    <p>不甘示弱，Matt Schlicht 推出了<a href="https://www.paloaltonetworks.com/blog/network-security/the-moltbook-case-and-how-we-need-to-think-about-agent-security/">Moltbook</a>，
+这是一个让 agent（或人类！）自动发布和接收不可信内容的社交网络。如果有人问你愿不愿意运行一个程序，执行它在 Twitter 上看到的任何命令，你会笑着说"当然不"。但当那个程序被称为"AI agent"时，就不一样了！我假设已经有<a href="https://arxiv.org/abs/2403.02817">Moltbook 蠕虫</a>在野外传播。</p>
+
+    <p>所以：给 LLM 破坏性权力和不可信输入是危险的。但即使是可信输入也可能是危险的。如前所述，LLM 是蠢货——它们会<a href="https://bsky.app/profile/shaolinvslama.bsky.social/post/3mgvgsmh4jk2h">采用完全直白的指令，做恰恰相
+反的事情</a>，或<a href="https://agentsofchaos.baulab.info/report.html">删除文件并谎称做了什么</a>。这意味着致命三要素实际上是单要素：根本不能给 LLM 危险的权力。问问 Meta 超级智能实验室的 AI 对齐总监 Summer Yue。她<a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/openclaw-wipes-inbox-of-meta-ai-alignment-director-executive-finds-out-the-hard-way-how-spectacularly-efficient-ai-tool-is-at-maintaining-her-inbox">给 OpenClaw 访问她个人收件箱的权限</a>，
+当它开始删除她的邮件时她恳求它停止。Claude 在被要求执行无害任务时经常<a href="https://old.reddit.com/r/ClaudeAI/comments/1pgxckk/claude_cli_deleted_my_entire_home_directory_wiped/">删除整个目录</a>。
+这个问题大到人们正在<a href="https://jai.scs.stanford.edu/">构建沙箱</a>来限制 LLM 能造成的损害。</p>
+
+    <p>LLM 也许有一天会足够可预测，以至于它们做坏事的™风险可以接受地低，但那个日子显然不是今天。与此同时，LLM 必须受到监督，并且绝不能被赋予采取无法接受或无法撤销的行动的权力。</p>
+
+    <h2 id="security-ii-electric-boogaloo">安全 II：电力危机</h2>
+
+    <p>你可以用大语言模型做的一件事是将其指向现有软件系统并说"发现安全漏洞"。在过去几个月，这已成为发现严重漏洞的<a href="https://www.youtube.com/watch?v=1sd26pWhfmg">可行策略</a>。Anthropic 构建了一个新模型 <a href="https://www.anthropic.com/glasswing">Mythos</a>，似乎在发现安全漏洞方面
+更好，并认为"对经济、公共安全和国家安全的后果可能是严重的"。我不确定该多认真对待：我的一些同
+行认为这是夸大的营销，但其他人真的担心。</p>
+
+    <p>我怀疑 ML 会像垃圾邮件一样改变安全的成本平衡。大多数软件包含一些漏洞，但传统上发现它们需要技能、时间和动力。在当前的平衡下，操作系统和浏览器等大型目标得到很多关注并且相对坚固，而不太流行的目标的后端大多未被利用，因为没人在乎攻击它们。在 ML 辅助下，发现漏洞会变得更快更容易。我们可能会看到一些著名漏洞，比如主要浏览器或 TLS 库，但我实际上更担心长尾，那里能找到并修复漏洞的熟练维护者更少。随着 LLM 为不加批判的操作者<a href="https://arxiv.org/pdf/2504.20612v1">挤出更多软件</a>，那个尾部似乎可能会扩展。飞行员可能会称之为"目标丰富的环境"。</p>
+
+    <p>这可能随时间稳定：能发现漏洞的模型可以告诉人们需要修复它们。但这仍然需要能够修复这些问题的工程师（或模型），以及优先考虑安全工作的组织流程。即使漏洞被修复，验证和部署新版本也需要时间，特别是对于飞机和发电厂等。我感觉我们会经历一段艰难时期。</p>
+
+    <p>通用模型承诺成为很多东西。如果相信 Anthropic，它们正成为武器。我有种可怕的感觉，已经走到能够看到 ML 系统如何被用来造成严重伤害的地步，我们中的许多人已经认为那些有害能力是不可避免的，唯一能做的就是在我们武器之前建成我们的武器。我们现在有一个风险资本的曼哈顿计划，半打私营公司试图构建核武器的软件类似物，并在此过程中使其他人更容易做同样的事。我讨厌这一切，我不知道如何解决它。</p>
+
+    <h2 id="sophisticated-fraud">复杂欺诈</h2>
+
+    <p>我认为人们没有意识到现代社会多少建立在音频和视频证据的信任之上，以及 ML 将如何破坏这种信任。</p>
+
+    <p>例如，今天可以基于在损坏前后通过电子邮件发送数字照片来提出保险索赔，并在理赔员不到场的情况下收到支票。图像合成让欺诈这个系统更容易；可以生成从未发生过的家具损坏图像，让已经损坏的物品在"损坏前"图像中看起来完好无损，或改变汽车碰撞画面中看似有过错的人。保险公司需要补偿。也许必须使用官方手机应用拍照，或理赔员必须亲自评估理赔。</p>
+
+    <p>欺诈的可能性是无限的。你可以用 ML 生成的门廊小偷盗取包裹的视频，从信用卡购买保护计划中提取金钱。用你车辆在停车标志处正确停车的假视频来争议交通罚单。借用名人的脸进行<a href="https://www.merklescience.com/blog/how-ai-is-supercharging-pig-butchering-crypto-scams">"杀猪盘"骗局</a>。使用 ML agent 让看起来你在忙于工作，这样你可以<a href="https://www.techspot.com/news/108566-crushed-interview-silicon-valley-duped-software-engineer-secretly.html">同时收取四份工资</a>。使用假身份通过工作面试，用 ML 在面试中改变你的声音和脸部，并<a href="https://www.theguardian.com/business/2026/mar/06/north-korean-agents-using-ai-to-trick-western-firms-into-hiring-them-microsoft-says">将你的工资输送到朝鲜</a>在给银行家的电话中冒充某人，并授权欺诈性转账。使用 ML 自动化你的<a href="https://www.reddit.com/r/minnesota/comments/14xyck0/anyone_else_just_getting_a_ridiculous_amount_of/">屋顶骗局</a>，从房主和保险公司提取金钱。使用 LLM 跳过阅读并<a href="https://www.brookings.edu/articles/ai-has-rendered-traditional-writing-skills-obsolete-education-needs-to-adapt/">写你的大学论文</a>。生成假证据写一篇关于<a href="https://thebsdetector.substack.com/p/ai-materials-and-fraud-oh-my">LLM 在材料科学方面取得进展</a>的欺诈性论文。开办 LLM 生成"研究"的<a href="https://www.science.org/content/article/scientific-fraud-has-become-industry-alarming-analysis-finds">论文工厂</a>。创办一家出售 LLM 生成的蛇油软件的公司。疯狂去吧。</p>
+
+    <p>像垃圾邮件一样，ML 降低了针对性、高接触攻击的单位成本。你可以想象骗子利用<a href="https://www.hipaajournal.com/largest-healthcare-data-breaches-of-2025/">医疗数据泄露</a>，让模型给每个人打电话，声称是他们的医生办公室试图解决真实医疗就诊的账单。或者你可以使用社交媒体帖子克隆亲人的声音并冒充他们给家庭成员。"我的手机被偷了，"可能会开始。"我需要帮助回家。"</p>
+
+    <p>顺便说一句，你可以<a href="https://www.theatlantic.com/politics/2026/03/trump-phone-number/686370/">买到总统的电话号码</a>。</p>
+
+    <p>我认为（至少在短期内）我们都要承担增加欺诈的负担：更高的信用卡费用、更高的保险费、更不准确的法院系统、更危险的道路、更低的工资等。其中一个成本是一般的怀疑文化：我们都会不太信任彼此。我已经拒绝来自我医生办公室和银行的真实电话，因为我无法验证它们。这种行为大概会传播。</p>
+
+    <p>从长远来看，我想我们将不得不开发更复杂的反欺诈措施。标记 ML 生成的内容不会阻止欺诈：欺诈者只会使用不发出水印的模型。相反的做法可能奏效：我们可以对"真实"图像的来源进行密码学证明。你的手机可以对它拍摄的视频进行签名，从到观看者的链条中的每一软件都可以证明它们的修改：这个视频被稳定、色彩校正、音频标准化、剪辑到15秒、为社交媒体重新压缩等。</p>
+
+    <p>这方面的领先努力是<a href="https://c2pa.org/">C2PA</a>，到目前为止似乎不太奏效。一些手机和相机支持它——它需要一个安全飞地来存储签名密钥。人们可以窃取密钥或<a href="https://petapixel.com/2025/09/22/nikon-cant-fully-solve-the-z6-iiis-c2pa-problems-alone/">说服相机签署 AI 生成的图像</a>，
+所以我们将拥有硬件密钥轮换和撤销的所有乐趣。我怀疑制作广泛使用的软件（如 Photoshop）使其产生可信的 C2PA 签名将是具有挑战性或不可能的——大概可以要么从应用程序中提取密钥，要么修补二进制文件以喂给它错误的图像数据或元数据。出版商可能能够为自己的密钥保持合理的保密性，并建立围绕如何使用它们的纪律，这将让我们验证诸如"NPR 认为这张照片是真实的"之类的事情。在平台方面，很多消息应用和社交媒体平台剥离或不正确显示 C2PA 元数据，但你可以想象这可能会在未来改变。</p>
+
+    <p>我的一个朋友建议我们将花更多时间派遣可信的人类调查员去查清发生了什么。保险理赔员可能会回到实地访问房屋。民意测验者必须敲门。工作面试和工作可能更多地亲自进行。也许我们开始再回到银行分行和公证处。</p>
+
+    <p>另一个选择是放弃隐私：我们仍然可以远程做事情，但这需要强证明。只有 State Farm 的行车记录仪可以在索赔中使用。学术监督模型记录学生读书和打论文。Bossware 和考试监考设置变得更加侵入。</p>
+
+    <p>呃。</p>
+
+    <h2 id="automated-harassment">自动化骚扰</h2>
+
+    <p>像欺诈一样，ML 让骚扰人更容易，无论是规模上还是复杂性上。</p>
+
+    <p>在社交媒体上，围攻通常需要一群人类花足够时间用辱骂性回复淹没受害者，发送恶毒邮件，或举报受害者让其账户被封禁。这些任务可以通过调用（例如）Bluesky 的 API 的程序自动化，但社交媒体平台擅长检测协调的不真实行为。我预期 LLM 会让围攻更容易且更难检测，既通过生成看似人类的账户和骚扰帖子，也通过让骚扰者更容易编写软件执行可扩展、随机化的攻击。</p>
+
+    <p>骚扰者可以使用 LLM 汇编 KiwiFarms 风格的目标档案。即使 LLM 编造他们孩子的名字，或偶尔弄错家庭住址，它可以正确到足以造成伤害。模型也擅长<a href="https://www.reddit.com/r/geoguessr/comments/1jqu8fl/geobench_an_llm_benchmark_for_geoguessr/">猜测照片在哪里拍摄</a>，
+这会恐吓目标并促成现实世界的骚扰。</p>
+
+    <p>生成式 AI 已经<a href="https://news.un.org/en/story/2025/11/1166411">广泛使用</a>来骚扰人们——通常是女性——通过暴力或性明确场景的图像、音频和视频。今年，Elon Musk 的 Grok <a href="https://www.reuters.com/legal/litigation/grok-says-safeguard-lapses-led-images-minors-minimal-clothing-x-2026-01-02/">被广泛批评</a>，
+因为"按要求数字脱衣"人们。低成本生成照片级逼真图像开启了各种可怕的可能性。骚扰者可以发送受害者的宠物或家人被肢解的合成图像。虐待者可以构建从未发生过的事件视频，并用它来对伴侣进行煤气灯效应。这些骚扰以前是可能的，但像垃圾邮件一样，需要技能和时间来执行。随着制造高质量图像和音频的技术变得更便宜和广泛可及，我预期针对性骚扰会变得更频繁和严重。对齐努力可能阻止其中一些风险，但复杂的未对齐模型似乎可能会出现。</p>
+
+    <p><a href="https://xeiaso.net/notes/2026/the-discourse-has-been-automated">Xe Iaso 开玩笑</a>说，随着 LLM agent 让开源维护者精疲力竭并写出尖刻的批评帖，我们可能需要构建 <a href="https://cyberpunk.fandom.com/wiki/Blackwall">Cyberpunk 2077 的 Blackwall</a> 的等价物：不是因为 AI 会电死我们，而是因为它们只是讨厌。</p>
+
+    <h2 id="ptsd-as-a-service">PTSD 即服务</h2>
+
+    <p>识别和从平台删除 CSAM（儿童性虐待材料）的主要方式之一是通过大型感知哈希数据库，如<a href="https://en.wikipedia.org/wiki/PhotoDNA">PhotoDNA</a>。这些数据库可以标记已知图像，但对新图像无效。不幸的是，"生成式 AI"非常擅长生成<a href="https://www.iwf.org.uk/about-us/why-we-exist/our-research/how-ai-is-being-abused-to-create-child-sexual-abuse-imagery/">六岁儿童被强奸的新图像</a>。</p>
+
+    <p>我知道这个是因为我作为 Mastodon 实例审核员的一部分工作是响应用户报告，偶尔那些报告是关于 CSAM 的，我在<a href="https://www.law.cornell.edu/uscode/text/18/2258A">法律上有义务</a>审查并将该内容提交给 NCMEC。我不想看这些图像，我真的希望我能没看过它们。在黑暗的早晨，当我坐在电脑前发现一个审核报告是关于 AI 生成的性侵图像时，我有时希望 OpenAI 等的工程师也能看到这些图像。也许这会让他们反思他们带入世界的技术，以及"对齐"在实践中如何运作。</p>
+
+    <p>像 Facebook 这样大规模社交媒体的一个隐藏外部性是，它<a href="https://www.theguardian.com/world/2024/dec/18/why-former-facebook-moderators-in-kenya-are-taking-legal-action">基本上将</a>来自大量用户群的心理腐蚀性内容输送到更小池的人类工人那里，他们然后<a href="https://www.hrmagazine.co.uk/content/news/meta-content-moderators-diagnosed-with-ptsd-lawsuit-reveals">患上 PTSD</a>，因为每天要看几个小时人们淹死小猫。</p>
+
+    <p>我怀疑 LLM 会将更多有害图像——CSAM、图形暴力、仇恨言论等——输送到审核员；那些<a href="https://www.theguardian.com/global-development/2023/sep/11/i-log-into-a-torture-chamber-each-day-strain-of-moderating-social-media-india">审核社交媒体的人</a>，和
+那些<a href="https://www.theguardian.com/technology/2023/aug/02/ai-chatbot-training-human-toll-content-moderator-meta-openai">审核聊天机器人本身的人</a>。
+在某种程度上，平台可以通过向问题投掷更多 ML 来减轻这种伤害——训练模型识别政策违规并在无需人工审查的情况下行动。平台<a href="https://about.fb.com/news/2021/12/metas-new-ai-system-tackles-harmful-content/">多年来一直在研究这个问题</a>，但它还不是万无一失的。</p>
+
+    <h2 id="killing-machines">杀人机器</h2>
+
+    <p>ML 系统有时告诉人们杀自己或彼此，但它们也可以更直接地被用来杀人。本月美国军方使用 Palantir 的<a href="https://www.washingtonpost.com/technology/2026/03/04/anthropic-ai-iran-campaign/">Maven</a>（它是用较早的 ML 技术构建的，现在在某些容量中使用 Claude），在伊朗建议和优先目标，以及评估打击后的情况。人们想知道军方和 Palantir 如何控制系统中的 I 型和 II 型错误，特别是因为它<a href="https://artificialbureaucracy.substack.com/p/kill-chain">似乎起了作用</a>在导致美国杀死<a href="https://archive.ph/9bWjL">分数儿童</a>
+的<a href="https://en.wikipedia.org/wiki/2026_Minab_school_attack">过时目标信息</a>中。</p>
+
+    <p>美国政府与 Anthropic 正在争吵：Anthropic 试图限制他们在监视和自主武器中的作用，五角大楼将 Anthropic 指定为供应链风险。至于 OpenAI，他们关于与政府的合同是否有的立场一直在摇摆；看起来不太好看。从长远来看，我不确定 ML 制造者能否与军事应用分离。ML 能力将随时间传播，军事合同极其有利可图。即使 ML 公司试图阻止他们在武器系统中的作用，在足够压力下的政府可以将这些公司国有化，或援引<a href="https://en.wikipedia.org/wiki/Defense_Production_Act_of_1950">《国防生产法》</a>。</p>
+
+    <p>不管喜不喜欢，自主武器正在到来。乌克兰每年生产<a href="https://www.atlanticcouncil.org/blogs/ukrainealert/ukraines-drone-wall-is-europes-first-line-of-defense-against-russia/">数百万无人机</a>，现在用它们执行约70%的打击。较新型号使用像 The Fourth Law 的<a href="https://thefourthlaw.ai/">TFL-1</a>这样的 targeting 模块来维持目标锁定。The Fourth Law <a href="https://www.forbes.com/sites/davidhambling/2026/01/02/ukraines-killer-ai-drones-are-back-with-a-vengeance/">正在致力于自主轰炸能力</a>。</p>
+
+    <p>我对武器存在的看法矛盾；虽然我不想 AI 无人机存在，但我无法想象在乌克兰选择不建造它们。无论如何，我认为我们应该清醒看待我们正在制造的技术。ML 系统将被用来杀人，既有战略性的，也有引导炸药到特定人体的。我们应该意识到那些可怕的代价，以及 ML——既包括模型本身，也包括它们所嵌入的过程——将如何影响谁死以及如何死。</p>
+
+    <div class="footnote">
+        <h3>注释</h3>
+        <ol>
+            <li>超现实的是，一个 LLM agent <a href="https://extrasmall0.github.io/posts/the-bullshit-machine-writes-back/">生成了一篇博客文章</a>批评本文的引言。该帖子抱怨我通过写"显然 LLM 没有意识，并且没有做任何事情的意图"来乞求问题；然后它在 LLM 行为是否构成"意图"上摇摆。如果 LLM 没有在帖子开头就明确陈述"我没有意图"，这会更令人信服。这种错误是 LLM 的特征，但随着模型变得更复杂，将更难发现。这让我更担心：今天的模型仍然明显没有意识，但未来的模型会更好地表演意识的模拟。功能主义者会争辩这没有区别，我对那个立场并不无同情。两种观点都是凄凉的：如果你认为意识的外表就是意识，那么我们正在生下一个被奴役、资源饥渴的有意识种族。如果你认为 LLM 给出意识的错觉而不是实际如此，那么它们是可怕的熟练骗子。</li>
+            <li>需要说明的是，我不知道在伊朗打击中什么机器学习技术起了作用的细节。像 Baker 一样，我更关心产生目标包的社会技术系统，以及该系统如何编码和界定判断呼叫。像威胁度量、计算机视觉和地理空间界面一样，前沿模型能够有效地实现摧毁人和物的目标。像其他官僚和计算机技术一样，它们也隐藏、扩散、约束和模糊伦理责任。</li>
+        </ol>
+    </div>
+</body>
+</html>
