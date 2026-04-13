@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>神话、缪斯与算力的机会成本</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #333; }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    img { max-width: 100%; height: auto; }
+    a { color: #0366d6; }
+    blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding-left: 1em; color: #666; }
+  </style>
+</head>
+<body>
+<article>
+<h1>神话、缪斯与算力的机会成本</h1>
+<p><em>原文：<a href="https://stratechery.com/2026/mythos-muse-and-the-opportunity-cost-of-compute/">https://stratechery.com/2026/mythos-muse-and-the-opportunity-cost-of-compute/</a></em><br>
+<em>翻译日期：2026-04-14</em></p>
+
+
+<h2>引言</h2>
+
+<p>2025 年 1 月，Doug O'Laughlin 在 <a href="https://www.fabricatedknowledge.com/p/2025-ai-and-semiconductor-outlook">Fabricated Knowledge</a> 上宣称，o1 和推理模型标志着聚合理论的终结：</p>
+
+<blockquote>
+<p>我认为，除了经济学之外，模型改进没有实际限制，我认为这将是未来的真正约束。如果我们在一个模型上投入无限资金，它会得到改进，这是合理的。问题是，无限资金对企业是否有意义。</p>
+
+<p>这将是 2025 年的关键问题。AI 的经济学如何使这成为可能？互联网的一个核心假设刚刚被打破。边际成本现在再次存在，这意味着大多数超大规模云服务商将变得越来越资本密集。</p>
+
+<p>聚合理论的时代已经过去，AI 再次让技术变得昂贵。消费增加导致成本增加的关系是反互联网时代的思维。这将是今年需要解决的大问题。超大规模云服务商的商业模式主要建立在边际成本为零的基础上。因此，只要你建立基础设施并用用户填满一个互联网规模的产品，你就能赚钱。</p>
+
+<p>这个时代很快就会结束，未来将更加奇怪，更加计算密集。回顾 2010 年代，我们可能会认为它们是技术长河中的一个天真时期。我们对这个时期的一个基本假设正在瓦解。这将是未来技术格局中最重大的变化。</p>
+</blockquote>
+
+<p><a href="https://stratechery.com/2015/aggregation-theory/">聚合理论</a>，如果我可以这么说，是理解 2010 年代的最佳方式，尤其是消费科技。它解释了支撑 Google 和 Facebook 主导地位的动态，以及 App Store 和 Amazon 的电子商务业务；它也是一个有用的（虽然<a href="https://stratechery.com/2017/defining-aggregators/">不完整</a>）框架，用于理解 Uber、Airbnb 和 Netflix 等一系列消费者服务。</p>
+
+<p>然而，值得指出的是，支撑聚合理论的一些关键见解要古老得多，并且植根于技术本身的基本性质。正如 O'Laughlin 所指出的，它们植根于零边际成本的概念。</p>
+
+<h2>边际成本</h2>
+
+<p>边际成本是生产一个额外单位商品的成本。考虑一个小部件制造工厂：</p>
+
+<ul>
+<li>你需要工厂用地</li>
+<li>你需要工厂机器</li>
+<li>你需要操作机器的电力</li>
+<li>你需要操作机器的人员</li>
+<li>你需要小部件的原材料</li>
+</ul>
+
+<p>土地和机器显然是固定成本；你需要两者才能开始，无论是否多生产一个小部件，你都要为两者付费。另一方面，原材料显然是边际成本：如果你多生产一个小部件，你就需要多一份小部件的原材料。对于实物商品，电力和人员也是边际成本：你需要更多或更少的它们，取决于你生产更多或更少的小部件。</p>
+
+<p>边际成本的重要性在于它们提供了一个价格底线。公司会亏损运营，因为损益是一个包含折旧的会计概念，即你的固定成本。例如，想象一家公司花了 1000 美元建一个工厂来生产边际成本为 10 美元的小部件：只要小部件的价格 > 10 美元，公司就会生产它们，即使它们没有赚到足够的钱来覆盖折旧成本（即它们亏损运营），因为至少它们在每个小部件上仍有边际利润（公司可能不会做的是投资更多的固定成本，最终，可能会因可能为这些固定成本融资的债务利息而破产）。</p>
+
+<p>我解释这一切，正是因为它对技术几乎完全无关紧要。首先，通常没有原材料成本，因为产出是数字化的。其次，因为没有原材料成本，而且固定成本如此之大，电力和人员通常被视为固定成本，而不是边际成本：当然，你会一直满负荷运行你的服务器，因为你能产生的每一分额外收入都是值得的。</p>
+
+<p>AI 非常符合这个范式：产出是数字化的，虽然 AI 芯片使用大量电力，但成本只是芯片本身成本的一小部分，也就是说，拥有 AI 芯片的人不会在利用它们方面做边际成本计算。它们会被使用！相反，重要的决定是它们将用于什么。</p>
+
+<h2>机会成本</h2>
+
+<p>考虑微软：<a href="https://stratechery.com/2026/microsoft-and-software-survival/">上个季度</a>，该公司未达到街上的 Azure 增长预期，不是因为缺乏需求，而是因为该公司决定将其容量用于自己的产品。首席财务官 Amy Hood <a href="https://seekingalpha.com/article/4863620-microsoft-corporation-msft-q2-2026-earnings-call-transcript">在公司财报电话会议上表示</a>：</p>
+
+<blockquote>
+<p>我认为最好将我们给出的 Azure 指导视为关于我们可以在 Azure 收入中交付什么的分配容量指导。因为当我们花费资本并专门部署 GPU 时，它适用于 CPU，特别是 GPU，我们正在做出长期决定。我们做的第一件事是解决销售中的使用增加以及 M365 Copilot 和 GitHub Copilot（我们的第一方应用）加速步伐。然后我们确保投资于研发和产品创新的长期性质。我们在过去一段时间看到的我们的加速和产品，很大程度上来自于我们将 GPU 和容量分配给我们过去几年招聘的许多有才华的 AI 人员。</p>
+
+<p>然后，当你结束时，你会得到剩余部分用于服务继续增长的 Azure 容量需求。一种思考方式是，因为我有时会被问到这个问题，如果我拿 Q1 和 Q2 刚上线的 GPU，并将它们全部分配给 Azure，KPI 会超过 40。我认为最重要的是意识到这是关于投资堆栈的所有层次，使客户受益。我希望这有助于思考资本增长，它体现在每一部分，体现在整个业务的收入增长，并体现为我们投资于人员的 OpEx 增长。</p>
+</blockquote>
+
+<p>微软在这里面临的成本不是边际成本，而是机会成本：在一个领域使用的计算不能在另一个领域使用；在这些收益的情况下，微软承认，如果他们想的话，他们本可以达到 Azure 的数字，但选择优先考虑自己的工作负载，因为正如 CEO Satya Nadella 后来在电话会议中指出的那样，这些工作负载具有更高的毛利率和更高的终身价值。</p>
+
+<p>超大规模云服务商面临的挑战是机会成本，而不是边际成本。多少计算应该给客户，哪些客户？多少应该为内部工作负载保留？微软需要在 Azure——既为其企业客户，也为 OpenAI——及其软件业务之间取得平衡；Amazon 需要在其电子商务业务、AWS 以及在 Anthropic 和 OpenAI 的战略投资之间取得平衡。Google 需要在 GCP、其在 Anthropic 的战略投资及其消费者业务之间取得平衡。</p>
+
+<h2>神话</h2>
+
+<p>上周 Anthropic 发布宣布了 Mythos，其最先进的模型。而且，以典型的 Anthropic 方式，它是通过关注其危险来实现的；来自 <a href="https://www.anthropic.com/glasswing">Project Glasswing</a> 的介绍性帖子，这是 Anthropic 利用 Mythos 解决安全问题的倡议：</p>
+
+<blockquote>
+<p>我们成立 Project Glasswing 是因为我们在 Anthropic 训练的一个新前沿模型中观察到了能力，我们认为这可能会重塑网络安全。Claude Mythos Preview 是一个通用的、未发布的前沿模型，揭示了一个严酷的事实：AI 模型已经达到了一种编码能力水平，可以在寻找和利用软件漏洞方面超越除最有技能的人类之外的所有人。</p>
+
+<p>Mythos Preview 已经发现了数千个高严重性漏洞，包括每个主要操作系统和网络浏览器中的一些。考虑到 AI 的进步速度，这种能力传播出去不会很久，可能会传播到那些致力于安全部署这些能力的参与者之外。对经济、公共安全和国家安全的后果可能是严重的。Project Glasswing 是一个紧急尝试，将这些能力用于防御目的。</p>
+</blockquote>
+
+<p>在<a href="https://stratechery.com/2026/anthropics-new-model-the-mythos-wolf-glasswing-and-alignment/">上周的更新</a>中，我将 Anthropic 的"灾难色情作为营销工具"的方法类比为<a href="https://en.wikipedia.org/wiki/The_Boy_Who_Cried_Wolf">狼来了的故事</a>；这个类比的重要之处不仅在于男孩发出了虚假警报，还在于最后，狼确实来了。为此，<a href="https://stratechery.com/2026/axios-supply-chain-attack-claude-code-code-leaked-ai-and-security/">两周前我写道</a>关于支撑所有软件的无数安全问题，以及我对 AI 将在长期解决这些问题的乐观态度，即使它在短期内使情况变得更糟。换句话说，Mythos 是否代表重大安全威胁实际上并不重要：如果这个模型不，未来的模型会；为此，我确实支持利用 Mythos 在不良行为者发现和利用漏洞之前主动发现和修复漏洞。</p>
+
+<p>同时，也值得注意，Anthropic 不让 Mythos 广泛可用还有其他原因，将访问权限限制在数量有限的高容量和高付费意愿的公司。首先是这些机会成本：Anthropic 已经在为服务其当前模型而短缺计算；X 上周末被关于 <a href="https://github.com/anthropics/claude-code/issues/42796">Anthropic 据称在过去一个月左右愚蠢化 Claude</a> 的抱怨和辩论所淹没。让 Mythos 更广泛地可用——特别是对不按使用付费的订阅计划——会使情况变得更糟。</p>
+
+<p>换句话说，Anthropic 面临的不是边际成本问题，而是机会成本问题：在哪里分配其计算。当然，这可能成为利润率问题：我怀疑 Anthropic 将通过从超大规模云服务商和新云获取更多计算来克服<a href="https://stratechery.com/2026/anthropics-new-tpu-deal-anthropics-computing-crunch-the-anthropic-google-alliance/">其在计算方面的保守主义</a>，并为这一特权付出昂贵代价。</p>
+
+<p>处理这些成本的关键将是未来为 Claude 收费更高；这反过来意味着维持定价权，这导致了不广泛发布 Mythos 的第二个好处。Anthropic 当然面临来自 OpenAI 的竞争；然而，对于这两个前沿实验室来说，长期真正的竞争是开源模型。现在这些主要来自中国，快速跟随前沿模型的关键成分是蒸馏；来自 <a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">Anthropic 的博客</a>：</p>
+
+<blockquote>
+<p>我们发现了来自三个 AI 实验室——DeepSeek、Moonshot 和 MiniMax——的大规模活动，非法提取 Claude 的能力以改进它们自己的模型。这些实验室通过大约 24,000 个欺诈账户生成了超过 1600 万次与 Claude 的交互，违反了我们的服务条款和区域访问限制。</p>
+
+<p>这些实验室使用了一种称为"蒸馏"的技术，涉及在更强模型的输出上训练一个能力较弱的模型。蒸馏是一种广泛使用且合法的训练方法。例如，前沿 AI 实验室经常蒸馏自己的模型，为客户创建更小、更便宜的版本。但蒸馏也可能被用于非法目的：竞争对手可以用它在很短的时间内，以很小的成本，从其他实验室获取强大的能力，而独立开发这些能力需要更多时间和成本。</p>
+</blockquote>
+
+<p>我绝对相信这是一个真正的问题，并且<a href="https://stratechery.com/2025/deepseek-faq/">去年 DeepSeek R1 发布时我写过</a>。我也认为除了前沿实验室之外的所有人的利益都是假装它不是；开源模型不受前沿实验室的加价或计算限制，这正是为什么大多数公司能从中受益的原因，无论它们是否被蒸馏。当然，这并不意味着它们是免费运行的：你仍然需要提供计算。</p>
+
+<p>然而，请注意，这如何使阻止蒸馏成为前沿实验室的更大优先级：首先，他们想保护他们的利润率。其次，他们最大的成本是机会成本：他们因为没有足够的计算而无法服务的客户。在多大程度上他们可以使计算对其潜在客户不那么有用——通过阻止开源模型蒸馏他们的模型——就是在多大程度上他们可以以更优惠的利率为自己获取这些计算。</p>
+
+<h2>Meta 缪斯</h2>
+
+<p>Mythos 不是上周宣布的唯一新模型：Meta 也发布了他们新的前沿实验室的第一个成果。来自<a href="https://ai.meta.com/blog/introducing-muse-spark-msl/">该公司的博客文章</a>：</p>
+
+<blockquote>
+<p>今天，我们很高兴介绍 Muse Spark，这是 Meta 超级智能实验室开发的 Muse 模型家族中的第一个。Muse Spark 是一个原生多模态推理模型，支持工具使用、视觉思维链和多智能体编排。</p>
+
+<p>Muse Spark 是我们扩展阶梯上的第一步，也是我们全面改革 AI 努力的第一个产品。为了支持进一步的扩展，我们在整个堆栈中进行战略投资——从研究和模型训练到基础设施，包括 Hyperion 数据中心……</p>
+
+<p>Muse Spark 在多模态感知、推理、健康和智能体任务方面提供具有竞争力的性能。我们继续投资于当前性能差距的领域，如长期智能体系统和编码工作流。</p>
+</blockquote>
+
+<p>Muse Spark 不是最先进的，但它进入了游戏，总的来说，Meta 超级智能实验室的第一个印象是积极的。然而，对我来说最值得注意的是，过去九个月的 AI 在多大程度上清楚地表明，CEO Mark Zuckerberg 做出了正确的决定，开始"[Meta 的] AI 努力的全面改革"。</p>
+
+<p>O'Laughlin 在我开头的文章中的帖子是由推理触发的，使用更多标记的模型导致更好的答案；此后<a href="https://stratechery.com/2026/agents-over-bubbles/">Agent 指数级增加了标记需求</a>，因为它们可以在没有人在循环的情况下持续使用 LLM。这是推动 Claude 和 OpenAI 的 Codex 需求飙升的巨大驱动力。此外，这个用例如此有利可图，不仅 Anthropic 的收入飙升，OpenAI 也正在将其重点转向企业。</p>
+
+<p>事实上，你可以认为 OpenAI 的最大挑战之一是它在 ChatGPT 中拥有如此受欢迎的消费者产品。我，带着我的聚合理论镜头，一直认为该用户群是 OpenAI 的巨大优势，但这假设公司可以有效地将其货币化，这就是为什么<a href="https://stratechery.com/2025/google-nvidia-and-openai/">我一直强烈主张广告模式</a>。<a href="https://www.theinformation.com/articles/openai-forecasts-advertising-hit-102-billion-2030">OpenAI 对此有巨大的预测</a>，但在那实现之前，那个庞大的消费者基础在 OpenAI 的焦点和计算方面是一个巨大的机会成本。该公司，值得称赞的是，在面临广泛质疑的情况下，在更多计算方面进行了重大投资，但将越来越多的计算分配给企业愿意付费的智能体用例的诱惑，即使以牺牲消费者业务为代价，也将是巨大的。</p>
+
+<p>这让 Meta 处于行业中的独特地位：与任何超大规模云服务商或前沿实验室不同，Meta 没有企业或云业务需要担心。这意味着服务消费者市场没有机会成本。当然，这些机会成本本来也会小得多，因为 Meta 已经有一个规模化的广告业务来将使用货币化。换句话说，Meta 实际上可能面临的赢得消费者空间的竞争比几个月前看起来要少，仅仅因为那是他们的主要焦点——而且因为他们有自己的模型，这意味着他们不需要担心无法访问前沿实验室（当然，这个分析的很大一部分适用于 Google）。</p>
+
+<p>同样，这也是为什么 Meta 应该开源 Muse，就像他们做 Llama 一样。最会受到前沿模型广泛可用性伤害的实体是其他前沿实验室，他们将看到定价权降低，面临计算竞争加剧。这将使他们更难承受追求消费者市场的机会成本，把它留给 Meta。</p>
+
+<h2>需求与供给</h2>
+
+<p>那么"聚合理论的时代……已经过去"了吗？一方面，创造和维护价值的方式将来自拥有客户的洞察几乎肯定会继续存在。在消费者方面，拥有客户导致广告，广告提供收入来为客户提供服务。在企业方面——我注意到，这从来不是聚合理论应用的地方——我认为 Anthropic 和 OpenAI 都可能继续向上移动堆栈，提供直接与软件提供商竞争的功能（这种方法也与不公开提供前沿模型相一致）。</p>
+
+<p>另一方面，O'Laughlin 关于我们并将继续受计算限制的观察是一个重要的观察：公司将不能假设他们可以服务所有人，因为服务一组客户会带来不服务另一组客户的机会成本。这至少在理论上不会永远持续：在某个时候，AI 将对足够多的用例"足够好"，将有足够的计算能力来利用为 AI 服务确实没有有意义的边际成本这一事实；然而，那个理论上的未来感觉比以往任何时候都更远。</p>
+
+<p>OpenAI 押注，这个计算限制——以及他们为克服它而达成的交易——将比 Anthropic 目前在最终用户方面的势头更重要。来自 <a href="https://www.bloomberg.com/news/articles/2026-04-09/openai-tells-investors-it-has-computing-advantage-over-anthropic">Bloomberg</a>：</p>
+
+<blockquote>
+<p>OpenAI 本周告诉投资者，其早期大幅增加计算资源的举措使其在 Anthropic PBC 方面具有关键优势，而后者正获得势头并考虑潜在的公开上市。</p>
+
+<p>这家 ChatGPT 制造商表示，它已经"快速且持续地"增加计算容量以支持其软件的更广泛采用，从而超越了 Anthropic，根据该公司在 Anthropic 宣布更强大的 AI 模型 Mythos 后向其部分投资者发送的一份备忘录。这个雄心勃勃的基础设施建设，被一些人批评为过于昂贵，使 OpenAI 能够更好地跟上对 AI 产品日益增长的需求，该备忘录指出。</p>
+</blockquote>
+
+<p>我不太确定这将是决定性的。在 AI 方面，分发和交易成本仍然是免费的——聚合器的两个先决条件——这意味着赢家应该是那些拥有最引人注目的产品的公司。这些产品将赢得最多的用户，提供采购服务他们所需的计算所需的资金；考虑 <a href="https://stratechery.com/2026/anthropics-new-tpu-deal-anthropics-computing-crunch-the-anthropic-google-alliance/">Anthropic 获得有意义部分 TPU 供应的交易</a>，考虑到 TSMC 的产能限制，这最终是从 Google 那里获取供应的例子。我怀疑 Anthropic 可以获得更多，包括已经建成的超大规模云服务商和新云容量。是的，该计算将更昂贵，但如果需求足够高，必要的现金流将会存在。</p>
+
+<p>换句话说，我押注拥有需求最终将战胜拥有供给，这表明聚合理论的基本原则仍然存在。换句话说，我认为 OpenAI 需要用更好的产品取胜，而不仅仅是更多的计算；然而，如果更多的计算是更好产品的关键，那么供给最重要吗？无论如何，他们肯定会专注于向推动 Anthropic 惊人增长的企业客户提供两者。真正的成本可能是他们目前主导的消费者市场，因为 Meta 没有什么可失去的，一切可赢。</p>
+
+</article>
+</body>
+</html>
