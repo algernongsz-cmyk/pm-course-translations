@@ -174,6 +174,81 @@
       "title": "回归惯用设计（翻译版）",
       "url": "https://algernongsz-cmyk.github.io/pm-course-translations/2026-04-13/11-bring-back-idiomatic-design.html",
       "pushedAt": "2026-04-13"
+    },
+    {
+      "title": "AI产品的\"生命线\"——数据采集、标注、清洗的产品化设计",
+      "url": "https://www.woshipm.com/ai/6374906.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "神话、缪斯与算力的机会成本",
+      "url": "https://algernongsz-cmyk.github.io/pm-course-translations/2026-04-14/01-mythos-muse-and-the-opportunity-cost-of-compute.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "从群体到产品：将客户信号转化为可扩展的功能",
+      "url": "https://algernongsz-cmyk.github.io/pm-course-translations/2026-04-14/02-from-swarms-to-product-turning-customer-signals-into-scalabl.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "To B AI：客户留存落地的观察与思考",
+      "url": "https://www.woshipm.com/ai/6376199.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "斯坦福报告凸显 AI 内部人士与公众之间日益扩大的脱节",
+      "url": "https://algernongsz-cmyk.github.io/pm-course-translations/2026-04-14/03-stanford-report-highlights-growing-disconnect-between-ai-ins.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "万物皆谎言的未来：安全篇",
+      "url": "https://algernongsz-cmyk.github.io/pm-course-translations/2026-04-14/04-the-future-of-everything-is-lies-safety.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "万字拆解小云雀产品分析：AI创作工具的破局与进化",
+      "url": "https://www.woshipm.com/ai/5328460.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "AI 会带来大规模失业吗？",
+      "url": "https://www.woshipm.com/ai/6376370.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "谈谈AI Agent（二）：当\"孩子\"能自己\"体验世界\"时，你该学什么？",
+      "url": "https://www.woshipm.com/ai/6376196.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "The tech jobs bust is real. Don't blame AI (yet)",
+      "url": "https://economist.com/finance-and-economics/2026/04/13/the-tech-jobs-bust-is-real-dont-blame-ai-yet",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "货代SRM实战：供应商准入怎么做",
+      "url": "https://www.woshipm.com/share/6376272.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "N-Day-Bench：LLM 能在真实代码库中发现真实漏洞吗？",
+      "url": "https://algernongsz-cmyk.github.io/pm-course-translations/2026-04-14/06-nday-bench-llms-vulnerabilities.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "Show HN: 使用 .md 进行持续学习",
+      "url": "https://algernongsz-cmyk.github.io/pm-course-translations/2026-04-14/07-continual-learning-with-md.html",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "The looming college-enrollment death spiral",
+      "url": "https://www.theatlantic.com/ideas/2026/04/college-enrollment-demographic-cliff/686750/",
+      "pushedAt": "2026-04-14"
+    },
+    {
+      "title": "Most products don't need tone of voice — they need a point",
+      "url": "https://uxdesign.cc/most-products-dont-need-tone-of-voice-they-need-a-point-cf37f7c752ac",
+      "pushedAt": "2026-04-14"
     }
   ]
 }
