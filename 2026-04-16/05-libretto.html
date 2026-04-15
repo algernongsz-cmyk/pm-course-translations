@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Show HN: Libretto – 让 AI 浏览器自动化变得确定性</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #333; }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding-left: 1em; color: #666; }
+    img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+<article>
+<h1>Show HN: Libretto – 让 AI 浏览器自动化变得确定性</h1>
+<p><em>原文：<a href="https://github.com/saffron-health/libretto">saffron-health/libretto: The AI toolkit for building and maintaining browser automations · GitHub</a></em><br>
+<em>翻译日期：2026-04-16</em></p>
+
+<ul>
+<li>网站：<a href="https://libretto.sh">libretto.sh</a></li>
+<li>仓库：<a href="https://github.com/saffron-health/libretto">github.com/saffron-health/libretto</a></li>
+<li>文档：<a href="https://libretto.sh/docs">libretto.sh/docs</a></li>
+<li>Discord：<a href="https://discord.gg/NYrG56hVDt">discord.gg/NYrG56hVDt</a></li>
+</ul>
+
+<p>Libretto 是一个用于构建健壮 Web 集成的工具包。它为你的编码 agent 提供了一个实时浏览器和一个 token 高效的 CLI，可以：</p>
+
+<ul>
+<li>以最小的上下文开销检查实时页面</li>
+<li>捕获网络流量以逆向工程网站 API</li>
+<li>记录用户操作并将其重放为自动化脚本</li>
+<li>针对真实网站交互式调试损坏的工作流</li>
+</ul>
+
+<p>我们在 <a href="https://saffron.health">Saffron Health</a> 构建 Libretto，用于帮助我们维护与常见医疗软件的浏览器集成。我们将其开源，以便其他团队能更轻松地做同样的事情。</p>
+
+<h2>安装</h2>
+
+<pre><code>npm install libretto
+
+# 首次设置：安装 skill、下载 Chromium 并固定默认快照模型
+npx libretto setup
+
+# 随时检查工作区就绪状态
+npx libretto status
+
+# 手动更改快照分析模型（高级覆盖）
+npx libretto ai configure &lt;openai | anthropic | gemini | vertex&gt;
+</code></pre>
+
+<p><code>setup</code> 会检测可用的提供商凭证（如 OPENAI_API_KEY），并自动将默认模型固定到 <code>.libretto/config.json</code>。在健康工作区重新运行 setup 会显示当前配置，而不是重新提示。如果之前配置的提供商缺少凭证，setup 会提供交互式修复流程。</p>
+
+<p>当你想显式切换提供商或设置自定义模型字符串时，使用 <code>ai configure</code>。</p>
+
+<h2>作为 Skill 使用</h2>
+
+<p>Libretto 设计为通过你的编码 agent 作为 skill 使用。以下是一些示例提示：</p>
+
+<blockquote>
+<p>使用 Libretto skill。去 LinkedIn 抓取前 10 条帖子的内容、发布者、反应数、前 25 条评论和前 25 条转发。</p>
+</blockquote>
+
+<p>你的编码 agent 会打开一个窗口让你登录 LinkedIn，然后自动开始探索。</p>
+
+<blockquote>
+<p>我要给你展示 eclinicalworks EHR 中的一个工作流，用于获取患者的主保险 ID。使用 libretto skill 将其转换为 playwright 脚本，以患者姓名和 dob 作为输入，返回保险 ID。URL 是...</p>
+</blockquote>
+
+<p>Libretto 可以读取你在浏览器中执行的操作，因此你可以执行一个工作流，然后要求它使用你的操作重建该工作流。</p>
+
+<blockquote>
+<p>我们在 <code>./integration.ts</code> 有一个浏览器脚本，自动化访问 Hacker News 并获取前 10 条帖子。将其转换为直接的网络脚本。使用 Libretto skill。</p>
+</blockquote>
+
+<p>Libretto 可以从浏览器读取网络请求，这些请求可用于逆向工程 API 并创建直接调用这些请求的脚本。直接进行 API 调用比 UI 自动化更快、更可靠。你还可以要求 Libretto 进行安全分析，分析请求中的常见安全 cookie，以便了解网络请求方法是否安全。</p>
+
+<blockquote>
+<p>我们在 <code>./integration.ts</code> 有一个浏览器脚本，应该去 Availity 并为患者执行资格检查。但运行时我收到了损坏的选择器错误。修复它。使用 Libretto skill。</p>
+</blockquote>
+
+<p>Agent 可以使用 Libretto 重现故障、在任何时候暂停工作流、检查实时页面并修复问题，全部自主完成。</p>
+
+<h2>CLI 参考</h2>
+
+<p>你也可以直接从命令行使用 Libretto。所有命令都接受 <code>--session &lt;name&gt;</code> 来指定特定会话。</p>
+
+<pre><code>npx libretto setup          # 交互式首次运行设置；自己运行，不要通过 agent
+npx libretto status          # 检查 AI 配置健康状态和打开的会话
+npx libretto open &lt;url&gt;      # 启动浏览器并打开 URL（默认有头模式）
+npx libretto snapshot --objective "..." --context "..."  # 捕获 PNG + HTML 并用 LLM 分析
+npx libretto exec "&lt;code&gt;"   # 对打开的页面执行 Playwright TypeScript（单引号参数）
+echo "&lt;code&gt;" | npx libretto exec -  # 从 stdin 读取 Playwright TypeScript
+npx libretto run &lt;file&gt;      # 运行文件的默认导出工作流
+npx libretto resume          # 恢复暂停的工作流
+npx libretto pages           # 列出会话中打开的页面
+npx libretto save &lt;domain&gt;   # 保存浏览器会话（cookies、localStorage）以供重用
+npx libretto close           # 关闭浏览器
+npx libretto ai configure &lt;provider&gt;  # 手动更改快照分析模型
+npx libretto status          # 显示 AI 配置和打开的会话
+</code></pre>
+
+<h2>配置</h2>
+
+<p>所有 Libretto 状态都存在于项目根目录的 <code>.libretto/</code> 目录中。配置存储在 <code>.libretto/config.json</code>。</p>
+
+<p><code>.libretto/config.json</code> 控制快照分析和视口设置：</p>
+
+<pre><code>{
+  "version": 1,
+  "ai": {
+    "model": "openai/gpt-5.4",
+    "updatedAt": "2026-01-01T00:00:00.000Z"
+  },
+  "viewport": { "width": 1280, "height": 800 }
+}
+</code></pre>
+
+<p><code>ai</code> 字段配置 Libretto 用于快照分析的模型——提取选择器、识别交互元素或诊断步骤失败原因。这将重型视觉上下文保留在你的编码 agent 的上下文窗口之外。快照分析是必需的。</p>
+
+<p><code>npx libretto setup</code> 自动固定它找到凭证的第一个提供商的默认模型。之后要显式更改提供商或模型：</p>
+
+<pre><code>npx libretto ai configure &lt;openai | anthropic | gemini | vertex&gt;
+</code></pre>
+
+<p>要检查当前配置而不更改任何内容：</p>
+
+<pre><code>npx libretto status
+</code></pre>
+
+<p>提供商凭证从环境变量或仓库根目录（<code>.git</code> 目录旁边）的 <code>.env</code> 文件中读取：OPENAI_API_KEY、ANTHROPIC_API_KEY、GEMINI_API_KEY / GOOGLE_GENERATIVE_AI_API_KEY，或 Vertex 的 GOOGLE_CLOUD_PROJECT。设置 LIBRETTO_DISABLE_DOTENV=1 以跳过 <code>.env</code> 加载。</p>
+
+<p><code>viewport</code> 字段设置默认浏览器视口大小。两个字段都是可选的。</p>
+
+<h2>会话</h2>
+
+<p>每个 Libretto 会话都在 <code>.libretto/sessions/&lt;name&gt;/</code> 下获得自己的目录，包含运行时状态。会话被 git 忽略。</p>
+
+<ul>
+<li><code>state.json</code> — 会话元数据（调试端口、PID、状态）</li>
+<li><code>logs.jsonl</code> — 结构化会话日志</li>
+<li><code>network.jsonl</code> — 捕获的网络请求</li>
+<li><code>actions.jsonl</code> — 记录的用户操作</li>
+<li><code>snapshots/</code> — 截图 PNG 和 HTML 快照</li>
+</ul>
+
+<h2>配置文件</h2>
+
+<p>配置文件保存浏览器会话（cookies、localStorage），以便你可以在运行之间重用认证状态。它们存储在 <code>.libretto/profiles/&lt;domain&gt;.json</code>，通过 <code>npx libretto save &lt;domain&gt;</code> 创建。配置文件是机器本地的，并被 git 忽略。</p>
+
+<h2>社区</h2>
+
+<p>有问题、有想法或想分享你构建的内容？加入 <a href="https://discord.gg/NYrG56hVDt">Discord</a> 的对话以获得快速帮助，或在 <a href="https://github.com/saffron-health/libretto/discussions">GitHub Discussions</a> 进行更长时间的讨论。</p>
+
+<ul>
+<li><a href="https://github.com/saffron-health/libretto/discussions/categories/q-a">Q&A</a> — 提问并获得帮助</li>
+<li><a href="https://github.com/saffron-health/libretto/discussions/categories/ideas">Ideas</a> — 建议新功能或改进</li>
+<li><a href="https://github.com/saffron-health/libretto/discussions/categories/show-and-tell">Show and tell</a> — 分享你的工作流和自动化</li>
+<li><a href="https://github.com/saffron-health/libretto/discussions/categories/general">General</a> — 聊任何 Libretto 相关的内容</li>
+</ul>
+
+<h2>贡献</h2>
+
+<p>发现 bug？请 <a href="https://github.com/saffron-health/libretto/issues/new">提交 issue</a>。</p>
+
+<p>由 <a href="https://saffron.health">Saffron Health</a> 团队维护。</p>
+
+<h2>开发</h2>
+
+<p>在此仓库中进行本地开发：</p>
+
+<pre><code>pnpm i
+pnpm build
+pnpm type-check
+pnpm test
+</code></pre>
+
+<p>源码布局：</p>
+
+<ul>
+<li><code>packages/libretto/src/cli/</code> — CLI 命令</li>
+<li><code>packages/libretto/src/runtime/</code> — 浏览器运行时（网络、恢复、下载、提取）</li>
+<li><code>packages/libretto/src/shared/</code> — 共享工具（配置、LLM 客户端、日志、状态）</li>
+<li><code>packages/libretto/test/</code> — 测试文件（*.spec.ts）</li>
+<li><code>packages/libretto/README.template.md</code> — 仓库和包 README 的真实来源</li>
+<li><code>packages/libretto/skills/libretto/</code> — Libretto skill 的真实来源</li>
+</ul>
+
+<p>编辑 <code>packages/libretto/README.template.md</code> 或 <code>packages/libretto/skills/libretto/</code> 下的任何内容后，运行 <code>pnpm sync:mirrors</code>。</p>
+
+<p>要检查生成的 README、skill 镜像和 skill 版本元数据是否同步而不修复它们，运行 <code>pnpm check:mirrors</code>。要发布，运行 <code>pnpm prepare-release</code>。</p>
+
+</article>
+</body>
+</html>

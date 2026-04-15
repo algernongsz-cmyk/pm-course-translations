@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>最难处理的百分比</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #333; }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding-left: 1em; color: #666; }
+    img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+<article>
+<h1>最难处理的百分比</h1>
+<p><em>原文：<a href="https://www.intercom.com/blog/the-hardest-percentages/">The hardest percentages</a></em><br>
+<em>翻译日期：2026-04-16</em></p>
+
+<p>复杂查询只占你队列的一小部分，但它们消耗了你团队不成比例的时间。</p>
+
+<p>以一个典型的队列为例：密码重置的数量是退款争议的十倍，但重置需要五分钟，争议需要三十分钟。"罕见"的查询占总处理时间的三分之一以上。同样的模式也适用于账户调查、订阅更改和账单争议。</p>
+
+<p>你处理复杂查询的方式也是客户真正记住的关于他们支持体验的内容。当某人处理损坏的订单或账单争议时，风险更高，快速、良好的解决方案是将一次可遗忘的互动转变为建立持久信任的关键。</p>
+
+<p>大多数 AI Agent 能很好地自动化简单、信息性的查询。你的自动化率的问题在于它们能否处理困难的查询。</p>
+
+<h2>我们在信息性查询上已经做得很好——困难的部分是接下来的事情</h2>
+
+<p>我们在信息性问答方面投入了大量精力。我们构建了 <a href="https://www.intercom.com/blog/announcing-fin-apex-the-age-of-vertical-models-is-here/">Apex</a>，这是一个基于数十亿次支持交互训练的专门客户服务模型，作为 Fin 的核心回答引擎。在此之下是一个自定义检索模型、一个专门构建的重排序器和一个统一的 RAG 管道，所有这些都专门为客户服务训练。Fin 以比通用前沿模型更高的比率解决问题，幻觉更少，成本更低。</p>
+
+<p>但信息性问答只涵盖文本是答案的查询。大多数 Agent 可以处理这些。很少有能让你在没有前向部署工程师为你设置的情况下配置复杂、多步骤操作的，这造成了一个差距。</p>
+
+<p>你的团队处理的每个查询都属于以下三类之一：</p>
+
+<ul>
+<li><strong>信息性</strong>："你们能优先次日的跨大西洋运输吗？"用知识库中的文本回答。</li>
+<li><strong>个性化</strong>："我的订单在哪里？"需要该用户独有的数据。</li>
+<li><strong>操作主导</strong>："我的订单到货时损坏了，我需要退款。"需要做些什么：检查退货窗口、交叉引用交易数据、做出判断调用——从多个系统读取并跨系统行动。</li>
+</ul>
+
+<p>这些复杂查询，那些需要跨系统多步骤流程的查询，不是边缘案例；它们是你的支持团队存在的原因。这是我们构建 Fin Procedures 来弥合的差距。</p>
+
+<h2>它有效</h2>
+
+<p><a href="https://fin.ai/procedures#product-updates">Procedures</a> 已上线，正在扩展，结果很明确。自托管可用性推出以来，Procedures 已处理超过 150 万次对话，在金融科技、电子商务、游戏、医疗保健和 SaaS 的数百个应用中，量每月翻倍。</p>
+
+<p><img src="https://www.intercom.com/blog/the-hardest-percentages/weekly-conversations.png" alt="Procedures 处理的每周对话"></p>
+
+<p>当客户遇到复杂、多步骤的查询时，当 Fin 能够端到端完成工作时，体验明显更好。我们用随机 5% 的留出组进行了测试——本应运行 Procedures 但没有运行的对话。当 Procedures 运行时，CSAT 高出 28.93%，这是一个统计显著的结果。</p>
+
+<h2>一个产品，而不是服务合同</h2>
+
+<p>很多供应商会为你自动化复杂流程。他们会派一个前向部署工程师，举办工作坊，六到八周后你会得到几个工作流。然后你的退款政策改变了，你给同一个工程师发消息，希望他们还在你的账户上，等待进行你应该能够自己做的更改。</p>
+
+<p><a href="https://www.linkedin.com/feed/update/urn:li:activity:7405697824161746944/">Fergal 最近写到了这一点</a>——B2B AI 行业有一个咨询件问题。不再是数据库被分叉了，而是提示词。为每个客户维护定制设置的经济效益行不通。要么应用程序落后于新模型，要么供应商更改模型，质量不知不觉地下降。</p>
+
+<p>我们从第一天起就坚持 Fin 是一个产品。Procedures 为你的团队提供他们所需的一切：一个自然语言编辑器——字面上粘贴你现有的 SOP——分支逻辑、数据连接器和用于测试的 AI 驱动模拟。你的 CX 运营团队配置它、迭代它、拥有它。我们也有一个很棒的前向部署团队，如果你需要帮助，他们就在那里。但他们是可选的，不是依赖。你始终拥有控制权。</p>
+
+<p>因为它是一个统一的产品，改进会复合。当我们优化一个提示词时，每个客户的 Procedures 都会变好。当我们升级模型时，我们会在整个客户群中进行 A/B 测试，并在推出之前知道它更好。当每个客户都有定制的提示词时，你无法做到这一点。咨询模式不仅昂贵，它在结构上无法复合。</p>
+
+<p>今天，Fin Procedures 对所有 8,000 多个 Fin 客户可用——没有等待名单或托管推出。</p>
+
+<h2>我们一直在发布什么</h2>
+
+<p>我们根据真实的客户反馈快速迭代。以下是我们上次分享更新以来发布的内容：</p>
+
+<ul>
+<li><strong>AI 驱动的 Procedure 审查</strong>：在部署前标记损坏的逻辑、缺失的引用和不可达条件。</li>
+<li><strong>Procedure 失败报告</strong>：一个新的报告维度，让你深入查看 Procedures 失败的对话，以便你诊断和修复。</li>
+<li><strong>带回滚的版本历史</strong>：跟踪每个更改、比较版本、必要时回滚。</li>
+<li><strong>数据连接器健康监控</strong>：一目了然地查看你的集成是否健康、降级或失败。</li>
+<li><strong>可选数据连接器参数</strong>：Fin 只在真正需要时才向客户询问信息，而不是提示每个字段。</li>
+<li><strong>Email 模拟支持</strong>：在上线之前测试你的 Procedures 在聊天和邮件中的行为。</li>
+</ul>
+
+<h2>Agent in the Loop（测试版）</h2>
+
+<p>即使有 Procedures，两件事阻止团队自动化他们最复杂的查询：缺少集成和需要在敏感决策上有人类签字的政策。</p>
+
+<p>"Agent in the Loop" 为两者而构建。需要 Fin 检查你的内部管理工具但还没构建数据连接器？在那个步骤放置人类检查点。Fin 处理对话、收集上下文并暂停，显示一个结构化摘要供人类 agent 验证或操作，然后继续。你在不需要集成的 80% 上获得自动化。</p>
+
+<p>对于合规——身份验证、高价值退款——Fin 做基础工作，人类做最终决定，然后交回给 Fin。这在 Intercom Inbox 和通过 Slack 原生工作。一些竞争对手根本没有 inbox 原生变体，意味着人类需要离开他们的主要工作空间来审查 AI 操作。</p>
+
+<p>Procedures 也设计为让你与所有队友协作——包括人类 agent 和 AI Agent。Fin 可以直接在 Procedure 内与他们协作，使用 API 和 webhook 在流程中间引入另一个队友、传递上下文并在他们完成后继续。</p>
+
+<h2>让它更容易、更快</h2>
+
+<p>Procedures 已经是自助服务的，但我们不会止步于此。下一步是让 Procedure 创建、测试和维护显著更流畅和容易，减少手动编辑，增加 AI 辅助构建和调试。接下来的几个月在这个领域会有很多我们真正兴奋的内容。</p>
+
+<h2>最难处理的百分比最重要</h2>
+
+<p>你的自动化率的最大解锁不会是回答更多 FAQ，而是处理那些消耗你团队时间并定义客户对你体验记忆的复杂、多步骤查询。</p>
+
+<p>这意味着与一个超越回答问题并执行流程的 Agent 合作。一个你的团队拥有和配置的产品，而不是你购买并希望得到维护的服务。以及一个每次改进都会在所有客户间复合的平台。</p>
+
+<p>这就是 Procedures。现在对所有人可用。<a href="https://app.intercom.com/admins/sign_up/email?utm_content=post&utm_medium=blog&utm_source=Intercom">从这里开始</a>。</p>
+
+</article>
+</body>
+</html>
