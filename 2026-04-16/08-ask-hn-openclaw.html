@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ask HN: 谁在使用 OpenClaw？</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #333; }
+    h1, h2, h3 { margin-top: 1.5em; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #f5f5f5; padding: 15px; border-radius: 8px; overflow-x: auto; }
+    blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding-left: 1em; color: #666; }
+    img { max-width: 100%; height: auto; }
+    .comment { margin: 1em 0; padding: 1em; background: #f9f9f9; border-radius: 8px; }
+    .author { font-weight: bold; color: #1a1a1a; }
+    .time { color: #888; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+<article>
+<h1>Ask HN: 谁在使用 OpenClaw？</h1>
+<p><em>原文：<a href="https://news.ycombinator.com/item?id=47783940">Ask HN: Who is using OpenClaw?</a></em><br>
+<em>翻译日期：2026-04-16</em></p>
+
+<h2>原文提问</h2>
+<p>我个人没有使用它，我的圈子里也没有人在使用……虽然我觉得自己已经非常深入 AI 世界了。</p>
+
+<h2>精选评论</h2>
+
+<div class="comment">
+<p class="author">bryan0:</p>
+<p>想想你希望助手做什么。你可以教它使用任何可用的 API 完成基本任务，然后你可以给它反馈让它改进。</p>
+<p>例如，我的 agent 可以通过 Home Assistant 或任何其他 API 控制家庭自动化。我的 agent 为网站和开源项目做贡献。当你给它反馈时，它会更新自己的技能文件。</p>
+<p>它会检查和回复邮件，可以接听和拨打电话，进行在线研究和监控。我甚至尝试让它创作音乐。可以尝试的事情是无限的。</p>
+<p>我认为就像 LLM 一样，人们会在它不能一次性解决问题时感到沮丧。这项技术在反馈中成长。它会犯错，你的工作是确保它从这些错误中学习，不再重复。</p>
+</div>
+
+<div class="comment">
+<p class="author">lexandstuff:</p>
+<p>我仍然在使用它，觉得它很有帮助。</p>
+<p>我的 OpenClaw 实例使用一个 Obsidian 项目作为记忆。主要是，它只是我日常使用的 LLM，我通过 WhatsApp 访问它，但记忆没有被锁定在特定供应商那里，而是存储在版本控制中，我可以阅读和编辑。仅此原因就让它对我很有吸引力。当更好的 LLM 出现时，我只需要切换，我的记忆和系统提示词会随之迁移。</p>
+<p>但是，我也用它来追踪卡路里/体重/锻炼、待办事项列表（账单、生日、活动提醒），以及支持各种生活管理任务。我几乎没有给它太多访问权限，除了几个只读访问某些数据的技能。</p>
+<p>它没有给我带来 10 倍的生产力提升。它只是很方便。</p>
+</div>
+
+<div class="comment">
+<p class="author">bigpapikite:</p>
+<p>我个人认识的使用过它的人不多，所以我不确定这是不是我的个人体验，简短来说：</p>
+<p>我在树莓派 4 上设置了 OpenClaw，可以通过主电脑 ssh 访问。我使用 OpenClaw 的主要目标只是作为一个早晨的简报员，可以扫描我的 Google 日历、Trello 看板和 Gmail，告诉我当天有什么事情，以及每周给我未来几周的预测，看看我这个月有多忙。我在一周内花了大约 40-50 美元来解决各种问题，让它自己修复，直到我找到一篇文章帮助我优化模型使用以节省成本，而不是什么任务都扔给 Opus 和 Sonnet。</p>
+<p>即使做了这些调整，早晨简报员可能一周只工作一两次，其他早晨都会出错，告诉我它已经修复自己，以后不会再发生了。在某个时候，我真的受够了，就关掉了 cron 任务。它仍然在我的 pi 上运行，但我从不使用它。</p>
+<p>我很确定 Claude 现在有类似的功能，但我对整个事情都很失望，我宁愿每天早上花 30-45 分钟自己规划我的一天。</p>
+</div>
+
+<div class="comment">
+<p class="author">redact207:</p>
+<p>当我看到 Jensen 的演讲说 OpenClaw 在几个月内在 GitHub 星标方面超过了 React 和 Linux 时，我就知道整个事情是人为制造的机器人炒作。</p>
+<p>没有人能告诉我一个令人信服的用例。整个事情似乎就是为了让人烧更多 tokens 而设计的。</p>
+</div>
+
+<div class="comment">
+<p class="author">mholubowski:</p>
+<p>是的，我们公司正在 <em>非常</em> 广泛地使用它。我真的相信我们处于使用的前沿。我们有多个隔离的 OpenClaw 实例在 Slack 中作为员工服务。</p>
+</div>
+
+<div class="comment">
+<p class="author">dsiegel2275:</p>
+<p>我已经在备用的一台 Macbook Pro 上安装了它。目前我只在一个用例中使用它：</p>
+<p>每天晚上，我让 OpenClaw 从我的 Obsidian 笔记库的私有 GitHub repo 中拉取最新更改。然后它查看添加了哪些新笔记，然后运行"创建闪卡"技能来提取和编写有用的间隔重复练习闪卡。然后我给它访问我自己构建的基于 Web 的间隔重复闪卡应用程序的权限。它使用 API 插入新卡片，检查我上次复习卡片的时间，如果我几天没有复习卡片，可以选择发送提醒。</p>
+<p>这是一个很好的工作流程，一直运行良好。我去上课，在 Obsidian 中做笔记，检查我的更改。到第二天，当我打开手机上的闪卡应用程序时，我有来自昨天课程的新卡片要复习。</p>
+</div>
+
+<div class="comment">
+<p class="author">ryanmcgarvey:</p>
+<p>是的。我有一台备用的 M1 Mini，所以我决定设置它。我完全放开了一切，连接了所有集成，虽然我只使用 Opus/Sonnet。我有一个专门的 Discord 服务器用于与它交流。</p>
+<p>一旦你将你的生活连接到它，它的强大真的让人大开眼界。最大的改进实际上是琐碎的事情——给承包商、会计师等发邮件。我不再需要打开另一个应用程序，导航六个单独的步骤，然后即时组织一切，只为了发送一条消息。我待在一个地方，组织我想做的事情的想法，执行会自动发生。</p>
+<p>例如，OpenClaw 会找到相关的线程，通过网络搜索查找相关细节，将它们呈现给我，给我一个草稿，我可以审查它、编辑它，然后发送。2 分钟而不是 20 分钟。</p>
+<p>作为一名日常使用 AI 的软件工程师，我认为这是真正的解锁——保持在单一上下文中，不要迷失在分散注意力的琐碎细节中。</p>
+</div>
+
+<div class="comment">
+<p class="author">BeetleB:</p>
+<p>使用了几个星期。这个工具的 <em>潜力</em> 是巨大的。现实是它令人沮丧且不可靠。但当它工作时，你真的会喜欢它。</p>
+<p>我停止使用是因为我的机器上有些东西改变了，破坏了我的虚拟机软件，所以我无法访问它。这其实是好事，因为我花了太多时间调试/调整。</p>
+<p>我最近使用 pi 重新创建了一个 agent，做一些我以前用它做的基本事情（没有那些可怕的隐私问题）。在它们变得更加健壮之前，我不认为我会回到任何类似 Claw 的工具。</p>
+</div>
+
+<div class="comment">
+<p class="author">mjsweet:</p>
+<p>我是一名专业园艺师，我在 Mac 上使用 NanoClaw 做以下事情：</p>
+<p>使用自定义 MCP 在我的工作管理工具（我自己做的）上安排工作。我会问它"今天有什么工作"等问题，开始工作，完成工作等。</p>
+<p>它会通过 MCP 监控来自当地房地产经纪人工作订单的 Gmail，然后安排报价访问。</p>
+<p>报价访问后，我将照片添加到 Telegram（我碰巧使用的频道），然后我让它分析照片。</p>
+<p>NanoClaw 中的 Claude 在弄清楚需要做什么方面做得很好，但并不总是完全正确，所以我使用 intake-api 这是一个"session inbox"，它生成一个表单并将其与图像一起上传到 Cloudflare，并在聊天中放置表单链接，这样我可以对属性的注释图像进行调整。在我满意后，我点击提交。</p>
+<p>我会回到 Telegram 频道，告诉它我已经提交了表单。Claude 会将 JSON 有效负载拉回到 session 中并将其集成到报价中。</p>
+<p>它会问我工作成本等问题，以及它认为需要知道的任何其他事情。</p>
+<p>然后它会使用 Latex 生成长度在 14 到 32 页之间的完整 PDF 提案，具体取决于拍摄了多少照片。</p>
+<p>有条款和条件部分，以及一些销售废话等，还有一个相当不错的封面页，上面有他们的联系信息和我的信息等。</p>
+<p>当我满意时，我会让它创建一封带有附加 PDF 提案的 Gmail 草稿。</p>
+<p>我会快速审查它，然后发送。</p>
+<p>我还设置了 Xero MCP，所以我可以让它创建发票和联系人等。</p>
+<p>我在上下车时做所有这些事情。</p>
+<p>它释放了我的家庭生活，让我有更多时间陪伴孩子和妻子。</p>
+<p>对于需要这些类型代理助手任务的小企业主来说，有很多空间，通过我的 Agentic CRM，我认为我看到了像我这样的人的未来一瞥。</p>
+</div>
+
+<div class="comment">
+<p class="author">sneak:</p>
+<p>我曾经在 Max（$200/月）计划上让它运行得很好（并且大量使用它进行软件工程任务）。然后他们故意破坏了它，即使我的使用量 <em>完全在</em> 我计划的声明/发布的使用限制内。它给我提供了巨大的价值——轻松 $2-3k/月。</p>
+<p>我讨厌它但我屈服了，决定支付额外的使用费用，并预付了 $1k（因为它带有 30% 的折扣）。使用新的授权登录方法设置它。</p>
+<p>现在它慢了 5 倍，80% 的时间请求会认证失败或超时。现在它甚至不能做基本的事情，比如我设置它的药物追踪系统。</p>
+<p>去他妈的 Anthropic。我是一个客户，准备并愿意为他们要求的任何东西付费，他们却把我当作一个傻逼。我厌倦了和它瞎折腾，仅仅因为它们不会像正常企业那样 <em>涨价</em>，就跳过一个 <em>以前工作的系统</em> 的故障排除环节。</p>
+</div>
+
+<div class="comment">
+<p class="author">mv4:</p>
+<p>我在专用的 M4 16GB Mac Mini 上安装了它，集成了 Telegram、邮件和 Google Docs（agent 有自己的账户）。我可以与它聊天，包括通过 Telegram 发送语音消息（它可以使用本地运行的免费 TTS 发回语音消息）。</p>
+<p>使用 google/gemma-4-31b-it 作为主力，google-gemini-3.1-pro-preview 作为次要（我不喜欢它的速率限制）。</p>
+<p>它是一个很棒的私人助理。帮助我追踪行业新闻、关键客户、提醒我重要任务，并帮助头脑风暴（仅橡皮鸭效应就值得了）。现在正在构建其他技能。</p>
+<p>下一步是在本地运行所有模型（我认为使用 Claude/OpenAI API 从隐私角度来看是一个巨大的错误）。由于 Mac Studios 已售罄（而 M5 Ultra 尚未发布），可能会选择一个或两个 GX10。</p>
+</div>
+
+<div class="comment">
+<p class="author">xnx:</p>
+<p>OpenClaw 的主要功能是让人们表明他们多么先进、前沿和思想领袖。所有那些 Mac mini 现在都闲置着。</p>
+</div>
+
+<div class="comment">
+<p class="author">daytonix:</p>
+<p>它作为判断你应该开始在 AI 炒作空间中忽略谁的指标非常有用。</p>
+<p>我只开玩笑一半。屏蔽了所有炒作 OpenClaw 的人/事物，我能够在我的信息流中找到更多有趣和合理的 AI 相关讨论。</p>
+</div>
+
+<div class="comment">
+<p class="author">bitmasher9:</p>
+<p>我使用它。我从不向任何人推荐它，但这是一个我能从中获得价值的项目。有一些对这个项目的非常好的批评，对我来说最切中要害的是消耗 tokens 的方面和调整的方面。</p>
+<p>最常见的问题是"你用它做什么"，所以这里是我的答案。</p>
+<p>1. 我有流行的自托管人群的 Obsidian/OpenClaw 设置。我在 OpenClaw 中有大量的"cron"任务来获取数据并将其插入 Obsidian，或者总结我完成的 Obsidian 项目，或者提醒我关于 Obsidian 中的待办事项。这是我从自动化方式在 .md 文件层交互中获得最大价值的地方。例如，我有一个 cron 会将我的每日笔记总结成每周笔记，我的每周笔记总结成每月笔记。</p>
+<p>2. 邮件收件箱管理。我有从某些人或主题提醒我邮件的工作。根据模糊的 LLM 规则将邮件处理到文件夹的工作等。</p>
+</div>
+
+<div class="comment">
+<p class="author">gleipnircode:</p>
+<p>我使用 OpenClaw 直到 Claude 发布了定时例程。</p>
+<p>现在我只需要创建一个 repo 插入上下文，然后在 Claude Windows 应用程序中针对它运行定时例程。</p>
+<p>对于我的用例，这就是我需要的全部，最重要的是我可以正式使用我的 Claude 订阅而不是 API 密钥。</p>
+</div>
+
+<div class="comment">
+<p class="author">Lowstack:</p>
+<p>我仍在尝试弄清楚如何充分利用它。</p>
+<p>我主要通过 GitHub Copilot Pro+（$39/月）使用 github-copilot/claude-sonnet-4.6 运行它。</p>
+<p>任务管理：我的整个待办系统通过 GitHub Issues 运行。我只需在 Slack 中告诉它"标记那个完成"或"为 X 添加任务"之类的事情，它就会处理 gh CLI 调用。听起来微不足道，但消除打开浏览器的摩擦实际上改变了我维护列表的一致性。</p>
+<p>早晨/下班简报：Cron 任务每天早晚向 Slack 发布结构化摘要——日历、打开的 GitHub Issues、重要邮件。它推送我的任务 RSS 源，我可以在手机小部件上查看。</p>
+<p>服务器管理 agent：我有另一个 agent 作为服务器管理员。它运行 Jellyfin、几个 *arr 应用、AdGuard、mealie 等。我不再手动触碰配置文件或 docker compose。我只需描述我想要改变什么。我让它频繁运行自己的安全审计。</p>
+<p>我还有一个个人教练 agent，使用 gcal 追踪我的体重、每周锻炼，并创建餐饮计划，推送到 mealie，这样我就知道买什么杂货和做什么菜。</p>
+<p>文献综述：我描述一个研究问题，它运行完整的管道——搜索 Semantic Scholar + Google Scholar，创建具有干净元数据的 Zotero 集合，然后通过 9 种不同策略尝试获取 PDF（机构仓库、arXiv、Unpaywall、使用我大学凭据的 EZproxy 等）。自动获得约 60-65% 的 PDF 覆盖率。</p>
+<p>我有一个叫 Betty 的私人购物 agent，它的角色是出去找到我想买东西的优惠。</p>
+<p>我还用它运行研究项目的数据管道。它被指示使用 openai/gpt-5.4 与 beads 和 gastown 进行编码。</p>
+<p>我仍然需要弄清楚如何高效管理模型切换。我还没到那一步。</p>
+<p>这是第一个真正改变我工作方式的 AI 设置，而不是仅仅成为一个花哨的搜索引擎。</p>
+</div>
+
+<h2>总结</h2>
+<p>这篇 Hacker News 讨论展示了 OpenClaw 使用者的真实反馈。有些人找到了实用场景（如 Obsidian 集成、邮件管理、个人助理），而另一些人则因为稳定性、成本和隐私问题放弃使用。总体来看，OpenClaw 对某些用户有价值，但对技术背景的用户来说，可能更倾向于使用更简单的替代方案（如 Claude Code + cron jobs）。</p>
+
+</article>
+</body>
+</html>
