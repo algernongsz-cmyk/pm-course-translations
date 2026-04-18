@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>永远不要停止自我颠覆：推出Fin API平台</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fafafa;
+        }
+        article {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        h1 { font-size: 2em; color: #1a1a2e; margin-bottom: 15px; line-height: 1.3; }
+        .meta { font-size: 0.9em; color: #666; }
+        .meta span { margin-right: 20px; }
+        .meta a { color: #0066cc; }
+        h2 { font-size: 1.5em; color: #1a1a2e; margin: 30px 0 15px; }
+        p { margin-bottom: 1.2em; }
+        img { max-width: 100%; height: auto; margin: 20px 0; border-radius: 4px; }
+        .hero-img { width: 100%; margin-bottom: 30px; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.85em; color: #888; }
+        ul, ol { margin: 15px 0; padding-left: 25px; }
+        li { margin-bottom: 8px; }
+        strong { color: #1a1a2e; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>永远不要停止自我颠覆：推出Fin API平台</h1>
+            <div class="meta">
+                <span>来源：Intercom Blog</span>
+                <span>作者：Eoghan McCabe, CEO of Intercom</span>
+                <span>原文：<a href="https://www.intercom.com/blog/introducing-the-fin-api-platform/" target="_blank">链接</a></span>
+            </div>
+        </header>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2056/04/fin-api-platform.png" alt="Fin API Platform" class="hero-img">
+
+        <p>今天我们宣布推出<a href="https://fin.ai/api-platform" target="_blank">Fin API平台</a>。</p>
+
+        <p>驱动Fin的业界领先垂直客户服务模型现在可供你混合搭配，并以疯狂的规模部署，为你创建完美的客户Agent。在这篇文章中，我将准确解释我们宣布了什么，我们为什么这样做，以及我认为我们将在整个行业看到更多这样的趋势。</p>
+
+        <h2>新闻</h2>
+
+        <p>Fin是一个客户Agent平台，目前每周解决超过200万个客户问题，以快速的指数速度增长。它被各垂直领域最优秀的品牌依赖，无论大小。从Doordash和Riot Games，到较小的新兴公司如Mercury和Polymarket。它运行在我们AI团队训练的一系列模型上。上周，我们发布了<a href="https://fin.ai/cx-models" target="_blank">Apex</a>，这是世界上第一个专门的客户服务LLM。在过去6个月的生产测试中，它在解决率、延迟、幻觉率和成本上击败了每一个前沿模型，包括Anthropic和OpenAI的模型。</p>
+
+        <p>我们现在允许你直接通过API访问所有这些能力和所有核心模型，合同起价为每年25万美元，使用费率在每个模型子类别中都是行业中最便宜的。</p>
+
+        <h2>但为什么？</h2>
+
+        <p>原因很简单：我们的客户需要。我们听到各地的人想要构建自己的Agent。所以从今天开始，我们提供三种方式来实现。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2056/04/1775236158481.png" alt="Fin API Platform offerings">
+
+        <p>首先，对于绝大多数公司，他们会在Fin Agent平台上运行运营。我们目前有约8000家公司使用。这满足了99%客户的需求，让他们可以轻松配置，无需我们创业竞争对手那种令人筋疲力尽的咨询合作。它提供业界最佳的解决率，而且开箱即用。</p>
+
+        <p>其次，我们也为想在独特环境中呈现Fin的人提供了产品。为此他们可以使用Fin Agent API。在这种模式下，你获得Fin平台的所有魔力，但不必使用我们的Messenger（或我们的电子邮件、语音或其他预建渠道），可以以定制方式展示Agent。</p>
+
+        <p>但也有一些公司想为他们的业务构建超特定和专业的Agent。也许他们想构建一个做服务的Agent，同时也是让用户与其产品交互的产品Agent。在这种情况下，最好和最明显的选择是使用Apex和我们在更广泛系统中使用的模型集合，因为它们正是为这个目的训练的——不同于通用模型。这是我们今天推出的第三个新产品。</p>
+
+        <p>我们也乐于看到新的创业公司构建类似Fin的业务，服务于超特定的垂直领域。牙医的Fin？为什么不呢？汽车经销商的Fin？当然可以。我们永远不会为这些特定垂直领域构建，但我们很乐意有人这样做。事实上，如果我们任何直接创业竞争对手想要大幅提升他们的产品并给我们一点分成，我们非常乐意授权我们的模型给他们。Decagon、Sierra以及其他，你们知道怎么联系我。让我们做朋友！:)</p>
+
+        <h2>即将来到你附近的Agent公司：防御性原因</h2>
+
+        <p>与许多人不同，我并非100%准备好宣告所有软件的终结。但确实，软件格局即将在我们眼前发生巨变。在极近的过去，差异化来自软件功能——它因为难以构建而充当护城河。但构建软件现在变得不那么难了。</p>
+
+        <p>我们已经在工程团队上实现了可衡量的生产力翻倍以上。我们还让单个Intercom工程师在短短一周内构建了极其深入的新产品——这些产品以前作为独立业务存在。</p>
+
+        <p>展望未来，来自功能和界面的差异化至少将会减弱。严肃的软件公司不仅必须从功能公司转向Agent公司——因为人类过去做的辅助工作现在将由Agent完成——还必须在这些Agent上构建差异化的AI。我们确实相信越来越多的价值将向模型层聚集，因此，正如我们当初用Agent业务颠覆软件业务一样，我们现在将开始用AI业务颠覆Agent业务的进程。</p>
+
+        <p>这一切最终走向哪里谁也不知道，但很难想象我们不会在许多其他公司看到同样的趋势。目前，我们很高兴率先推出这个新平台和业务，我们迫不及待想看到人们构建什么。</p>
+
+        <footer>
+            <p>翻译时间：2026-04-19</p>
+            <p>保留术语：Fin, API, Agent, Apex, LLM, Messenger, Doordash, Riot Games, Mercury, Polymarket, Decagon, Sierra, Anthropic, OpenAI</p>
+        </footer>
+    </article>
+</body>
+</html>
