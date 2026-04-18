@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布 Monitors：打开 AI 黑盒</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; max-width: 780px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #1a1a1a; }
+        h1 { font-size: 2em; line-height: 1.3; margin-bottom: 0.5em; }
+        h2 { font-size: 1.5em; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        h3 { font-size: 1.2em; margin-top: 1.5em; }
+        .meta { color: #666; margin-bottom: 2em; font-size: 0.9em; }
+        .meta span { margin-right: 1em; }
+        img { max-width: 100%; height: auto; display: block; margin: 1.5em auto; border-radius: 4px; }
+        .caption { text-align: center; color: #666; font-size: 0.9em; margin-top: -1em; margin-bottom: 1.5em; }
+        a { color: #7a00df; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        blockquote { border-left: 4px solid #7a00df; margin: 1.5em 0; padding: 0.5em 1.5em; background: #f8f5fc; }
+        ul { padding-left: 1.5em; }
+        li { margin-bottom: 0.5em; }
+        footer { margin-top: 3em; border-top: 1px solid #eee; padding-top: 1em; font-size: 0.85em; color: #999; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>发布 Monitors：打开 AI 黑盒</h1>
+            <div class="meta">
+                <span>来源：Intercom Blog</span>
+                <span>作者：Alissa Tyrangiel</span>
+                <span>原文：<a href="https://www.intercom.com/blog/announcing-monitors-opening-the-ai-black-box/">链接</a></span>
+            </div>
+        </header>
+
+        <p>在 <a href="https://www.linkedin.com/posts/intercom_a-major-fin-product-announcement-fin-labs-activity-7442568455234449408-ROqa">Fin Labs Paris</a>，我们发布了 Monitors——Fin 的一个全新产品领域，它与 Insights 和 Recommendations 并列，为您提供完整的可观测性套件，让您对 Fin 的所作所为充满信心。</p>
+
+        <p>通过 Monitors，您可以定义哪些对话需要被审查（包括 Fin 和人工的对话），并使用 Custom Scorecards 设定评估标准。这确保您监控的是对业务最重要的指标，让您完全掌控服务质量。</p>
+
+        <p>当 Monitors 与 <a href="https://fin.ai/analyze">Insights 和 Recommendations</a> 配合使用时，您就拥有了观察整个客服运营状况、将每一段对话纳入标准、并持续推动实现完美客户体验所需的一切。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image3.png" alt="The Fin Flywheel (train, test, deploy, analyze) with Analyze highlighted and made up of Insights, Recommendations, and Monitors">
+
+        <h2>随着 Agent 变得更强大，透明度和控制变得至关重要</h2>
+
+        <p>AI 正在变得越来越强大，速度很快。这个行业的每个人都有这样的感受。</p>
+
+        <p>现在我们有 Agent 执行复杂任务，比如处理真实的客户对话、产生真实的后果。Fin 拥有近 8,000 家客户，平均解决率为 67%，每周解决近 200 万个客户查询，包括受监管行业中的高度复杂查询。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image1.png" alt="Fin's resolution rate graph up to December 2025, reaching 67%">
+
+        <p>当 Agent 在如此规模下承担更深层次的工作时，可观测性变得不可或缺。如今大多数客服负责人无法自信地回答关于其 Agent 实际在做什么的基本问题：它是否在提供良好的体验，是否完整地解决了复杂问题，是否像人类一样代表品牌，以及是否在每一段对话中都可靠地做到这一切。旧的基础设施无法帮助他们，CSAT 分数和 QA 抽样在范围上一直存在局限，无法有效扩展。</p>
+
+        <p>结果就是一个黑盒。</p>
+
+        <p>团队现在最需要的是信心。这就是为什么我们将透明度作为 Fin 设计的核心。因为团队应该能够自主理解和优化它。</p>
+
+        <p>在 Intercom，这被称为 Fin Flywheel：Train, Test, Deploy, Analyze。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-700x700.png" alt="Fin Flywheel: Train, Test, Deploy, Analyze">
+
+        <p>Analyze 是你发现实际发生了什么的步骤，也是改进开始的地方。</p>
+
+        <p>我们相信，对 AI 运营拥有信心需要三件事：</p>
+
+        <ul>
+            <li>完整了解 Fin、你的人工团队和你的客户正在谈论什么。</li>
+            <li>一种根据对业务最重要的标准来监控和评估对话的方式。</li>
+            <li>AI 驱动的 Recommendations，让你轻松根据发现采取行动。</li>
+        </ul>
+
+        <p>为了解决这些问题，去年我们发布了 <a href="https://www.intercom.com/help/en/articles/10576273-measure-customer-service-with-ai-insights-built-for-the-ai-agent-era">Insights</a> 和 <a href="https://www.intercom.com/help/en/articles/11390088-optimize-fin-instantly-with-the-help-of-ai">Recommendations</a>。现在，我们发布 Monitors——完成了一个完整的可观测性系统，也是打开黑盒的关键。</p>
+
+        <h2>Monitors：了解每一段对话是否达到了你的标准</h2>
+
+        <p>了解客户对一段对话的感受，与了解这段对话是否被正确处理，是两件不同的事；两者对服务质量都至关重要。</p>
+
+        <p>Monitors 是一种全新的 QA 能力，提供了一种结构化、可重复的方式来定义哪些对话需要被审查——并根据您设定的质量标准进行评估。它取代了临时抽样和电子表格驱动的 QA，提供了一个随业务量增长而扩展的系统。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image2.png" alt="A screenshot from Monitors. Featuring a monitors name, how conversations should be flagged, how often, and when.">
+
+        <p>两个组件协同工作：Monitors 定义哪些对话需要被审查，Custom Scorecards 定义如何评估每一段对话。</p>
+
+        <h3>正确的对话，正确的覆盖范围</h3>
+
+        <p>随机抽样从来就是一种粗放的工具。当 AI 每周处理数千段对话时，一个小的、随意的切片无法可靠地捕捉你最高风险的边界情况、最复杂的升级，或质量开始下滑的地方。</p>
+
+        <p>通过 Monitors，你可以定义对话如何被选择和评估。这意味着可以针对特定的风险或失败信号，比如"客户表现出财务脆弱的迹象"或"Fin 用相同的答案循环而没有解决问题"。或者可以创建一致的、可重复的通用样本来随时间基准化质量。你可以从现有的筛选器列表中设定这些标准，基于客户数据、渠道或 Fin 特定指标，或者使用自然语言来描述更具细微差别的情况。</p>
+
+        <p>你可以结合两种方法：精准聚焦最重要的对话，同时保持每周稳定、结构化的 QA 样本。</p>
+
+        <h3>Custom Scorecards：一致地执行你的标准</h3>
+
+        <p>每家企业的运营方式不同，所以一刀切的质量评分标准无法反映你的优先级、你的权衡、或你的客户真正关心的东西。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image5.png" alt="A sample Scorecard, featuring a name, what's being evaluated, evaluation criteria, and what constitutes a passing score.">
+
+        <p>Custom Scorecards 让你定义对您的业务来说"好"是什么样的，并将其转化为每一段对话的自定义质量分数。</p>
+
+        <p>你定义重要的标准、每项应如何衡量、以及每项的重要性。某些标准可以由 AI 自动评分，其他由人工审查，或者两者兼有——所有这些都在同一个记分卡中。这意味着你不必在规模和判断之间做选择；你在一个系统中两者兼得。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709-1.png" alt="&quot;When I saw Monitors, my first reaction was — this is exactly what we need. The ability to track quality continuously, instead of relying on spot checks, is a big shift for us.&quot; Ineke Oates, Head of Support, Agorapulse">
+
+        <p>每一段对话根据这些标准进行评估，系统根据你的配置计算整体质量分数。你可以对最重要的内容加权，或将某些标准标记为关键，这样单项失败就可能导致整个评估不通过。</p>
+
+        <p>最终得到的是一个单一的、一致的质量分数，反映了你的标准——不是一个通用指标，也不是一组不连贯的检查。这就是让质量可以随时间衡量的方式。你可以追踪 AI 和人工客服按照同一个"好"的定义表现如何，看到哪些地方在改善、哪些地方在出问题。</p>
+
+        <p>这里有一个重要的区分：<a href="https://www.intercom.com/blog/the-new-cx-score-explained/">CX Score</a> 告诉你客户对一段对话的感受。Custom Scorecards 告诉你这段对话是否符合你的标准。你两者都需要。</p>
+
+        <h3>Review Queue：将标记转化为修复</h3>
+
+        <p>当对话根据你的标准被标记为需要人工审查时，它们会被放入 Review Queue。在这里，每一个被 Monitor 匹配的对话都会自动分配给合适的审查员，附带其记分卡并追踪审查状态：</p>
+
+        <ul>
+            <li>未审查</li>
+            <li>已审查</li>
+            <li>需要修复</li>
+            <li>修复完成</li>
+        </ul>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image4.png" alt="A Review Queue with conversations flagged for human review. Each contains a user's name, what monitor identified them, a review score, and assigned reviewer.">
+
+        <p>审查员直接在 Intercom 内逐个处理对话，在过程中填写记分卡标准。</p>
+
+        <p>当一段对话未通过时，他们会标记它，添加关于出了什么问题的备注，并可以建议潜在的解决方案，例如更新文档。这些对话随后进入跟进环节，团队可以应用修复。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-2087334709.png" alt="&quot;We looked at dedicated QA tools, but what's compelling about Monitors is that it lives where our conversations already happen. We don't need another system — we can run QA across Fin and our human team in one place.&quot; Jared Ellis, Senior Director, Global Product Support, Culture Amp">
+
+        <p>这意味着没有任何东西会在电子表格或 Slack 线程中遗失，QA 不再是一个止步于分数的循环，而是一个止步于改进的循环。</p>
+
+        <h2>Reporting：将 QA 作为持续信号</h2>
+
+        <p>Reporting 是你的质量分数与一切其他指标连接的地方。你可以随时间追踪审查分数，跨越 Monitors 和 Scorecards，并直接与 CX Score、解决率和其他绩效指标进行对比。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/image6.png" alt="A sample report graphing escalation ease, clarification, and efficiency over a five month period.">
+
+        <p>以前不可见的模式变得清晰：某个特定主题持续表现不佳，质量下降与最近的知识库变更相关，某个团队的分数周环比在改善。QA 数据成为运营如何改进的持续信号，而不是存在于单独工具中的一次性练习。</p>
+
+        <h2>接下来会是什么</h2>
+
+        <p>针对 Fin 对话的 Monitors 今天已经上线，我们已经在构建下一步了。</p>
+
+        <ul>
+            <li><strong>人工客服 QA</strong> 将把同样的结构化评估带到你人工团队的对话中，为整个客服运营提供统一的质量体系。</li>
+            <li><strong>实时警报</strong> 将在对话触及你定义的阈值时立即通知你——在问题波及更多客户之前。</li>
+            <li><strong>知识库评估</strong> 将把 AI 评分直接连接到你的内容，这样对话就能根据你最新的政策和文档进行评估，捕捉不准确或过时的回复，并提供与相关来源关联的清晰依据。</li>
+        </ul>
+
+        <p>用 AI 创造完美的客户体验需要透明度。你需要了解系统的表现才能随时间维护和改进质量。通过 Insights、Monitors 和 Recommendations，这现在成为可能。这是一个完整的分析套件，让你看到每一段对话中正在发生什么，确保它符合你的标准，并在你需要时识别改进机会。</p>
+
+        <p>Flywheel 的 Analyze 步骤中的一切都是与我们的客户密切合作构建的——你的用例、你的反馈、你关于什么不好用的坦诚对话。这种合作是 Fin 成为市场上表现最佳 Agent 的原因。而我们不会放慢脚步。</p>
+
+        <footer>
+            <p>翻译时间：2026-04-19</p>
+            <p>保留术语：AI, Agent, Fin, Monitors, Insights, Recommendations, CX Score, Custom Scorecards, Review Queue, QA, CSAT, Fin Flywheel, Train, Test, Deploy, Analyze</p>
+        </footer>
+    </article>
+</body>
+</html>

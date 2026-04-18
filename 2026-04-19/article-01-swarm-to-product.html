@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>从Swarms到产品：将客户信号转化为可规模化功能</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fafafa;
+        }
+        article {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        h1 { font-size: 2em; color: #1a1a2e; margin-bottom: 15px; line-height: 1.3; }
+        .meta { font-size: 0.9em; color: #666; }
+        .meta span { margin-right: 20px; }
+        .meta a { color: #0066cc; }
+        h2 { font-size: 1.5em; color: #1a1a2e; margin: 30px 0 15px; }
+        p { margin-bottom: 1.2em; }
+        img { max-width: 100%; height: auto; margin: 20px 0; border-radius: 4px; }
+        .hero-img { width: 100%; margin-bottom: 30px; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.85em; color: #888; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        ul, ol { margin: 15px 0; padding-left: 25px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>从Swarms到产品：将客户信号转化为可规模化功能</h1>
+            <div class="meta">
+                <span>来源：Intercom Blog</span>
+                <span>作者：Kevin O'Brien, Staff Data Scientist at Intercom</span>
+                <span>原文：<a href="https://www.intercom.com/blog/from-swarms-to-product-turning-customer-signals-into-scalable-features/" target="_blank">链接</a></span>
+            </div>
+        </header>
+
+        <p><em>最好的信号往往来自最难规模化的工作。</em></p>
+
+        <p>在 Intercom，这是我们"Swarms"运营模式的核心。Swarms是由Fin专家组成的跨职能团队，专注于确保客户在试用Fin时取得成功。每个团队由工程师、数据科学家和产品经理组成，共同为客户优化Fin。</p>
+
+        <p>在这些团队中工作让我们深入了解个别客户的需求，同时也为新Fin功能奠定基础。让我解释一下。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/04/Turning-signals-to-features.png" alt="From Swarms to Product" class="hero-img">
+
+        <h2>Level 1：Swarms——信号来源</h2>
+
+        <p>目标很简单：帮助Fin解决更多对话，帮助客户理解和使用产品。</p>
+
+        <p>Swarms与客户合作，定义他们的目标以及Fin如何融入他们的工作流程。我们通过分析他们的对话来绘制自动化路线图，确定他们需要的API和Procedures，以及他们可以实现的自动化水平。然后我们支持他们实施并达成目标。这包括持续分析以识别配置优化和提高自动化水平的下一步最佳行动，例如改进知识库内容或部署新的API。</p>
+
+        <p>在swarm期间，反馈循环很快。我们测试某些东西，发布某些东西，然后快速查看指标是否有变动。这种速度和深度是swarms如此有价值的原因。这也是它们难以规模化的原因。</p>
+
+        <p>例如，我们开发了一个自动化分类体系来预测客户可以实现的自动化水平。最初，这种分析是手动的，需要超过半天时间来运行，还需要时间准备和可视化数据。但这努力是值得的。对于一位客户，我们预测自动化率为70%，他们正好达成了这个目标。</p>
+
+        <p>通过与客户密切合作，我们了解什么驱动成功，但这种工作本质上是亲自参与的，无法自我规模化。所以真正的挑战是弄清楚如何将我们在那些高接触互动中学到的东西转化为系统、工具和产品改进，让更多客户受益。</p>
+
+        <h2>Level 2：Cockpit——信号开始规模化的地方</h2>
+
+        <p>并非每个客户都需要swarm级别的关注。我们通过使swarm分析可重复和可分享来弥补这一差距。一旦我们可以跨客户运行相同的分析，我们就可以将定制的swarm学习转化为可复用的信号。</p>
+
+        <p>这就是<a href="https://ideas.fin.ai/p/the-last-dashboard-well-ever-build" target="_blank">Cockpit</a>的用武之地。</p>
+
+        <p>我们将swarms中学到的模式编码到Insights Web应用Cockpit的内部工具中。分析不再是定制项目，而变成工作流程。例如，我们扩展了自动化分类体系，这使我们能够快速了解所有客户的自动化潜力。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/04/image2.png" alt="Cockpit view example">
+
+        <p><em>示例：Cockpit中账户的分类体系细分明细。这让我们了解客户的自动化潜力。</em></p>
+
+        <p>现在，客户成功经理（CSM）可以选择一位客户，查看他们的自动化潜力和当前表现，了解最大的问题，并提出下一步行动建议。</p>
+
+        <p>这就是我们通过CSM和Sales扩大swarm学习影响的方式。它让更多客户从我们在高接触工作中看到的相同模式中受益，而不需要每次都直接涉及数据科学团队。</p>
+
+        <p>Cockpit也是一个宝贵的试验场。它为我们提供了一种在更广泛的客户群体中测试想法的方式，看看什么可以泛化，然后再考虑进一步推进。</p>
+
+        <h2>Level 3：产品——信号达到最大杠杆效应的地方</h2>
+
+        <p>真正的回报来自于我们在内部验证的模式成为产品本身的一部分。不再是直接帮助一位客户，或通过内部团队帮助许多客户，而是直接向客户交付功能，让他们可以自己改进Fin的表现。</p>
+
+        <p>现在，自动化分类体系已成为Insights的一部分，可供拥有此功能的客户使用。</p>
+
+        <p>另一个例子是CX Score。它始于与Intercom客户支持团队密切合作，了解Fin的表现，最初通过预测CSAT和解决率。随着时间的推移，这项工作演变成CX Score：一种可规模化衡量所有客户对话质量的方式。</p>
+
+        <p>产品阶段与Cockpit有根本不同，因为限制不同。Cockpit为我们的客户分析/工具提供平台，但它不需要像产品那样规模化。进入产品的东西必须对每个客户都有效，无需配置，大规模运行，所以它必须能泛化。</p>
+
+        <p>这就是为什么从Cockpit到产品的转移不是自动的。我们不仅仅问某样东西是否有用，而是在问它是否广泛有用、足够健壮、足够可规模化以在整个客户群中运行。</p>
+
+        <h2>循环</h2>
+
+        <p>模型很简单。Swarms产生最好的信号，扎根于真实的客户问题。Cockpit将这些信号操作化，让CSM和Sales可以在许多客户中使用。产品采用真正泛化的模式，将它们转化为可规模化的功能，增强每位客户的体验。</p>
+
+        <p>这个循环让一个小的swarm数据科学功能对少数高接触账户之外产生影响，在所有三个层面持续改进，为客户带来越来越高的自动化水平。</p>
+
+        <footer>
+            <p>翻译时间：2026-04-19</p>
+            <p>保留术语：Swarms, Fin, Cockpit, Insights, CSM, API, Procedures, CX Score, CSAT</p>
+        </footer>
+    </article>
+</body>
+</html>

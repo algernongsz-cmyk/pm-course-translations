@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布 Fin Apex：垂直模型时代已经到来</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif; max-width: 780px; margin: 0 auto; padding: 20px; line-height: 1.8; color: #1a1a1a; }
+        h1 { font-size: 2em; line-height: 1.3; margin-bottom: 0.5em; }
+        h2 { font-size: 1.5em; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        h3 { font-size: 1.2em; margin-top: 1.5em; }
+        .meta { color: #666; margin-bottom: 2em; font-size: 0.9em; }
+        .meta span { margin-right: 1em; }
+        img { max-width: 100%; height: auto; display: block; margin: 1.5em auto; border-radius: 4px; }
+        .caption { text-align: center; color: #666; font-size: 0.9em; margin-top: -1em; margin-bottom: 1.5em; }
+        a { color: #7a00df; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        blockquote { border-left: 4px solid #7a00df; margin: 1.5em 0; padding: 0.5em 1.5em; background: #f8f5fc; }
+        ul { padding-left: 1.5em; }
+        li { margin-bottom: 0.5em; }
+        footer { margin-top: 3em; border-top: 1px solid #eee; padding-top: 1em; font-size: 0.85em; color: #999; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>发布 Fin Apex：垂直模型时代已经到来</h1>
+            <div class="meta">
+                <span>来源：Intercom Blog</span>
+                <span>作者：Eoghan McCabe</span>
+                <span>原文：<a href="https://www.intercom.com/blog/announcing-fin-apex-the-age-of-vertical-models-is-here/">链接</a></span>
+            </div>
+        </header>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/apex-3.png" alt="Fin Apex">
+
+        <p>上周，我们悄然发布了客服 Agent 领域三年来最重要的新技术。</p>
+
+        <p>这是一个由我们 AI Group 训练的全新模型，专为 <a href="https://fin.ai/">Fin</a> 打造，名为 <a href="https://fin.ai/cx-models">Apex</a>。客观地说，它是客服领域表现最好、速度最快、成本最低的模型。它击败了业内最优秀的模型，包括 GPT-5.4 和 Opus 4.5。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/apex-1.png" alt="Apex comparison chart">
+
+        <p>在这篇文章中，我将分享这个发布的消息，它对我们领域的影响，但更重要的是——我认为——它对前沿实验室格局的影响。</p>
+
+        <h2>新闻</h2>
+
+        <p>Fin 已经是客服领域表现最好、最复杂的 Agent，在平均 70 多% 的胜率下持续击败 Decagon、Sierra 等令人印象深刻的竞争对手。它以巨大的规模运营，现在每周解决近 200 万个客户问题，这个数字正以指数级速度增长。在它短暂的生命中，已经增长到近 1 亿美元的经常性收入。</p>
+
+        <p>截至上周，约 100% 的所有（英语、聊天和邮件）客户对话现在都运行在 Apex 上。从第一天起，Fin 引擎就由一个模型系统组成，去年我们开始用我们自己的、在我们的专有数据上训练的模型替换现成的模型。但核心回答模型一直是前沿实验室的产品——最初是 GPT 的版本，最近是 Sonnet 4.0。但现在，那个核心回答模型是 Apex 1.0。</p>
+
+        <p>这个模型以明显更高的解决率处理客户问题，超过任何其他可用模型。我们在游戏领域的最大客户之一一夜之间看到解决率从 68% 提升到 75%（即未解决对话减少了 22%）。自从我们开始 Fin 以来，我们从未见过单次改进带来如此大的飞跃。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/apex-2.png" alt="Apex resolution rate improvement">
+
+        <p>但重要的是，它也明显更快、幻觉更少，而且比所有其他可用模型都便宜得多——这些都是公司在将这些 Agent 部署到其客服运营时需要考虑的重要因素。</p>
+
+        <p>这是一件极其困难的事情。我们把这个突破归功于我们由 Fergal Reid 领导的 60 人 AI Group 的基础研究。但即使对于像他这样的精英团队，如果没有特定领域的专有评估——由我们的 Fin 解决引擎创造的数十亿个人类和 Agent 客服交互数据点组成——这是无法复制的。我们的 Fin 解决引擎已经被手工调整为本领域最有效的。用这个系统训练使我们的设置成为一个飞轮，我们可以继续训练新模型，在系统能力的边缘持续改进。换句话说，我预期我们在 Apex 1.0 上享受的结果只是冰山一角。</p>
+
+        <h2>这对客服 Agent 领域意味着什么</h2>
+
+        <p>服务可以说是生成式 AI 目前已产生实质性商业、经济、现实世界影响的仅有的两三个领域之一。另外两个是编程，可能还有法律行业。这些领域的 TAM（总可寻址市场）极其庞大（2500 亿至 1 万亿美元？），因此被多家公司激烈争夺，这些公司已获得了大量资本支持。</p>
+
+        <p>我们相信，这些领域的赢家必须也将成为全栈 AI 公司。我们上周已经看到了这一点，Cursor 率先迈出了这一步，Fin 是第二个。随着功能变得几乎可以免费构建，区分参与者的技术因素将是底层 AI，如果你使用的是和其他人一样的通用现成模型，你就没有持久的差异化。</p>
+
+        <p>这意味着我们的竞争对手确实需要最终发布他们自己的模型。但我们看到他们现在才开始招聘所需的人才，所以我们认为我们很可能在这个领域至少有一年的领先优势。</p>
+
+        <p>有趣的是，2-3 年前，这不是我想象 AI 应用会发展的方式。我以为差异化的点会是我们围绕第三方模型构建的所有东西。AI 游戏会让你谦卑，毫无疑问也会让我在这篇文章中的一些预测最终看起来很蠢。</p>
+
+        <h2>这对整个 AI 行业意味着什么</h2>
+
+        <p><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU">上周的播客采访</a>中，Andrej Karpathy 说：</p>
+
+        <blockquote>
+            "我认为我们应该预期智能会有更多的物种分化。动物王国的物种极其多样化，存在各种各样的脑子。大自然有很多不同的生态位……我认为我们应该看到更多的物种分化。你不需要这种无所不知的先知。你可以把它物种化。然后把它放在特定的任务上。我们应该看到一些这样的现象，因为你应该能够拥有小得多的模型，但仍然保持认知核心。"
+        </blockquote>
+
+        <p>前沿实验室仍然拥有最好的模型，但开源权重模型并不落后太远。所以不难将预训练视为一种商品。我们认为前沿的下一个发展方向是后训练。Karpathy 的预测正是我们在 Apex（以及 Cursor 的 Composer 2）上看到的，也是我们未来会大量看到的。</p>
+
+        <p>因此，实验室处于一个有趣的境地：一方面，横向的通用模型实际上在特定用例上过度满足市场需求。例如，它们的模型比客服所需的更加通用智能。另一方面，开源权重模型已经足够好，高质量领域的特定后训练可以让生成的模型在特定用途上更优秀，并以对该特定工作重要的方式更优秀。例如，在服务领域，软性因素真的很重要，比如判断力、愉悦感、专注度（以及之前提到的硬性因素，如有效解决问题、快速且低成本的能力）。</p>
+
+        <p>个人而言，我仍然非常看好实验室。我们仍然是 Anthropic 的重要客户，无论是作为 Fin 引擎使用的更广泛模型系统的一部分，还是 <a href="https://x.com/brian_scanlan/status/2033978300003987527?s=20">我们在工程组织中深度使用 Claude Code</a>。然而，经典的颠覆理论（<a href="https://en.wikipedia.org/wiki/Disruptive_innovation">借鉴已故的伟大的 Clay Christensen</a>）现在就在他们门口。唯一的出路是通过构建更便宜的专用模型来自我颠覆。而做到这一点的唯一方法是获取该特定任务所需的评估（或拥有评估的公司）。这意味着会有一些有趣的数据合作，或并购整合，或者你会看到一些超特定的模型提供商单干，与实验室正面竞争。很可能以上都会发生。</p>
+
+        <p>与此同时，我们很高兴成为我们领域中唯一一家拥有自定义模型、且客观上优于其他一切的供应商。我们很兴奋能将其广泛部署，造福各地的终端客户。我们即将发布的下一个公告将帮助我们做到这一点。</p>
+
+        <footer>
+            <p>翻译时间：2026-04-19</p>
+            <p>保留术语：AI, Agent, Fin, Apex, CX, CSAT, QA, LLM, GPT, Opus, Sonnet, Claude Code, TAM, Cursor, Composer, Anthropic, Decagon, Sierra, Fin Flywheel</p>
+        </footer>
+    </article>
+</body>
+</html>

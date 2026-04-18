@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaizen在AI时代：小改进如何构建更智能的支持</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fafafa;
+        }
+        article {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        h1 { font-size: 2em; color: #1a1a2e; margin-bottom: 15px; line-height: 1.3; }
+        .meta { font-size: 0.9em; color: #666; }
+        .meta span { margin-right: 20px; }
+        .meta a { color: #0066cc; }
+        h2 { font-size: 1.5em; color: #1a1a2e; margin: 30px 0 15px; }
+        p { margin-bottom: 1.2em; }
+        img { max-width: 100%; height: auto; margin: 20px 0; border-radius: 4px; }
+        .hero-img { width: 100%; margin-bottom: 30px; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 0.85em; color: #888; }
+        ul, ol { margin: 15px 0; padding-left: 25px; }
+        li { margin-bottom: 8px; }
+        em { color: #555; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>Kaizen在AI时代：小改进如何构建更智能的支持</h1>
+            <div class="meta">
+                <span>来源：Intercom Blog</span>
+                <span>作者：Pratik Bothra, Intercom</span>
+                <span>原文：<a href="https://www.intercom.com/blog/kaizen-for-the-ai-era-how-small-improvements-build-smarter-support/" target="_blank">链接</a></span>
+            </div>
+        </header>
+
+        <p><em>想象一下每天只改进一点点。</em></p>
+
+        <p>单看之下，这可能听起来不太起眼，但随着时间推移，这些小改进可以产生有意义的变化。</p>
+
+        <p>这就是Kaizen背后的哲学——日本持续改进的理念。Kaizen发展于战后日本，被丰田等公司采纳，建立在一个简单的理念上：小的、稳定的改变会带来显著的长期成果。</p>
+
+        <p>然而，Kaizen并不是简单地期望随时间推移逐渐改进；它是一种结构化的思维和工作方式，基于三个关键原则：</p>
+
+        <ul>
+            <li><strong>小改变减少阻力</strong>：宏大的目标可能让人感到不堪重负，但一次专注于一个小改进可以让行动更容易。</li>
+            <li><strong>改进是持续的，而非偶尔的</strong>：不是等待季度评审或重大发布，而是问："我们现在可以改进什么？"</li>
+            <li><strong>人人参与</strong>：最接近工作的人最有能力改进它。</li>
+        </ul>
+
+        <p>在实践中，Kaizen遵循一个简单的循环：识别一个小问题，测试改变，衡量结果，优化，重复。重点不在于做出根本性的改变，而在于持续的进步。</p>
+
+        <p>在Intercom，我们将同样的哲学应用于管理我们的Agent Fin的方式，通过一个我们称之为"<a href="https://fin.ai/capabilities" target="_blank">Fin Flywheel</a>"的流程。以下是其运作方式。</p>
+
+        <h2>将改进融入Fin的日常使用</h2>
+
+        <p>与Kaizen一样，Fin Flywheel通过四个可重复的步骤将改进融入日常工作：</p>
+
+        <ul>
+            <li><strong>Train（训练）</strong>：教Fin如何处理和解决最复杂的客户查询。</li>
+            <li><strong>Test（测试）</strong>：运行从始至终的完整模拟客户对话，查看Fin在上线前的确切行为。</li>
+            <li><strong>Deploy（部署）</strong>：在所有渠道发布Fin，让客户在任何接触点都能获得一致的支持。</li>
+            <li><strong>Analyze（分析）</strong>：使用AI驱动的Insights审查和改进Fin的表现，使其能提供更好的客户体验。</li>
+        </ul>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2056/03/Fin-Flywheel-scaled.png" alt="Fin Flywheel: Train, Test, Deploy, Analyze" class="hero-img">
+
+        <p>这不是一次性的设置，而是一个持续循环，每次交互都推动持续改进。与其部署AI然后假设它会按预期运行，不如将改进构建到系统本身。Fin使用得越多，就越好。</p>
+
+        <h2>用人类洞察持续改进AI驱动的服务</h2>
+
+        <p>但持续改进并不止步于AI。</p>
+
+        <p>在Intercom的人类支持团队中，持续改进是每位一线代表角色的一部分。我们以一个简单的思维方式运作：<strong>第一次解决客户问题应该也是最后一次它发生。</strong></p>
+
+        <p>当对话转给人类时，我们会问自己这样的问题：</p>
+
+        <ul>
+            <li>为什么这会转给我？</li>
+            <li>为什么Fin无法解决它？</li>
+            <li>我们如何防止这种情况再次发生？</li>
+        </ul>
+
+        <p>当团队成员处理客户对话时，他们被鼓励识别改善体验的方式——无论是内容更新、流程修复还是工具缺口。</p>
+
+        <p>我们构建了一种轻量级的、AI驱动的方式来即时记录建议。不需要冗长的解释或繁重的行政工作。想法会被快速审查，并由主题专家或团队自己实施。</p>
+
+        <p>这将我们的一线支持团队从被动的问题解决者转变为主动的改进引擎。最接近客户的人可以发现摩擦、建议修复，并看到他们的洞察被塑造成有意义的改变。</p>
+
+        <p>Kaizen证明持久的进步不是来自偶尔的转型；它来自有意的、日常的打磨。</p>
+
+        <p>Fin Flywheel将这种哲学应用于AI。我们的人类支持持续改进流程将其应用于人类洞察。它们共同创造了一个共享系统，让人和AI都从客户交互中持续学习。</p>
+
+        <p>当改进被嵌入到你工作的机制中时，它不再是一次性的项目，而是成为一种根深蒂固的能力。随着时间的推移，那些每天的小改进不仅仅是累加——它们会转化为竞争优势。</p>
+
+        <footer>
+            <p>翻译时间：2026-04-19</p>
+            <p>保留术语：Kaizen, AI, Agent, Fin, Fin Flywheel, Insights, Train, Test, Deploy, Analyze</p>
+        </footer>
+    </article>
+</body>
+</html>
