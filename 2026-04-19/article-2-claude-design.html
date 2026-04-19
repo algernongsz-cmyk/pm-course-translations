@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于 Claude Design 的思考与感受</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 { font-size: 2em; margin-bottom: 0.5em; }
+        h2 { font-size: 1.5em; margin-top: 2em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
+        h3 { font-size: 1.2em; margin-top: 1.5em; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 2em; }
+        .meta span { margin-right: 1em; }
+        img { max-width: 100%; height: auto; margin: 1.5em 0; }
+        a { color: #0077cc; }
+        blockquote { border-left: 4px solid #ddd; padding-left: 1em; margin-left: 0; color: #555; }
+        footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #eee; font-size: 0.9em; color: #666; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>关于 Claude Design 的思考与感受</h1>
+            <div class="meta">
+                <span>来源：Sam Henri Gold</span>
+                <span>原文：<a href="https://samhenri.gold/blog/20260418-claude-design/">链接</a></span>
+            </div>
+        </header>
+
+        <img src="https://samhenri.gold/.netlify/images?url=_astro%2F20260418-claude-design.DKni9yQ3.jpg&w=800&h=400&dpl=69e42aec79d820000814a963" alt="A Figma billboard edited to read: WE HAVE NESTED INSTANCES. WE HAVE BOOLEAN PROPERTIES. WE HAVE A DECADE OF TOOLING AND SOME GUY JUST TOLD A BOT 'make an app that does uber but for dogs' AND THE APP JUST. THE APP JUST HAPPENED. WITHOUT US. WE ARE SO FUCKING FUCKED OH GOD">
+
+        <p>昨天我试用了 <a href="https://www.anthropic.com/news/claude-design-anthropic-labs?utm_source=samhenri%2Egold">Claude Design</a>，我对这整件事的走向有个理论。</p>
+
+        <p>随着产品团队规模的扩大，设计需要在工程组织中证明自己的存在价值，它被推向了系统化——而 Figma 发明了自己的原语来让这一切运作：组件、样式、变量、属性等等。有些概念借用了编程，有些则没有，整个东西无法整齐地映射到任何东西上。指导方针不断演进，迁移堆积如山，如果你想自动化其中任何东西，你只能用少数几个糟糕的插件。这个怪物复杂到整个设计角色现在专门负责管理这个系统本身。</p>
+
+        <p>Figma 和代码之间一直存在着紧张的拉锯战，争论什么应该是真相源。Figma 战胜 Sketch，部分原因就是在此宣示了主张——他们的工具将是权威的。</p>
+
+        <p>那场胜利有一个隐性成本。由于拥有一个锁定且基本无文档的格式，在编程上操作起来非常痛苦，Figma 意外地将自己排除在了能让它们在 Agent 时代保持相关性的训练数据之外。LLM 是在代码上训练的，而不是 Figma 原语，所以模型从未学过它们。随着代码对设计师来说变得越来越容易编写，Agent 持续改进，真相源自然会迁移回代码。而 Figma 过去十年不得不引入的所有繁复基础设施，相比之下将显得荒谬。为什么要在一个有损近似中去折腾，而你可以直接在它最终实际存在的中介中工作？如果我们想做陶器，为什么我们要画水彩画而不是直接拉坯？</p>
+
+        <p>在工作中，我们花了相当多的时间将在代码中直接修改的设计变更反向移植回 Figma，这并不好玩。我无法分享那个文件，但为了公平比较，这是 Figma 自己产品设计系统的文件。我必须假设这是由你能找到的最有能力的设计系统团队构建的。然而……</p>
+
+        <img src="https://samhenri.gold/.netlify/images?url=_astro%2FCleanShot+2026-04-18+at+13.41.58%402x.Du35IpVw.png&w=3126&h=2122&dpl=69e42aec79d820000814a963" alt="Figma 的变量面板显示 946 个颜色变量，组织成嵌套组">
+
+        <p>Figma 变量面板显示了 946 个颜色变量，组织成类似 "bg/desktopBackgrounded" 的嵌套组，选中的单个变量展示了八个模式特定值：Light、Dark、FigJam-Light、FigJam-Dark、DevMode-Light、DevMode-Dark、Slides-Light 和 Slides-Dark。</p>
+
+        <img src="https://samhenri.gold/.netlify/images?url=_astro%2FCleanShot+2026-04-18+at+13.41.22%402x.bai4pZWw.png&w=3126&h=2122&dpl=69e42aec79d820000814a963" alt="模态底部组件的变体属性编辑器">
+
+        <p>一个模态底部组件打开了其变体属性编辑器，显示了 12 个变体，下拉菜单中充满了像 "DS Library Swap"、"QA Plugin"、"Growth Stepper" 和 "Sharing Actions" 这样的值。右侧面板列出了八个属性，如 "Border"、"Second CTA" 和 "Helper Text"。</p>
+
+        <img src="https://samhenri.gold/.netlify/images?url=_astro%2FCleanShot+2026-04-18+at+13.40.44%402x.DLG3CNsj.png&w=3126&h=2122&dpl=69e42aec79d820000814a963" alt="滑块组件的效果样式面板">
+
+        <p>滑块组件的效果样式面板，显示了一个名为 "light/elevation-300-tooltip" 的样式。展开它显示了其全部定义：0.5px 的阴影，30% 黑色。它拥有自己的命名样式，因为这是记录它对应哪个 CSS 变量的唯一方式。</p>
+
+        <img src="https://samhenri.gold/.netlify/images?url=_astro%2FCleanShot+2026-04-18+at+13.39.51%402x.58L6hTmB.png&w=3126&h=2122&dpl=69e42aec79d820000814a963" alt="组合输入组件">
+
+        <p>一个有 16 个变体的组合输入组件。它在图层面板中的子项被命名为 "Default, Default, Close Button=False" 和 "Default, Focused, Close Button=True" 这样的东西。</p>
+
+        <p>这些是 Figma 自己的文件。由他们自己的团队构建。这就是金标准。</p>
+
+        <p>想象一下调试一个看起来不对的颜色。你检查组件。组件使用了一个变量。这个变量是另一个变量的别名。那个变量引用了一个模式。模式在实例级别被覆盖。实例存在于一个应用了库交换的嵌套组件中。到了这一步，你要么考虑拿起代码，要么搬到乡下当个牧羊人，因为再多一分钟你就会疯掉。</p>
+
+        <p>所以随着真相源转回代码，Figma 陷入了一个尴尬的境地：握着一个基本是手动的、前 Agent 时代的系统，而今天没有任何理智正常的人会从头设计这样的系统。</p>
+
+        <p>我认为设计工具从这里开始将分为两种截然不同的形态——而且 Figma 和所有其他竞争回答同一个他们 2016 年回答的问题的工具之间，时钟几乎在重置：谁能帮助我，一个设计师，最快地把我的想法表达出来？</p>
+
+        <p>剧透：不是 Figma Make。Figma Make 感觉主要让那些已经深陷其中的人受益——它读取 Figma 样式、组件库和专有属性（或者，我喜欢称之为 Prop Props），而且它是这个新格局中唯一一个还在假装设计文件是权威的工具。它是为那些想要（或别无选择只能）留在系统内的人准备的工具。</p>
+
+        <p>Claude Design 是这两种工具中的第一个，并下了相反的赌注。有一个工艺美术原则叫做<a href="https://www.metmuseum.org/essays/the-arts-and-crafts-movement-in-america?utm_source=samhenri%2Egold">"忠于材料"</a>——即一个东西应该诚实地展现它是什么以及它是怎么做的，而不是伪装成别的东西。Figma 最终变成了相反的东西：一套极其僵化的模式，上面穿了一件随性的"就是感觉，伙计"外衣。就像一个 A 型人格的人，身体上无法放松，被迫表演随意，而内心在尖叫你的 frame 没有嵌套、你的 token 是脱落的、什么都没对齐网格。Claude Design，尽管有很多粗糙之处，至少对它是什么保持了诚实：一路到底都是 HTML 和 JS。</p>
+
+        <img src="https://samhenri.gold/.netlify/images?url=_astro%2Fn10390-24-blywf-web-crop.Cb8L33r6.jpg&w=1672&h=1816&dpl=69e42aec79d820000814a963" alt="Gustav Stickley 灯桌，约 1902 年。接缝是暴露的，没有隐藏。木头就是木头。">
+
+        <p>而且它有一个巨大的结构性优势：它的兄弟是 Claude Code。最终，我可以预见 Claude Design 直接把东西丢进 Claude Code，反之亦然。Claude Design 的引导流程已经让你导入你的代码仓库了。设计与实现之间的反馈循环——这从时间之初就是摩擦的来源——变成了一次对话。</p>
+
+        <p>从这一刻涌现的另一种工具将完全不期望代码。它将是一个纯粹的探索环境——一个放置矩形、堆叠图层样式、调整混合模式和渐变的地方，完全疯狂，不受系统或提示约定的约束。也许是一个支持 Pencil 的 iPad 应用，你只需快速画一堆矩形。<a href="https://signalvnoise.com/posts/2420-launch-draft-for-ipad?utm_source=samhenri%2Egold">37signals 现在可以做一些非常有趣的事</a>。或者它走向相反的方向——更像是 Photoshop 的东西，全力投入高保真合成，让我们的想象力驰骋，既然我们不再受限于 CSS 效果的天花板。难道不奇怪吗，在 Figma 90% 的生命周期里，它唯一的图层效果就是阴影或模糊？</p>
+
+        <p>Figma 的 Sketch 时刻正在快速逼近。如果你对一个维多利亚时代的孩子说这句话，他们可能会中风。</p>
+
+        <h3>附言</h3>
+
+        <p>以下信息仅面向 Sketch 和 Figma 背后的团队。如果两者都不适用于你，你可以离开了。</p>
+
+        <p>致 Figma：我可以预见这篇帖子在 Figma 内部 Slack 上会有很多讨论。如果是这种情况，而你正在 Figma 里读这篇文章：如果你们去年面试我的时候雇了我，这一切就不会发生。你们的损失，大兄弟。</p>
+
+        <p>致 Sketch：把头从屁股里拔出来给点颜色看看。加上粒子效果。加上压花效果。网格变换。去他的，加上 Metal 着色器。疯狂起来。别再靠<a href="https://www.sketch.com/blog/part-of-your-world-why-we-re-proud-to-build-a-truly-native-mac-app/?utm_source=samhenri%2Egold">原生 Mac</a>混日子了。别再喝热可可了，对血液渴求起来。</p>
+
+        <p>致妈妈：抱歉爆粗口了。</p>
+
+        <h3>附附言</h3>
+
+        <p><a href="https://x.com/jonnyburch/status/2045593324396920994?utm_source=samhenri%2Egold">@jonnyburch 在 Twitter 上</a>分享了<a href="https://jonnyburch.com/life-after-figma/?utm_source=samhenri%2Egold">他们博客文章</a>的链接，有类似的想法，如果你想深入了解的话写得很好。</p>
+
+        <footer>
+            <p>翻译时间：2026-04-19</p>
+            <p>保留术语：Figma, Claude Design, Claude Code, CSS, HTML, JS, Agent, LLM, Sketch, Photoshop, 37signals</p>
+        </footer>
+    </article>
+</body>
+</html>
