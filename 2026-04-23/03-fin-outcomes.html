@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>从 Resolution 到 Outcome：Fin 价值交付方式的演进</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            color: #333;
+            background: #fff;
+        }
+        .article-header {
+            margin-bottom: 2em;
+            padding-bottom: 1em;
+            border-bottom: 1px solid #eee;
+        }
+        .article-header h1 {
+            font-size: 1.8em;
+            line-height: 1.4;
+            margin-bottom: 0.5em;
+        }
+        .article-meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .article-meta a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .hero-image {
+            width: 100%;
+            border-radius: 8px;
+            margin: 1.5em 0;
+        }
+        h2 {
+            margin-top: 2em;
+            color: #1a1a1a;
+            border-left: 4px solid #0071e3;
+            padding-left: 12px;
+        }
+        p {
+            margin: 1em 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5em auto;
+            border-radius: 4px;
+        }
+        a {
+            color: #0066cc;
+        }
+        .translation-note {
+            background: #f5f5f5;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 2em;
+        }
+        .cta-image {
+            display: block;
+            margin: 2em auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="translation-note">
+    📖 本文翻译自 Intercom 官方博客 | 原文：<a href="https://www.intercom.com/blog/from-resolutions-to-outcomes-evolving-how-fin-delivers-value/" target="_blank">From resolutions to outcomes: Evolving how Fin delivers value</a> | 作者：Darragh Curran | 发布日期：2026年3月12日
+</div>
+
+<article>
+<div class="article-header">
+    <h1>从 Resolution 到 Outcome：Fin 价值交付方式的演进</h1>
+    <div class="article-meta">
+        作者：Darragh Curran &nbsp;|&nbsp; 发布于 2026年3月12日 &nbsp;|&nbsp; 分类：News & Updates
+    </div>
+</div>
+
+<img class="hero-image" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Screenshot-2026-03-12-at-17.51.42-scaled.png" alt="From resolutions to outcomes: Evolving how Fin delivers value">
+
+<p>当我们在 2023 年分享关于<a href="https://www.growthunhinged.com/p/intercoms-bet-on-ai">AI Agent 定价</a>的观点时，我们提出了一个简单的论点：如果 AI 要赢得信任，定价就必须与价值对齐。</p>
+
+<p>当时对 Fin 来说，这个价值是清晰的——只有当 AI 解决了客户问题时，你才付费。如果没解决，就不付费。这很公平、易于理解，并且基于结果而非活动来衡量。我们是第一家引入这种定价模型的公司，因为我们<a href="https://www.intercom.com/blog/pricing-ai-agents/">相信</a>定价与价值应当内在关联。</p>
+
+<p>这个信念没有改变，反而随着时间推移变得更加强。改变的是 Fin 能做的事情。</p>
+
+<h2 id="resolutions-were-the-right-place-to-start">Resolution 是正确的起点</h2>
+
+<p>一直以来，我们基于 Fin 是否独自完整解决了对话来衡量价值。这些被称为 Resolution，它们为支持团队提供了一种清晰衡量 ROI 的方式，可以轻松比较 AI 支持与人工支持的成本。它们也使我们的激励与客户保持一致——因为我们的收入直接与 Fin 的表现挂钩。</p>
+
+<p>这种清晰度奏效了。如今，超过 7,000 个团队在使用 Fin。我们的平均 Resolution Rate 逐月增长，目前已达到 67%，即使 Fin 正在处理越来越复杂的查询。这种进步来自于构建一个能应对更难问题、仍能交付结果的 Agent。</p>
+
+<p><img loading="lazy" decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Fin-resolution-rates.png" alt="图表显示 Fin 的平均 Resolution Rate 每月增长 1%" width="1237" height="516"></p>
+
+<p>但随着 Fin 变得越来越强大，"成功"不再是二元判断。</p>
+
+<h2 id="as-fin-evolved-the-definition-of-success-expanded">随着 Fin 的演进，成功的定义也在扩展</h2>
+
+<p>在过去几年里，我们投入大量精力确保 Fin 能够处理支持工作中最复杂的部分。随着 Fin 的能力扩展，客户开始将 Fin 更深入地部署到工作流中，让它处理最棘手的查询。</p>
+
+<p>在某些场景下，这需要 Fin 与人工 Agent 协同工作——因为客户政策和监督需求如此要求。订阅变更、交易争议、账单问题以及其他多步骤支持场景，往往需要 Fin 先收集上下文、对外部系统进行读写、执行操作，然后将对话转交给人工 Agent 进行确认。</p>
+
+<p>Fin 仍然在执行它被配置的任务——在完成更多繁重工作后有意识地交接，为支持团队节省宝贵时间，同时缩短客户的整体服务时长。但我们的定价指标只在对话以完整"AI Resolution"（即从未涉及人工）结束时才认可价值。</p>
+
+<h2 id="outcomes-reflect-how-customers-define-value-today">Outcome 反映了客户今天如何定义价值</h2>
+
+<p>这就是为什么我们将 Fin 的定价指标从 Resolution 演进为 Outcome。</p>
+
+<p>Outcome 代表 Fin 成功完成了它被配置执行的操作，作为对话的一部分。Resolution 仍然是 Fin 可以交付的一种 Outcome 类型——即端到端处理问题。另一种 Outcome 类型可以是 Procedure——Fin 收集上下文、采取行动，然后按照客户配置的方式将对话转交。</p>
+
+<p>提升端到端的 AI Resolution 仍然是扩展 Agent 的核心组成部分，但它们不再是衡量 Fin 成功与实用性的唯一标准。尤其是当 Fin 承担更复杂的工作时。转向 Outcome 认识到：用全自动化解决客户问题并不总是合适的。关键在于以安全、高效的方式达成正确结果。</p>
+
+<h2 id="more-control-for-teams-a-stronger-foundation-for-the-future">给团队更多控制权，为未来奠定更坚实的基础</h2>
+
+<p>随着 Fin 的能力不断扩展，团队应该能够放心地在更细致、更协作的场景中使用它。Outcome 支持这一点，它允许客户设计满足合规要求的工作流，并在必要时引入人工 Agent。</p>
+
+<p>Fin 在处理复杂的多步骤支持查询方面正变得更加强大。有了 Outcome，我们可以支持这种增长，而不需要不断重新定义价值的衡量方式。这一变化为我们提供了一个随着 Fin 持续增长、承担更多超越服务的角色时能够扩展的坚实定价基础。这与<a href="https://fin.ai/customer-agent">我们的愿景</a>一致——Fin 成为"Customer Agent"，能够处理完整的客户体验。</p>
+
+<h2 id="what-this-means-for-pricing">这对定价意味着什么</h2>
+
+<p>当 Fin 成功完成它被配置执行的操作（作为对话的一部分）时，就会计为一个 Outcome。</p>
+
+<p>定价模型保持简单，而价值的定义变得更加精准。</p>
+
+<h2 id="doubling-down-on-outcome-based-pricing">加倍投入基于 Outcome 的定价</h2>
+
+<p>当我们最初<a href="https://www.intercom.com/blog/pricing-ai-agents/">撰写关于基于 Outcome 的定价</a>时，我们说信任是 AI 的通货。这一点至今依然成立。</p>
+
+<p>定价必须让人感觉公平，必须是可预测的，并且必须保持竞争力。从 Resolution 演进到 Outcome 并不是对这个信念的背离。</p>
+
+<p>Fin 变得越来越强大，是因为客户对它提出了更高的要求。Outcome 是我们诚实反映这种进步的方式，同时坚守从一开始就指引我们的那些原则。</p>
+
+<p>随着 Fin 继续变得更加强大，我们将继续坚持同样的标准：基于交付的价值来定价。</p>
+
+<a href="https://app.intercom.com/admins/sign_up/email?utm_content=post&utm_medium=blog&utm_source=Intercom">
+    <img class="cta-image" loading="lazy" decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3.png" alt="立即体验排名第一的 AI Agent，开始免费试用" width="2247" height="839" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3.png 2247w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-300x112.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-700x261.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-768x287.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-1536x574.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-2048x765.png 2048w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/03/Group-3-1320x493.png 1320w" sizes="auto, (max-width: 2247px) 100vw, 2247px">
+</a>
+
+</article>
+
+</body>
+</html>
