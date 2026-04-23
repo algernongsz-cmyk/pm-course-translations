@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 4月23日事后分析 | Anthropic 工程博客翻译</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid #eee;
+        }
+        p {
+            margin: 1em 0;
+        }
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.5em 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+        blockquote {
+            border-left: 4px solid #d4a574;
+            margin: 1.5em 0;
+            padding: 0.5em 1.5em;
+            background: #f9f7f4;
+            font-style: italic;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 1.5em 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .source-link {
+            margin-top: 2em;
+            padding: 1em;
+            background: #f5f5f5;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        .source-link a {
+            color: #d4a574;
+            text-decoration: none;
+        }
+        .source-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Claude Code 4月23日事后分析</h1>
+    
+    <p>在过去的这个月里，我们一直在调查关于 Claude 的响应质量对某些用户体验下降的报告。我们追踪了这些报告，发现它们源于三个独立的变化，分别影响了 Claude Code、Claude Agent SDK 和 Claude Cowork。API 未受影响。</p>
+    
+    <p>截至目前 4 月 20 日（版本 v2.1.116），这三个问题都已解决。</p>
+    
+    <p>在这篇文章中，我们将解释发现问题、修复措施，以及我们将如何改进以确保类似问题不再发生。</p>
+    
+    <p>我们非常重视关于模型质量下降的报告。我们从未有意降低模型质量，我们能立即确认 API 和推理层未受影响。</p>
+    
+    <p>经过调查，我们发现了三个不同的问题：</p>
+    
+    <ol>
+        <li><strong>3月4日</strong>，我们将 Claude Code 的默认推理强度从 <code>high</code> 改为 <code>medium</code>，以减少部分用户在 <code>high</code> 模式下遇到的极长延迟——这会使 UI 看起来像卡死一样。这是一个错误的选择。在用户告诉我们更希望默认使用更高智能，并对简单任务选择性降低强度后，我们于 4 月 7 日回退了这一变更。此变更影响了 Sonnet 4.6 和 Opus 4.6。</li>
+        <li><strong>3月26日</strong>，我们发布了一项变更：当会话空闲超过一小时后，清除 Claude 较旧的思考内容，以减少用户恢复会话时的延迟。一个 bug 导致这一清除操作在后续每一轮对话中持续执行，而不是只执行一次，这使得 Claude 看起来健忘且重复。我们在 4 月 10 日修复了此问题。此问题影响了 Sonnet 4.6 和 Opus 4.6。</li>
+        <li><strong>4月16日</strong>，我们添加了一条系统提示指令以减少冗长输出。与其他提示变更结合后，它损害了代码质量，并于 4 月 20 日回退。此问题影响了 Sonnet 4.6、Opus 4.6 和 Opus 4.7。</li>
+    </ol>
+    
+    <p>由于每个变更在不同的时间影响不同的流量切片，整体效果看起来像是广泛且不一致的质量下降。虽然我们在 3 月初就开始调查报告，但起初很难将它们与用户反馈的正常波动区分开来，我们的内部使用和评估最初也没有重现发现的问题。</p>
+    
+    <p>这不是用户应从 Claude Code 获得的体验。截至 4 月 23 日，我们正在重置所有订阅者的使用量限额。</p>
+    
+    <h2 id="reasoning-effort">Claude Code 默认推理强度的变更</h2>
+    
+    <p>当我们于 2 月在 Claude Code 中发布 Opus 4.6 时，我们将默认推理强度设置为 <code>high</code>。</p>
+    
+    <p>不久之后，我们收到用户反馈：在高强度模式下，Claude Opus 4.6 偶尔会思考太久，导致 UI 看起来像卡死，并造成这些用户出现不成比例的延迟和 token 使用量。</p>
+    
+    <p>通常来说，模型思考时间越长，输出质量越好。强度等级是 Claude Code 让用户设置这一权衡的方式——更多思考还是更低延迟和更少的使用量消耗。在为模型校准强度等级时，我们考虑这一权衡，以便在测试时计算曲线上选择能给用户提供最佳选择范围的点。在产品层，我们选择在这条曲线上的哪个点设为默认值，然后将该值作为强度参数传递给 Messages API；我们再通过 <code>/effort</code> 命令提供其他选项。</p>
+    
+    <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/de3bcf9733b61f57234d8c45e663b1bd48677ea1-3840x2160.png" alt="Claude Code effort selector" loading="lazy">
+    
+    <p>在我们的内部评估和测试中，中等强度在大多数任务上实现了略低的智能和显著更低的延迟。它也没有遇到偶尔极长尾延迟思考的问题，并帮助用户最大化使用量限额。因此，我们推出了将中等强度作为默认值的变更，并通过产品内对话框解释了这一原因。</p>
+    
+    <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/459b2a8a0baa88937eebcbe4566dde4d6cc7f185-3794x2260.png" alt="Claude Code medium effort dialog" loading="lazy">
+    
+    <p>推出后不久，用户开始报告 Claude Code 感觉变得不那么智能了。我们进行了多次设计迭代，使当前强度设置更清晰，以提醒用户他们可以更改默认值（启动时的通知、内联强度选择器、恢复 ultrathink），但大多数用户仍保留了中等强度的默认设置。</p>
+    
+    <p>在听取更多客户的反馈后，我们于 4 月 7 日撤销了这一决定。现在所有用户对 Opus 4.7 默认使用 <code>xhigh</code> 强度，对其他所有模型默认使用 <code>high</code> 强度。</p>
+    
+    <h2 id="caching-bug">清除先前推理的缓存优化问题</h2>
+    
+    <p>当 Claude 推理完成任务时，该推理通常保留在对话历史中，这样在后续每一轮对话中，Claude 都能看到为什么做出了这些编辑和工具调用。</p>
+    
+    <p>3月26日，我们发布了本意是效率改进的功能。我们使用提示缓存使连续的 API 调用对用户更便宜、更快。Claude 在发起 API 请求时将输入 token 写入缓存，经过一段时间不活动后，提示会从缓存中驱逐，为其他提示腾出空间。缓存利用率是我们精心管理的（更多关于我们的<a href="https://x.com/trq212/status/2024574133011673516">方法</a>）。</p>
+    
+    <p>设计本应很简单：如果会话已空闲超过一小时，我们可以通过清除旧的思考部分来降低用户恢复会话的成本。由于请求反正会缓存未命中，我们可以修剪请求中不必要的消息，以减少发送给 API 的未缓存 token 数量。然后我们会恢复发送完整的推理历史。为此，我们使用了 <code>clear_thinking_20251015</code> API 头以及 <code>keep:1</code>。</p>
+    
+    <p>实现中有一个 bug。它没有只清除一次思考历史，而是在会话后续的每一轮都进行清除。一旦会话跨越一次空闲阈值，该进程后续的每个请求都告诉 API 只保留最近的推理块并丢弃之前的所有内容。这会累积：如果你在 Claude 正使用工具时发送后续消息，那会以损坏的标志开始新一轮，所以即使是当前轮的推理也被丢弃了。Claude 会继续执行，但越来越不记得为什么选择做正在做的事情。这表现为用户报告的健忘、重复和奇怪的工具选择。</p>
+    
+    <p>由于这会持续从后续请求中丢弃思考块，这些请求也导致了缓存未命中。我们相信这就是导致用户报告使用量限额消耗比预期更快的独立原因。</p>
+    
+    <img src="https://www-cdn.anthropic.com/images/4zrzovbb/website/332d9c487bb73c8078686068dcbe1b616720a8dd-3016x1198.png" alt="Cache miss visualization" loading="lazy">
+    
+    <p>两个不相关的实验使我们起初难以重现问题：一个仅限内部的服务器端消息队列相关实验；以及一个正交的思考显示方式变更，它在大多数 CLI 会话中抑制了这个 bug，所以即使我们测试外部构建时也没有发现。</p>
+    
+    <p>这个 bug 处于 Claude Code 的上下文管理、Anthropic API 和扩展思考的交集处。它引入的变更通过了多轮人工和自动化代码审查，以及单元测试、端到端测试、自动化验证和内部测试。加上这只在边缘情况（陈旧会话）中发生，以及难以重现问题，我们花了一周多时间才发现并确认根本原因。</p>
+    
+    <p>作为调查的一部分，我们使用 Opus 4.7 对有问题的拉取请求进行了<a href="https://code.claude.com/docs/en/code-review">代码审查</a>回归测试。当提供必要的代码仓库作为完整上下文时，Opus 4.7 找到了这个 bug，而 Opus 4.6 没有。为防止此类情况再次发生，我们正在为代码审查增加对额外仓库作为上下文的支持。</p>
+    
+    <p>我们于 4 月 10 日在 v2.1.101 版本中修复了这个 bug。</p>
+    
+    <h2 id="verbosity-change">减少冗长输出的系统提示变更</h2>
+    
+    <p>我们最新的模型 Claude Opus 4.7 相比其前身有一个显著的行为特点：正如我们在发布时<a href="https://www.anthropic.com/news/claude-opus-4-7">所写</a>，它往往相当冗长。这使它在困难问题上更智能，但也产生更多输出 token。</p>
+    
+    <p>在发布 Opus 4.7 几周前，我们开始调整 Claude Code 以做准备。每个模型的行为略有不同，我们在每次发布前花时间为其优化 harness 和产品。</p>
+    
+    <p>我们有多种工具来减少冗长：模型训练、提示、以及改进产品中的思考用户体验。最终我们使用了所有这些方法，但系统提示添加的一行对 Claude Code 的智能产生了不成比例的负面影响：</p>
+    
+    <blockquote>
+        <em>"长度限制：工具调用之间的文本保持在 ≤25 词。最终响应保持在 ≤100 词，除非任务需要更多细节。"</em>
+    </blockquote>
+    
+    <p>经过数周的内部测试，在我们运行的评估集中没有发现回归，我们对这一变更有信心，并在 4 月 16 日与 Opus 4.7 一同发布。</p>
+    
+    <p>作为此次调查的一部分，我们使用更广泛的评估集运行了更多消融实验（从系统提示中移除行以理解每行的影响）。其中一个评估显示 Opus 4.6 和 4.7 都下降了 3%。我们立即在 4 月 20 日版本中回退了该提示。</p>
+    
+    <h2 id="going-forward">后续改进</h2>
+    
+    <p>我们将采取多项措施来避免这些问题：确保更大比例的内部员工使用与公众完全相同的 Claude Code 构建（而不是我们用来测试新功能的版本）；我们将改进内部使用的<a href="https://code.claude.com/docs/en/code-review">代码审查</a>工具，并向客户发布改进版本。</p>
+    
+    <p>我们也在对系统提示变更增加更严格的控制。对 Claude Code 的每个系统提示变更，我们将运行广泛的各模型评估套件，持续进行消融实验以理解每行的影响，并构建了新工具使提示变更更易审查和审计。我们还在 CLAUDE.md 中添加了指导，确保模型特定的变更只针对目标模型。对于任何可能与智能权衡的变更，我们将增加浸泡期、更广泛的评估套件和渐进式推出，以便更早发现问题。</p>
+    
+    <p>我们最近在 X 上创建了 @ClaudeDevs，给我们空间深入解释产品决策及其背后的原因。我们将在 GitHub 的集中话题中分享相同的更新。</p>
+    
+    <p>最后，我们要感谢用户：那些使用 <code>/feedback</code> 命令与我们分享问题的人（或在线发布具体可复现例子的人），是你们最终使我们能够识别和修复这些问题。今天我们正在为所有订阅者重置使用量限额。</p>
+    
+    <p>非常感谢你们的反馈和耐心。</p>
+    
+    <div class="source-link">
+        <strong>原文链接：</strong> <a href="https://www.anthropic.com/engineering/april-23-postmortem" target="_blank">https://www.anthropic.com/engineering/april-23-postmortem</a>
+        <br><br>
+        <strong>翻译说明：</strong> 本文由 AI 翻译，专业术语保留英文原文（Claude, Claude Code, Anthropic, API, Agent, LLM 等）。
+    </div>
+</body>
+</html>
