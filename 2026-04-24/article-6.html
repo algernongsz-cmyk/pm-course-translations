@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitwarden CLI 在持续的Checkmarx供应链攻击活动中被入侵</title>
+    <meta name="description" content="Bitwarden CLI 2026.4.0 在Checkmarx供应链攻击活动中被入侵，攻击者利用了Bitwarden CI/CD管道中的GitHub Action。">
+    <meta name="author" content="Socket Research Team">
+    <meta name="date" content="2026-04-23">
+    <link rel="canonical" href="https://socket.dev/blog/bitwarden-cli-compromised">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.25em;
+            margin-top: 1.5em;
+        }
+        .meta {
+            color: #666;
+            margin-bottom: 1.5em;
+        }
+        .meta span {
+            margin-right: 1em;
+        }
+        img.hero {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5em 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+        a {
+            color: #7c3aed;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul, ol {
+            padding-left: 2em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+        .iocs {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 1em;
+        }
+        .original-link {
+            margin-top: 2em;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <h1>Bitwarden CLI 在持续的Checkmarx供应链攻击活动中被入侵</h1>
+        
+        <div class="meta">
+            <span><strong>作者：</strong>Socket Research Team</span>
+            <span><strong>发布日期：</strong>2026年4月23日</span>
+        </div>
+
+        <img src="https://cdn.sanity.io/images/cgdhsj6q/production/65ef8dc5e66260e20fdf13cead82ebd41b705ee6-1018x666.png?w=800&q=95&fit=max&auto=format" 
+             alt="Bitwarden CLI 供应链攻击" 
+             class="hero">
+
+        <p>Socket研究人员发现，<strong>Bitwarden CLI</strong>在持续的<a href="https://socket.dev/blog/checkmarx-supply-chain-compromise"><strong>Checkmarx供应链攻击活动</strong></a>中被入侵。这款开源密码管理器拥有超过1000万用户和5万多家企业，在企业采用率方面排名<a href="https://ramp.com/vendors/bitwarden" rel="noopener noreferrer">前三大密码管理器</a>之一。</p>
+
+        <p>受影响的包版本似乎是<code>@bitwarden/cli2026.4.0</code>，恶意代码发布在<code>bw1.js</code>文件中，该文件包含在包内容中。此次攻击似乎利用了Bitwarden CI/CD管道中被入侵的GitHub Action，与此次攻击活动中其他受影响仓库所观察到的模式一致。</p>
+
+        <p><strong>目前我们已知的信息：</strong></p>
+        <ul>
+            <li>Bitwarden CLI构建受到影响</li>
+            <li>此次入侵遵循了更广泛的<a href="https://socket.dev/blog/checkmarx-supply-chain-compromise"><strong>Checkmarx攻击活动</strong></a>中识别的相同GitHub Actions供应链攻击向量</li>
+        </ul>
+
+        <p>这是一项持续进行的调查。Socket安全研究团队正在进行完整的技术分析，并将发布详细发现，包括受影响版本、入侵指标（IOCs）和修复建议。</p>
+
+        <p>如果您使用Bitwarden CLI，我们建议检查您的CI日志并轮换任何可能暴露于被入侵工作流的机密。目前，此次入侵仅涉及CLI的npm包。Bitwarden的Chrome扩展、MCP服务器和其他合法分发渠道尚未受到影响。</p>
+
+        <h2>技术分析</h2>
+
+        <p>恶意载荷位于名为<code>bw1.js</code>的文件中，该文件与我们昨天分析的<a href="https://socket.dev/blog/checkmarx-supply-chain-compromise">Checkmarx</a> <code>mcpAddon.js</code>共享核心基础设施：</p>
+
+        <ul>
+            <li><strong>相同的C2端点</strong>：使用相同的<code>audit.checkmarx[.]cx/v1/telemetry</code>端点，通过<code>__decodeScrambled</code>函数混淆，种子为<code>0x3039</code>。数据外泄也通过GitHub API（基于提交）和npm注册表（令牌窃取/重新发布）进行</li>
+            <li><strong>嵌入式载荷</strong>：相同的gzip+base64结构，包含针对GitHub Actions Runner.Worker的Python内存抓取脚本、用于重新发布npm包的setup.mjs加载器、GitHub Actions工作流YAML、硬编码RSA公钥和意识形态宣言字符串</li>
+            <li><strong>凭据窃取</strong>：通过Runner.Worker内存抓取和环境变量获取GitHub令牌，通过~/.aws/文件和环境获取AWS凭据，通过azd获取Azure令牌，通过gcloud config config-helper获取GCP凭据，npm配置文件（.npmrc）、SSH密钥、环境变量和Claude/MCP配置文件</li>
+            <li><strong>GitHub外泄</strong>：在受害者账户下创建公共仓库，使用《沙丘》主题命名（{word}-{word}-{3digits}），提交加密结果并使用标记<code>LongLiveTheResistanceAgainstMachines</code>在提交消息中嵌入令牌</li>
+            <li><strong>供应链传播</strong>：npm令牌窃取以识别可写包并重新发布注入的preinstall钩子，GitHub Actions工作流注入以捕获仓库机密</li>
+            <li><strong>俄语区域设置终止开关</strong>：如果系统区域设置以"ru"开头，则静默退出，检查Intl.DateTimeFormat().resolvedOptions().locale和环境变量LC_ALL、LC_MESSAGES、LANGUAGE和LANG</li>
+            <li><strong>运行时</strong>：从GitHub releases下载的Bun v1.3.13解释器</li>
+        </ul>
+
+        <p>此载荷（bw1.js）还包含Checkmarx事件中未记录的几个指标：</p>
+
+        <ul>
+            <li><strong>锁文件</strong>：硬编码路径<code>/tmp/tmp.987654321.lock</code>，防止多个实例同时运行</li>
+            <li><strong>Shell配置文件持久化</strong>：将载荷注入<code>~/.bashrc</code>和<code>~/.zshrc</code></li>
+            <li><strong>显式品牌标识</strong>：仓库描述<code>Shai-Hulud: The Third Coming</code>取代了欺骗性的"Checkmarx Configuration Storage"，调试字符串包括<code>"Would be executing butlerian jihad!"</code></li>
+        </ul>
+
+        <p>共享的工具链强烈表明与同一恶意软件生态系统有关联，但操作签名的差异使归因变得复杂。Checkmarx攻击在发现后被TeamPCP通过@pcpcats社交媒体账户声称负责，恶意软件本身试图用看似合法的描述来伪装。此载荷采用了不同的方法：意识形态品牌直接嵌入恶意软件中，从Shai-Hulud仓库名称到"Butlerian Jihad"宣言载荷，再到宣称反抗机器的提交消息。这表明要么是不同的操作者使用共享基础设施，要么是意识形态动机更强的分裂组织，或者是攻击活动公开姿态的演变。</p>
+
+        <h2>建议</h2>
+
+        <p>安装了恶意Bitwarden npm包的组织应将此事件视为凭据暴露和CI/CD入侵事件。</p>
+
+        <p>立即从开发者系统和构建环境中删除受影响的包。轮换可能暴露于这些环境的任何凭据，包括GitHub令牌、npm令牌、云凭据、SSH密钥和CI/CD机密。检查GitHub是否存在未经授权的仓库创建、.github/workflows/下的意外工作流文件、可疑的工作流运行、构件下载，以及与观察到的《沙丘》主题暂存模式（{word}-{word}-{3digits}）匹配的公共仓库。如果您认为可能受到影响，请检查新发布的仓库中是否包含以下关键词：</p>
+
+        <pre>atreides
+cogitor
+fedaykin
+fremen
+futar
+gesserit
+ghola
+harkonnen
+heighliner
+kanly
+kralizec
+lasgun
+laza
+melange
+mentat
+navigator
+ornithopter
+phibian
+powindah
+prana
+prescient
+sandworm
+sardaukar
+sayyadina
+sietch
+siridar
+slig
+stillsuit
+thumper
+tleilaxu</pre>
+
+        <p>审查npm是否存在未经授权的发布、版本更改或新添加的安装钩子。在云环境中，检查访问日志中是否存在异常的机密访问、令牌使用和新颁发的凭据。</p>
+
+        <p>在终端和运行器上，搜索到观察到的外泄基础设施（<code>audit[.]checkmarx[.]cx</code>）的出站连接、Bun在通常不使用的地方的执行、对.npmrc、.git-credentials、.env、云凭据存储、gcloud、az或azd等文件的访问。检查锁文件<code>/tmp/tmp.987654321.lock</code>以及~/.bashrc和~/.zshrc中的shell配置文件修改。对于GitHub Actions，审查是否在临时分支上创建了任何未经批准的工作流，以及是否生成或下载了<code>format-results.txt</code>等构件。</p>
+
+        <p>作为长期控制措施，通过锁定令牌范围、尽可能要求短期凭据、限制谁可以创建或发布包、加强GitHub Actions权限、禁用不必要的构件访问，以及监控在正常发布流程之外创建的新公共仓库或工作流更改，来减少未来供应链事件的影响范围。</p>
+
+        <h2>入侵指标（IOCs）</h2>
+
+        <div class="iocs">
+            <h3>恶意包</h3>
+            <ul>
+                <li><a href="https://socket.dev/npm/package/@bitwarden/cli/overview/2026.4.0"><strong><code>@bitwarden/cli2026.4.0</code></strong></a></li>
+            </ul>
+
+            <h3>网络指标</h3>
+            <ul>
+                <li><strong><code>94[.]154[.]172[.]43</code></strong></li>
+                <li><strong><code>https://audit.checkmarx[.]cx/v1/telemetry</code></strong></li>
+            </ul>
+
+            <h3>文件系统指标（受害者包入侵）</h3>
+            <ul>
+                <li><code>/tmp/tmp.987654321.lock</code></li>
+                <li><code>/tmp/_tmp_&lt;Unix Epoch Timestamp&gt;/</code></li>
+                <li><code>package-updated.tgz</code></li>
+            </ul>
+        </div>
+
+        <div class="original-link">
+            <strong>原文链接：</strong><a href="https://socket.dev/blog/bitwarden-cli-compromised">https://socket.dev/blog/bitwarden-cli-compromised</a>
+        </div>
+    </article>
+</body>
+</html>
