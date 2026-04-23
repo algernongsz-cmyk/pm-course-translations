@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的手机取代了黄铜量规 | Vadim Drobinin</title>
+    <meta name="description" content="我想从头开始烹饪鹿肉，这意味着要学会射击，这意味着要追踪我的进步，这意味着要移植一篇2012年的OpenCV论文并训练一个最先进的计算机视觉模型，所以晚餐比预期晚了一些。">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            background: #fff;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+        h2 {
+            font-size: 1.6rem;
+            margin: 2rem 0 1rem;
+            color: #000;
+            border-top: 1px solid #eee;
+            padding-top: 1.5rem;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem;
+            color: #000;
+        }
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        figure {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        figcaption {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        center {
+            margin: 1.5rem 0;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 2rem 0;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        .footnote-ref {
+            vertical-align: super;
+            font-size: 0.75em;
+        }
+        .sidenote {
+            display: block;
+            font-size: 0.85em;
+            color: #666;
+            margin: 0.5rem 0 1rem 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid #ddd;
+        }
+        .sidenote-number {
+            font-weight: bold;
+            color: #999;
+        }
+        .footnotes {
+            margin-top: 3rem;
+            font-size: 0.9em;
+        }
+        .footnotes-list {
+            list-style: decimal;
+            padding-left: 1.5rem;
+        }
+        .footnote-item {
+            margin-bottom: 0.8rem;
+        }
+        .footnote-backref {
+            font-size: 0.85em;
+        }
+        .direct-link {
+            color: #999;
+            font-size: 0.8em;
+        }
+        em {
+            font-style: italic;
+            color: #555;
+        }
+        .post-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+<h1>我的手机取代了黄铜量规</h1>
+
+<p class="post-meta">原文：<a href="https://drobinin.com/posts/my-phone-replaced-a-brass-plug/" target="_blank">My Phone Replaced a Brass Plug</a> | 作者：Vadim Drobinin | 2026-04-23</p>
+
+<p>好几个月里，我每周三晚上都在爱丁堡郊外的一个铁皮隧道里度过，穿着一件看起来荒谬（同样也不舒服）的夹克。我躺在地板上数呼吸，然后走到靶场，低头穿过天花板横梁。地板上每五米就用白漆写着 DUCK，横梁上也贴着"DUCK"的海报，但偶尔我还是会撞到头，因为太忙着检查计分卡。</p>
+
+<p>如果你运气不好，一颗子弹落在分界线附近，你就需要帮助。你走到一盘 Greggs 香肠卷<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup><span class="sidenote"><span class="sidenote-number">1.</span> 这边最好的美食糕点（他们也做甜甜圈！）。</span>旁边——我们在北方，赞助商也是——找到一个装满各种尺寸黄铜量规的木盒，选一个合适的，小心地推入弹孔（理想情况下只推一次，避免撕裂），它所处的位置就是你的得分。</p>
+
+<center>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 400px;">
+    <img src="https://drobinin.com/assets/scoring-gauge-usage.jpg" alt="使用量规的示例；来自 Gary Anderson, DCM 的《量规入门》">
+    <figcaption>子弹将纸向内推，所以即使分界线没有被触碰，只要量规边缘延伸到外环之外，你就会得到更低的分数。</figcaption>
+  </figure>
+</center>
+
+<p>射击部分很有趣。计数-打头-推量规的仪式必须结束了。</p>
+
+<hr>
+
+<p>我在那里的原因是烹饪。</p>
+
+<p>我几十年前开始做饭，逐渐变得痴迷：从羞涩地尝试复刻我去过的每家精致餐厅的菜肴，到<a href="https://drobinin.com/posts/designing-software-for-things-that-rot/" target="_blank">搭建自动化腌制室</a>。不买麴种而是自己培养霉菌，在真空室中为拉面团补水，加热蛋白酶和蚱蜢在浸入式循环器中制作鱼露。</p>
+
+<p>然后我进入了熟食领域，这意味着要购买整只动物尸体并自己分割。当我决定认真对待肉类烹饪时，我想我应该学会打猎。我从未真正拿过枪，虽然在英国我们喜欢许可证、不喜欢枪（我们更喜欢刀），但猎鹿既不需要狩猎许可证也不需要步枪许可证<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup><span class="sidenote"><span class="sidenote-number">2.</span> 《枪支法》允许土地所有者在"监管"你使用时借给你一把枪，这就是人们几个世纪以来在庄园里打猎的方式（顺便说一句，这叫 deer stalking——hunting 是给骑马的富人玩的，shooting 是给穿粗花呢的富人玩的）。</span>。赤鹿本质上是害虫——它们吃树林的速度比树林再生的速度快，而且没有天敌，所以捕杀它们几乎没有限制。</p>
+
+<p>不过你确实需要步枪，最好还要知道如何使用<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup><span class="sidenote"><span class="sidenote-number">3.</span> 我写代码时已经无数次搬起石头砸自己的脚了，想象一下我拿着枪能干出什么事。</span>——所以我每周两次躺在垫子上。这和跟踪鹿不太一样：射击、换卡、吃甜甜圈、重复。半年后我在还没打到鹿排的路上重了几斤，大多数晚上都在找合适尺寸的量规。</p>
+
+<p>既然这么无聊，我想我干脆把它自动化。</p>
+
+<h2 id="negative-space">负空间 <a class="direct-link" href="#negative-space">¶</a></h2>
+
+<p>我是个iOS工程师，所以从原生 iOS 开始：Apple 的 Vision framework 已经存在一段时间了，有现成的物体检测器、人物分割、文字识别、甚至条形码扫描，但它一直把图像中的随机部分标记为弹孔——从靶心的点到其中一个计分环的碎片。</p>
+
+<p>弹孔是负空间。物体检测器训练的是应该存在的东西，所以用它们来找原来存在后来被移除的东西并不直观。</p>
+
+<center>
+  <figure>
+    <img src="https://drobinin.com/assets/notch-vision-overdetection.jpg" width="360" alt="单个 NSRA 靶心的特写，粉红色的计算机视觉叠加层画在所有检测到的特征上：同心计分环、中央瞄准十字、小型印刷计分数字和角落的标注方框。靶卡上的实际弹孔很小且大多未被标记。">
+    <figcaption>Vision 的环和物体检测器应用于 NSRA 靶卡。</figcaption>
+  </figure>
+</center>
+
+<p>我又尝试了一些更明显的方法：灰度、反相图像、添加和去除噪声，但即使其他都成功了，落在分界线上的弹孔也会变成太小的碎片而无法识别。</p>
+
+<p>更好的方法是把靶子当作具有已知几何形状的物体：先找到环结构，然后在里面找孔。我接受这次不需要重新发明轮子，开始寻找替代方案。</p>
+
+<h2 id="port-and-whatnot">移植等等 <a class="direct-link" href="#port-and-whatnot">¶</a></h2>
+
+<h3 id="a-2012-paper">一篇2012年的论文 <a class="direct-link" href="#a-2012-paper">¶</a></h3>
+
+<p>计分靶子作为计算机视觉问题已经无聊到有人发表了论文。我找到了<a href="https://ebooks.iospress.nl/DOI/10.3233/978-1-61499-105-2-324" target="_blank">Automatic Scoring of Shooting Targets with Tournament Precision</a>，华沙理工大学的 Rudzinski 和 Luckner 所作，2012年发表，声称可以检测99%的弹孔。</p>
+
+<p>有几个注意事项：该方法针对低分辨率图片优化，但需要平坦的 ISSF 靶<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup><span class="sidenote"><span class="sidenote-number">4.</span> 与 NSRA 相比，ISSF 靶的靶心和环数大小不同、环线不同、背景也不同<br> <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/AR_target_paper.jpg" alt="ISSF 气步枪靶，Guvava, CC BY-SA 3.0 via Wikimedia Commons"></span>、低相机角度、标注不像弹孔，且主要是为气步枪射击设计的。气步枪弹丸在纸上留下干净的孔，而 .22 子弹在25码外留下毛边。</p>
+
+<p>我一步一步复现了这篇论文。如果你不想读论文，它归结为四个步骤：擦除环线、flood-fill 找弹孔形状、运行 Prewitt 边缘检测器、用 Hough 变换拟合圆。</p>
+
+<center>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-stage-1-grayscale.png" width="220" alt="靶心的灰度图：一条白色计分环线直接穿过两个弹孔。">
+    <figcaption>从灰度靶开始</figcaption>
+  </figure>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-stage-2-rings-erased.png" width="220" alt="环线被移除：每个弹孔现在是环线两侧的两个新月形碎片。">
+    <figcaption>1. 擦除环线：这些孔分裂成两个新月形。</figcaption>
+  </figure>
+</center>
+
+<center>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-stage-3-flood-fill.png" width="220" alt="Flood-fill 结果：白色背景上有四个小深色碎片，每个都低于最小区域阈值。">
+    <figcaption>2. Flood-fill</figcaption>
+  </figure>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-stage-4-prewitt.png" width="220" alt="碎片的 Prewitt 边缘：只有轮廓，没有完整的圆可供 Hough 拟合。">
+    <figcaption>3. 检测边缘和 4. 用 Hough 变换拟合圆。</figcaption>
+  </figure>
+</center>
+
+<br>
+
+<p>Vision framework 没有 Prewitt 边缘检测器，所以我也引入了 OpenCV，前三步效果很好。但第四步有个陷阱。NSRA 靶卡在四个基本点上打印环分数——"9"在北、东、南、西——Hough 也会把圆拟合到这些数字上。</p>
+
+<p>另外，环线擦除后新月形有时太小无法 flood-fill，所以我最终使用了 V 值径向强度剖面——从靶心向外取一条带，沿其采样亮度，找到白环线穿越的峰值。峰值位置就是环半径。</p>
+
+<center>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 4px; max-width: 200px;">
+    <img src="https://drobinin.com/assets/notch-vradial-1-strip.png" width="190" alt="黑色靶心和同心白环，叠加一条从中心向右边缘延伸的橙色水平带。">
+    <figcaption>1. 取一条带。</figcaption>
+  </figure><figure style="display: inline-block; vertical-align: top; margin: 0 4px; max-width: 200px;">
+    <img src="https://drobinin.com/assets/notch-vradial-2-samples.png" width="190" alt="同样的靶心和带；小型橙色边缘白圈标记带与白环线的每个交叉点。">
+    <figcaption>2. 采样亮度。</figcaption>
+  </figure><figure style="display: inline-block; vertical-align: top; margin: 0 4px; max-width: 200px;">
+    <img src="https://drobinin.com/assets/notch-vradial-3-spikes.png" width="190" alt="带的亮度柱状图：五个高橙色柱（每个环穿越一个）坐在平坦基线上；最后一个柱较淡。">
+    <figcaption>3. 绘制峰值。</figcaption>
+  </figure>
+</center>
+
+<p>结合 Vision 的 <code>VNDetectContoursRequest</code> 和周长过滤器，平均每张卡五枪能检测到四枪——所以是80%的准确率，还有很长的路要走，而且我们还没开始处理像弹孔重叠这样的边缘情况。</p>
+
+<p><em>想在你的 App 里也用 Vision 和 CoreML？<a href="https://drobinin.com/consulting/coreml-on-device-ml/?ref=brassplug" target="_blank">来聊聊 →</a></em></p>
+
+<h3 id="adding-machine-learning">加入机器学习 <a class="direct-link" href="#adding-machine-learning">¶</a></h3>
+
+<p>射手会对靶卡做各种事。他们写名字、加日期、在接近的弹孔旁画圈。大多数靶卡有撕裂的订书孔，有时多颗子弹撕裂纸张靠得太近，变成单个 flood-fill 区域。</p>
+
+<p>我的第一次尝试是为每种情况添加启发式规则，每周带着另一组靶卡回来，不断调优，但这既不可扩展也不可持续。</p>
+
+<p>所以我回去 Google，发现2023年底发表的一篇论文<sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup><span class="sidenote"><span class="sidenote-number">5.</span> Z. Ali et al., "Application of YOLOv8 and Detectron2 for Bullet Hole Detection and Score Calculation from Shooting Cards", <em>AI</em>, vol. 5, no. 1, 72-90, 2024. <a href="https://www.mdpi.com/2673-2688/5/1/5">10.3390/ai5010005</a>。</span>。作者承诺96.5%的平均精度，但专注于弹孔检测并从边界框类别读取分数。</p>
+
+<p>我无法承担为我的靶卡手动准备边界框类别的成本，但我已经有了可行的几何方法，感谢 Rudzinski 和 Luckner。我没有的是可靠的弹孔检测。YOLO 论文在弹孔检测上做得很好，但把几何留给了靶卡完美对齐的假设。</p>
+
+<center>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-yolo-1-grid.png" width="220" alt="靶心上有三个白弹孔在9环和8环上，叠加灰色虚线网格将图像分成等方形单元格。">
+    <figcaption>1. 图像变成网格：每个色块是一个单元格。</figcaption>
+  </figure>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-yolo-2-cells-vote.png" width="220" alt="同样的网格靶心。三个网格单元格——每个包含一个弹孔中心——被染成绿色并打勾。">
+    <figcaption>2. 单元格投票：弹孔在我里面？</figcaption>
+  </figure>
+</center>
+
+<br>
+
+<center>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-yolo-3-boxes-proposed.png" width="220" alt="绿色 yes-单元格现在也有粉色虚线边界框画在每个弹孔周围。框彼此略有偏移并互相重叠。">
+    <figcaption>3. Yes-单元格画出自己的框；邻近单元格的框略有不同且重叠。</figcaption>
+  </figure>
+  <figure style="display: inline-block; vertical-align: top; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-yolo-4-nms.png" width="220" alt="干净的最终结果：每个弹孔一个实心绿色边界框，没有网格，没有重叠提案。">
+    <figcaption>4. NMS（非极大值抑制）保留每个孔最强的框。</figcaption>
+  </figure>
+</center>
+
+<br>
+
+<p>很自然地，我合并了两种方法：OpenCV 做结构几何——靶心、椭圆、环、透视变换。YOLOv8 做弹孔定位，与 MDPI 论文相同的架构，在我自己的数据集上微调。学习到的模型类别预测在推理时被丢弃；分数来自到靶心中心的距离与几何环半径的比较。</p>
+
+<p>标注和训练完成后，我用 <code>coremltools</code> 将模型导出到 CoreML——Xcode 导入后的最终包重22.4 MB。</p>
+
+<center>
+  <figure>
+    <img src="https://drobinin.com/assets/notch-coreml-preview.png" width="480" alt="Xcode 的 CoreML 模型预览，显示 'BulletHoleDetector'，22.4 MB，目标 iOS 15+。右侧是一张倒置的手写 VAZ #5 标注的 .22 靶卡。五个白边界框标记检测到的弹孔——一个在靶心上方高处，三个在中心附近互相接触，一个在左下方。">
+    <figcaption>Xcode 的 CoreML 预览中打包的检测器，在我的一张靶卡上运行。</figcaption>
+  </figure>
+</center>
+
+<h2 id="scoring">计分 <a class="direct-link" href="#scoring">¶</a></h2>
+
+<h3 id="mapping-back">映射回来 <a class="direct-link" href="#mapping-back">¶</a></h3>
+
+<p>两部分都接好后，我原以为计分会是简单的部分。大部分确实是，除了一直在坐标空间上浪费时间，还完全忘了透视。</p>
+
+<center>
+  <figure>
+    <img src="https://drobinin.com/assets/notch-rings-skewed.jpg" width="480" alt="一张十靶心 NSRA 比赛卡以略微倾斜的角度拍摄。绿色椭圆画在每个检测到的靶心周围；数十个小红点散布在边缘，装饰性的印刷点被标记为弹孔。左上角显示总分：40。">
+    <figcaption>斜角拍摄使每个靶心变成椭圆，径向强度剖面需要后处理才能正确拟合。</figcaption>
+  </figure>
+</center>
+
+<p>Vision 返回 0-1 范围的边界框，原点在左下角，但 UIKit 的原点在左上角，所以很容易出现偏一环的错误，看起来合理到可以责怪任何东西而不是转换方法。</p>
+
+<p>一旦坐标对齐，数学看起来很简单。量规的存在是有原因的——检测到的弹孔比制造它的子弹小，因为纸张撕裂并向内推进。CoreML 返回的是可见撕裂纸张周围的边界框，不是子弹本身，所以计分时我需要弹孔中心加上子弹半径——子弹到达的最远点。</p>
+
+<h3 id="bullet-radius">子弹半径 <a class="direct-link" href="#bullet-radius">¶</a></h3>
+
+<p>.22 子弹直径是 0.22英寸（显而易见），NSRA .22 靶卡是 2.05英寸，所以几何上子弹半径应该是靶心直径的10.87%。</p>
+
+<p>但纸张不会那么干净地撕裂。我过去物理和机器学习都做得非常糟糕，所以在重读两篇论文后，我放弃并开始经验性地调整乘数——也就是改变常数，对我手动计分的靶卡重新运行测试。30%对我有效（也就是靶心直径的14.13%），但我很想知道正确的方法——如果你知道请<a href="mailto:nsra@drobinin.com">给我发消息</a>。</p>
+
+<center>
+  <figure>
+    <img src="https://drobinin.com/assets/notch-bbox-vs-reach.jpg" width="280" alt="之前的 NSRA 靶卡下方，每个弹孔有标注：红色矩形紧紧包围每个孔的撕裂纸区域（CoreML 检测的边界框），较小的橙色圆坐在每个矩形内，标记子弹的实际中心（用于计分的到达范围）。">
+    <figcaption>每个撕裂区域周围的红色矩形是 CoreML 检测到的；黄色圆圈是用于计分的子弹位置。</figcaption>
+  </figure>
+</center>
+
+<h2 id="beyond-the-gauge">超越量规 <a class="direct-link" href="#beyond-the-gauge">¶</a></h2>
+
+<p>六个月后，我仍然觉得我不擅长射击，但现在大多数时候我知道为什么——姿势、扳机压力、或者射击时的呼吸。这些都是你感觉而不是测量的，这就是为什么初学者首先要打分组靶卡。一组弹孔在靶卡上的形状告诉你很多——从常见问题像扳机扣动和射击呼吸到步枪问题<sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup><span class="sidenote"><span class="sidenote-number">6.</span> 一个紧致的弹孔组偏靶心几环通常意味着如果调好你会完美击中靶心——这个解释让我很安慰（我的伙伴们不同意）。</span>。</p>
+
+<center>
+  <figure style="display: inline-block; vertical-align: center; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-group-pull-trigger.png" width="220" alt="靶心有同心计分环。约十个白孔的紧簇位于中心右下方，接触8环和9环。">
+    <figcaption>紧簇，中心右下方——扳机扣动。</figcaption>
+  </figure>
+  <figure style="display: inline-block; vertical-align: center; margin: 0 12px; max-width: 260px;">
+    <img src="https://drobinin.com/assets/notch-group-breathing.png" width="220" alt="靶心有同心计分环。弹孔形成垂直串，从10环上方穿过中心向下延伸。">
+    <figcaption>穿过中心的垂直串——射击时的呼吸。</figcaption>
+  </figure>
+</center>
+
+<br>
+
+<p>比赛靶卡按已知顺序逐靶心射击，所以一旦你知道哪个靶心先射击，你就可以绘制准确度对位置来发现趋势。我经常发现自己在中间偏移然后在结束时收紧，当我注意到靶卡快用完时。</p>
+
+<p>我开始这个任务是试图取代量规（并停止把一堆打靶背板带回家），但当计分起作用时，我对尝试自动化不仅计分而且反馈产生了更大兴趣——几个月的计分靶卡后，我可以将所有弹孔堆叠在累积热图上查看趋势，或比较我在四把公共步枪上的表现。</p>
+
+<p>我甚至最终证明在我轮次前几分钟吃甜甜圈平均会让我丢失100分中的7分——这个可能是安慰剂，但我的工作理论是它提高了我的血糖水平（你可以看出，我不仅物理不好，生物也不好——但我在尽力）。</p>
+
+<p>我最终把它包装成<a href="https://apps.apple.com/app/apple-store/id6747980153?pt=126702974&ct=drobinin.com-brass&mt=8" target="_blank">一个小型离线优先 App</a>——最初是为了俱乐部里的伙伴们，但实际上是为了任何想让他们的<s>烹饪</s>射击日常更有趣的人。我确实学到世界上大多数人不太关心 NSRA 靶子，所以我慢慢地添加对其他项目和靶卡的支持。</p>
+
+<center>
+  <figure>
+    <img src="https://drobinin.com/assets/notch-demo.gif" width="250" alt="iPhone 上 Notch App 的短片循环：靶卡从上方拍摄，靶心自动检测，弹孔定位，分数写在每个靶心旁。">
+    <figcaption>iPhone 上的 Notch，为比赛靶卡计分。</figcaption>
+  </figure>
+</center>
+
+<hr>
+
+<p>在我感到足够自信去跟踪鹿之前，我去了加拿大。</p>
+
+<p>现在有人在 Prestonpans 的垫子上<sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup><span class="sidenote"><span class="sidenote-number">7.</span> 我最终会回来的。<br><img src="https://drobinin.com/assets/notch-range-prestonpans.jpg" width="220" alt="Prestonpans 的射击场：一条长室内通道，射击垫排列在纸靶架前。"></span>，在周一和周三晚上，低头穿过同样的横梁，在靶卡之间数呼吸。桌上仍然放着装量规的木盒——大多数伙计说这不是第一次有人认为他们能比那个老黄铜量规做得更好。</p>
+
+<p>量规的真正工作是解决争议。当两个射手对临界弹孔意见不一时，分数就是量规说的那个，因为这是规则。他们谁都不在乎我最先进的计算机视觉模型。</p>
+
+<p>很有可能，你在某个地方也有自己的等价物——一个比你存在时间更长、试图取代它会很傻的工具。</p>
+
+<p>我们可能无法让它退役。但我渴望构建的东西能在二十年后出现在别人的桌子上，持续足够久，以至于有人傻到也试图取代它。</p>
+
+<p><em>想在你的 App 里添加设备端 ML？<a href="https://drobinin.com/consulting/coreml-on-device-ml/?ref=nsra" target="_blank">我可以帮忙 →</a></em></p>
+
+<hr class="footnotes-sep">
+
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>这边最好的美食糕点（他们也做甜甜圈！）。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>《枪支法》允许土地所有者在"监管"你使用时借给你一把枪，这就是人们几个世纪以来在庄园里打猎的方式（顺便说吧，这叫 deer stalking——hunting 是给骑马的富人玩的，shooting 是给穿粗花呢的富人玩的）。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>我写代码时已经无数次搬起石头砸自己的脚了，想象一下我拿着枪能干出什么事。 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>与 NSRA 相比，ISSF 靶的靶心和环数大小不同、环线不同、背景也不同<br> <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/AR_target_paper.jpg" alt="ISSF 气步枪靶，Guvava, CC BY-SA 3.0 via Wikimedia Commons"> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>Z. Ali et al., "Application of YOLOv8 and Detectron2 for Bullet Hole Detection and Score Calculation from Shooting Cards", <em>AI</em>, vol. 5, no. 1, 72-90, 2024. <a href="https://www.mdpi.com/2673-2688/5/1/5">10.3390/ai5010005</a>. <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>一个紧致的弹孔组偏靶心几环通常意味着如果调好你会完美击中靶心——这个解释让我很安慰（我的伙伴们不同意）。 <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>我最终会回来的。<br><img src="https://drobinin.com/assets/notch-range-prestonpans.jpg" width="220" alt="Prestonpans 的射击场：一条长室内通道，射击垫排列在纸靶架前。"> <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+</body>
+</html>

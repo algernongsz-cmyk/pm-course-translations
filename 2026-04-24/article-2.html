@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专访 Google Cloud CEO Thomas Kurian 谈 Agent 时代 | Stratechery 翻译</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+            background: #fafafa;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-top: 1.5em;
+            color: #34495e;
+        }
+        p {
+            margin: 1em 0;
+            text-align: justify;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            border-left: 3px solid #3498db;
+            padding-left: 1em;
+        }
+        .interviewer {
+            font-weight: bold;
+        }
+        .topic-link {
+            background: #f0f0f0;
+            padding: 0.2em 0.5em;
+            border-radius: 3px;
+            text-decoration: none;
+            color: #2980b9;
+        }
+        .topics-nav {
+            text-align: center;
+            margin: 2em 0;
+            padding: 1em;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        a {
+            color: #2980b9;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2em 0;
+        }
+        .source-link {
+            display: block;
+            margin-top: 2em;
+            padding: 1em;
+            background: #e8f4fd;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>专访 Google Cloud CEO Thomas Kurian 谈 Agent 时代</h1>
+    
+    <div class="meta">
+        <p>原文：<a href="https://stratechery.com/2026/an-interview-with-google-cloud-ceo-thomas-kurian-about-the-agentic-moment/" target="_blank">An Interview with Google Cloud CEO Thomas Kurian About the Agentic Moment</a></p>
+        <p>作者：Ben Thompson | 翻译日期：2026-04-24</p>
+    </div>
+
+    <p>大家早安，</p>
+
+    <p>本周的 Stratechery 专访嘉宾是 Google Cloud CEO <a href="https://x.com/ThomasOrTK">Thomas Kurian</a>。Kurian 于 2018 年加入 Google 领导该公司的云业务部门；在此之前，他在 Oracle 工作了 22 年，担任产品开发总裁。此前我曾于 <a href="https://stratechery.com/2021/interviews-with-patrick-collison-brad-smith-thomas-kurian-and-matthew-prince-on-moderation-in-infrastructure/#kurian">2021 年 3 月</a>、<a href="https://stratechery.com/2024/an-interview-with-google-cloud-ceo-thomas-kurian-about-googles-enterprise-ai-strategy/">2024 年 4 月</a>和 <a href="https://stratechery.com/2025/an-interview-with-google-cloud-platform-ceo-thomas-kurian-about-building-an-enterprise-culture/">2025 年 4 月</a>采访过 Kurian。</p>
+
+    <p>至少在过去三年里，这些采访的契机都是 Kurian 在 Google Cloud Next 大会上的年度主题演讲。你可以在<a href="https://www.youtube.com/watch?v=11PBno-cJ1g&">这里</a>观看主题演讲，并<a href="https://cloud.google.com/blog/topics/google-cloud-next/welcome-to-google-cloud-next26">在此处阅读</a>有关 Google 公告的博客文章。我在一周前，即 4 月 15 日采访了 Kurian，当时只能参考上述链接的博客文章。</p>
+
+    <p>关于主题演讲（我后来观看了），我认为开场非常有力量：Kurian 回归了去年的主题——统一架构，但强调用例已不再是理论或试点，而是在真实用户的大规模生产环境中运行。他还强调——这预示了我们将在下面讨论的一个观点——Google 本身也运行在与 Google Cloud 相同的基础设施上。Google CEO Sundar Pichai 同时谈到了 Google 的资本支出投资，并指出(1)其中一半用于 Google Cloud，以及(2) Google Cloud 运行着与 Google 本身相同的技术栈。我察觉到一个主题！Pichai 还强调了安全性，这是 Kurian 在我们对话中也特意提到的一点，之后才讨论向 Agent 的转变。</p>
+
+    <p>为此，在本次采访中——再次说明，这是在主题演讲前进行的——我们讨论了 Agent。具体来说，我想了解 Kurian 对 Gemini 技术框架质量的看法（毫不意外，他认为很棒）。Google 拥有集成优势，但在这个如此庞大的公司中，这种优势是否真正转化为成果？我还好奇 Google 如何看待 TPU 以及整体云业务，包括在平衡内部需求与 Anthropic 等外部客户之间的关系。我们还谈到了软件生态系统、为什么 Google 仍然相信合作伙伴关系，以及公司为何准备好把握 AI 时刻（提示：这是因为 Kurian）。</p>
+
+    <p>提醒一下，所有 Stratechery 内容，包括访谈，都以播客形式提供；点击本邮件顶部的链接，将 Stratechery 添加到你的播客播放器中。</p>
+
+    <p>以下是访谈内容：</p>
+
+    <h2>专访 Google Cloud CEO Thomas Kurian 谈 Agent 时代</h2>
+
+    <p><em>本采访经过轻度编辑以保持清晰。</em></p>
+
+    <div class="topics-nav">
+        <p><strong>主题：</strong></p>
+        <a href="#agents" class="topic-link">Agent</a> | 
+        <a href="#integrating-google" class="topic-link">与 Google 集成</a> | 
+        <a href="#cloud-priorities" class="topic-link">云业务优先级</a> | 
+        <a href="#cybersecurity" class="topic-link">网络安全</a> | 
+        <a href="#knowledge-graph" class="topic-link">Knowledge Graph</a> | 
+        <a href="#models-partners" class="topic-link">模型与合作伙伴</a>
+    </div>
+
+    <h3 id="agents">Agent</h3>
+
+    <p class="interviewer"><a href="https://x.com/ThomasOrTK">Thomas Kurian</a>，欢迎再次做客 Stratechery。我保证今年我打开录音了——实际上，我开了两个录音。</p>
+
+    <p><strong>TK：</strong>非常感谢，Ben。很高兴见到你，谢谢你抽出时间。</p>
+
+    <p class="interviewer">期待与你交流。能采访你多次总比一次采访要录多次好，所以今年我们开局不错。但和去年一样，我们在 <a href="https://www.youtube.com/watch?v=11PBno-cJ1g&">你的 Google Next 主题演讲</a>之前录制。实际上我们提前了不少，我想提前了好几天，但这个播客要到主题演讲之后才会发布。因此，我要问跟去年完全相同的问题。</p>
+
+    <p class="interviewer">具体来说，我喜欢观看主题演讲，不是为了公告，而是为了开场的框架。去年，那个框架是基础设施，[Google CEO] <a href="https://x.com/sundarpichai">Sundar Pichai</a> 实际上在开场时就做了阐述，然后你进场谈论这个主题，那就是你讨论一切的背景。今年的框架是什么？</p>
+
+    <p><strong>TK：</strong>今年的框架是，随着 AI 模型变得更加复杂，我们看到客户正在从将 AI 模型用于以聊天机器人方式回答问题，演变为实际代表他们自动化任务，以及自动化组织内部的流程。通过自动化流程，你既能获得效率提升，又能获得生产力提升，坦率地说，你还可以改变向市场推出新产品和服务的方式。</p>
+
+    <p>为了做好这件事，技术上你需要一个世界级的 Agent 平台，而支撑 Agent 平台，你需要世界级的基础设施。你需要 Agent 与公司数据和业务交互的方式——因此你需要能力来帮助 Agent 真正理解公司的业务信息和背景。</p>
+
+    <p>我认为，正如你在新闻中看到的，AI 和安全现在变得非常情境化，人们非常担心 AI 会加速对人们系统的网络攻击速度，因此我们将讨论如何将 AI 和我们的安全技术结合起来进行保护，包括 <a href="https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/wiz-acquisition/">Wiz 的集成</a>，然后我们向客户推出 Gemini Enterprise 和 <a href="https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform">我们的 Agent 平台</a>。这就是我们要讨论的主题。</p>
+
+    <p class="interviewer">去年你提到了 Agent，当时每个人都在某种程度上讨论它们。从去年到今年，真正发生了什么变化，让这变得不同？我读了你的整篇博客文章，非常长，我觉得"Agent"这个词可能出现在每一段中。</p>
+
+    <p><strong>TK：</strong>有三四个重大变化。第一是模型能力的提升——Gemini 新版本推出后，推理能力显著增强。第二，它们能够维持长期运行的内存，如果你有一个跨越许多步骤自动化任务的 Agent，这是必需的，它必须在内存中保持大量状态。第三，它们与工具和外部世界的交互，已经有了良好的抽象——技能、工具、MCP [<a href="https://en.wikipedia.org/wiki/Model_Context_Protocol">Model Context Protocol</a>]，这是 Agent 推理并与公司系统其余部分交互的抽象。</p>
+
+    <p>所有这些都取得了进步，所以模型本身的核心能力大大增强，使用工具和与外部世界交互的能力大大改善，世界向模型暴露的抽象也改进了，所以现在模型具备执行这些非常复杂任务的能力。</p>
+
+    <p class="interviewer">这一切都说得通，而且确实如此。不过我在浏览这些公告时发现，很多都是关于 Agent 周围的基础设施——编排、注册表、身份、安全，所有这些组件。对于大型企业来说，这显然是必要的，他们会担心并询问这些问题。</p>
+
+    <p class="interviewer">但 Agent 必须真正有效工作；Gemini Agent 真的有效吗？因为现在有很多讨论，你知道，四个月前 Gemini 还是焦点，但在最近一段时间，讨论主要集中在 Anthropic 和 Claude、Codex 上，这方面的讨论很多，而 Gemini 没什么讨论。你对实际能力有什么看法，而不仅仅是笼统地说 Agent？</p>
+
+    <p><strong>TK：</strong>我总是说，当人们问我们这个问题时，我总是说"让我们的客户来谈论它，而不是我们谈论它"。我想你会在 Next 大会上听到 500 位客户讲述他们的故事。即使是构建 Agent 的人，我们有各种各样的客户，从花旗集团到博世到 eBay 到维京航程到沃尔玛，有各种各样的客户，食品药品管理局等等，康卡斯特、联合利华，他们都将讨论他们遇到的具体业务问题。</p>
+
+    <p>例如，对于花旗，他们将讨论一个新的财富顾问、投资管理产品，他们正在使用我们的 Agent 来研究一个人的投资优先事项。所以一个人说"这是我的投资优先事项，我的孩子们要上学，我需要这样的现金流来资助它"，然后它会研究你的金融投资组合并与你互动，给你建议。</p>
+
+    <p>如果你看康卡斯特，他们正在使用我们进行所有消费者服务工作——这是维修、预约调度、派遣现场技术人员，有非常复杂的流程，有很多步骤，并与你交互的许多复杂系统。如果你看这些流程，它们需要我谈到的所有能力。例如，我想要调用一组工具的能力，这些工具可能是我想预约，所以我需要日历，我需要查询，如果要派遣技术人员，我需要查询备件，所以我需要从库存中调出备件库存，我需要安排技术人员出行的同时备件可用，我需要更新库存说明我已经从中取走了东西。这些都是非常非常复杂的步骤。</p>
+
+    <p class="interviewer">所有这些复杂步骤和所有这些组件的有趣之处在于，听起来你几乎是在说约束越多、你遇到的东西越多，实际上更容易实施这些流程，因为你需要做的事情被明确定义了？</p>
+
+    <p><strong>TK：</strong>坦率地说，Ben，有约束需要模型更加智能。举个例子，一个复杂多步骤流程中的变体数量，你可能遇到的各种特殊情况情况很多，所以你不能预先编程每一个情况。你需要教模型使用，例如，能够启动一个虚拟机并在虚拟机中使用工具生成代码来处理其中一些情况。</p>
+
+    <p>所以最复杂的是你可以给模型一个高级指令集，让它目标导向地寻求结果。所以你说"我需要安排这个预约"，结果发现在尝试安排预约时可能发生 19 种不同情况，作为其中的一部分，你不能预先确定性地告诉模型每一个可能的情况。所以你需要教模型"好的，用户没有告诉你该做什么，但目标是安排预约，所以这是你如何生成代码来创建一组可以与模型交互并理解该做什么的东西"。</p>
+
+    <h3 id="integrating-google">与 Google 集成</h3>
+
+    <p class="interviewer">这很有趣，你在 walkthrough 这个过程，这很有道理。你如何与 DeepMind 进行这种对话？你在连接"这是需要发生的工作流，这是我们需要的模型做的，这是它做得好的地方，做得不好的地方"，那里的工作关系是什么？</p>
+
+    <p><strong>TK：</strong>我们有一个技术框架，所有这些流程旅程，例如，当我们与客户看到它们时，我们将它们放入框架，它们进入 Gemini 的强化循环。</p>
+
+    <p class="interviewer">这个过程有多紧密？</p>
+
+    <p><strong>TK：</strong>非常紧密。我们有人坐在 [DeepMind CEO] Demis [Hassabis] 团队旁边，实际上我刚和他们开完会，那个循环让我们——我们在市场上处于独特位置。</p>
+
+    <p>我们以三种不同方式独特。我们独特，因为我们拥有完整的 AI 技术栈。为了做好 Agent，你需要有一个模型，将所有这些旅程放入处理改进的框架中，我们称之为 hill climbing，实际上每小时每天都在进行，我们看到的旅程复杂性在某些方面复杂得多，因为在公司，你有许多不同的系统、不同的条件、不同的流程，你可能不会在其他领域看到，比如纯消费领域。</p>
+
+    <p>为了做好这些，你还需要，例如，模型需要启动计算，模型现在需要保持 token 更长时间，因为它们需要保持，例如，保存内存信息的 KV cache，说明事务流程中正在发生什么。拥有出色的基础设施，包括经典计算（我们称之为经典计算机器）和 TPU，让我们在这方面有真正的优势。</p>
+
+    <p>第三，当你 walkthrough 这些时，你发现的一件事是这些模型交互的很多系统是数据库、企业应用程序之类的东西。所以理解这些的背景，例如，"你有多少库存？"，定义"什么是库存？"，"你在谈论什么零件？"，"你在谈论什么零件编号？"，这些事情需要你有理解业务图和公司内所有对象的字典以及信息源的技术。我们在数据处理方面的优势给了我们一些我们下周将讨论的技术，围绕我们称之为 Knowledge Catalog 的东西，把它想象成公司内所有信息的全局字典，这是一个独特的优势。</p>
+
+    <p>然后很明显你不想让公司关键信息暴露在互联网上，你不希望你的模型被攻击，因为现在它正在处理非常复杂的流程，你不希望它被劫持，所以所有关于安全的焦虑，我们有非常具体的工具，所以我们的差异化是所有这些部分协同工作。</p>
+
+    <p class="interviewer">这有道理，集成是你宣传的一个重点。同时，你也是一个庞大 sprawling 的公司，我认为可能存在一种看法，我可能持有的看法，一些前沿实验室更加专注，他们对"我们的技术框架将如何工作，它将如何使用工具"有更加自上而下的看法，你谈到的所有这些反馈流回来说起来很棒，除非有太多不同的看法，然后你也有自己的内部客户。你如何平衡有观点与陷入泥潭？</p>
+
+    <p><strong>TK：</strong>Google 的每个产品都在同一天、同一小时使用同一个 Gemini 版本，我们每个人都使用同一个技术框架。</p>
+
+    <p class="interviewer">你确定那个技术框架处于应有的状态——它没有因为所有客户和 Google 工作负载而被拉向 50 个方向？</p>
+
+    <p><strong>TK：</strong>绝对不是，我们非常专注于与 Demis 和 [DeepMind CTO] Koray [Kavukcuoglu] 以及他们的领导团队合作，确保他们看到这些场景的复杂性，我们与他们 literally 并肩工作，小时级配合。有很多猜测说我们是否分散了公司的注意力……</p>
+
+    <p class="interviewer">我不认为你们分心，我认为更多只是经典的大公司对小公司的问题。比如一个创业公司进来，你有一个非常明确的观点，你没有所有企业级的东西，你没有所有这些保护数据或权限和所有这些结构，然而这些东西被拖着走，因为有如此大的需求使用你的产品效果很好，然后这边是"嘿，我们保护了一切，我们有所有这些围绕它的东西"，但核心产品真的有效吗？</p>
+
+    <p><strong>TK：</strong>核心产品正在被很多人使用。证明是——我们每分钟生成 160 亿个 token，从去年 12 月或 1 月的 100 亿增长。</p>
+
+    <p class="interviewer"><a href="https://stratechery.com/2026/google-earnings-google-cloud-crushes-search-advertising-and-llms/">你们的财务业绩</a>当然也显示了这一点。有一部分你们做得太好，我这里必须稍微刁难你一下。</p>
+
+    <p><strong>TK：</strong>很多人在 2023 年告诉我们我们完了——我们仍然活着。</p>
+
+    <p class="interviewer">我认为你们不仅仅是活着，你们做得很好。</p>
+
+    <p><strong>TK：</strong>所以我们从不说任何人的坏话，我们的结果自己证明。我总是说，让我们的客户讲故事，他们正在用 Gemini 在公司、企业做惊人的事情，他们看到了我们为他们交付的价值。</p>
+
+    <p class="interviewer">你提到 Google 的每个人都在同一个 Gemini 版本上，使用同一个技术框架。这是否也适用于你正在做的围绕 Agent 的所有基础设施，围绕身份和安全这些？</p>
+
+    <p><strong>TK：</strong>是的，在企业中，所有基础设施的工作方式是我们有可配置的机制。例如，当你配置一个 Agent 时，一个非常简单的事情是你想用与人员不同的身份配置 Agent，这只是一个非常简单的例子，这样你可以追踪"谁做了这个事务？是人还是 Agent？"，因为有责任问题。你可能想在某个时间点撤销 Agent 的权限，你想让它只做某些任务，而不是人类做的所有事情，所以你需要在单个 Agent 和一组东西周围放置控件，与人分开。</p>
+
+    <p>当我们将 Agent 作为 Gemini 应用的一部分提供给消费者时，非常类似的概念也想要暴露出来，所以我们使用的架构允许我们拥有这些东西。来源可能不同。在消费者世界，他们可能使用 Google 登录账号，在企业世界，他们可能使用目录来存储它，但这只是我们的技术对世界其余部分的抽象。</p>
+
+    <h3 id="cloud-priorities">云业务优先级</h3>
+
+    <p class="interviewer">我们一直在谈论 Gemini Agent 和整个 Gemini 平台，但你也有更广泛的 Google Cloud 平台。你的主要租户之一是我刚才隐含提到的公司 Anthropic，他们正在<a href="https://stratechery.com/2026/anthropics-new-tpu-deal-anthropics-computing-crunch-the-anthropic-google-alliance/"> TPU 上做大量推理</a>。如果 Anthropic 以牺牲 Gemini 为代价赢得交易，这仍然是一个胜利吗？</p>
+
+    <p><strong>TK：</strong>我们出售技术栈的不同部分。人们没有意识到的一件事是我们通过不同方式将技术栈的许多部分货币化。像 Anthropic，有很多实验室使用我们的技术栈——实际上，大多数大型 AI 实验室都使用我们的技术栈。所以如果有人使用 TPU 来训练模型或用于推理，我们正在货币化技术栈的那部分，这给我们资源来资助我们的 R&D 和其他投资。一些实验室使用我们的 TPU 和 Gemini 模型，其他人可能使用我们的 TPU，然后购买我们为其模型的网络安全保护。</p>
+
+    <p>所以作为平台参与者，我们必须允许我们的技术以尽可能多的方式货币化，我们不将其视为零和游戏。</p>
+
+    <p class="interviewer">不过有时候，如果你有 SaaS 层和平台层以及基础设施，有一个是最重要的吗？一方面，SaaS 有最高的利润率，往下递减。另一方面，那个基础设施需要被使用，你在上面花了很多钱，你想要充分利用。你如何考虑这种取舍？我知道它们都重要，但你如何考虑这个权衡？</p>
+
+    <p><strong>TK：</strong>如果我们只为自己制造 TPU，我们的量会比作为通用 TPU 供应商要少，这意味着有某些时段我们不会使用那些 TPU。你明白吗？比如你考虑聊天系统如何工作，它们本质上是昼夜节律的，因为你在醒来时提问，我们有很好的搜索业务和很好的 Gemini 应用业务，但白天会有一定的昼夜节律，晚上会有很多问题，但因为我们向市场销售 TPU，我们能够将它们作为 spot 提供给世界其他地方，因为我们有这么大的业务。</p>
+
+    <p>我们还能够与供应商获得更好的制造条款和其他东西，因为我们是一个真正的体量玩家，这反过来降低了我们的销售成本。所以有更多动态。公司非常专注于确保我们要赢得每一部分，不仅仅是一个部分。Gemini 对我们来说显然是一个超级重要的举措，你会看到重大公告围绕——</p>
+
+    <p class="interviewer">当然，几乎全是 Gemini。</p>
+
+    <p><strong>TK：</strong>但我不认为如果我们要这样做的唯一方法是连同我们的模型一起提供我们的芯片。我们看到将芯片提供给许多其他人是一项强劲的业务，你会看到所有这些都在加速我们的差异化，你可以在我们的财务结果中看到。</p>
+
+    <p class="interviewer">你们的财务数据难以置信，收入增长，利润率大幅提升，我一直在发布那个图表很久了，<a href="https://stratechery.com/2026/google-earnings-google-cloud-crushes-search-advertising-and-llms/">上个季度太惊人了</a>。不过我必须问一下 TPU。你谈论我们的 TPU 芯片，到目前为止这意味着 GCP 上的 TPU 实例，但现在有谈论实际销售 TPU 芯片，这是个什么状况？官方说法是什么，我可以买一个 TPU 吗？</p>
+
+    <p><strong>TK：</strong>我会解释一下我们看到的情况。让我先谈谈我们要做的公告，产品用于什么，然后我们如何将其中一些推向市场。</p>
+
+    <p class="interviewer">好的。</p>
+
+    <p><strong>TK：</strong>我们下周将推出<a href="https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/eighth-generation-tpu-agentic-era/">两款大型新 TPU</a>。一款是 TPU 8t，其中"t"代表训练，更优化用于训练，把它想象成 9600 个 TPU 芯片，单个 pod，我们这样称呼它，性能是当前市场领先版本的三倍。</p>
+
+    <p>然后是 8i，其中"i"代表推理，它有 1152 个芯片，三倍的 SRAM，还有一个新东西叫 Collectives Engine，给你超高效的推理计算性能。</p>
+
+    <p>与此同时，我们正在推出 Nvidia VR200，我们也为经典计算引入了更多 ARM 能力，因为使用模型的人越来越需要启动一个 VM 来执行任务，这些 VM 我们看到了兴趣。我们不只是引入新的计算系列，还有新的存储，有两款新的存储产品。有一款是市场上最快的 <a href="https://en.wikipedia.org/wiki/Lustre_(file_system)">Lustre</a> 解决方案，每秒 10 太比特，这只是给你一个概念，是第二名的大约五倍。我们还为超低延迟引入了一个新东西——当你做推理时，你想要存储访问的超低延迟，我们称之为 Rapid Storage，它可以给你每秒 15 太比特，具有超低延迟，比如微秒级延迟。</p>
+
+    <p>那么为什么我们要推出所有这些东西？TPU，毫无疑问一个大的市场是 AI 实验室，但我们看到来自市场新细分领域的兴趣。所以一个大的新细分领域是金融服务，当我说金融服务时，资本市场，原因是今天，如果你是一家交易公司、资本市场公司，你花很多时间运行算法交易，算法交易是在传统 Intel 类型核心、x86 核心上运行数值算法。现在他们发现模型可以做推理，推理性能实际上比传统数值计算更好。</p>
+
+    <p>所以这是一个新细分领域，第二个细分领域是高性能计算。我们看到大量的人想做能源建模、计算流体力学、固态物理，那里也有一堆参数。</p>
+
+    <p>有趣的是，你会在我们的活动上看到，比如 Citadel Securities 将在主题演讲中谈论他们如何使用 TPU。如你所知，Citadel 是一家大型资本市场公司。能源部，他们有一个<a href="https://www.energy.gov/undersecretaryforscience/genesis-mission/genesis-mission">名为 Genesis 的任务</a>，这是关于改变美国能源基础设施的新国家实验室任务。还有巴西最大的公用事业公司 Axia，这些都是只是主题演讲中谈论他们如何使用 TPU 的人的例子。</p>
+
+    <p>当我们看到这些时，我们看到了几件不同的事情。资本市场公司说"嘿，如果我们要替换我们的算法交易解决方案，你必须把 TPU 带到交易场所所在的地方。"</p>
+
+    <p class="interviewer">对，因为他们关心去数据中心的延迟，这就是为什么他们都在新泽西。</p>
+
+    <p><strong>TK：</strong>其次，如果你是国家实验室，你在过去若干年的实验中收集了这么多数据——说你必须把所有这些数据带到云端来推理它没有意义，所以你会看到我们将 TPU 放在其他人的场所，当我们这样做时，我们正在引入人们采购它的新的方式。当我说采购它时，你是作为一个系统购买它，你不必只是作为云资源购买它。</p>
+
+    <p class="interviewer">这种新的销售方式几乎像是第三种方式，所以你有在 Google 数据中心内，你有将 TPU 带给客户，但然后你有<a href="https://www.anthropic.com/news/google-broadcom-partnership-compute">像上周的协议</a>，在 Anthropic 和 Broadcom 以及 Google 之间，这将放在他们的数据中心。有一些"叛逃"的数据中心可以访问电力，也许他们在做比特币或其他什么，有一种大的推动将 TPU 放入其中。这适合放在哪里？</p>
+
+    <p><strong>TK：</strong>我不认为你在新闻中读到的一切都是真实的。</p>
+
+    <p class="interviewer">嗯，Anthropic 的公告绝对是一个重大公告。</p>
+
+    <p><strong>TK：</strong>老实告诉你，我们有一个在云中运行的版本和一个在第三方数据中心运行的版本。技术、机器是相同的。</p>
+
+    <p class="interviewer">我的问题是，这来自哪里？这是你 TSMC 配额的一部分吗？这是 Broadcom 的吗？因为没有人能获得足够的计算，所以最终这要追溯到根源。</p>
+
+    <p><strong>TK：</strong>芯片都是我们全球分配的一部分——如你所知 TPU 是 Google 芯片。所以它是全球分配的一部分，Broadcom 是与我们制造 TPU 的合作伙伴，所以它只是整体业务的一部分。我们谈论的新事物只是你可以在其他场所运行 TPU。</p>
+
+    <p class="interviewer">有道理。我们会有足够的计算吗？去年你说"我认为我们很快会解决这个问题"，这看起来不是很解决，那里是什么状况？</p>
+
+    <p><strong>TK：</strong>作为一个组织，我们超级努力工作，我们做计算基础设施、全球数据中心、机器的团队，他们都做了惊人的工作，总是有短缺，永远不够。</p>
+
+    <p>但这并不意味着我们没有——如果我们没有足够的计算，我们就不会以这个速度增长。所以还有更多我们想要的，但现实是我们的团队做了惊人的工作，使用它的客户会告诉你他们看到了我们团队努力工作的成果。</p>
+
+    <p class="interviewer">市场上有潜在客户，可能是现有客户，他们可能愿意此时几乎为计算支付任何价格。你如何考虑短期"哇，我们现在实际上可以赚很多钱"与"我们需要投资我们的产品"——你有 Microsoft，我不要求你评论，<a href="https://stratechery.com/2025/microsoft-earnings-coreai-mantleai-additional-notes/">但上个季度</a>他们说"是的，我们分配给 Azure 的更少，因为我们有自己的内部工作负载"。这些是你需要思考的真正权衡，你如何就 GCP 思考这个？</p>
+
+    <p><strong>TK：</strong>我们经营一个平衡的投资组合，我们想发展业务的不同部分，我们作为高管团队坐下来，也与 Sundar 一起研究我们如何平衡投资组合的不同部分。</p>
+
+    <p>我们看到，大致来说，有三到四个类别的东西。一个类别是我们想让 Gemini 作为业务发展，我们的核心 Gemini 业务做得非常好，每分钟 160 亿个 token，自上个季度以来增长了 40%，即使是这个叫 <a href="https://cloud.google.com/gemini-enterprise">Gemini Enterprise</a> 的产品，我们的核心 Agent 平台，也已经连续季度增长 40%。所以那部分业务，我们承诺让它超级成功，这是我们的优先事项。</p>
+
+    <p>业务的第二个细分领域是 Gemini 用于我们的一些核心产品内部，所以我给你一个例子。我们在威胁情报工具中引入了 Gemini。为什么？因为我们在 Google 扫描暗网识别威胁方面有真正的专业知识，问题是有这么多威胁，普通组织不知道这许多威胁中哪些适用于他们。所以我们使用 Gemini 来处理和优先排序哪些威胁可能影响你，它 98% 准确，去年处理了 390 万个威胁，这是 Gemini 作为嵌入式能力使用的一个例子。</p>
+
+    <p class="interviewer">对。整个 <a href="https://cloud.google.com/learn/paas-vs-iaas-vs-saas">SaaS、PaaS、IaaS</a>——SaaS 部分仍然重要。</p>
+
+    <p><strong>TK：</strong>有那个能力，有人想使用 Gemini 来推理我们分析基础设施中的数据，所以有第二大组，其中 Gemini 是一个嵌入式能力，这又依赖于芯片和 TPU 以及 GPU。</p>
+
+    <p>第三个是将我们的计算平台提供给人们。我们在这些之间平衡，因为我们希望它们都成功，通过将我们的硬件或机器带到其他人的场所。我们正在扩大我们在业务那部分的 TAM，即总可寻址市场，我们也看到与投入 CapEx 相比不同的现金流模型，所以我们必须平衡许多不同的参数。</p>
+
+    <p class="interviewer">你列出的所有这些都是你要做权衡的，但然后你还必须与 Sundar 以及 Google 其他领导者开会，就 DeepMind 以及他们的 R&D 和消费产品做权衡。这些会议是什么样的？</p>
+
+    <p><strong>TK：</strong>我们有定期的会议节奏，我们平衡不同的优先事项，我们希望在许多不同维度上成功。我不认为所有这些维度都是零和的。比如，例如，当我们在其他场所提供我们的产品时，我们以不同于投入 CapEx 的方式驱动现金流——所以在某种程度上，这改变我们作为公司如何提供资本边界的边界。</p>
+
+    <p>所以我认为有一个普遍观点是计算短缺，如果你给一个，你就必须从另一个那里拿走，我认为这是一个过于简单的看法，在这个领域待了足够长时间，我的团队负责两部分。我们负责为 Alphabet 交付所有基础设施，他们在做这件事上做了惊人的工作，我也负责运营云业务，你可以看出我们的差异化，我回到这一点，如果你没有需求，那将是一个不同的问题。每当我要求我们证明你有需求时，我总是说"看看我们的结果"。</p>
+
+    <p class="interviewer">嗯，这是自 1 月以来最大的变化，当时仍然存在一些潜在的怀疑，即"所有这些 CapEx 值得吗？"，感觉这些问题现在已经完全消失了。</p>
+
+    <h3 id="cybersecurity">网络安全</h3>
+
+    <p class="interviewer">说到过去几个月的市场，所有这些 SaaS 公司在市场上被重创，你有一个大的 SaaS 业务，你绝对没有被市场重创，为什么你逃过了这一劫？</p>
+
+    <p><strong>TK：</strong>我认为我们已经转型了。核心基本面是发现，这是我们处理产品组合的方式，我给你一个非常简单的例子——2023 年，我们说"嘿，在 2022 年，我们说，我们不只是要构建一个安全的云，我们还要开始提供网络安全产品。"当我们进入市场时，我们看了其他人想要什么——安全的价值由两个维度驱动。维度一，"它在保护什么？"，因为它必须保护高价值的东西，另一个因素是，"它在保护方面有多好？"，它要使用什么技术来保护？"。所以我们说，"只有两个有价值的地方需要保护，要么是终端"，即你的应用程序运行的桌面，其他人在那里做得很好，世界其他地方正在将所有应用程序和数据转移到云端，让我们保护那个。</p>
+
+    <p>其次，我们说 AI 将发现漏洞，因为归根结底，发现漏洞是模型真正理解代码的问题，如果你能以更快加速的速率发现漏洞，人们需要以极其激进、快速的速率修复漏洞，所以我们那时开始了一系列工作，我们说要确保我们有领先的产品组合，让我们收购 Wiz。</p>
+
+    <p>我们正在开发，你会看到一系列公告，有 Threat Intelligence Agent 允许我们了解威胁态势并使用 Gemini 优先排序你应该关注什么，很多人正在使用 Gemini 实际扫描他们的代码，然后我们正在推出三个新的由 Gemini 驱动的 <a href="https://www.wiz.io/blog/wiz-at-google-cloud-next">Agent 与 Wiz</a>，一个叫 Red Agent——把它想象成对你基础设施的持续红队测试，一个 Blue Agent 说"好的，我看了 Red team 发生的事情，我知道你需要去修复什么"，和一个 Green Agent 说"我会为你修复它"，这会缩短周期时间。</p>
+
+    <p>像我们的 Threat Intelligence Agent，你会看到芝加哥商品交易所等参考客户，下周有一整批人在谈论它如何将 30 分钟的调查变成 30 秒，这让你能够获得响应。</p>
+
+    <p>现在，这是一个例子，当我们开始时，人们说"为什么一家超大规模云提供商想成为一家安全公司？"，我们当时说"这不是关于成为一家超大规模云提供商，这是关于解决 AI 与安全的交叉问题——AI 将加速网络威胁，你不能用老方法修复。"</p>
+
+    <p class="interviewer">是的，这确实回答了人们在你收购 Wiz 时的问题，即"<a href="https://stratechery.com/2025/youtube-tv-wiz-and-why-monopolies-buy-innovation/">为什么你需要购买它</a>，为什么你不能直接构建它？"。就像"嗯，两年后，就太晚了"。我认为现在也非常切实地感受到了这一点。</p>
+
+    <p><strong>TK：</strong>今天，我们的位置是因为我们做了那个赌注。</p>
+
+    <p class="interviewer">是的。</p>
+
+    <p><strong>TK：</strong>所以当人们问"为什么你们即使在可能困难的市场也能增长？"，这是因为我们有差异化，我们很早做出了那些决定。</p>
+
+    <h3 id="knowledge-graph">Knowledge Graph</h3>
+
+    <p class="interviewer">有道理。今年有趣的产品公告之一是这个<a href="https://cloud.google.com/blog/products/data-analytics/the-future-of-data-lakehouse-for-the-agentic-era">跨云 lakehouse</a>，它让客户将数据保留在 AWS 和 Azure 中，同时仍能被你的服务即时查询。这是否是最终的承认，即使企业喜欢你的 AI 并喜欢 Gemini，如果他们已经在其他云上，他们不会迁移所有工作负载？你过去的许多产品都是关于这个的——甚至 Wiz 在某种程度上也是关于这个的——但这只是现实吗？就从其他云拉取东西到 Google 而言，不会有大量的溢出效应。</p>
+
+    <p><strong>
