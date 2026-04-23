@@ -304,4 +304,93 @@
 
     <p class="interviewer">有道理。今年有趣的产品公告之一是这个<a href="https://cloud.google.com/blog/products/data-analytics/the-future-of-data-lakehouse-for-the-agentic-era">跨云 lakehouse</a>，它让客户将数据保留在 AWS 和 Azure 中，同时仍能被你的服务即时查询。这是否是最终的承认，即使企业喜欢你的 AI 并喜欢 Gemini，如果他们已经在其他云上，他们不会迁移所有工作负载？你过去的许多产品都是关于这个的——甚至 Wiz 在某种程度上也是关于这个的——但这只是现实吗？就从其他云拉取东西到 Google 而言，不会有大量的溢出效应。</p>
 
-    <p><strong>
+    <p><strong>TK：</strong>如果你今天使用 <a href="https://cloud.google.com/bigquery">BigQuery</a>，你不必将事务性应用程序移动到 BigQuery。如果你今天使用 Gemini，你可以将应用程序保留在另一个云中，并使用 Gemini 对其进行推理。</p>
+
+    <p>我们试图解决的是一个具体问题。今天，当人们谈论 lakehouse 时，他们说"我们有一个多云 lakehouse。"他们真正的意思是他们的 lakehouse 可以在任何云上运行，但当它在特定云上运行时，你只能访问该云中的数据。</p>
+
+    <p>然后人们说"这太荒谬了，因为我在像 Salesforce 这样的 SaaS 应用中有数据"，"我在 ERP 系统中有数据"，"我在 Azure 和 Amazon 中有数据，我想跨所有这些进行分析"，客户的一个选择是把所有这些数据复制出来，这对他们来说很昂贵，因为每个人都征收的流出税。</p>
+
+    <p>所以我们说"把你的数据留在那里，我们仍然可以给你世界级的分析"，所以这解决了保管问题。客户有一个问题，他们想进行分析，我们给他们四样东西。把数据保留在原地，不管有多少个云。我们不是说单云 lakehouse，我们说的是跨所有云以及跨所有 SaaS 应用，我们可以做分析，第一。第二，人们说"你能跑多快？"，我们将展示的证明是我们在价格性能上是市场领导者的 2 倍，开箱即用。第三，人们说"我不是写 Python 和 Spark 的专家，你能给我基本上 Python 和 Spark 的氛围编程吗？"——是的，你会看到我们引入一个 Agent 管理器，使用 Gemini 生成 Python 和 Spark 代码。然后最后一个，今天人们说，Ben，如果你问一个问题，我使用了现场服务的例子，我在运行一个查询，"我在零件中有多少库存？"，在我派遣技术人员之前——那个信息在一个应用程序中，在一个数据库的一组表中，大多数组织有数千个数据库，教模型哪个系统有什么信息，以及零件的概念在这个特定数据库中分散在 10 个不同表中，你需要一个构建公司所有信息语义图的系统。</p>
+
+    <p class="interviewer">对，这就是 <a href="https://cloud.google.com/blog/products/data-analytics/introducing-the-google-cloud-knowledge-catalog">Knowledge Catalog</a>。</p>
+
+    <p><strong>TK：</strong>这就是 Catalog，这给你研究信息时超好的准确性。</p>
+
+    <p>所以我们把所有这些放在一起，回到我们一直超级务实。我总是说企业有某些他们看到的问题，独立于云。例如，安全——他们不想从三个不同的超大规模云提供商购买三种不同的安全工具。分析——他们不想从三个不同的超大规模云提供商购买三种不同的分析工具。其他人选择说"我的东西只适用于我的云"，这就是为什么企业经常选择我们，因为我们在所有云和所有安全环境中工作，你可以把东西留在你所在的地方，使用 Gemini 访问并为你自动化东西，所以所有这些只是倾听客户的一部分。</p>
+
+    <p class="interviewer">这完全有道理，特别是这个关于 Knowledge Catalog 的部分确实符合我一直以来的思考。<a href="https://stratechery.com/2024/enterprise-philosophy-and-the-first-wave-of-ai/">我几年前写过这个</a>，关于这整个 layer 的重要性以及理解它，搭建这个有点大工程。你有某种类比，比如像 Palantir 在放入他们的 <a href="https://www.palantir.com/platforms/foundry/">ontology thing</a>。他们有 <a href="https://www.palantir.com/docs/foundry/ai-fde/overview">FDE</a> 在现场，持续数月的项目做这个。你有 <a href="https://stratechery.com/2026/openais-memos-frontier-amazon-and-anthropic/">OpenAI 谈论 Frontier</a>，他们的 Agent layer，他们与所有技术咨询公司合作来构建这个。这是否需要大量的人员在地面上工作，让这个 graph 工作并以一种你的 Agent 可以在其上有效操作的方式运行？</p>
+
+    <p><strong>TK：</strong>我们不与 Palantir 竞争，我们不是在构建一个语义字典或 ontology。我们正在做的是，今天我给你最接近的类比。</p>
+
+    <p class="interviewer">好的。</p>
+
+    <p><strong>TK：</strong>今天当你使用一个模型，比如说你使用 Gemini，你问一个问题，Gemini 进行推理，然后它向你展示一个引用。引用是"我如何回答这个问题以及我从中得出的是什么来源？"</p>
+
+    <p>现在想象那个引用是一个需要去一个文件夹的查询，例如，在一个存储系统中，因为那里有一些文档，和一个数据库，因为例如在零件编号中，想想有一个零件编号文档列出所有零件编号并存在一个 drive 中，然后那个零件编号你需要取出来，说这是技术人员来维修的调制解调器，那被映射到数据库中的一个表。</p>
+
+    <p>所以这个 graph 做什么，我们使用 Gemini，所以我们不需要人类，我们使用 Gemini 说"嘿，去阅读这些 drive 中的所有这些文档，从中提取信息，然后将其与具有零件编号引用的数据库表匹配"，所以当 Gemini 回过头来说"我收到了关于有多少调制解调器库存的查询"，它做的第一件事是说"好的，去 Knowledge Catalog，它说调制解调器是零件编号一二三四五"，然后它说"顺便说一下，数据库中有这个零件编号库存信息的表是这个，这里有一个 SQL"，然后它使我们要生成的东西质量更高，然后当它回答问题时，它向后展示——回到你的"信任我的数据"——它展示一个 ground citation 说"这是我们从那里得到的。"</p>
+
+    <p class="interviewer">如果这要工作，你需要生态系统中的每个人做什么，所有这些 SaaS 应用和跨所有这些实体，不仅仅是你数据库中的东西，还有 SAP 数据库或任何可能的东西。你如何让他们加入，以便你能理解他们的数据并构建这个 Knowledge Catalog？</p>
+
+    <p><strong>TK：</strong>非常简单，第一件事是使用 lakehouse，我们支持一种标准格式，行业非常标准化，它叫 <a href="https://cloud.google.com/discover/what-is-apache-iceberg">Iceberg</a>，所以任何支持 Iceberg 的人我们可以与它对话，这基本上是现在整个世界，所以我们不需要他们做任何特别的事情让它工作。</p>
+
+    <p>第二，所有这些业务系统都有 API 规范，我们的 Catalog 可以从这些 API 规范学习，我们只是教 Gemini 处理这些，所以我们可以相当快地构建一个 catalog。</p>
+
+    <h3 id="models-partners">模型与合作伙伴</h3>
+
+    <p class="interviewer">有报道说 Amazon Bedrock 上的 OpenAI 大受欢迎。我们在 Vertex 上会看到 OpenAI 吗？</p>
+
+    <p><strong>TK：</strong>我们很乐意图有他们。我们正在宣布 Vertex 上的各种第三方模型，包括 Anthropic，包括开源，我们对 Vertex 上的任何模型提供商都持开放态度。</p>
+
+    <p class="interviewer">我相信你。那时发生会很棒。</p>
+
+    <p class="interviewer">最后一个问题。我们在这个采访系列中之前谈过，我认为，这是在你来之前，不是你的错，Google Cloud 错过了作为硅谷企业生态系统整合点的机会。我想去年我问过你 AI 是否代表这样做的机会。然而，是否有这可能，模型，你参与这个游戏因为你有一个领先的模型，会吃掉一切，会逐渐扩展做各种工作，其他人都只是一个 record 系统？结果会是只有一个界面，整合（如果有的话）都在表面之下，不一定是在用户空间中把东西绑在一起。Gemini 长期来说会是用户需要的全部吗？</p>
+
+    <p><strong>TK：</strong>我们不这样看。实际上，你下周会看到我们做的一个公告是，有多少第三方 SaaS 和 ISV [独立软件供应商] 供应商正在将 Gemini 嵌入，不仅仅作为模型，而是作为 Agent 平台，因为他们想构建 Agent，我们的 Agent 平台，你可以用来构建 Agent，不仅仅是我们自己的 Agent，但可以使用它，有很多独立软件供应商正在嵌入那些 Agent。</p>
+
+    <p class="interviewer">他们是否把你视为"嘿，你是一个资深玩家，我们跟你走，因为我们不知道这些其他人想做什么，他们想把我们都吃掉"？</p>
+
+    <p><strong>TK：</strong>这也是能力。差异化，我会说，只是想想你是一家银行或保险公司，想想你是卖给他们的 SaaS 供应商或独立软件供应商，有关于身份、策略管理的一些事情。</p>
+
+    <p>例如，如果你是一家银行，有关于一个人的文件和他们的信用，你不能让这些离开银行的边界，所以我们有一个防火墙保护它，这是我们 Agent 平台的一部分。你想在 Agent 上有审计能力，说哪个 Agent 在什么时候在什么系统上做了什么任务，这是内置于平台的。你想要一个注册表，你在那里暴露所有你的技能，以便人们不会重复构建所有这些东西，我们有一个注册表来做这件事。</p>
+
+    <p class="interviewer">这就是我们在开始时谈到的 bit，它不只是让你的 Agent 受益，它会让所有 Agent 受益，这就是 pitch。</p>
+
+    <p><strong>TK：</strong>所以人们喜欢的一件事是我们为他们构建了所有这些管道，所以他们不必投资于它，他们可以专注于他们在 Agent 方面的增值。</p>
+
+    <p>此外，对于这个更广泛生态系统中的公司，Agent 的成本——它成为他们物料清单的一部分，如果你想的话，商品的售出成本——我们有这些运行推理如此高效的超级高效芯片，最终转化为在我们要身上构建的第三方的成本效率。你可以看到所有这些好处，我们正在为他们拿走所有那些复杂性，所以我们绝对不认为整个生态系统会消亡，我们绝对不这样看，我们看到我们促进那个生态系统。</p>
+
+    <p>你会看到我们宣布许多事情，包括大量美元投资来加速我们平台周围的合作伙伴生态系统。</p>
+
+    <p class="interviewer">Thomas Kurian，很高兴再次与你交谈。</p>
+
+    <p><strong>TK：</strong>非常感谢，Ben。最后，我们每年在 Next 大会上宣布的工作是所有那些客户和合作伙伴给我们机会与他们合作的证明。你会看到他们讲述他们的故事，这是我们组织所有那些人的证明，他们赌注以不同的方式解决技术问题，或者将我们的技术——我们大幅扩展了我们的 go-to-market 组织，同时做到增长顶线和营业收入是我们对我们产品和服务需求的证明。</p>
+
+    <p>我是说六七年前，人们曾经告诉我们要么"你在市场上没有机会"，我认为我们现在真正独特地定位了自己。说一个其他参与者拥有做 AI 的技术栈，当我向前看，我认为在人们心中毫无疑问，公司需要解决的核心问题以及技术提供商需要解决的是你为 AI 提供的能力有多好。我们是唯一拥有芯片、模型、从所有数据基础设施向模型提供背景、安全技术以及世界级 Agent 平台的。</p>
+
+    <p class="interviewer">我还要补充，你现在实际上是一家企业公司了。你谈论的事情，务实主义，倾听客户，所有这些部分，GCP 十年前完全没有——有一种 Wiz 超越时代的感觉，当然有前瞻性，但有一种组织以一种以前不会有的方式为这个时刻准备好的感觉。我觉得这令人印象深刻。</p>
+
+    <p><strong>TK：</strong>我们为团队感到非常自豪。对 Alphabet 来说，做好 AI 也需要做几件事。首先，看到我们看到的广度问题，我们看到所有消费者问题，我们看到企业问题，我们看到搜索看到的问题，我们看到 YouTube 需要的，我们用 AI 解决的所有这些，这给模型需要解决的广度能力，随着时间推移这是真正的优势，因为我们正在解决的问题的多样性。</p>
+
+    <p>其次，为了做好 AI，你必须投资，为了投资，你需要以尽可能多的不同方式货币化。我认为我们对我们的团队非常有信心，我们没有任何傲慢，但我们对我们的位置有信心。</p>
+
+    <p class="interviewer">我觉得这非常令人印象深刻。我期待你的主题演讲。</p>
+
+    <p><strong>TK：</strong>非常感谢 Ben，每年与你交谈是一种荣幸，很高兴你抽出时间与我对话。</p>
+
+    <p class="interviewer">而且这次全都录下来了，我可以保证！</p>
+
+    <hr>
+
+    <p>本 Daily Update 采访也以播客形式提供。要在你的播客播放器中接收，<a href="https://stratechery.passport.online/member">请访问 Stratechery</a>。</p>
+
+    <p>Daily Update 旨在为单个收件人提供，但偶尔转发完全可以！如果你想为你的团队订购多个订阅并享受团体折扣（最少 5 个），请直接联系我。</p>
+
+    <p>感谢你的支持，祝你度过美好的一天！</p>
+
+    <div class="source-link">
+        <p><strong>原文链接：</strong><a href="https://stratechery.com/2026/an-interview-with-google-cloud-ceo-thomas-kurian-about-the-agentic-moment/" target="_blank">An Interview with Google Cloud CEO Thomas Kurian About the Agentic Moment</a></p>
+        <p><small>本文为 Stratechery 文章的中文翻译，仅供学习交流使用。</small></p>
+    </div>
+</body>
+</html>
