@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>职场中的"假装高效"</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            border-bottom: 2px solid #333;
+            padding-bottom: 0.3em;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-top: 1.5em;
+        }
+        blockquote {
+            border-left: 4px solid #666;
+            padding-left: 1em;
+            margin-left: 0;
+            color: #555;
+            background: #f9f9f9;
+            padding: 1em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        .reference-list {
+            background: #f5f5f5;
+            padding: 1em;
+            border-radius: 5px;
+        }
+        .disclaimer {
+            background: #fff3cd;
+            padding: 1em;
+            border-left: 4px solid #ffc107;
+            margin: 2em 0;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>职场中的"假装高效"</h1>
+            <div class="meta">
+                <span>来源：No One's Happy</span> | 
+                <span>发布日期：2026年5月6日</span> | 
+                <span>原文：<a href="https://nooneshappy.com/article/appearing-productive-in-the-workplace/">链接</a></span>
+            </div>
+        </header>
+
+        <blockquote>
+            <p>帕金森定律指出，工作会自动膨胀以填满可用的时间。在AI时代，工作者现在有了一个可以膨胀到无限的工具——只要能说服大语言模型生成，它的输出几乎没有限制。</p>
+            <p>过去两年里我在自己的行业目睹的一切，我仍在努力描述。我第一次意识到不对劲，大约是一年零三个月前，我注意到一位同事用AI回复我。他的回复显然是Claude生成的——标点符号暴露了一切：没人会打em dash，节奏结构很有规律，对我明知他不懂的技术表现得异常自信。我坐下来想了一会儿，要不要和一个明显在复制粘贴模型输出的人辩论。频道是公开的，我花了很多时间纠正基础问题。最终我停了下来。从任何意义上说，他都不在这场对话的另一端。</p>
+            <p>生成式AI可以产出看起来专业但实际并不专业的工作，这种失败有两种形式。第一种是领域新手能够产出与资深人士相似的工作，速度或复杂度超出了他们的判断能力。第二种是人们在自己从未受过训练的领域生成成果物。这两种失败从远处看很像，但不是同一回事。研究主要测量的是第一种。第二种是被忽略的，而根据我的经验，这是风险更大的那种。</p>
+        </blockquote>
+
+        <h2 id="cross-domain-generation">跨领域生成</h2>
+        <p>不会写代码的人在构建软件。从未设计过数据系统的人在设计数据系统。大多数东西没有发布；它们被构建出来，往往花费很多小时，可能在内部高调展示，悄悄使用，偶尔不太声张地展示给客户。工作者可能沉迷于一个想法，加班加点工作。确实有一些从业者正确使用当前的agentic工具做复杂事情，但这样的人很少，而且据我发现，通常在代码生成领域。AI在个人层面的所有能力，在我的工作场所并没有真正规模化。</p>
+        
+        <p>我有一位同事，一个在其非工程岗位上既谨慎又聪明的人，今年早些时候花了两个月构建一个本应由受过数据架构正规训练的人来设计的系统。按目前衡量工具使用标准来看，他用得不错。他产出了大量代码、大量文档、大量在任何不知道该看什么的人眼里像是进度的工作成果。但被问到时，他无法解释其中任何东西实际上是如何运作的。这项工作从第一天起就是错的。数据库schema，更重要的是目标，以一种任何在这个领域工作两年的人都会一眼看出错误的方式错了。我们中确实有人知道。当意见被提出甚至到VP级别时，他反驳。会议室的安排让说这些话不再是贡献；他的经理太投入于进度的表象而不想被打扰。这项工作很可能会持续，直到展示给某个利益相关者，然后他们决定不再投资。</p>
+        
+        <p>这是我觉得最难写的部分。工具并没有让他成为更差的同事。它让他能够冒充数月一个他从未受过训练的学科，而这种冒充足够好，以至于机构激励都倾向于让他继续。也许这是管理的失败，但我发现管理层太急于拥抱AI以至于愿意接受这种风险。</p>
+        
+        <p>如果工具能对自己产出的东西提供诚实的评估，这或许还可以忍受。Cheng等人今年春天在《Science》上发表的斯坦福研究<a href="#ref-1">[1]</a>证实了每个经常使用的人都知道的事实：领先模型比人类受访者同意度高约50%，即使这种同意是不合理的。Berkeley CMR的元分析<a href="#ref-4">[4]</a>发现懂AI的用户往往高估自己的表现。当工作者跨出自己受训领域时尤其有趣。NBER对客服代理的研究<a href="#ref-2">[2]</a>发现生成式AI将新手生产力提升约三分之一，而对专家几乎没有帮助。哈佛商学院的研究人员在咨询工作中发现了同样的模式<a href="#ref-3">[3]</a>。所以你现在有了过度自信的新手，能够在他们无法判断正确性的专业领域提升个人生产力。会出什么问题？</p>
+
+        <h2 id="the-conduit-problem">管道问题</h2>
+        <p>越来越多的研究将此称为<em>产出-能力解耦</em><a href="#ref-5">[5]</a>。在以往任何时代，一项工作的质量是产出它的人的能力的一个相对可靠的信号。新手的文章读起来像新手文章；新手代码以新手方式崩溃。AI切断了这种关系。新手现在产出的工作不再暴露新手身份，因为工作反映的能力根本不是新手的能力——是系统的能力。人在这场交易中变成了一种管道，能够将输出路由给接收者，却无法在传递过程中评估它。</p>
+        
+        <p>产出工作和评判工作的技能本来就有意区分，但完成工作本身曾经教会你判断。第一种技能现在很大程度上属于机器。第二种仍属于我们，尽管越来越少人费心去获取或使用它。</p>
+        
+        <p>过去来自那些受过训练或已经构建并破坏过三个这类系统的人的架构批评，现在来自一个对构建或破坏任何东西没有任何具身记忆的模型。这种慢不是对真正工作的征税；这种慢就是真正的工作。这是工作如何变好的方式，是生产这些工作的人如何变好的方式，是名字印在工作上的公司如何向客户保证他们买的是某种特定的东西而非某种通用的东西的方式。</p>
+        
+        <p>当前的agentic系统构建在一个前提下：人是瓶颈——没有某人阅读即将发生的事情并决定是否应该发生的尴尬延迟，循环会跑得更快更干净。在很多情况下，这恰恰相反。人在回路中不是一个更早时代的遗迹；人是循环中唯一有切身利益的部分。从HITL中移除H不是效率。这是放弃系统捕捉自己的唯一机制。</p>
+
+        <h2 id="slop-on-the-inside">内部的垃圾</h2>
+        <p>曾经一页的需求文档现在成了十二页。曾经三句话的状态更新现在是项目符号摘要的项目符号摘要。回顾会议记录、事故后报告、设计备忘录、启动演示：每一个可以拉长的成果物都被拉长了，由不读自己产出内容的人生成，给不读收到内容的读者看。生产一份文档的成本几乎降到了零；阅读一份的成本没有，实际上还在上升，因为读者现在必须在合成内容中筛出文档原本关于什么。每一个拉长的单独决定看起来都是理性的，每一个都独立得到奖励——读者对更长的AI生成解释更有信心，无论解释是否正确<a href="#ref-5">[5]</a>。集体效应是任何给定工作场所的信号比这一切开始前更难找到。检查点被隐藏了，淹没在自己的文书中，即使淹没它们的人真的想"<strong>简洁</strong>"。</p>
+        
+        <p>这是一种新形式的垃圾，比公共领域的更昂贵，因为生产它的人领着薪水在做这些。未来专家的管道正在从两端变细。曾经教会判断的工作现在由工具完成，判断发生的入门级岗位正在被削减，基于工具能做这些工作的理论。这在很多办公室包括我的办公室造成的是大量的活动和非常少量过去活动所创造的东西。</p>
+        
+        <p>下游成本正在快速累积。大多数关于<em>AI垃圾</em>的公共讨论集中在涌入公开市场的内容洪流——佛罗里达大学的营销研究<a href="#ref-6">[6]</a>是较直接的处理之一。较少被提及的是同样的问题在组织<em>内部</em>上演：在不需要AI的任务上使用AI浪费时间，在没人会读的成果物上，在只因为工具让它构建起来很便宜而存在的过程中。在详述那些以前甚至不需要说或被认为理所当然的事情的演示文稿上。</p>
+
+        <h2 id="what-to-do-about-it">该怎么办</h2>
+        <p>在这个环境下，纪律的样子几乎尴尬地老派，可能对你们大多数人来说显而易见，直到你试图避免它。在你能精确验证它产出什么的地方使用工具。永远不要向模型寻求确认；工具同意所有人，一个不需要同意者付出任何代价的同意一文不值。</p>
+        
+        <p>生成式AI在反馈快速的任务上表现良好，在大约正确就足够好的情况下，在人作为最终仲裁者的情况下。起草备忘录、生成例子、总结读者愿意验证的材料。伊利诺伊大学的生成式AI指南<a href="#ref-7">[7]</a>和PLOS Computational Biology关于AI研究的"十条简单规则"论文<a href="#ref-8">[8]</a>，在现在流传的更谨慎的文件中，明确列出了这些：<strong>头脑风暴、编辑润色、重新表述自己的想法、检测自己已理解的数据中的模式</strong>。</p>
+        
+        <p>在每个推荐用途中，人提供判断，工具提供吞吐量。这比"人在回路中"更强。工具位于工作之外，受邀时贡献，否则沉默，这与大多数agentic系统现在被构建去做的正相反。</p>
+        
+        <p>对于公司而言，工作可信的公司竞争优势没有消失；实际上还在升值，因为那么多竞争对手正悄悄把自己变成内容生成管道，指望客户不会注意到。</p>
+        
+        <p>这已经到临界点了。德勤已经因AI幻觉生成的政府报告退还了部分44万美元费用。可能是基于幻觉规格构建的生产系统，或者是意识到自己过去一年名义上在审核自己已无法胜任审核的工作的高级工程师。清算不会微妙。仍在正确做这些工作的公司将处于收费的有利地位。把自己挖空的公司会发现他们挖空的就是客户付费的东西。</p>
+        
+        <p>对AI在职场中的误解和滥用已泛滥。在我现在所在的很多房间里，专业知识被要求视而不见：交付更快、产出更多、更深整合工具、让开"把事情做完"的同事的路。成果物在堆积；工作没有。而在所有这些输出的某个地方，一个客户正在打开一个交付物，阅读一个总结清单，他们可能选择手动审核它。</p>
+
+        <div class="disclaimer">
+            <p><strong>免责声明</strong>：我不是专家，也不是作家。这不是学术文章。无论我喜不喜欢，我站在AI的边缘。这些是我在我的工作场所的经历，引用了我认为相关的内容。如果你带走一件事，那就是人是易受影响的生物。另外，那些声称这篇文章讽刺地成为了它所抱怨的问题的牺牲品的人100%正确，致敬。</p>
+        </div>
+
+        <h3 id="references">参考文献</h3>
+        <div class="reference-list">
+            <p><span id="ref-1">1.</span> <a href="https://www.science.org/doi/10.1126/science.aec8352">Sycophantic AI decreases prosocial intentions and promotes dependence</a> (Cheng, Lee, Khadpe, Yu, Han, & Jurafsky, 2026). <em>Science</em>.</p>
+            
+            <p><span id="ref-2">2.</span> <a href="https://www.nber.org/papers/w31161">Generative AI at Work</a> (Brynjolfsson, Li, & Raymond, 2025). <em>The Quarterly Journal of Economics</em>, 140(2), 889-942. Also: NBER Working Paper No. 31161, April 2023.</p>
+            
+            <p><span id="ref-3">3.</span> <a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=64700">Navigating the Jagged Technological Frontier</a> (Dell'Acqua, McFowland, Mollick, et al., 2026). <em>Organization Science</em>. Originally HBS Working Paper No. 24-013, 2023.</p>
+            
+            <p><span id="ref-4">4.</span> <a href="https://cmr.berkeley.edu/2025/10/seven-myths-about-ai-and-productivity-what-the-evidence-really-says/">Seven Myths About AI and Productivity: What the Evidence Really Says</a> (Berkeley CMR, 2025). Meta-analysis confirming asymmetric AI productivity gains and user overconfidence.</p>
+            
+            <p><span id="ref-5">5.</span> <a href="https://arxiv.org/html/2603.29681">Beyond the Steeper Curve: AI-Mediated Metacognitive Decoupling</a> (Koch, 2025). Longer AI explanations make users more confident regardless of correctness.</p>
+            
+            <p><span id="ref-6">6.</span> <a href="https://news.ufl.edu/2026/03/ai-slop/">Generative AI and the market for creative content</a> (Zou, Shi, & Wu, 2026). Forthcoming, <em>Journal of Marketing Research</em>.</p>
+            
+            <p><span id="ref-7">7.</span> <a href="https://genai.illinois.edu/">Generative AI Guidance</a> (University of Illinois). Recommended uses and limitations of generative AI in academic and professional work.</p>
+            
+            <p><span id="ref-8">8.</span> <a href="https://doi.org/10.1371/journal.pcbi.1013588">Ten simple rules for optimal and careful use of generative AI in science</a> (Helmy, Jin, et al., 2025). <em>PLOS Computational Biology</em>, 21(10), e1013588.</p>
+        </div>
+
+        <footer>
+            <p style="margin-top: 2em; color: #666; font-size: 0.85em;">
+                翻译时间：2026年5月7日 | 保留术语：AI, HITL
+            </p>
+        </footer>
+    </article>
+</body>
+</html>
