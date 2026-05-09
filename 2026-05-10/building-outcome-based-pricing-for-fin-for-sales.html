@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>为 Fin for Sales 构建基于结果的定价模型 - Intercom 博客翻译</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.6em;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: #2a2a2a;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            color: #2a2a2a;
+        }
+        p {
+            margin-bottom: 16px;
+        }
+        blockquote {
+            border-left: 4px solid #007bff;
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 30px 0;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        .original-link {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="original-link">
+        <strong>原文链接：</strong> <a href="https://www.intercom.com/blog/building-outcome-based-pricing-for-fin-for-sales/" target="_blank">https://www.intercom.com/blog/building-outcome-based-pricing-for-fin-for-sales/</a>
+    </div>
+    
+    <h1>为 Fin for Sales 构建基于结果的定价模型</h1>
+    
+    <div class="meta">
+        翻译日期：2026-05-10 | 原文发布：Intercom Blog
+    </div>
+    
+    <p>我们的基于结果的定价模型围绕一个核心原则：只有当 Fin 交付价值时，您才付费。</p>
+    
+    <p>随着 Fin 承担新的角色，这一原则不会改变，但价值的定义会发生变化。</p>
+    
+    <p>Fin for Sales 负责筛选潜在客户、与潜在客户互动，并将高意向买家转交给您的销售团队。它创造的价值不是解决查询，而是建立合格机会的管道。因此我们的定价与之匹配：每个合格线索 $10。而且由您——客户——来定义什么是"合格"，而不是 Fin。</p>
+    
+    <p>这是首个针对销售领域 AI Agent 的基于结果的定价模型。以下是我们认为这是正确方法的原因。</p>
+    
+    <h2 id="what-outcome-based-pricing-taught-us">基于结果的定价教会了我们什么</h2>
+    
+    <p>一年前，我<a href="https://www.intercom.com/blog/pricing-ai-agents/">撰文讨论了基于价值的定价对 AI 的真正含义</a>。我们从研究中得出的核心发现非常明确：没有买家愿意为活动付费。他们想要为结果付费。</p>
+    
+    <p>这一洞察塑造了我们为 Fin 服务角色定价的方式——每次解决 $0.99，这里的"解决"意味着客户的问题在无需人工干预的情况下完全得到解决。最近，我们<a href="https://www.intercom.com/blog/from-resolutions-to-outcomes-evolving-how-fin-delivers-value">将这一模型演变为基于结果的定价</a>，反映了 Fin 在复杂工作流程中交付价值的更广泛方式。</p>
+    
+    <p>我们相信定价应与价值交付保持一致，当产品无法发挥作用时，供应商应承担风险。在销售中，最佳的价值单位是管道。</p>
+    
+    <h2 id="pricing-on-the-right-signal">基于正确的信号定价</h2>
+    
+    <p>今天，大多数销售团队都被线索淹没。但通过在线表单和通用聊天机器人很难辨别这些潜在客户的质量，导致销售人员陷入毫无结果的对话中。</p>
+    
+    <p>确保正确的机会能够及时传达给您的销售团队，这才是真正产生差异的地方。当潜在客户访问您的网站、与 Fin 互动、回答资格认证问题并被引导至销售代表时，Fin 正在识别这个机会是否值得您团队的时间，并交付价值。</p>
+    
+    <p>按对话收费会惩罚每一个提出问题但并非买家的好奇访客。而按 token 收费，这种模式始终保护的是供应商，而非客户。</p>
+    
+    <p>我们需要一个能够捕捉 Fin 在销售情境中创造的实际价值的指标：合格线索。</p>
+    
+    <h2 id="why-we-rejected-revenue-as-an-outcome">为什么我们拒绝将收入作为结果</h2>
+    
+    <p>针对 Fin 销售角色的基于结果定价的最纯粹版本，应当是按成交收入的一定百分比。Fin 筛选线索，销售代表达成交易，我们从中抽取一部分。</p>
+    
+    <p>我们考虑过这种方案。从理论上讲，这是最符合价值导向的模型。但在实践中，它因两个原因而失败。</p>
+    
+    <p>首先，归属问题。在 Fin 筛选线索和交易成交之间，可能有数十个因素影响最终结果。人工演示的质量可能不同、产品可能出现故障、潜在客户的预算可能被削减。将 Fin 的价格与最终结果挂钩，会让它为完全超出其控制范围的变量承担责任。</p>
+    
+    <p>其次，衡量问题。要跟踪成交收入，我们需要深入集成每个客户的 CRM，从资格认证到成交跟踪每个机会。这是巨大的实施负担，会拖慢价值实现时间，而这恰恰与我们的目标背道而驰。</p>
+    
+    <p>所以我们问自己：什么是 Fin 交付价值的最诚实代理，且能明确显示价值是 Fin 创造的？</p>
+    
+    <h2 id="a-qualified-lead-is-the-right-proxy">合格线索是正确的代理</h2>
+    
+    <p>一个合格线索代表了 Fin 完成其工作的时刻。它已与潜在客户互动、收集相关信息、根据您的标准评估他们，并确定其合格性。到此为止的一切都是 Fin 的工作。此后的所有工作都是销售代表的。</p>
+    
+    <p>每个合格线索 $10 的定价反映的就是这个边界。</p>
+    
+    <p>这个定价模型有两个关键组成部分：</p>
+    
+    <h3>1. 客户定义成功</h3>
+    
+    <p>使用 Fin 的销售角色，客户可以根据自身业务情境设定自己的资格认证标准。平均合同价值较高的公司可能设定较低的标准，因为他们无法承担错过任何人的风险。销售代表时间稀缺且交易规模较小的公司可能设定高得多的标准，激进筛选，只为呈现最有前景的潜在客户。标准可以灵活调整以匹配业务需求。</p>
+    
+    <h3>2. 经济模型经过特意设计</h3>
+    
+    <p>作为 Customer Agent，Fin 可以在销售和服务等角色之间切换。因此，如果您部署了 Fin for Sales，它仍然可以处理支持查询，比如潜在客户询问产品问题。这些查询按每次解决 $1 收费，与我们的服务定价保持一致。</p>
+    
+    <p>不合格判定（即 Fin 确定潜在客户不符合标准）也是 $1。合格线索 $10 的价格点反映了与问题解决相比，管道创造的更高价值。</p>
+    
+    <h2 id="the-roi-speaks-for-itself">ROI 不言自明</h2>
+    
+    <p>早期客户报告称使用 Fin for Sales 获得了显著回报。在我们的客户研究中，一位参与者分享道：</p>
+    
+    <blockquote>
+        <p>"我要说至少有 10 倍的价值。你现在给业务提供的正是它所需要的，而不仅仅是活动。我们在销售领导层经常说这样一句话——'我不为活动向销售团队付费。我为结果向他们付费。'我希望我的 AI 引擎也是一样。"</p>
+    </blockquote>
+    
+    <p>当您将 Fin 合格线索的成本与 SDR 的综合成本（如薪资、福利、工具和培训时间）进行比较时，经济效益非常显著。对于许多企业，特别是那些从未有过 SDR 的企业，Fin for Sales 不仅是替代人头，而是创造了一种之前在经济上不可行的全新能力。</p>
+    
+    <h2 id="transparent-pricing-thats-grounded-in-research">基于研究的透明定价</h2>
+    
+    <p>这个定价模型来自于广泛的客户研究，包括定性访谈和定量研究，探索买家希望在销售情境中如何为 AI 付费。我们测试了多个概念：按对话、按 token、按席位、收入分成和按合格线索。研究一致指向基于结果的定价作为首选模型，合格线索成为最能平衡价值对齐、可衡量性和实际实施的最佳指标。</p>
+    
+    <p>我们在每个阶段都发布了我们的定价思考，从<a href="https://www.intercom.com/blog/pricing-ai-agents/">为什么解决是服务的正确指标</a>，到<a href="https://www.intercom.com/blog/from-resolutions-to-outcomes-evolving-how-fin-delivers-value">我们如何演变为基于结果的定价</a>，以及现在我们如何将基于结果的定价扩展到销售。</p>
+    
+    <p>基于结果的定价在 AI 领域仍然罕见，但我们认为这种情况将会改变。对于 Sales Agents，我们是首个采用这种定价方式的。</p>
+    
+    <p>透明度是模型的一部分。如果您理解我们为什么这样定价，就可以评估它是否适合您的业务。</p>
+    
+    <p>
+        <a href="https://app.intercom.com/admins/sign_up/email?utm_content=post&utm_medium=blog&utm_source=Intercom">
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/04/Screenshot-2026-04-22-at-16.22.26-scaled.png" alt="立即将 Fin 加入您的销售团队">
+        </a>
+    </p>
+    
+    <hr style="margin-top: 60px; margin-bottom: 30px;">
+    
+    <p style="font-size: 0.85em; color: #999;">
+        本文翻译自 Intercom 博客，保留所有原始链接和图片。专业术语如 AI、Agent、Fin、CX、UX、API 等保持原文。如有疑问，请参考原文链接。
+    </p>
+</body>
+</html>
