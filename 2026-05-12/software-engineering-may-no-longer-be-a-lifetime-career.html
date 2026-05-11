@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>软件工程可能不再是一份终身职业</title>
+    <style>
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%
+        }
+        body {
+            margin: 0;
+            font-family: 'Noto Serif SC', 'Merriweather', 'Georgia', serif;
+            font-weight: 400;
+            word-wrap: break-word;
+            line-height: 1.75;
+            color: hsla(0, 0%, 0%, 0.9)
+        }
+        article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary {
+            display: block
+        }
+        a {
+            background-color: transparent;
+            color: #007acc;
+            text-decoration: none
+        }
+        a:active, a:hover {
+            outline-width: 0
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1.75rem
+        }
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin-top: 1.75rem;
+            margin-bottom: 20px;
+            font-family: 'Noto Sans SC', 'Montserrat', sans-serif;
+            font-weight: 900
+        }
+        h2, h3, h4, h5, h6 {
+            margin-top: 1.5rem;
+            margin-bottom: 1.75rem;
+            font-weight: 900
+        }
+        p {
+            margin-bottom: 1.75rem
+        }
+        blockquote {
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 1.42188rem;
+            border-left: 0.32813rem solid hsla(0, 0%, 0%, 0.9);
+            font-style: normal;
+            color: rgba(0, 0, 0, 0.6)
+        }
+        ol, ul {
+            margin-left: 1.75rem;
+            margin-bottom: 1.75rem;
+            list-style-position: outside
+        }
+        li {
+            margin-bottom: calc(1.75rem / 2);
+            padding-left: 10px;
+            margin-left: 20px
+        }
+        code {
+            background: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 4px;
+            color: #1f2933;
+            font-size: .95em;
+            padding: .15em .4em;
+            font-family: Consolas, Monaco, 'Courier New', monospace
+        }
+        pre {
+            background: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            color: #1f2933;
+            font-size: .95rem;
+            line-height: 1.55;
+            overflow-x: auto;
+            padding: .85rem 1.1rem;
+            margin-bottom: 1.75rem
+        }
+        pre code {
+            background: transparent;
+            border: 0;
+            color: inherit;
+            padding: 0
+        }
+        .footnotes {
+            margin-top: 2rem
+        }
+        .footnotes hr {
+            margin-bottom: 1rem
+        }
+        .footnote-ref {
+            font-size: 0.8em;
+            vertical-align: super
+        }
+        .footnote-backref {
+            font-size: 0.9em
+        }
+        .post-meta {
+            color: rgba(0, 0, 0, .6);
+            font-size: .9rem;
+            margin-bottom: .5rem
+        }
+        .container {
+            max-width: 42rem;
+            margin: 0 auto;
+            padding: 2.625rem 1.3125rem
+        }
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 0.875rem;
+            align-items: baseline;
+            margin-bottom: 2rem
+        }
+        .related-post {
+            border-left: 4px solid #d9d9d9;
+            margin-top: 0.875rem;
+            margin-bottom: 0.875rem;
+            padding-left: 0.875rem
+        }
+        .related-post p:first-child {
+            font-weight: 600;
+            margin-bottom: 0.4375rem
+        }
+        footer {
+            margin-top: 2.625rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1)
+        }
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #222;
+                color: #d3d3d3
+            }
+            a {
+                color: #add8e6
+            }
+            blockquote {
+                color: grey
+            }
+            code, pre {
+                background: #1e1e1e;
+                border-color: #3a3a3a;
+                color: #f5f5f5
+            }
+            .post-meta {
+                color: hsla(0, 0%, 100%, .7)
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h3 style="font-family: 'Noto Sans SC', 'Montserrat', sans-serif; margin-top: 0;">
+                <a href="https://www.seangoedecke.com/" style="box-shadow: none; color: inherit;">Sean Goedecke</a>
+            </h3>
+            <span class="post-meta" style="margin-bottom: 0; margin-left: auto; margin-top: 0; text-align: right;">
+                2026年4月24日 │ <a href="https://www.seangoedecke.com/tags/ai/">AI</a>
+            </span>
+        </header>
+        
+        <main>
+            <article>
+                <h1>软件工程可能不再是一份终身职业</h1>
+                
+                <section>
+                    <p>我不认为有令人信服的证据表明使用AI会让你整体上变得更笨<sup id="fnref-1"><a href="#fn-1" class="footnote-ref">1</a></sup>。然而，使用AI执行某项任务显然意味着你学到的关于执行该任务的知识会变少，这似乎是显而易见的。一些软件工程师认为这是反对使用AI的决定性论据。他们的论点大致如下：</p>
+
+                    <ol>
+                        <li>使用AI意味着你从工作中学到的变少了</li>
+                        <li>因此，AI用户随着时间推移会变得不那么有效，因为他们的技术技能会萎缩</li>
+                        <li>因此，我们不应该在工作中使用AI</li>
+                    </ol>
+
+                    <p>我不一定同意(2)。一方面，从汇编语言过渡到C语言让程序员在某些方面变得不那么有效，在其他方面变得更有效。另一方面，从手写代码到使用AI的过渡可以说是一个更大的转变，谁知道呢？但这并不重要。即使我们假设(2)是正确的，<strong>这仍然是一个糟糕的论点</strong>。</p>
+
+                    <p>直到2024年左右，学习如何做软件工程的最好方法就是<strong>实际做软件工程</strong>。这对我们来说真的很幸运！这意味着我们可以把编程爱好转化为一个高薪职业，而且真正喜欢这份工作的人会随着时间推移变得越来越强。然而，这从来不是软件工程不可改变的事实。这只是幸运的巧合。</p>
+
+                    <p>如果使用AI让我们在长期变得更不擅长工作（甚至更糟糕，影响我们的通用推理能力，尽管我仍然不相信这是真的），那对软件工程师来说真的很糟糕。但是<strong>我们可能仍然有义务使用它，如果它能提供足够的短期收益</strong>，就像建筑工人有义务搬运重物一样：因为这就是我们被雇佣来做的事情。</p>
+
+                    <p>如果你在建筑行业工作，你需要搬运一系列重物才能有效工作。但搬运重物会对你的背部和关节造成长期磨损，让你随时间推移变得不那么有效。建筑工人不会说做一个好的建筑工人意味着不搬运重物。他们会说"太糟糕了，这就是工作"<sup id="fnref-2"><a href="#fn-2" class="footnote-ref">2</a></sup>。</p>
+
+                    <p>如果AI确实让你变笨，为什么我们不能继续手写代码呢？你可以！只是你可能无法因此赚取薪水，就像没有多少工作机会提供给拒绝使用电动工具的木匠一样。如果模型足够好，你只会被那些愿意用长期认知能力换取短期高薪职业的工程师击败<sup id="fnref-3"><a href="#fn-3" class="footnote-ref">3</a></sup>。</p>
+
+                    <p>我希望这不是真的。这对软件工程师来说真的很不幸。但如果这是真的而我们拒绝承认，那会更加不幸。</p>
+
+                    <p>职业运动员的职业生涯最长只有十五年左右。你有机会在三十多岁中期之前赚很多钱，之后你的身体就跟不上了。当今一个常见的悲剧人物是那些相信演出会永远继续下去、不为无法再从事的那一天做准备的专业运动员。我们可能处于同样处境的第一代软件工程师。如果是这样，提前规划可能是个好主意。</p>
+
+                    <div class="footnotes">
+                        <hr/>
+                        <ol>
+                            <li id="fn-1">
+                                <p>如果你在想"等等，这方面有研究"，你可能可以在我对那篇论文的看法中读到，<a href="https://www.seangoedecke.com/impact-of-ai-study">这里</a>、<a href="https://www.seangoedecke.com/your-brain-on-chatgpt">这里</a>或<a href="https://www.seangoedecke.com/how-does-ai-impact-skill-formation">这里</a>。</p>
+                                <a href="#fnref-1" class="footnote-backref">↩</a>
+                            </li>
+                            <li id="fn-2">
+                                <p>当然，建筑工人确实有多层技术来避免搬运重物（起重机、手推车、叉车等）。这里有一个自然的类比，对应一套软件工程师尚未发现的保持精神参与的技术。</p>
+                                <a href="#fnref-2" class="footnote-backref">↩</a>
+                            </li>
+                            <li id="fn-3">
+                                <p>理论上，工会可以减缓这一过程（并在其他行业迫使雇主放慢这种逐底竞争）。但我对科技行业工会持悲观态度，原因包括：这份工作薪水太高、你可以在地球任何地方工作（因此可以当工贼）等等。</p>
+                                <a href="#fnref-3" class="footnote-backref">↩</a>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+                
+                <hr style="margin-top: 2.625rem; margin-bottom: 2.625rem;"/>
+                
+                <p>如果你喜欢这篇文章，可以考虑<a href="https://buttondown.com/seangoedecke" target="_blank">订阅</a>我的新文章邮件更新，或者在<a href="https://news.ycombinator.com/submitlink?u=https://www.seangoedecke.com/software-engineering-may-no-longer-be-a-lifetime-career/&amp;t=Software engineering may no longer be a lifetime career" target="_blank">Hacker News上分享</a>。</p>
+                
+                <div class="related-post">
+                    <p>Luddites and burning down AI datacenters（相关文章）</p>
+                    <p>是时候开始烧毁数据中心了吗？</p>
+                    <p>有些人认为是的。一位印第安纳波利斯市议员最近因为支持数据中心而<a href="https://www.kbtx.com/2026/04/07/councilman-says-someone-fired-shots-his-home-left-no-data-centers-note/">遭到枪击</a>，Sam Altman的家被<a href="https://www.wired.com/story/sam-altman-home-attack-openai-san-franisco-office-threat/">投掷燃烧弹</a>（之后又<a href="https://sfstandard.com/2026/04/12/sam-altman-s-home-targeted-second-attack/">遭枪击</a>）。各方人士都在<a href="https://www.bloodinthemachine.com/p/why-the-ai-backlash-has-turned-violent">敲响</a><a href="https://thesoufancenter.org/intelbrief-2025-november-5/">警钟</a>，警告迫在眉睫的暴力。</p>
+                    <p>明显的历史对比是<a href="https://en.wikipedia.org/wiki/Luddite">卢德运动</a>，那个19世纪英国纺织工人和针织工人摧毁正在自动化他们工作的机器、（在某些情况下）杀死机器所有者的现象。反AI人士正在<a href="https://www.theguardian.com/commentisfree/article/2024/jul/27/harm-ai-artificial-intelligence-backlash-human-labour">重新采纳</a>这个词来描述自己，许多反AI运动的领军人物（如<a href="https://www.bloodinthemachine.com/">Brian Merchant</a>或<a href="https://www.versobooks.com/en-gb/products/688-breaking-things-at-work?srsltid=AfmBOorCgru7ReSwbVdt40nZmQaaeGfbpjLV7epM0fSv_V01QSY5b5TP">Gavin Mueller</a>）已经出版了书籍，或多或少论证卢德分子是对的，我们应该遵循他们的榜样来抵抗AI自动化。<br/>
+                    <a href="https://www.seangoedecke.com/luddites-and-ai-datacenters/">继续阅读...</a></p>
+                </div>
+            </article>
+        </main>
+        
+        <footer>
+            <p>
+                <a href="https://buttondown.com/seangoedecke" target="_blank">订阅</a> │ 
+                <a href="https://www.seangoedecke.com/about">关于</a> │ 
+                <a href="https://www.seangoedecke.com/podcasts">播客</a> │ 
+                <a href="https://www.seangoedecke.com/popular">热门文章</a> │ 
+                <a href="https://www.seangoedecke.com/tags">标签</a> │ 
+                <a href="https://www.seangoedecke.com/rss.xml">RSS</a>
+            </p>
+            <hr style="margin-bottom: 1rem;"/>
+            <p style="font-size: 0.85rem; color: rgba(0,0,0,0.6);">
+                <strong>翻译说明：</strong>本文翻译自 <a href="https://www.seangoedecke.com/software-engineering-may-no-longer-be-a-lifetime-career/">Sean Goedecke 的博客</a>。
+                保留专业术语原文（AI等）。翻译日期：2026年5月12日。
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
