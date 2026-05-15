@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Operator 是一个强大的 Agent，帮助您管理、优化和持续改进以 AI 为先的客户支持组织。本文深入了解我们如何构建它。">
+    <meta name="keywords" content="Operator, Agent, AI, Fin, Intercom, Customer Service">
+    <title>Operator：深入探究其内部机制 - Intercom 博客</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            color: #2a2a2a;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 1.5em;
+            margin-bottom: 0.6em;
+            color: #2a2a2a;
+        }
+        p {
+            margin-bottom: 1.2em;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-bottom: 1.2em;
+            padding-left: 2em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5em auto;
+        }
+        .header-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        .author {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .original-link {
+            background-color: #f5f5f5;
+            padding: 10px 15px;
+            border-left: 4px solid #0070e0;
+            margin: 2em 0;
+        }
+        .original-link a {
+            color: #0070e0;
+            text-decoration: none;
+        }
+        .original-link a:hover {
+            text-decoration: underline;
+        }
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.04%;
+            height: 0;
+            overflow: hidden;
+            margin: 1.5em 0;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .cta-image {
+            margin-top: 3em;
+        }
+        em {
+            font-style: italic;
+        }
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-meta">
+        <span class="category">客户服务</span> | 
+        发布于 <time datetime="2026-05-15">2026年5月15日</time> | 
+        阅读时间：10分钟
+    </div>
+
+    <h1>Operator：深入探究其内部机制</h1>
+
+    <p><em>Operator 是一个强大的 Agent，帮助您管理、优化和持续改进以 AI 为先的客户支持组织。本文将深入分享我们是如何构建它的。</em></p>
+
+    <div class="author">作者：Jack Ryan</div>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Technical-deep-dive-blog-post-1536x717.png" alt="Operator Technical Deep Dive">
+
+    <p>我们刚刚推出了 <a href="https://fin.ai/operator">Operator</a>，这是一个面向客户运营的 Agent，帮助您理解、管理和改进整个客户体验。</p>
+
+    <p>为了让您了解这个 Agent 有多强大，我们将分享更多关于其技术基础设施和工程决策的信息，这些决策确保了 Operator 能够在成千上万个客户工作空间的生产规模下可靠运行。</p>
+
+    <p>如果您是一位技术负责人，正在评估是否应该自己构建这样的系统，或者试图理解一个精心设计的 LLM 提示与生产级 Agent 系统之间的区别，那么这篇文章就是为您准备的。</p>
+
+    <div class="original-link">
+        <strong>原文链接：</strong> <a href="https://www.intercom.com/blog/operator-a-look-under-the-hood/">https://www.intercom.com/blog/operator-a-look-under-the-hood/</a>
+    </div>
+
+    <h2>摆脱"这只是 LLM"的误区</h2>
+
+    <p>大多数评估这个领域的工程团队都以同样的方式开始：构建一个原型。拿一个基础模型，给它 API 访问您的支持数据，添加一个包含一些领域上下文的系统提示，您就有了一个可以查询数据库、总结工单并生成看起来正确的报告的系统。它在演示中表现得很令人信服。</p>
+
+    <p>这个原型的问题在于，它模糊了实际需求的范围。它展示了系统中那 10% 容易构建的部分，很容易让人假设其余部分也同样简单。事实并非如此。从一个可以工作的演示到一个团队每天依赖的生产系统，这中间的差距正是大部分工程投入所在。</p>
+
+    <p>对于 Operator，我们在每个层面都进行了深度投入：工具、推理、Agent 如何采取行动，以及确保其在大规模下可靠运行的基础设施。让我们仔细看看。</p>
+
+    <h2>工具层</h2>
+
+    <p>我们需要面对的第一件事是，显而易见的方法（给模型访问您的 API 的权限并让它自己搞清楚）在生产环境中站不住脚。模型对于简单查询会做出合理的决策，但在跨数千个具有不同配置、数据模型和使用模式的客户工作空间操作时，"自己搞清楚"的方法远远不够精确。</p>
+
+    <p>您需要的是专门构建的工具：编码了关于获取什么数据、如何结构化数据、包含什么上下文以及排除什么内容的决策的工具。Operator 拥有超过 50 个这样的工具和 10 个技能。</p>
+
+    <p>工具是 Operator 执行的单个动作（搜索内容、运行查询、查找对话）。技能将多个工具链接在一起以完成整个工作，比如端到端调试对话、在整个帮助中心推出内容更新，以及识别下一个自动化机会。</p>
+
+    <p>在 API 端点周围使用轻量包装器与专门构建的工具之间的差异，在看似简单的性能问题中就会显现出来。当您问"Fin 上周表现如何？"时，一个简单的实现会运行查询并返回一个表格。Operator 则会运行一个报告工具，确定哪些指标与您的特定工作空间相关，哪些对您的特定问题有意义，以及这些数字在上下文中实际意味着什么，从而为您提供更丰富的答案，您可以据此采取切实行动。</p>
+
+    <p>开发这种行为需要数月的工程工作。不是因为任何单个部分在概念上很难，而是因为要在各种客户工作空间、配置和边缘情况下做对是一个迭代过程。您构建它，针对真实对话进行测试，找出它崩溃的情况，修复这些问题，然后重复。没有捷径。</p>
+
+    <h2>智能层</h2>
+
+    <p>工具层解决了做什么，但其下面是一个更难的问题：理解什么值得做以及为什么。这是让 Operator 理解您的业务而不是仅仅查询业务的层面。三个组件构成了它：</p>
+
+    <h3>1. 语义搜索</h3>
+
+    <p>与依赖关键词匹配的解决方案不同，Operator 使用一个理解内容关于什么的系统，而不仅仅是它包含什么词。当它搜索您的帮助中心时，它使用的是我们多年来为 Fin 本身优化的同一个语义搜索引擎。这是一个针对数百万真实支持对话进行调整的检索系统，我们不断测量和改进其精确率和召回率特性。</p>
+
+    <h3>2. 属性感知</h3>
+
+    <p>Operator 可以访问您的数据，并知道什么对不同问题是有意义的。它知道您的工作空间中实际使用哪些指标、哪些自定义属性携带信号、哪些字段已填充而哪些实际上为空。我们构建了特定的技能来赋予 Operator 这种元知识，因此当它调查性能问题时，它会关注正确的事物，而不是从稀疏数据中幻视见解。</p>
+
+    <h3>3. 智能推理</h3>
+
+    <p>一个构建良好的 Agent 可以回答您的问题并预见您接下来应该问什么。如果您问 Operator 关于升级激增的问题，它不会只是说"升级量环比增长了 23%"。它会继续告诉您<em>为什么</em>会发生这种情况，方法是检查升级的对话并识别出不成比例的数量涉及特定产品领域，然后继续检查相关帮助内容是否最新，如果不是，则提议更新。</p>
+
+    <p>这种推理链不是提示工程。它编码在我们构建的技能中，并根据我们在整个客户群中看到的模式进行了改进。</p>
+
+    <h2>行动层</h2>
+
+    <p>这是工程复杂性增加一个数量级的地方，因为 Operator 不是仅仅分析问题和推荐解决方案，而是采取行动来解决问题。它可以更新 Guidance 规则、起草并发布帮助文章、创建 Procedures、配置数据连接器以及修改您的 Fin 配置。</p>
+
+    <div class="iframe-container">
+        <iframe loading="lazy" title="Fin-Operator_Automation Video" src="https://fast.wistia.net/embed/iframe/ipvxbmnxm6?web_component=true&seo=true" name="wistia_embed" allowfullscreen></iframe>
+    </div>
+
+    <p>每一个这样的行动都必须是安全、可逆和可审计的。一个偶尔返回错误数字的分析工具令人沮丧。但一个偶尔对实时支持系统应用错误配置更改的 Agent 则是完全不同类别的问题。</p>
+
+    <p>为了防止这种情况，我们构建了一个强大的提议系统，其中 Operator 建议的每一个更改都作为可审查的差异呈现。您可以在应用任何内容之前确切地看到将发生什么变化，并可以选择接受、拒绝或细化。没有您的明确批准，任何内容都不会上线。</p>
+
+    <h2>让 Operator 与众不同的其他因素</h2>
+
+    <p>除了幕后驱动 Operator 的技术复杂性之外，我们还努力构建了出色的用户体验。</p>
+
+    <h3>既是会话式又是图形化的 UI，而非二选一</h3>
+
+    <p>Operator 将会话式交互与专门构建的图形组件融合在一起：</p>
+
+    <ul>
+        <li>显示文章中将确切更改什么的提议差异。</li>
+        <li>可视化性能趋势的内联图表。</li>
+        <li>直接在对话线程中渲染的仪表板。</li>
+    </ul>
+
+    <p>这意味着当知识经理审查提议的内容更新时，他们看到的是结构化的差异，而不是 LLM 生成的一大段文本。当团队负责人询问每周绩效时，他们会得到一个轴线和上下文清晰的图表，而不是一段用散文近似数据的文字。</p>
+
+    <div class="iframe-container">
+        <iframe loading="lazy" title="Fin-Operator_Data Video" src="https://fast.wistia.net/embed/iframe/q3c66han1t?web_component=true&seo=true" name="wistia_embed" allowfullscreen></iframe>
+    </div>
+
+    <p>在原生平台集成之外构建这种混合 UI 极其困难。在聊天界面或 CLI 中，您只能输出文本；在独立的仪表板中，您会失去会话上下文。</p>
+
+    <p>Operator 在同一线程中兼顾两者，因此每次交互都是详细且上下文丰富的。</p>
+
+    <h3>它存在于您的团队已经工作的位置</h3>
+
+    <p>Operator 内置于您的团队每天使用的同一平台中。它不是具有单独登录的单独工具，也不是您的工程师设置的只有三个人知道的 Slack 机器人。它精确地在您所在的位置运行，与您正在处理的对话、帮助中心文章、工作流和数据一起。</p>
+
+    <p>这有助于缩短从发现问题到解决问题之间的距离：当您的知识经理在审查 Fin 对话时发现过时的文章时，Operator 可以在同一会话中提供修复。当团队负责人早上注意到升级激增时，他们可以要求 Operator 进行调查，而无需切换工具、等待数据提取或向您的工程团队提交工单。</p>
+
+    <p>自定义构建的工具将始终存在于工作流之外。工程师构建它、维护它，而且通常只有工程师知道如何使用它。Operator 对于任何可以用自然语言输入问题的人都是可访问的，这将其转变为您的整个团队都在运行的系统。</p>
+
+    <h2>复利优势</h2>
+
+    <p>每个使用 Operator 的客户都教会我们要些东西。我们看到哪些调试方法在不同类型的支持运营中有效，了解哪些内容结构表现更好，并且可以识别始终能落地的自动化策略。这些模式被编码回 Operator 的技能和工具中。</p>
+
+    <p>当我们发现特定的调查步骤序列可靠地识别升级激增的根本原因时，我们将其构建到 Operator 的诊断技能中。当我们发现结构化帮助文章的特定方式导致更高的 Fin 解决率时，我们将其编码到内容创建技能中。我们的工程团队根据我们在整个客户群中观察到的情况不断发布改进。</p>
+
+    <p>自定义构建的解决方案给您的正是您构建的东西，这意味着除非您投入工程资源让它变得更聪明，否则它不会变得更聪明。这意味着资源没有花在您的核心产品上。</p>
+
+    <h2>我们没有锁门</h2>
+
+    <p>有些团队想构建自己的 Agent。我们一些最技术性的客户就是这样做的。但当您这样做时，您是在使用原始 API 并在其上构建自己的工具。当您使用 Operator 时，您是在使用一个已经知道该问什么问题、理解您的数据并编码了我们从数千个支持团队那里学到的最佳实践的系统。</p>
+
+    <p>我们最近推出了 <a href="https://ideas.fin.ai/p/saas-wasnt-built-for-agents-but-theyre?utm_source=publication-search">Fin CLI</a>，这意味着您可以使用第三方 Agent（如 Claude Code 或 Cursor）与您的 Fin 数据和配置进行交互。那扇门是开着的。我们希望这篇文章已经阐明了构建 Operator 所涉及的一切：</p>
+
+    <ul>
+        <li>超过 50 个工具和 10 个技能，专门为支持运营构建。</li>
+        <li>多年在语义搜索上的投入。</li>
+        <li>与 Fin 堆栈每一层的深度集成。</li>
+        <li>提议系统。</li>
+        <li>智能层。</li>
+        <li>可靠性基础设施。</li>
+    </ul>
+
+    <p>如果您仍然想继续构建自定义解决方案，这里是一个诚实的评估：</p>
+
+    <p>您可以在几周内构建一个有用的只读工具。它会查询您的数据、总结工单并生成报告，但将其转变为生产系统将需要几个季度。可靠性、安全性、边缘情况处理、多租户数据隔离和优雅降级都是您从一开始就需要正确处理的重要架构决策。</p>
+
+    <p>行动层也是您可能面临停滞的地方。从"这是问题所在"到安全地在生产系统中进行更改，与单纯的分析相比是根本不同的工程问题。大多数 DIY 项目从未到达那里。</p>
+
+    <p>最后，您将永远维护它。每次模型升级、API 更改以及支持平台中的新功能，都意味着更新您的自定义工具。我们有一个团队专门致力于此。您也需要一个。</p>
+
+    <p>我们的 CTO Darragh Curran 写了一篇关于构建与购买自己的 AI Agent 利弊的<a href="https://ideas.fin.ai/p/build-vs-buy-the-high-bar-for-building?utm_source=publication-search">深度文章</a>，值得一读。当供应商在问题上的投入超过您内部可以证明合理性的程度时，经济上仍然倾向于购买。我希望这篇文章增加的是从工程角度来看，那项投入实际上是什么样子的更清晰图景。</p>
+
+    <p>投入是持续的。我们今天在基础设施层面解决的问题比一年前解决的问题更难，而且这种轨迹不会放缓。</p>
+
+    <a href="https://fin.ai/operator">
+        <img class="cta-image" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/CTA.png" alt="了解 Operator 更多信息" width="1614" height="802">
+    </a>
+
+</body>
+</html>
