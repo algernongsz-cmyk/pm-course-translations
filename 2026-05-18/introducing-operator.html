@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="今天我们宣布推出 Operator，一个同时在 Fin 和 Intercom 帮助台中工作的 Agent，帮助你管理客户运营。">
+    <title>认识 Operator：你的客户运营 Agent | Intercom 博客中文翻译</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.8em;
+            color: #1a73e8;
+            margin-top: 40px;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.4em;
+            color: #2c2c2c;
+            margin-top: 30px;
+        }
+        p {
+            margin-bottom: 1.2em;
+        }
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+        }
+        .wistia_responsive_padding {
+            padding: 56.04% 0 0 0;
+            position: relative;
+            margin: 20px 0;
+        }
+        .wistia_responsive_wrapper {
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        .source-link {
+            margin-top: 40px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="meta">
+        <p><strong>原文链接：</strong> <a href="https://www.intercom.com/blog/introducing-operator/">https://www.intercom.com/blog/introducing-operator/</a></p>
+        <p><strong>翻译日期：</strong> 2026-05-18</p>
+    </div>
+
+    <h1>认识 Operator：你的客户运营 Agent</h1>
+
+    <p>今天我们宣布推出 <a href="https://fin.ai/operator">Operator</a>，一个同时在 Fin 和 Intercom 帮助台中工作的 Agent，帮助你管理客户运营。</p>
+
+    <p>Operator 管理帮助内容、构建自动化、执行决定 Fin 表现的持续工作，以及运行你的人工团队没有时间处理的运营工作。</p>
+
+    <h2 id="why-we-built-it">我们为什么要构建它</h2>
+
+    <p>运营客户业务意味着同时管理 AI 和人工，而做好这件事所需的能力超出了大多数团队实际拥有的范围。</p>
+
+    <p>在 AI 方面，Fin 的表现在很大程度上受到其周围环境的影响：帮助内容的准确性、Fin 配置的质量，以及你对什么有效以及为什么有效的理解程度。</p>
+
+    <p>当产品团队每天发布更新时，保持帮助中心的及时性意味着在客户发现缺口之前找到每一篇受影响的文章。当 Fin 处理对话出错时，诊断它需要阅读发生的情况，识别配置层面的根本原因，进行修复，并验证它是否有效。分析为什么你的解决率下降意味着提取对话、寻找模式，并追溯原因直到可采取行动的东西。除了单个修复之外，还有持续存在的问题——下一步自动化什么——你的人工客服仍在重复处理什么，是否值得为此构建一个 Procedure，以及如何在上线前测试它。</p>
+
+    <p>在人工方面，需求同样持续不断。当事故发生时，有人需要识别每个受影响的客户，起草正确的回复，并在问题复杂化之前发送它。团队负责人需要查看数百个对话中客服的表现，以有效指导并准备 1:1 会议。客服需要知道优先处理什么，而不用把一天中前半部分的时间花在弄清楚它上。</p>
+
+    <p>在这两种情况下，工作往往超出了大多数团队能够跟上的范围，所以它要么被动发生，要么根本不发生。Operator 的构建就是为了改变这一点，为团队提供了一种新的方式来理解、管理和改进他们的客户运营。</p>
+
+    <h2 id="how-operator-works">Operator 如何工作</h2>
+
+    <p>Operator 可以转变你客户运营的每一部分，每个使用它的团队都会发现新的使用方式。从分析数据，到管理知识和构建自动化，使用它的方式无穷无尽。以下只是其中几个例子。</p>
+
+    <h3>向你的数据提出任何问题</h3>
+
+    <p>你的支持运营生成的有用数据超出了大多数团队有时间处理的范围。Operator 让你直接访问这些数据。你可以问它关于运营中发生的任何事情（为什么某个指标变化了，什么正在推动升级，团队上周的表现如何），它会返回结构化的答案，包括图表、细分以及深入挖掘的能力。</p>
+
+    <div class="wistia_responsive_padding" style="padding: 56.04% 0 0 0; position: relative;">
+        <div class="wistia_responsive_wrapper" style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;">
+            <iframe loading="lazy" class="wistia_embed" title="Fin-Operator_Data Video" src="https://fast.wistia.net/embed/iframe/q3c66han1t?web_component=true&seo=true" name="wistia_embed" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <p>它即时分析真实对话的样本，以发现模式并识别根本原因。如果你的产品负责人想知道客户对新发布版本的看法，你可以问 Operator，而不是花半天时间整理报告。它还可以跨越整个运营工作，分析 Fin 的表现、你的人工客服的表现以及客户情绪。</p>
+
+    <p>而且你不必每次都从头开始询问这类信息。给 Operator 分配持续的工作，比如每周一分析你的自动化率，标记需要关注的内容，并在你的 Fin workspace 中发布报告。它会运行分析、撰写报告并交付，你不必去寻找它。</p>
+
+    <h3>无需撰写单篇文章即可保持知识库的最新性</h3>
+
+    <p>你的知识库的价值在于其准确性。当产品团队快速发布时，跟上内容更新是一项实质性的、持续的工作。</p>
+
+    <p>给 Operator 一个关于任何内容的简报，从新功能或政策变更到发布说明，它会找到帮助中心中需要更新的每篇文章，用你的语调和风格起草编辑，识别内容缺口，并起草新文章来填补这些缺口。它甚至可以处理本地化版本。每一项更改都格式化为提案（Operator 版本的 pull request），供你审阅、编辑和批准，然后任何内容才会生效。</p>
+
+    <div class="wistia_responsive_padding" style="padding: 56.04% 0 0 0; position: relative;">
+        <div class="wistia_responsive_wrapper" style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;">
+            <iframe loading="lazy" class="wistia_embed" title="Fin-Operator_Knowledge Video" src="https://fast.wistia.net/embed/iframe/vywzxvjpov?web_component=true&seo=true" name="wistia_embed" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <p>我们自己的知识管理团队在开发期间一直在使用它。我们的高级 AI 知识经理 Beth-Ann Sher 说，与 Operator 一起工作就像有五名额外的知识经理在团队工作。</p>
+
+    <p><img decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Fin-Operator-Beth-Ann-Sher-quote.png" alt="Beth-Ann Sher Quote" /></p>
+
+    <h3>构建、测试和发布对 Fin 的改进</h3>
+
+    <p>当 Fin 因为内容缺口或配置错误的规则而处理对话出错时，Operator 可以通过阅读对话、识别导致问题的原因、提出修复方案并运行模拟测试来调试它，在你批准之前进行验证。你可以看到什么改变了以及为什么，在任何内容生效之前。</p>
+
+    <p>除了调试，Operator 对每个 Fin 特性和功能都有深入的了解，所以你可以直接让它帮助你配置所需的任何内容。如果你需要一个针对特定查询类型的 Procedure，描述你想要的结果，Operator 会构建它，包括触发器、多步骤指令、边缘情况处理和模拟测试，全部来自一个提示。</p>
+
+    <p>同样的道理适用于配置 Guidance 规则、数据连接器、监控器和工作流。你不需要知道哪个功能可以解决你的问题或如何配置它；你只需描述你想要什么。</p>
+
+    <div class="wistia_responsive_padding" style="padding: 56.04% 0 0 0; position: relative;">
+        <div class="wistia_responsive_wrapper" style="height: 100%; left: 0; position: absolute; top: 0; width: 100%;">
+            <iframe loading="lazy" class="wistia_embed" title="Fin-Operator_Data Video" src="https://fast.wistia.net/embed/iframe/q3c66han1t?web_component=true&seo=true" name="wistia_embed" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+        </div>
+    </div>
+
+    <p>对于希望提高整体自动化率的团队，Operator 也可以从战略层面处理这个问题。让它分析你最大的自动化机会在哪里，它会按量级展示它们，以及每个机会每周消耗的团队时间估算。选择一个，它会为你构建解决方案供你批准。</p>
+
+    <p>这就是我们自己的实施专家为帮助客户充分利用 Fin 所做的工作。Operator 让使用该产品的每个团队都能使用这些能力。</p>
+
+    <p><img decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Fin-Operator-Constantina-Samara-quote.png" alt="Constantina Samara Quote" /></p>
+
+    <h3>轻松管理你的人工支持运营</h3>
+
+    <p>当事故发生时，Operator 会识别每个受影响的对话，起草针对性的回复，并主动发送它们，将通常需要数小时的被动分流转变为几分钟的审查和批准。</p>
+
+    <p>对于持续的团队管理，准备 1:1 会议的团队负责人可以要求 Operator 提取每个客服的指标，标记异常值，并展示值得深入挖掘的内容。刚开完会回来的客服可以问下一步该专注于什么，并获得基于紧急程度、客户价值和等待时间的优先级队列。</p>
+
+    <p>因为 Operator 可以看到你人工团队处理的所有内容的模式，它可以展示他们仍在手动解决的对话，在你还没时间寻找下一个自动化机会时就标记出来。</p>
+
+    <h2 id="hello-operator">你好，Operator</h2>
+
+    <p>Operator 不是被授予访问你的数据权限的通用 AI 模型。它建立在一个专门构建的工具库之上，这些工具编码了特定于支持运营的专业知识，比如如何为给定分析选择正确的属性、如何语义化搜索知识库、如何在特定对话中调试 Fin 的推理，或者如何编写和测试真正有效的 Procedure。</p>
+
+    <p><img decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Fin-Operator-Jordan-Thompson-quote.png" alt="Jordan Thompson Quote" /></p>
+
+    <p>提案（pull request）系统使这成为可能。当 Operator 更新内容、调整配置或修改 Fin 的行为方式时，它会创建一个提案——一个结构化的差异说明，说明什么正在改变以及为什么。你审查它，如果需要则编辑，并在它生效前批准。</p>
+
+    <p>Operator 完成认知工作；人类则保持对什么可以上线的控制。</p>
+
+    <p>已有超过 200 名早期用户在尝试 Operator，他们中的每一个都在发现新的使用场景。这是能力的真正飞跃，我们确信它将改变支持团队运营其业务的方式。我们正在努力实现 Operator 越来越具有 agentic 特性的愿景，扩展到 Fin 承担的每个新角色。</p>
+
+    <p>Operator 现已提供早期访问。</p>
+
+    <p><a href="https://fin.ai/operator"><img loading="lazy" decoding="async" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/CTA.png" alt="Learn More" width="1614" height="802" /></a></p>
+
+    <div class="source-link">
+        <p><strong>本文翻译自：</strong> <a href="https://www.intercom.com/blog/introducing-operator/">https://www.intercom.com/blog/introducing-operator/</a></p>
+        <p><strong>版权声明：</strong> 原文版权归 Intercom 所有，本翻译仅供学习交流使用。</p>
+    </div>
+</body>
+</html>
