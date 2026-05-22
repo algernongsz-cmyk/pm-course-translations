@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们如何在 Fin 制定定价与打包策略 - The Intercom Blog</title>
+    <meta name="description" content="在 Fin，定价与打包必须平衡客户的需求与期望以及我们的更广阔愿景。以下是我们的做法。">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: #fff;
+        }
+        .post-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 1em;
+        }
+        .post-meta a {
+            color: #0071f3;
+            text-decoration: none;
+        }
+        .post-category {
+            display: inline-block;
+            background: #f0f4ff;
+            color: #0071f3;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .hero-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        h1 {
+            font-size: 1.8em;
+            line-height: 1.3;
+            margin-bottom: 0.5em;
+        }
+        h2 {
+            font-size: 1.4em;
+            margin-top: 2em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.15em;
+            margin-top: 1.8em;
+        }
+        p {
+            margin: 1em 0;
+        }
+        ul, ol {
+            padding-left: 1.5em;
+        }
+        li {
+            margin: 0.5em 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .img-container {
+            text-align: center;
+            margin: 1.5em 0;
+        }
+        .img-container img {
+            max-width: 100%;
+        }
+        a {
+            color: #0071f3;
+        }
+        blockquote {
+            border-left: 3px solid #0071f3;
+            padding-left: 1em;
+            margin-left: 0;
+            color: #555;
+        }
+        .original-link {
+            margin-top: 2em;
+            padding: 1em;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .original-link a {
+            color: #0071f3;
+        }
+        .reading-time {
+            color: #999;
+            font-size: 0.85em;
+        }
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0.5em;
+        }
+        .author-info img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://www.intercom.com/blog/category/product-and-design/" class="post-category">Product & Design</a>
+
+    <h1>我们如何在 Fin 制定定价与打包策略</h1>
+
+    <p class="post-meta">
+        在 Fin，定价与打包（Pricing and Packaging）必须平衡客户的需求与期望以及我们的更广阔愿景。以下是我们的做法。
+    </p>
+
+    <div class="author-info">
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/sophie-bnw-150x150.jpg" alt="Sophie Woods">
+        <span><a href="https://www.intercom.com/blog/author/sophiewoods/">Sophie Woods</a></span>
+        <span class="reading-time">· 8 分钟阅读</span>
+    </div>
+
+    <p class="post-meta">发布于 2026年5月20日</p>
+
+    <img class="hero-image" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/frame-1-1536x717.png" alt="定价与打包涉及哪些内容" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/frame-1-1536x717.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/frame-1-300x140.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/frame-1-700x327.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/frame-1-768x358.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/frame-1-1320x616.png 1320w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/frame-1.png 1800w" sizes="(max-width: 720px) 100vw, 720px">
+
+    <p>定价是那些从外部看起来很简单（希望如此）、但从内部看却绝非如此的事情之一。</p>
+
+    <p>在 Fin，定价与打包（P&P）远不止是最后的润色。它是一个研究课题、一个预测挑战、一个商业决策，最终是一个战略声明，需要深度的跨职能协作。我们必须平衡客户的需求与期望、产品交付的价值，以及我们正在构建的更广阔愿景。</p>
+
+    <p>我们制定 P&P 的方法这些年来不断演进，但它仍然是一个非常活跃的体系。</p>
+
+    <h2 id="the-process">流程</h2>
+
+    <p>定价与打包工作通常在我们推出需要商业化的新产品时触发，比如 Fin——我们的 AI Agent。从这里开始，我们经历一系列研究、分析和决策制定的过程。这项工作主要由产品、研究和数据科学团队共同承担。</p>
+
+    <h3>第一步：基础研究</h3>
+
+    <p>我们首先与买家交谈，了解他们所处的世界。他们如何定义价值？ROI 长什么样？他们期望这个品类有什么样的定价模式？什么感觉直觉对，什么感觉不对？这是深度的定性研究。</p>
+
+    <p>它为我们做出的两个最重要的决策提供依据：定价模型和定价指标。</p>
+
+    <ul>
+        <li><strong>定价模型</strong>是整体结构：基于价值的、基于用量的、基于访问权的、固定费用等。对于 Fin，我们选择了基于价值的模型：只有当 Fin 交付价值时，你才付费。我们的研究清楚地表明，买家不想为使用量付费，他们想为结果付费。</li>
+        <li><strong>定价指标</strong>是该模型中的价值单位，即我们锚定定价的单位。对于 Fin，定价指标是"成果"（outcomes）。一个成果定义为 Fin 成功处理一个客户服务查询。</li>
+    </ul>
+
+    <p>细节真的很重要。你定义指标的方式发生微小变化，就可能完全改变客户体验价值的方式。</p>
+
+    <p>我们的目标是找到最符合买家目标、需求和期望的模型与指标。这需要大量的解释性工作。我们不能期望买家知道我们产品的正确定价模型；他们分享的是如何评估价值，而我们推导出最合适的模型和指标。</p>
+
+    <p>在每个阶段，我们都会引入高管、财务、GTM 和工程部门的意见。不总是正式的，但足以确保在继续推进之前保持一致。定价决策贯穿整个业务，不能孤立做出。</p>
+
+    <h3>第二步：支付意愿</h3>
+
+    <p>一旦我们有了模型和指标，就进入价格点的确定。这就是我们进行量化支付意愿（WTP）研究的地方。</p>
+
+    <p>我们以模型和指标为基础来提出 WTP 问题。</p>
+
+    <ul>
+        <li>示例调查问题：
+            <ul>
+                <li>只有当 Fin 交付成果时你才付费（→ 模型）。</li>
+                <li>当 AI Agent 无需进一步帮助即可解决客户查询时，计为一个成果（→ 指标）。</li>
+                <li>你愿意为 Fin 的每个成果支付 X 美元吗？</li>
+            </ul>
+        </li>
+    </ul>
+
+    <p>作为第一步的基础定性研究非常重要。它帮助我们在开始询问人们愿意付多少钱之前，先决定应该问什么问题。没有定性的基础工作，你可能会对一个错误的问题得出非常有说服力的答案。</p>
+
+    <p>目标不是找到一个完美的价格。那不存在。目标是将我们的讨论建立在市场的现实基础之上。</p>
+
+    <p>我们使用 <a href="https://sawtoothsoftware.com/resources/blog/posts/gabor-granger-pricing-method">Gabor-Granger</a> 和 <a href="https://sawtoothsoftware.com/resources/blog/posts/van-westendorp-pricing-sensitivity-meter">Van Westendorp</a> 等方法来理解 WTP。这些研究产生的输出大致如下（示意数据）：</p>
+
+    <div class="img-container">
+        <img loading="lazy" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/image1.png" alt="折线图展示支付意愿（百分比）与价格的关系，随着价格上涨呈逐渐下降趋势。52%的人表示愿意在1.14美元的价格付费" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/image1.png 1719w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/image1-300x160.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/image1-700x373.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/image1-768x409.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/image1-1536x818.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/image1-1320x703.png 1320w" sizes="(max-width: 720px) 100vw, 720px">
+    </div>
+
+    <p>这张图表显示在各个价格点有多少比例的市场愿意购买该产品。需求曲线显示，69% 的买家愿意在每成果 0.86 美元的价格购买该产品，而只有 39% 愿意在 1.42 美元的价格购买。</p>
+
+    <p>虚线显示的是企业收入最大化的价格点（通过将采用率乘以美元金额计算得出）。</p>
+
+    <p>这使我们能够讨论一些棘手的问题：</p>
+
+    <ul>
+        <li>增长与收入之间的正确平衡是什么？</li>
+        <li>需求对价格变化的敏感度如何？</li>
+        <li>在什么价格下我们开始失去市场？</li>
+        <li>如果我们想增加采用率，降价 X 美元是否会产生实质性的差异？</li>
+    </ul>
+
+    <p>数据帮助我们同时平衡客户和业务的需求。</p>
+
+    <p>这是价格点决策变得更加具体的阶段，但价格点并非在此最终确定。</p>
+
+    <h3>第三步：建模</h3>
+
+    <p>此时，我们已有：</p>
+
+    <ul>
+        <li>一个模型。</li>
+        <li>一个指标。</li>
+        <li>关于支付意愿的强烈信号。</li>
+    </ul>
+
+    <p>现在我们将其转化为在现实世界中可行的方案，以确定最终价格点。这是数据科学和财务介入的地方。</p>
+
+    <p>我们将 WTP 数据与业务现实叠加：利润率预期、细分市场差异、折扣行为、购买摩擦、销售能力、竞品定价和其他商业约束。这个过程需要大量的建模工作。</p>
+
+    <p>对于 Fin，这具体表现为：</p>
+
+    <ul>
+        <li>我们从一个与战略和商业目标一致的挂牌价格开始。</li>
+        <li>然后我们根据可能的折扣进行调整，以估算实际实现的价格（例如，0.99 美元在现实中可能更像 0.89 美元）。</li>
+        <li>接下来是使用量。我们使用 Beta 数据来了解客户平均产生多少成果，以及按细分市场如何变化，从而得出每个客户的平均 ARR。</li>
+        <li>然后将使用数据与 WTP 数据结合，对附加率（购买可能性）进行建模，模拟从保守到乐观的一系列场景。</li>
+        <li>最后，我们将这些数据输入与财务团队制定的长期计划，以估算客户数、ARR，以及同样重要的——利润率。这很少是一次性完成的工作。</li>
+    </ul>
+
+    <p>我们不断迭代，直到数据以及它们讲述的故事都说得通。</p>
+
+    <p>建模步骤很重要，因为支付意愿数据在某种程度上是理论性的。它反映的是意图，而非行为。建模帮助我们弥合这一差距。</p>
+
+    <p>这一步的目标是确定一个价格点建议，以及 ARR 和采用率的预测。它使我们能够理解所做决策的真实业务影响。</p>
+
+    <p>与此同时，我们需要确保我们做出的任何决策都符合我们的定价原则和更广泛的业务目标。</p>
+
+    <h3>第四步：审批</h3>
+
+    <p>最后，我们将所有内容整合为一个完整的定价与打包建议，并提交给高管。如果获得批准，就进入构建阶段。</p>
+
+    <p>这四个步骤构成了我们认为的 Fin 的 P&P 战略。在某些方面，做出决策是相对容易的部分。</p>
+
+    <p>将其运营化更难：教育销售团队、向客户推出、构建展示 ROI 的工具，以及最终判断我们是否做对了。</p>
+
+    <p>这些运营工作相当庞大，可能值得单独写一篇文章。</p>
+
+    <h2 id="do-we-do-this-every-time">我们每次都这样做吗？</h2>
+
+    <p>不，这是理想流程。</p>
+
+    <p>实际上，我们大概只有一半的时间会完整走完这个流程。时间和资源限制是真实存在的，所以我们需要聪明地判断何时应该彻底执行这个流程。</p>
+
+    <p>我们流程中的严谨程度应该与我们所做决策的重要性相匹配。有些事情确实没那么重要，这没问题。或者答案本身就很明显。</p>
+
+    <p>在实践中，当某些事情感觉不确定时，我们经常在各个阶段之间进行更精简的研究。定价工作很少是线性的。流程让我们保持脚踏实地，但它并不能让工作变得井然有序。</p>
+
+    <h2 id="the-ongoing-challenge">持续的挑战</h2>
+
+    <p>在过去一年左右的时间里，我们产品的广度显著扩展，这是好事。Fin 能做的事情比以前多得多。但这确实意味着我们的定价体系需要随之演进，我们早期锚定的一些原则（比如简洁性）正在以新的方式受到考验。</p>
+
+    <p>有一段时间，我们可以以相当模块化的方式为产品定价。每个产品都有自己的逻辑，针对其交付的特定价值进行优化。当产品组合更简单时，这种方式效果很好。</p>
+
+    <p>但随着我们增加了更多产品、更多 Agent 能力和更多成果，问题开始从"这一个产品的正确 P&P 是什么？"转变为"所有这些如何组合成一个连贯的定价体系？"这是一个非常不同类型的问题。</p>
+
+    <p>我们必须认识到，定价不是你设定一次就放任不管的东西。随着产品演进，尤其是在 AI 快速改变价值创造和交付方式的世界中，定期退后一步审视大局——而不仅仅是各个组成部分——是很重要的。</p>
+
+    <p>例如，基于成果的定价一直为我们服务得很好，特别是当我们的产品与清晰、可衡量的成果紧密关联时。但随着我们的产品变得更加多样化，随着我们继续构建更广泛的平台，将单一模型干净地应用于所有场景变得不再那么直接。</p>
+
+    <p>挑战不再是用一个模型替换另一个模型，而是不断抬头问：什么定价理念最能反映我们今天交付的价值？我们如何以一种仍然让客户感觉合理的方式来交付这种理念？</p>
+
+    <p>简而言之，没有终点线，定价永远不会"完成"——而这正是应该的样子。</p>
+
+    <h2 id="why-this-work-matters">为什么这项工作很重要</h2>
+
+    <p>定价与打包通常只在出错时才会被注意到。一个令人困惑的模型、一个糟糕的指标，或者一个感觉与价值脱节的价格。</p>
+
+    <p>而这些我们很快就会听到。</p>
+
+    <p>但当做对了的时候，它几乎是不可见的，却在默默地发挥着重要作用。</p>
+
+    <p>它塑造了人们感知价值的方式，帮助买家理解他们为什么付费，让产品更容易销售、更容易购买、更容易扩展。它也迫使公司诚实地面对产品到底值多少钱。</p>
+
+    <p>这就是我们在 Fin 认真对待它的原因。</p>
+
+    <div class="original-link">
+        <strong>原文链接：</strong><a href="https://www.intercom.com/blog/how-we-develop-pricing-and-packaging-at-fin/">How we develop pricing and packaging at Fin - The Intercom Blog</a><br>
+        <strong>作者：</strong>Sophie Woods<br>
+        <strong>发布日期：</strong>2026年5月20日<br>
+        <strong>翻译日期：</strong>2026年5月23日
+    </div>
+</body>
+</html>
