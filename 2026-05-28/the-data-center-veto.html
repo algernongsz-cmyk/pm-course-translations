@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="max-image-preview:large">
+    <title>数据中心否决权 – Stratechery by Ben Thompson（译文）</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 2rem;
+            color: #2a2a2a;
+        }
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            color: #3a3a3a;
+        }
+        p {
+            margin: 1rem 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1rem auto;
+        }
+        figcaption {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+        a:hover {
+            background-color: #f5f5f5;
+        }
+        ol, ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        li {
+            margin: 0.5rem 0;
+        }
+        blockquote {
+            border-left: 4px solid #ddd;
+            margin: 1rem 0;
+            padding-left: 1rem;
+            color: #666;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #ddd;
+            margin: 2rem 0;
+        }
+        .translation-note {
+            background: #f9f9f9;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        iframe {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="translation-note">
+        <p><strong>翻译说明：</strong>本文翻译自 <a href="https://stratechery.com/2026/the-data-center-veto/">Stratechery</a>，由 Ben Thompson 撰写。专业术语如 AI、Agent、LLMs、CX、UX、API 等保留原文。原文链接：<a href="https://stratechery.com/2026/the-data-center-veto/">https://stratechery.com/2026/the-data-center-veto/</a></p>
+    </div>
+
+    <h1>2026.21: 数据中心否决权</h1>
+
+    <figure>
+        <img src="https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/GettyImages-2243421278.jpg?resize=1024%2C683&ssl=1" 
+             alt="数据中心" 
+             srcset="https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/GettyImages-2243421278.jpg?w=1024&ssl=1 1024w, 
+                     https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/GettyImages-2243421278.jpg?resize=300%2C200&ssl=1 300w, 
+                     https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/GettyImages-2243421278.jpg?resize=768%2C512&ssl=1 768w">
+        <figcaption><em>(Lexi Critchett/Bloomberg via Getty Images)</em></figcaption>
+    </figure>
+
+    <p>欢迎回到本周 Stratechery！</p>
+
+    <p>提醒一下，每周五我们会发送这份 Stratechery 内容包的概览；<strong>高亮的链接对所有人免费开放</strong>。此外，您可以完全控制我们发送给您的内容。如果您不想接收本周 Stratechery 邮件（没有播客），请在<a href="https://stratechery.passport.online/member/account/delivery">您的投递设置</a>中取消勾选。</p>
+
+    <p>说到这里，以下是本周我们最喜欢的几篇文章。</p>
+
+    <ol>
+        <li><strong>数据中心的不满。</strong>AI 的影响，至少目前而言，主要体现在数字领域：这正是 AI 发挥作用的地方，工作越数字化，就越容易受到 LLMs 的威胁。然而，AI 依赖于现实世界中的数据中心，而建设数据中心需要许可。这让普通人获得了面对全球化时所没有的那种否决 AI 的权力；我在<a href="https://stratechery.com/2026/data-center-discontent-understanding-the-opposition-fixing-the-problem/">周一的更新</a>和<a href="https://sharptech.fm/member/episode/much-ado-about-data-centers-what-tech-gets-wrong-about-its-critics-q-a-on-space-x-chinese-ai-elon-musk">Sharp Tech</a>中提出，理解这种动态比纠正错误信息更重要，因为错误信息只是数据中心反对的症状，而非原因。 — <em>Ben Thompson</em><br></li>
+    </ol>
+
+    <ol start="2">
+        <li><strong>Agent 经济学。</strong>当广告支持的模型因用户行为转变和 Agent 网络流量崛起而变得过时时，互联网会是什么样子？去年夏天，Ben 在<a href="https://stratechery.com/2025/the-agentic-web-and-original-sin/"><strong>Agent 网络与原罪</strong></a>中考虑过这个问题，我很惊讶地了解到，Twitter 前 CEO Parag Agarwal 现正专注于为这种现实设计解决方案。<a href="https://stratechery.com/2026/an-interview-with-parallel-founder-parag-agarwal-about-valuing-content-on-the-agentic-web/">本周对 Agarwal 的 Stratechery 采访</a>深入探讨了互联网上内容的经济问题、为什么广告对人类有意义、为什么为 Agent 激励内容会有所不同，以及 Agarwal 和 Parallel 如何尝试解决这些问题。我从这次采访中学到了很多，我相信你也会 — 别担心，我们也问了几个关于 Twitter 时期的问题。<em>—</em> <em>Andrew Sharp</em><br><br></li>
+
+        <li><strong>永远不要低估黏菌。</strong>周三关于 Google I/O 的每日更新让我想起了那份著名的<a href="https://www.inc.com/minda-zetlin/in-just-2-very-unpleasant-words-a-former-google-exec-pinpointed-companys-biggest-problem.html" target="_blank" rel="noreferrer noopener">泄露备忘录</a>，关于 Mountain View 那难以治理且协调糟糕的"黏菌"，因为公司似乎在把 10 种不同类型的 AI spaghetti 扔到墙上看看哪种能粘住。不过，Google 现已是接近 5 万亿美元市值的公司，其 transformer 架构加速了 AI 时代。正因为第二点，<a href="https://stratechery.com/2026/google-i-o-world-models-i-o-spaghetti/" target="_blank" rel="noreferrer noopener">当 Ben 强调 DeepMind 构建 AGI 的方法</a>与 OpenAI 和 Anthropic 的方法截然不同时，我既想关注，又想记住：尽管 Google 有诸多失误和错过，但他们确实有很多历史性的成功。<em>—</em> <em>AS</em></li>
+    </ol>
+
+    <hr>
+
+    <h2>Stratechery 文章和更新</h2>
+
+    <ul>
+        <li><a href="https://stratechery.com/2026/data-center-discontent-understanding-the-opposition-fixing-the-problem/">数据中心不满，理解反对者，解决问题</a> <em>— 人们反对数据中心有可理解的原因；唯一可行的解决方案就是简单地支付补偿。</em></li>
+
+        <li><a href="https://stratechery.com/2026/google-i-o-world-models-i-o-spaghetti/">Google I/O，世界模型，I/O Spaghetti</a> <em>— Google I/O 把 AI 放到了所有地方，好坏参半。与此同时，DeepMind 是否与 Google 的商业目标一致？</em></li>
+
+        <li><a href="https://stratechery.com/2026/an-interview-with-parallel-founder-parag-agarwal-about-valuing-content-on-the-agentic-web/">采访 Parallel 创始人 Parag Agarwal：Agent 网络上的内容价值</a> <em>— 与 Parallel 创始人 Parag Agarwal 的访谈，关于在 Agent 世界中如何评估内容和激励其创作（以及关于 Twitter 的问题）。</em></li>
+    </ul>
+
+    <h2>Dithering（Ben Thompson 与 Daring Fireball 的 John Gruber）</h2>
+
+    <ul>
+        <li><a href="https://dithering.passport.online/member/episode/data-center-unpopularity">数据中心不受欢迎</a></li>
+
+        <li><a href="https://dithering.passport.online/member/episode/google-being-google">Google 还是那个 Google</a></li>
+    </ul>
+
+    <h2>Asianometry（Jon Yu）</h2>
+
+    <ul>
+        <li><a href="https://asianometry.passport.online/member/episode/the-little-vertical-laser-that-everyone-uses">那个人人都在用的小型垂直激光器</a></li>
+
+        <li><a href="https://asianometry.passport.online/member/episode/intels-30-years-in-costa-rica">英特尔在哥斯达黎加的 30 年</a></li>
+    </ul>
+
+    <h2>Sharp China（Andrew Sharp 与 Sinocism 的 Bill Bishop）</h2>
+
+    <ul>
+        <li><a href="https://sharpchina.fm/member/episode/constructing-us-china-stability-trumps-taiwan-comments-and-more-summit-takeaways-putin-in-china">构建美中稳定关系；特朗普关于台湾的评论及其他峰会要点；普京访华</a></li>
+    </ul>
+
+    <h2>Greatest of All Talk</h2>
+
+    <ul>
+        <li><a href="https://goat.passport.online/member/episode/wemby-harper-and-an-instant-classic-from-the-spurs-in-game-1-vs-okc">Wemby、Harper 与马刺对阵 OKC 第一场的经典时刻</a></li>
+
+        <li><a href="https://goat.passport.online/member/episode/a-note-on-the-future-of-goat-and-an-emergency-top-five">关于 GOAT 未来的说明及紧急 Top Five</a></li>
+    </ul>
+
+    <h2>Sharp Tech（Andrew Sharp 与 Ben Thompson）</h2>
+
+    <ul>
+        <li><a href="https://sharptech.fm/member/episode/much-ado-about-data-centers-what-tech-gets-wrong-about-its-critics-q-a-on-space-x-chinese-ai-elon-musk">数据中心大讨论，科技公司对批评者的误解，SpaceX、中国 AI、Elon Musk 问答</a></li>
+    </ul>
+
+    <p>本周的 Stratechery 视频内容是关于<a href="https://stratechery.com/2026/the-inference-shift/"><strong>推理的转变</strong></a>。</p>
+
+    <figure>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+            <iframe title="The Inference Shift | Stratechery by Ben Thompson" 
+                    width="500" height="281" 
+                    src="https://www.youtube.com/embed/xyLr6XcktTo?feature=oembed" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+            </iframe>
+        </div>
+    </figure>
+
+    <hr>
+
+    <h2>相关文章</h2>
+
+    <ul>
+        <li><a href="https://stratechery.com/2026/so-long-to-sora/">2026.13: 别了，Sora</a> <em>— Friday, March 27, 2026</em></li>
+        <li><a href="https://stratechery.com/2024/summer-break-week-of-july-1st/">暑假：7月1日这周</a> <em>— Monday, July 1, 2024</em></li>
+        <li><a href="https://stratechery.com/2026/higher-powers-and-lower-macs/">2026.10: 更高的功率，更低的 Mac</a> <em>— Friday, March 6, 2026</em></li>
+    </ul>
+
+    <hr>
+
+    <div style="margin-top: 2rem; display: flex; justify-content: space-between;">
+        <div>
+            <span>←</span>
+            <a href="https://stratechery.com/2026/shifting-alliances-in-a-changing-world/">2026.20: 变化世界中的联盟转移</a>
+        </div>
+        <div>
+            <a href="https://stratechery.com/2026/the-spacex-ipo-and-data-centers-in-space/">SpaceX IPO 与太空中的数据中心</a>
+            <span>→</span>
+        </div>
+    </div>
+
+    <hr>
+
+    <div style="background: #f9f9f9; padding: 1rem; border-radius: 4px; margin-top: 2rem;">
+        <p><strong>原文：</strong><a href="https://stratechery.com/2026/the-data-center-veto/">The Data Center Veto – Stratechery by Ben Thompson</a></p>
+        <p><strong>翻译时间：</strong>2026-05-28</p>
+        <p style="font-size: 0.9rem; color: #666;">本文为学习交流目的翻译，版权归原作者所有。</p>
+    </div>
+</body>
+</html>
