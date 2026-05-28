@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpaceX的IPO与太空数据中心</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            color: #333;
+            background: #fff;
+        }
+        article {
+            margin-bottom: 3rem;
+        }
+        header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+        .meta {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .meta span {
+            margin-right: 1.5rem;
+        }
+        .meta a {
+            color: #faa634;
+            text-decoration: none;
+        }
+        .meta a:hover {
+            text-decoration: underline;
+        }
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+        p {
+            margin-bottom: 1.25rem;
+            font-size: 1.125rem;
+        }
+        blockquote {
+            background: #FFFAF1;
+            border-left: 4px solid #faa634;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+        blockquote p {
+            margin-bottom: 0.75rem;
+        }
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+        ul {
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        figure {
+            margin: 2rem 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #ddd;
+            margin: 2rem 0;
+        }
+        a {
+            color: #faa634;
+            text-decoration: underline;
+        }
+        a:hover {
+            background: #FDD29F;
+            text-decoration: none;
+        }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        .terminology {
+            font-weight: 600;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>SpaceX的IPO与太空数据中心</h1>
+            <div class="meta">
+                <span>来源：Stratechery</span>
+                <span>作者：Ben Thompson</span>
+                <span>原文：<a href="https://stratechery.com/2026/the-spacex-ipo-and-data-centers-in-space/" target="_blank">链接</a></span>
+            </div>
+        </header>
+
+        <p>这算不上世界上最大的问题——或者认为这是个问题本身就有些奢侈——但最糟糕的消费体验之一就是预订了一辆Uber Black，结果发现分配给你的是一辆特斯拉Model Y（Uber去年终于停止让新的Model Y加入Black级别）。做好准备迎接不舒服的后座、廉价的塑料内饰，以及经常因为司机还没完全掌握特斯拉激进的动能回收制动而晕车吧。</p>
+
+        <p>尽管如此，Model Y能够进入Black级别本身就是Elon Musk所建立品牌的证明。回到2016年，当30万人在几个小时内每人支付1000美元预订一款尚未发布的Model 3时，我解释说这种现象是因为<a href="https://stratechery.com/2016/its-a-tesla/">它是一辆特斯拉</a>：</p>
+
+        <blockquote>
+            <p>Musk"Master Plan"的真正回报在于Tesla意味着什么：是的，它代表着可持续性和对环境的关怀，但更重要的是Tesla也意味着卓越的性能和硅谷的酷。诚然，Tesla专注于高端市场帮助他们在成本曲线下移，但正是Musk坚持打造"一款不妥协的电动车"，最终导致27.6万人预订Model 3，许多人甚至没看过这款车：毕竟，它是Tesla。</p>
+        </blockquote>
+
+        <p>正是这种品牌光环让这款——说实话——相当基础的车进入了Uber Black名单。真正让这些车引人注目的是它们在多大程度上是"轮子上的电脑"：我认识很多非常有钱的人开Tesla不是因为内饰，而是因为Full Self-Driving (Supervised)；市面上没有其他车能与之相比，至少在你能够拥有的车里是这样。</p>
+
+        <p>Tesla似乎正在加倍下注这一差异化点：公司今年早些时候<a href="https://insideevs.com/news/791757/tesla-model-s-model-x-dead-official/">停止了Models S和X的生产</a>，将生产资源集中在CyberCab和机器人上；如果你想要你的车自己驾驶，你会得到和其他人一样的车型。这让我想起<a href="https://kottke.org/10/10/andy-warhol-on-coca-cola">Andy Warhol的名言</a>：</p>
+
+        <blockquote>
+            <p>这个国家的伟大之处在于美国开创了一种传统，最富有的消费者购买的东西与最贫穷的消费者本质上是一样的。你可以在看电视时看到可口可乐，你知道总统喝可乐，Liz Taylor喝可乐，想一想，你也可以喝可乐。可乐就是可乐，再多的钱也买不到比街角流浪汉正在喝的更好的可乐。所有的可乐都是一样的，所有的可乐都是好的。Liz Taylor知道，总统知道，流浪汉知道，你也知道。</p>
+        </blockquote>
+
+        <p>那个"传统"就是规模，美国确实比世界上任何其他国家都更擅长规模；而在美国人中，没有人像Musk那样追求并试图利用规模。</p>
+
+        <h3>Starlink与航空公司</h3>
+
+        <p>来自美国航空的<a href="https://news.aa.com/news/news-details/2026/American-to-install-Starlink-the-fastest-Wi-Fi-in-the-sky-MKG-OB-05/default.aspx">新闻稿</a>：</p>
+
+        <blockquote>
+            <p>美国航空今天宣布对其窄体机队机上客户体验进行大规模现代化升级，从2027年第一季度开始在超过500架窄体机上安装Starlink——天空中最快的Wi-Fi。Starlink被广泛认为是世界上最先进的卫星星座，利用低地球轨道提供能够支持机上流媒体、在线游戏、协作会议工具等的宽带互联网。凭借低地球轨道上的数千颗卫星，Starlink可以使用其Aero Terminal为飞机提供多千兆连接，每个天线可支持高达1 Gbps的速率。</p>
+            
+            <p>"作为一家高端全球航空公司，我们不断寻求像Starlink这样的世界级合作伙伴来提供客户需要和想要的东西，"美国航空首席客户官Heather Garboden表示。"增加Starlink巩固了美国航空作为保持乘客在飞行中连接的领先航空公司的地位。"作为美国航空提升机上体验承诺的一部分，Starlink将使其国内和短途国际航线实现无缝流媒体、浏览和实时通信能力。</p>
+        </blockquote>
+
+        <p>我链接这篇新闻稿只是为了调侃美国航空，该公司近年来围绕在其你必须乘坐的航线上提供非高端服务来构建策略，却将Starlink交易标榜为对"提升机上体验"的承诺。这可能是2024年宣布联合航空Starlink交易<a href="https://united.mediaroom.com/2024-09-13-The-Inflight-Wi-Fi-Revolution-Now-Arriving-United-Signs-Starlink-Deal-to-Provide-Industry-Leading-Connectivity-in-the-Sky-For-Free">时的论点</a>，但<a href="https://x.com/sawyermerritt/status/2059301869780947262?s=46">到现在这只是基本配置</a>，这肯定正是Musk想要的。</p>
+
+        <p>Starlink是SpaceX面向消费者的业务，去年创造了87亿美元收入和44亿美元利润；虽然目前还不完全清楚SpaceX如何核算发射成本，但Starlink显然受益于它可以使用SpaceX的发射能力。这种发射能力已在低地球轨道部署了超过一万颗活跃卫星，在世界上任何地方——包括空中——提供低延迟高速互联网。这是给航空公司的胡萝卜；大棒是其他所有人都拥有同样服务的前景，以及客户根据可用的互联网接入质量做出飞行决定的可能性。</p>
+
+        <p>在这方面与Tesla有相似之处。Musk的公司在最佳状态下不赢得游戏；它们通过规模改变规则，使得亿万富翁购买经济型汽车因为它们确实能自动驾驶（有监督），航空公司自掏腰包改造消费者体验。Musk全力以赴——<a href="https://stratechery.com/2024/elon-dreams-and-bitter-lessons/">无论是发射能力还是自动驾驶</a>——不是通过做出理性的短期商业决策，而是从期望的最终状态出发反向推导。</p>
+
+        <h3>SpaceX的荒谬S-1</h3>
+
+        <p>科技行业有着悠久的荒谬图表历史——有一整类被称为<a href="https://medium.com/@boostventilator/bezos-charts-640f0d6a769a">贝佐斯图表</a>——而<a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm">SpaceX S-1</a>中有一张让我笑了。它出现在讨论SpaceX总可寻址市场时：</p>
+
+        <blockquote>
+            <p>我们相信我们已经确定了人类历史上最大的可操作总可寻址市场（"TAM"）。我们估计我们的可量化TAM为28.5万亿美元，包括：来自太空解决方案的3700亿美元的Space；由Starlink Broadband的8700亿美元和Starlink Mobile的7400亿美元组成的1.6万亿美元的Connectivity，以及企业和政府的额外机会；涵盖AI基础设施的2.4万亿美元、消费者订阅的7600亿美元、数字广告的6000亿美元和企业应用的22.7万亿美元的26.5万亿美元AI。为了说明我们的可寻址市场机会规模，我们将中国和俄罗斯排除在全球估计之外。</p>
+            
+            <figure>
+                <img data-recalc-dims="1" fetchpriority="high" decoding="async" width="1330" height="816" 
+                     src="https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/spacex-1.png?resize=1330%2C816&#038;ssl=1" 
+                     alt="SpaceX TAM Chart" class="wp-image-19139" 
+                     srcset="https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/spacex-1.png?w=1330&amp;ssl=1 1330w, https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/spacex-1.png?resize=300%2C184&amp;ssl=1 300w, https://i0.wp.com/stratechery.com/wp-content/uploads/2026/05/spacex-1.png?resize=768%2C471&amp;ssl=1 768w" 
+                     sizes="(max-width: 1000px) 100vw, 1000px" />
+            </figure>
+        </blockquote>
+
+        <p>这张图在垂直方向上大致按比例，但在水平方向上绝对不是：考虑到26.5万亿美元的AI机会是太空和连接机会总和的13倍以上，我需要帮助来真正理解这个数字！</p>
+
+        <p>说真的，这些数字显然是荒谬的，但话说回来，关于这次IPO的一切都是荒谬的。SpaceX寻求2万亿美元的估值，而其收入仅为186.7亿美元，去年亏损49亿美元，增长率实际上从35%放缓至33%。这种放缓是在添加xAI（以及X）之后发生的，这使得公司从小额利润变成了巨额亏损，这要归功于51亿美元的AI研发费用。请记住，这笔研发费用用于构建一个排名第5的模型，其整个创始团队最近离开了公司。但是当然，26.5万亿美元的AI机会！</p>
+
+        <p>这并不是说SpaceX不会获得其期望的估值。Tesla的估值从未讲得通，直到Models 3和Y真的成功，导致Tesla股价飙升（即使那时，也很难建立一个财务模型来证明新股价的合理性）。Musk创造自己现实的能力始于投资者；来自2021年的<a href="https://stratechery.com/2021/mistakes-and-memes/">错误与模因</a>，比较Apple和Tesla：</p>
+
+        <blockquote>
+            <p>这种比较到目前为止是有效的，但并没有讲述完整的故事：毕竟，Apple的品牌源于数十年的产品建设，这使其成为世界上利润最高的公司。而Tesla meanwhile似乎总是距离破产只有几周时间，至少在它发行更多股票之前，这加强了Tesla怀疑论者和做空者的信念。</p>
+            
+            <p>然而，这就是疯狂的地方：你会认为发行股票会导致Tesla股价下跌；毕竟，现有股票被稀释了。然而，一次又一次，Tesla关于股票发行的公告会导致股价上涨。这毫无意义，至少如果你将股票视为代表一家公司的话。</p>
+            
+            <p>但事实证明，TSLA本身就是一个模因，一个关于汽车公司的模因，也是关于可持续性的模因，最重要的是关于Elon Musk本人的模因。发行更多股票不是在稀释现有股东；而是在将传播TSLA模因的机会扩展给更多的人，虽然Musk的批评者增加了，但他的粉丝也是如此。毕竟，互联网是关于丰富，而不是稀缺。最终结果不是基础设施引领运动，而是运动通过股票市场资助了基础设施的建设。</p>
+        </blockquote>
+
+        <p>我在那篇文章中解释了为什么我通常不报道Tesla的财务业绩，这个理由也延伸到为什么我不期望报道SpaceX的：Musk是模因大师，他自己就是一个模因。他提供一个梦想——火星、完全自动驾驶汽车、28.5万亿美元的可寻址市场——并将他的公司及其股票定位为通向那个梦想的入口，通过资本市场的炼金术，将共同的幻觉转化为大众市场的现实。</p>
+
+        <p>Musk的过往记录在这方面很重要。建立一家电动车公司是可能的，完全自动驾驶（有监督）也是可能的；同时还有越来越多围绕减少排放的政府强制令和计划，作为Tesla胡萝卜的大棒。类似地，火箭着陆是可能的，更低发射成本带来的新市场创造也是可以理解的。Musk在这两个实例中的成功给了他怀疑的好处。</p>
+
+        <p>因此，重要的问题不是数字现在是否讲得通（绝对讲不通）；重要的是梦想是否可能，以及是否有真正的理由认为它可能会发生。我认为太空数据中心符合这些条件。</p>
+
+        <h3>太空数据中心的案例</h3>
+
+        <p>关于太空数据中心的第一个问题是它们是否可能，我认为答案显然是肯定的。需要考虑的关键是，没有要求这些数据中心看起来像地球上的数据中心。在地球上，我们建造充满GPU的巨大建筑，配备用于冷却这些GPU的巨大基础设施，以及用于为这些GPU供电的巨大发电厂（或连接到连接巨大发电厂的电网）。将这些巨大结构运送到太空的想法听起来不可信，确实如此！</p>
+
+        <p>然而，没有理由太空数据中心看起来像地球上的数据中心。更有意义的是将单个卫星视为类似于机架的东西。目前轨道上最大的Starlink卫星是V2 Mini Direct-to-Cell，尺寸为7.4米×2.7米×0.3米（估计）；而Nvidia的NVL72机架尺寸为2.2米×1.1米×0.6米，所以我们已经在正确的尺寸范围内。V2 Mini Direct-to-Cell消耗（并散发）估计高达25kW的能量；NVL72高达135kW，它可以容纳量化为FP4的1万亿参数模型。</p>
+
+        <p>机架卫星的主要缺点是功率及其散热，但从25kW到135kW肯定在可能范围内——而且考虑到你不需要地球上那么多的冷却和配电使用，接近100kW的东西可能会提供类似的性能。还有其他问题需要解决，包括辐射干扰计算的问题、可靠性等，虽然这两个问题可以通过使用更大的芯片（效率较低，但也使用较少功率）部分解决；这些机架卫星也将是一次性的，像Starlink卫星一样，缓解可靠性问题。然而，关键因素是，一支机架舰队，通过激光互连（就像Starlink已经做到的那样），每个都有自己的太阳能电池板和用于冷却的散热器阵列（每个机架部署200多平方米的散热器将是一个巨大的挑战），是<strong>可能的</strong>。</p>
+
+        <hr />
+
+        <p>关于太空数据中心的下一个问题是它们是否有用例——胡萝卜——我已经在<a href="https://stratechery.com/2026/the-inference-shift/">推理转变</a>中提出了论据。具体来说，围绕LLM正在发展三种类型的工作负载：训练、回答推理和智能体推理。来自论证"智能体推理"的部分：</p>
+
+        <blockquote>
+            <p>关键的是，这种智能体特定内存层次的表述意味着必要的速度与容量的权衡。但是，如果没有人在循环中，较低的速度就远没有那么重要。如果一个智能体正在等待一个通宵运行的作业，智能体不知道也不关心用户体验影响；最重要的是能够完成任务，如果全新的内存方法使这成为可能，那么延迟是可以接受的。</p>
+            
+            <p>如果延迟可以接受，那么对纯计算能力和高带宽内存的关注似乎就不恰当了：如果延迟不是首要任务，那么更慢、更便宜的内存——比如传统DRAM——更有意义。如果整个系统主要在等待内存，那么芯片也不需要像最前沿的那样快。这代表了未来架构的深刻转变，但这并不意味着当前架构会消失：</p>
+            
+            <ul>
+                <li>训练将继续重要，Nvidia的当前架构，包括高速计算、大量高带宽内存和高速网络，可能会继续占主导地位。</li>
+                
+                <li>回答推理将是一个有意义的市场，尽管相对较小，来自Cerebras或Groq等芯片的速度（我在<a href="https://stratechery.com/2026/jensen-huang-and-andy-grove-groq-lpus-and-vera-cpus-hotel-california/">这里</a>解释了Nvidia如何部署Groq的LPU）将非常有用。</li>
+                
+                <li>智能体推理将逐渐拆分GPU，GPU在高带宽内存（预填充过程中）和计算（解码过程中）之间交替闲置，转而支持由高容量和相对较低成本的内存类型主导的日益复杂的内存层次结构，配备"足够好"的计算；实际上，如果有的话，CPU用于工具使用的速度比GPU的速度更重要。</li>
+            </ul>
+            
+            <p>同时，这些类别在规模或重要性上不会相等。具体来说，智能体推理将是最大的市场，因为这是不受人类或时间限制的市场。今天的智能体只是花哨的回答推理；未来真正的智能体推理将是根据其他计算机给出的指令由计算机完成的工作，市场规模不是随人类而是随计算规模。</p>
+        </blockquote>
+
+        <p>正是智能体推理最适合太空中的机架，方便的是，这也是长期来看可能最大的市场。</p>
+
+        <hr />
+
+        <p>关于太空数据中心的第三个问题是是否有大棒。具体来说，虽然我认为太空机架比人们认为的更可行，而且与当前计算模式相比更与智能体推理相关，但归根结底，在其他条件相同的情况下，在地球上建造更便宜、更容易。</p>
+
+        <p>然而，其他情况并不相同：我们现在正处于AI建设的最早期阶段，已经最大的约束之一不仅是电力（预期之中），还有分区（意料之外）。我在<a href="https://stratechery.com/2026/data-center-discontent-understanding-the-opposition-fixing-the-problem/">上周的更新</a>中写道：</p>
+
+        <blockquote>
+            <p>这导致与全球化有趣的对比：当公司关闭美国工厂、解雇工人并将运营转移到中国时，受影响的城镇或工人没有任何发言权。他们只是突然没有工作了，锈带的大量城市不再有存在的理由。人们不得不搬家，或者更糟，退回到酒精或毒品。</p>
+            
+            <p>然而，AI恰恰相反：建设数据中心需要许可，这意味着人们实际上有发言权。再次强调，我并不是说这些人对数据中心或对社区的经济影响有充分了解，更不用说对AI的整体经济影响；我要指出的是，在全球化中没有发言权的人突然发现他们对AI确实有发言权，他们表达不赞成的方式是阻止数据中心，这并不令人惊讶。</p>
+        </blockquote>
+
+        <p>在那篇更新中，我提出了数据中心建设者——以及使用它们的公司——应该直接付钱给人们以获得在他们社区建设数据中心的许可。但至少，这增加了地面数据中心的成本。从长远来看，看起来非常合理的是，对计算的需求最终会如此之大，以至于最终无处可建，使得广阔的太空不仅是一种替代方案，而且是唯一的选择。</p>
+
+        <h3>一次值得支持的IPO</h3>
+
+        <p>如果所有这些都发生——这里有很多"如果"！——那么那个2万亿美元的估值突然看起来就合理了。SpaceX已经在xAI的第一个数据中心Colossus 1上每年获利150亿美元，用于300MW的容量；那就是3000个太空机架。同时，Anthropic可能会在这个容量上产生3倍的收入；xAI是否能重返最前沿游戏还有待观察，但如果是这样，它每个太空机架能产生的收入将相应更高。即使没有xAI，SpaceX也有潜力成为边际计算容量的垄断提供商。</p>
+
+        <p>不用说，这个论证中包含了大量假设，包括假设解决了大量工程挑战、Starship真的有效、SpaceX获得足够数量的正确类型芯片供应、计算需求大得多、智能体推理拆分当前架构，以及数据中心反对者成功。所有这些假设所附带的风险应该折现你对这家企业的估值，也就是说我仍然认为这次IPO是疯狂的。</p>
+
+        <p>同时，我很高兴它存在，原因有多个。第一个是最明显的一个：Musk尽管有种种缺点，已经在多个方向上推动了人类进步，包括电动车、自动驾驶、可重复使用火箭、卫星互联网等，我很兴奋看到他尝试做更多。</p>
+
+        <p>第二个是我确实担心我们是否有能力调度足够的计算来充分实现AI的收益，非常担心重蹈核能的覆辙，我们未能建设导致我们甚至失去了想象在无限能源世界中可以发明什么的机会；Musk提出了一条通往无限计算的替代路径这一事实是一个宽慰。</p>
+
+        <p>第三个是我赞赏这次IPO在多大程度上回归了IPO应该是什么：人们贡献资本实际建设业务的机会，如果成功则受益。正如我指出的，我无法建立一个财务模型来证明这个估值合理，特别是基于当前财务状况，但投资公司A轮的VC也不能。SpaceX已经发明了很多东西，其早期投资者将通过这次IPO赚很多钱；同时，还有更多东西要发明，因此仍然有很多上行空间——而且，要非常清楚，很多风险。零售投资者有机会扮演VC，这是SpaceX雄心的证明。</p>
+
+        <p>而且嘿，火星的上行空间是免费的！</p>
+
+        <footer>
+            <p>翻译时间：2026-05-29</p>
+            <p>保留术语：IPO, AI, GPU, LLM, LPU, CPU, DRAM, FP4, NVL72, TSLA, VC, TAM, Starlink, SpaceX, Tesla, Uber, Black, Full Self-Driving (Supervised), Model Y, Model 3, Model S, Model X, CyberCab, Colossus 1, Anthropic, xAI, Cerebras, Groq</p>
+        </footer>
+    </article>
+</body>
+</html>
