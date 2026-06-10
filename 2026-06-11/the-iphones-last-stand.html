@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>iPhone的最后防线 - Stratechery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+        }
+        article {
+            padding: 20px 0;
+        }
+        header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.3;
+            color: #1a1a1a;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .meta a {
+            color: #faa634;
+            text-decoration: none;
+        }
+        .meta a:hover {
+            text-decoration: underline;
+        }
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            color: #1a1a1a;
+        }
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 30px 0 15px;
+            color: #1a1a1a;
+        }
+        p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        a {
+            color: #faa634;
+            text-decoration: underline;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        blockquote {
+            border-left: 4px solid #faa634;
+            padding: 15px 20px;
+            margin: 25px 0;
+            background: #fffaf1;
+            font-style: italic;
+        }
+        blockquote p {
+            margin-bottom: 10px;
+        }
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+        figure {
+            margin: 30px 0;
+        }
+        figure iframe {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #888;
+            font-size: 0.85rem;
+        }
+        footer p {
+            margin-bottom: 10px;
+        }
+        .terms {
+            background: #f8f8f8;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>iPhone的最后防线</h1>
+            <div class="meta">
+                <span>来源：Stratechery by Ben Thompson</span>
+                <span>发布日期：2026年6月9日（周二）</span>
+                <span><a href="https://stratechery.com/2026/the-iphones-last-stand/" target="_blank">原文链接</a></span>
+            </div>
+        </header>
+
+        <p>多年来，Apple 粉丝一直嘲笑 Microsoft 谈论那些可能永远不会发布的产品，嘲笑它们是 vaporware（雾件）。然而，在 <a href="https://daringfireball.net/2025/03/something_is_rotten_in_the_state_of_cupertino">Apple 搞砸了 2024 年 Apple Intelligence 和新版 Siri 的发布</a> 之后，vaporware 也成了可接受的话题，正好赶上这篇文章。</p>
+
+        <h2>Project Solara</h2>
+
+        <p>上周，在年度 Build 开发者大会上，Microsoft 提出了一个新的硬件设备生态系统愿景，名为 <a href="https://commandline.microsoft.com/project-solara-build-2026/">Project Solara</a>：</p>
+
+        <div class="video-container">
+            <iframe title="VideoPress Video Player" src="https://videopress.com/embed/FvCeWjjg?cover=1&posterUrl=https%3A%2F%2Fstratechery.com%2Fwp-content%2Fuploads%2F2026%2F06%2Fintroducing-project-solara-composing-a-new-platform-for-agent-first-devices-microsoft-build-2026_mp4_avc_240p.original.jpg&preloadContent=metadata&useAverageColor=1&hd=0" frameborder="0" allowfullscreen allow="clipboard-write"></iframe>
+        </div>
+
+        <p>这个概念——虽然从视频中不太容易理解，但在 <a href="https://www.youtube.com/watch?v=hbnhMKckxTE">舞台上有更充分的解释</a>——是未来你将被一个设备生态系统包围，这些设备都不是独立存在的，而更像是与你的 agent 互动的入口，这些 agent 存在于云端。换句话说，正如我在二月份写的 <a href="https://stratechery.com/2026/thin-is-in/">《Thin Is In》</a>：</p>
+
+        <blockquote>
+            <p>当你考虑 AI 的下一个大浪潮：agent 时，这一点更加清晰。Agent 的重点不是帮你使用电脑；而是完成特定任务。从请求到结果之间的所有环节，至少在理论上，对用户应该是不可见的。这是 thin client（瘦客户端）概念被推向绝对极致：不仅仅是你不需要任何本地算力就能从聊天机器人获得答案；你不需要任何本地算力就能完成真正的工作。服务器上的 AI 完成一切。</p>
+        </blockquote>
+
+        <p>我在那篇文章中论证了服务端推理将主导 AI 工作负载，特别是由于 agent 对内存的需求越来越高。然而，让我对 Microsoft 的 vaporware 感到有趣的是，它展示了一个用例，其中这种 thin client 方法之所以有吸引力，不仅仅是因为 KV cache，还有其他原因。</p>
+
+        <p>具体来说，在科技史上，<em>计算</em>一直与<em>交互</em>难以区分；这就是为什么我们如此重视新的输入方式，因为它们往往会引发新的范式转变。同样地，可穿戴设备作为 iPhone 之后的范式存在的问题在于，与它们的交互通常很糟糕。当然，你可以想象一个未来，语音交互完全无缝，或者设备可以"看到"你所看到的，但任何超过几秒的操作都比在手机上滑动要不便得多。然而，agent 代表你进行计算，不需要任何交互：几秒钟就足以让 agent 工作数小时——至少理论上如此。</p>
+
+        <h2>Siri AI</h2>
+
+        <p>Apple，一家真正能制造设备的公司，在昨天的 WWDC 主题演讲前受到了严格审查，原因不同：公司能做 AI 吗？如果你的标准是 2024 年 6 月的 AI 技术水平——当时 Apple 第一次尝试回答这个问题——他们做得相当不错。公司预先录制的主题演讲花了很多心思展示实际演示——包括旋转指示器等等——它们成功了！以下是 Apple 称为"Siri AI"的第一个演示：</p>
+
+        <div class="video-container">
+            <iframe title="VideoPress Video Player" src="https://videopress.com/embed/7QcUGEoe?cover=1&preloadContent=metadata&useAverageColor=1&hd=0" frameborder="0" allowfullscreen allow="clipboard-write"></iframe>
+        </div>
+
+        <p>这个特定演示的有趣之处在于，它也展示了 Apple 落后了多远。新任 Siri 负责人 Mike Rockwell 成功地使用 Siri 设置了一个提醒，要在演唱会门票抽签开始时入场，展示了上下文感知能力和通过 Apple 的 App Intents 框架与 Reminders 应用交互的能力；而最先进的表现应该是让 Siri 在时间到了时代为入场。换句话说，在传统的计算交互范式之外行动，而这正是 Apple 一直主导的领域。</p>
+
+        <p>同时，Apple 落后于技术前沿这一事实可能并不那么重要，考虑到 Apple 的市场和在这个市场中的机会。首先从前者说起，Apple 面向的是消费者，对于他们来说，传统的聊天机器人功能可能足以满足他们绝大多数的 AI 需求。Siri 将能够给你食谱、DIY 项目建议，或生成图片。此外，Siri 将可以访问你的 iPhone，这让我最初对 Apple Intelligence 持乐观态度。来自 <a href="https://stratechery.com/2024/wwdc-apple-intelligence-apple-aggregates-ai/">2024 年 6 月初次发布后的更新</a>：</p>
+
+        <blockquote>
+            <p>这里的关键部分是"理解个人上下文"：Apple Intelligence 将比你手机上的任何其他 AI 更了解你，因为你的手机比任何其他设备更了解你（而且每当你调用 Apple Intelligence 时，它知道你在看什么）；这反过来解释了为什么基础设施和隐私部分如此重要。</p>
+            <p>这意味着 Apple Intelligence 主要专注于那些知识有用的特定用例；这意味着 Apple Intelligence 试图解决的问题空间是受限的、有根据的——既形象地说，也字面上说——在 AI 出错的领域。换句话说，Apple 正在解决一个非常有用的空间，只有他们能解决，而且恰好是声誉风险方面的"安全"领域。老实说，这几乎显得不公平——或者换种方式说，这说明了可信平台有多么巨大的优势。Apple 能够以低风险的方式解决实际问题，而这正是他们在做的。</p>
+        </blockquote>
+
+        <p>Apple 实际上让这个版本的 Siri 在访问世界知识和图像生成方面能力更强，这应该会让体验更加无缝，但真正的差异化显然将是访问你的个人信息。你可以问 Siri 关于你在消息中收到的内容——还是邮件，还是语音留言？——它会真正找到你要找的内容；它还可以"看到"你屏幕上正在看的内容，并根据信息采取行动。而且，在第三方应用将其数据提供给 Spotlight 语义索引，并通过 App Intents 提供操作的范围内，Siri 实际上可以跨不同服务运作，这是其他 AI 无法做到的，至少在本地 Mac 或 PC 上不做出安全牺牲的情况下。</p>
+
+        <h2>消费者市场</h2>
+
+        <p>这些能力确实有用，很可能这就够了，至少目前如此，这是因为消费者市场还有另一个值得考虑的方面——除了数十亿消费者已经拥有 iPhone 这一事实。具体来说，消费者不想工作，并不真的关心生产力。</p>
+
+        <p>这个关于消费者市场的现实是硅谷每隔十年左右就必须重新学习的一课。想想 Dropbox，其创始人 Drew Houston <a href="https://www.cnbc.com/2026/05/26/dropbox-ceo-drew-houston-ashraf-alkarmi.html">正在卸任</a>。Dropbox 是一个定义品类的产品，有一个病毒式传播钩子——如果有人用你的推荐码注册，你会获得更多存储空间——在消费者中增长极快；然后公司花了太长时间试图在消费者领域建立真正的业务，<a href="https://stratechery.com/2015/dropbox-kills-carousel-and-mailbox-facebook-kills-creative-labs/">最终才意识到</a>赚钱的唯一途径是将这个最终是生产力产品的产品卖给企业。</p>
+
+        <p>仔细想想原因就很明显：企业为员工的时间付费，所以他们当然愿意为提高员工生产力的工具付费；另一方面，消费者主要是想消磨时间，这就是为什么注意力收割广告是唯一能在规模上奏效的消费者服务软件商业模式。硅谷忘记这一点是源于硅谷是一个泡沫；普通人不是在寻找 agent 帮他们买演唱会门票。</p>
+
+        <p>尽管如此，这个泡沫强到足以让 OpenAI 犯下与 Dropbox 完全相同的错误：公司不知怎么地说服自己可以通过向消费者销售订阅赚足够的钱；与此同时，Anthropic 意识到愿意为 AI 巨大生产力效益付费的是企业，即使 OpenAI 未能通过 <a href="https://stratechery.com/2025/an-interview-with-openai-ceo-sam-altman-about-building-a-consumer-tech-company/#advertising">拒绝构建广告产品</a> 来利用其消费者市场渗透率。</p>
+
+        <p>这是一个很长的说法，意思是我认为 Apple 的 agent 短板不是大问题，至少目前如此。Agent 帮你工作和提高生产力，而消费者不想工作，不关心生产力。他们想做的是看短视频，而 iPhone 在这方面比任何其他设备都要好得多；在这种情况下，Siri 足够好就够了，而看起来 Apple 已经跨过了这道门槛。</p>
+
+        <h2>iPhone 的核心地位</h2>
+
+        <p>关于 Apple 如何重建 Siri，实际上有很多有趣的技术细节，包括将 Private Cloud Compute 扩展到在 Google 数据中心运行的 Nvidia 芯片，以及一个 200 亿参数的设备端 mixture-of-experts 模型，它按查询选择专家（而不是按 token），以便能在 iPhone 有限的内存中运行。</p>
+
+        <p>然而，这些实现细节的关键战略启示是 iPhone 的核心地位。Microsoft 的 Project Solara 对 Microsoft 来说显然有意义，因为公司错过了移动时代，但它也符合 AI 的基础设施，即在云端，越来越多的是在没有人类参与的情况下进行计算。相比之下，Apple 有强烈的动机保持 iPhone 的重要性，进而专注于围绕人机交互组织的用例。</p>
+
+        <p>然而，将这些方法简化为对激励的愤世嫉俗分析太简单了；两者都有各自的道理。让我对 Project Solara 感到有趣的是，Microsoft 将其定位为纯粹的企业策略，这很重要，因为企业对正在做的工作有上下文，使得构建长时间运行的 agent 更加可行——而企业愿意为此付费。对于消费者来说，构建这种上下文要困难得多，因为需要将大量服务连接在一起才能获得一组连贯的数据来操作。实际上，唯一可能做到这一点的实体可能只有 Google 和 Apple，分别通过 Android 和 iOS——而 Google 总是会更关注其云服务作为整合点，而不是设备。</p>
+
+        <p>这就让 Apple 成为唯一一家真正——我敢说吗？——think differently（不同凡想）的公司。是的，iPhone 作为 Siri 的真正核心（Siri 将跨设备工作，但首先和最主要地从你的 iPhone 获取差异化上下文）恰好完美契合 Apple 的商业模式和不希望花费数十亿 capex 的意愿，但这并不意味着这是错误的方法。你可以在手机上访问其他公司正在构建的所有 capex，只需要使用应用；如果你需要找到个人内容，或跨应用工作，Siri 将是唯一能做到的——只要它不是 vaporware（看起来第二次是成功了）。</p>
+
+        <footer>
+            <p>翻译日期：2026年6月11日</p>
+            <p class="terms">保留术语：AI, Agent, vaporware, capex, WWDC, Siri, Siri AI, App Intents, Private Cloud Compute, mixture-of-experts, KV cache, thin client</p>
+        </footer>
+    </article>
+</body>
+</html>
