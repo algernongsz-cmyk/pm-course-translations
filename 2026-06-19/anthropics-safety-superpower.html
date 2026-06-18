@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic的安全超级能力 | Stratechery 翻译</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            color: #2a2a2a;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+            color: #2a2a2a;
+        }
+        p {
+            margin-bottom: 1em;
+        }
+        blockquote {
+            border-left: 4px solid #ddd;
+            margin: 1.5em 0;
+            padding: 0.5em 1.5em;
+            background: #f9f9f9;
+            color: #666;
+        }
+        blockquote p {
+            margin-bottom: 0.5em;
+        }
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        .note {
+            background: #fff3cd;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 1em;
+        }
+        .original-link {
+            margin-top: 2em;
+            padding: 15px;
+            background: #e8f4f8;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anthropic的安全超级能力</h1>
+    
+    <div class="meta">
+        原文作者：Ben Thompson | 原文发布日期：2026年6月15日
+    </div>
+    
+    <div class="note">
+        <strong>译者注：</strong>本文保留了AI、LLM、Agent、API、GPT、Claude、Opus、Codex、tokens等技术术语的原文形式。
+    </div>
+
+    <p>我对那些一直将Anthropic的公开声明——特别是围绕其模型发布的声明——定性为营销恐吓手段的怀疑者表示理解。就在两个月前，Anthropic宣布了Mythos Preview，一个他们声称因网络安全能力过于危险而无法公开发布的模型。然后，两个月后，该公司公开发布了Fable，这是带有各种安全护栏的Mythos版本。</p>
+
+    <p>Fable在我有限的使用体验中是一个非常出色的模型。现在越来越难以客观评估模型——除了编程性能之外——但主观感受是存在的，我发现与Fable的交互极其令人印象深刻；它让其他模型（包括GPT 5.5和Opus 4.8）感觉渺小而愚蠢。我之前两次有这种感觉是在使用<span class="stratechery-lining-numerals">GPT-4</span>和Grok 4时，两者都代表了基础模型规模和复杂性的新世代；我的感觉是，Fable源自新的预训练，是新一代的首个产品。</p>
+
+    <p>因此，我完全可以接受Fable/Mythos在识别和利用安全漏洞方面确实更强大的说法，Anthropic谨慎的推出是合理的。然而，公开发布模型的问题是，护栏可以被"越狱"(jailbreak)，而这正是发布后不久发生的事情。</p>
+
+    <h3>Anthropic与美国政府的冲突（再次）</h3>
+
+    <p>接下来发生的事情有些不清楚。Anthropic在<a href="https://www.anthropic.com/news/fable-mythos-access">一篇博客文章</a>中写道：</p>
+
+    <blockquote>
+        <p>美国政府以国家安全为由，发布了一项出口管制指令，暂停所有外国人（无论在美国境内还是境外，包括外国籍Anthropic员工）对Fable 5和Mythos 5的所有访问权限。该指令的实际效果是我们必须突然为所有客户禁用Fable 5和Mythos 5以确保合规。对所有其他Anthropic模型的访问不受影响。</p>
+        
+        <p>我们在今天下午5:21（东部时间）收到了政府的指令。信函未提供其国家安全关切的具体细节。我们的理解是，政府认为它已获悉一种绕过或"越狱"Fable 5的方法。我们审查了这种特定技术被用于识别少量已知、次要漏洞的演示。这些漏洞看起来都相对简单，我们发现其他公开可用的模型也能发现它们，而无需绕过护栏。</p>
+    </blockquote>
+
+    <p>Anthropic继续论证非通用性越狱是不可避免的且范围有限，没有证据表明存在通用越狱；而发现的越狱似乎是由<a href="https://www.theinformation.com/articles/amazons-jassy-raided-concerns-anthropic-model-trump-crackdown?rc=gtxu6q">亚马逊报告的</a>，这很值得注意，因为亚马逊既是Anthropic的投资者，也是该公司推理服务的主要提供商。在我撰写本文时，<a href="https://www.axios.com/2026/06/14/anthropic-white-house-mythos-fable">Anthropic高层正在华盛顿特区</a>寻求解决他们坚持认为的误解，而白宫官员则暗示这是公司领导层对正当国家安全关切的漫不经心。</p>
+
+    <p>鉴于如此多的事实存在争议，我对当前的冲突实际上没有太多补充；我不感到惊讶的是冲突正在发生：我在<a href="https://stratechery.com/2026/anthropic-and-alignment/">《Anthropic与对齐》</a>中已经解释了为什么美国政府与Anthropic之间的冲突不可避免。因此，那些论证Mythos不够强大以至于政府采取极端行动的人忽略了一个要点：如果现在不够强大，下一个就会是，或者再下一个，特别是现在模型越来越能用于创造它们的继任者。</p>
+
+    <p>然而，这提出了另一个问题——这个问题似乎验证了怀疑者的观点：如果Mythos如此危险，为什么还要发布Fable，为什么还要与政府抗争而政府正在做你声称想要的事情？事实上，我认为Anthropic的行为是可以理解的；使该公司独特的是它如何为这些行为辩护，正是这些辩护既给了怀疑者燃料，也给了Anthropic魔力。</p>
+
+    <h3>经济必然性</h3>
+
+    <p>在AI的前几年，大部分经济价值流向了计算，原因显而易见：我们没有足够的供应来满足需求，这意味着价格飙升；最大的受益者是Nvidia、TSMC和内存制造商（SK hynix、三星和美光）。与此同时，Anthropic和OpenAI集体损失了数十亿美元来构建前沿模型，这些模型一旦发布，就会被开源模型——主要来自中国——蒸馏和商品化。</p>
+
+    <p>这代表了实验室的看空理由——它们永远无法覆盖成本，因为它们的差异化是短暂的，而免费替代品变得"足够好"——我认为这是一个合理的理由。一个模型可互换的世界是一个模型被商品化的世界，而大部分价值流向其他地方。现在这是计算，但在充分的时间之后——当我们有足够的计算时——价值链中最有价值的地方将一直是最有价值的地方：拥有用户接触点。</p>
+
+    <p>因此，我很早就清楚前沿实验室有经济动力向用户靠拢。如果你拥有用户接触点，你就有了有意义的锁定，而拥有用户接触点的最好方法是成为他们需要做的一切的画布。这反过来意味着前沿实验室与软件公司正处于碰撞轨道上：软件拥有用户接触点，而前沿实验室的长期利益不仅仅是成为软件的商品化输入，而是直接取代软件。</p>
+
+    <p>与此同时，软件公司正在做相反的事情。萨蒂亚·纳德拉在<a href="https://x.com/satyanadella/status/2066182223213293753?s=46">X上的一篇文章</a>中阐述了他对公司应该如何在模型上构建的愿景：</p>
+
+    <blockquote>
+        <p>每家公司都必须建立我认为的人力资本和token资本。人力资本包括其人员的知识、判断、关系、创造力和模式识别，而token资本是公司构建并拥有的AI能力。重要的是，人力资本不会随着token资本的增长而变得不那么有价值。它只会变得更有价值！我相信人类能动性将是token资本增长的驱动力。人类将设定雄心勃勃的目标，连接跨领域的点，建立关系，并识别最重要的模式。没有人类指导，你只有计算在原地打转。</p>
+        
+        <p>这意味着真正的机会不是选择最好的模型，而是在模型之上建立一个学习循环，使人力资本和token资本复利增长。你可以外包一个任务，甚至一个工作，但你永远不能外包你的学习。公司的未来是在人员和AI之间复利增长这种学习的能力。这需要一种新的架构方法，使每个业务都能够构建随时间改进的智能系统，同时仍然保持对其IP的控制。一家公司应该能够替换一个"通用"模型，而不会失去内置在其学习系统中的"公司资深者"专业知识。这是未来时代你对控制和主权的关键"测试"。</p>
+    </blockquote>
+
+    <p>纳德拉用一个警告引出了这一愿景：</p>
+
+    <blockquote>
+        <p>我们任何人最不想要的是一个每个行业的每家公司都在向几个吞噬所见一切的模型让步价值的世界。如果所有价值只由少数几个模型积累，政治经济将无法容忍它。没有社会许可允许一个掏空整个行业的AI未来。</p>
+        
+        <p>想想全球化的第一阶段发生了什么，整个工业经济被外包掏空。GDP数字表面看起来不错，但 displacement 是真实的，后果至今仍在感受。让我们不要把这种动态带入AI时代，让少数AI系统捕获所有经济回报，而整个行业发现他们的知识从下面被商品化。</p>
+    </blockquote>
+
+    <p>这个类比的问题是：全球化发生了，工业经济确实被掏空了。这有可能不是一个警告而是预言；难怪纳德拉在发出警报，因为微软可能是受害者之一。同样，模型制造商的经济动力正是要实现这一点。</p>
+
+    <h3>数据必然性</h3>
+
+    <p>模型——甚至Mythos——还没有达到这一点。除了更多计算，它们需要的是更多更好的数据。模型改进越来越多地来自强化学习；其中一些可以合成生成，但前沿实验室最强大的杠杆是实际使用。</p>
+
+    <p>我认为这是OpenAI和Anthropic提供大幅补贴订阅计划的一个主要原因。SemiAnalysis<a href="https://x.com/SemiAnalysis_/status/2064815044085318040">最近估计</a>，一个200美元的计划可以让你获得价值8000美元的Claude tokens和价值14000美元的Codex tokens。当然两者都在争夺用户和开发者的心智份额，但它们也在争夺实际使用数据的访问权，以使它们的模型更好。</p>
+
+    <p>Anthropic用Fable大幅升级了赌注，宣布他们将保留所有使用的数据30天，即使对于以前承诺零数据保留的企业计划也是如此。该公司表示他们不会在这些数据上训练，但他们没有设置任何保证他们未来不会这样做护栏（比如将数据存储在第三方）。如果这一政策变化（无论Fable何时恢复）没有导致大量客户流失，我怀疑他们最终会开始使用这些数据：这对他们的终极目标来说太有价值了。</p>
+
+    <p>还要注意与向用户接触点移动的良性循环：直接用Claude或Codex完成的工作流程越多，每家公司获得的数据越多，可以反馈到他们的训练中，使他们的产品更强大、更有用，扩大他们可以服务的工作流程数量，扩大他们获取数据的机会。</p>
+
+    <p>纳德拉在他的文章中强调了这些数据的重要性，但自然认为它应该独立于模型：</p>
+
+    <blockquote>
+        <p>公司需要将其工作流程、领域知识和积累的判断转化为每次使用都能改进的AI系统。私有评估应该捕获模型是否真正在改进对业务重要的结果（不仅仅是外部基准！）。私有强化学习环境应该让模型从组织内部的实际痕迹中变得更强。其知识库使机构记忆可查询，并使tokens的使用更高效。</p>
+        
+        <p>这个循环成为公司新的IP。我把它想象成一台爬山机器。与大多数资产不同，它会复利增长。每个改进的工作流程产生更好的训练信号，这加速了公司独特隐性知识的积累。早期建立这一点的公司将拥有难以复制的优势，无论任何新的单个模型能力。</p>
+    </blockquote>
+
+    <p>然而，如果屈服于Anthropic数据政策的公司现在就能获得更好的结果呢？或者如果现有公司抗拒，为新公司——或模型制造商自己——在市场上竞争它们敞开大门呢？Anthropic正在把纳德拉呼吁的决心推向考验。</p>
+
+    <h3>权力必然性</h3>
+
+    <p>Fable/Mythos周围的数据保留政策令人惊讶地不是发布中最具争议的部分。相反，Anthropic在发布时表示，如果Fable用于LLM开发，它会静默降低性能；来自<a href="https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf">系统卡片</a>：</p>
+
+    <blockquote>
+        <p>我们还添加了与前沿LLM开发相关的护栏。正如我们在<a href="https://anthropic.com/feb-2026-risk-report">2026年2月风险报告</a>第6.1节中所讨论的，我们担心加速AI开发的整体步伐的风险，尽管我们对这些风险的严重性仍不确定。特别是，我们的担忧是——正如我们当时所写——"加速其他AI开发者构建与我们构成类似风险的有力AI系统——而未必有相应的护栏"。</p>
+        
+        <p>鉴于最近模型能够<a href="https://www.anthropic.com/institute/recursive-self-improvement">加速自己的开发</a>，我们实施了新的干预措施，限制Claude对针对前沿LLM开发的请求的有效性（例如，构建预训练管道、分布式训练基础设施或ML加速器设计）。使用Claude开发竞争模型已经违反了我们的<a href="https://www.anthropic.com/legal/consumer-terms">服务条款</a>，但通过我们的护栏执行这一限制避免了加速最愿意违反这些条款的行为者。</p>
+        
+        <p>与我们在网络安全、生物学和化学以及蒸馏尝试方面的干预不同，这些护栏对用户是不可见的。Fable 5不会回退到不同的模型。相反，护栏将通过提示修改、引导向量或参数高效微调(PEFT)等方法限制有效性。这些干预不会影响绝大多数编码工作。我们估计它们将影响约0.03%的流量，集中在不到0.1%的组织中。当这些干预激活时，我们预计它们对模型的行为影响最小，除了限制其在开发前沿LLM方面的有效性。Claude仍然会响应用户的请求。我们将在该模型发布后继续改进我们检测方法的精度。</p>
+    </blockquote>
+
+    <p>Anthropic<a href="https://www.wired.com/story/anthropic-responds-to-backlash-on-claudes-secret-sabotage-on-ai-research/">撤回了这一变化</a>——Fable将简单地将LLM相关请求交接给Opus 4.8，并向用户披露这一交接——但我认为初始政策非常有启发性。一方面，我实际上不怪Anthropic不想帮助其竞争对手；另一方面，应该清楚的是，Anthropic认为除了他们之外不应该有人在制造前沿LLM。</p>
+
+    <p>这一政策更加值得注意的是，它仅在Anthropic与战争部发生争议两个月后实施：后者想用Claude进行任何合法用途，而前者想在监控和自主武器方面设置更严格的控制。这一降级代表了Anthropic既有能力也有意愿静默改变其模型以实现其政策偏好。换句话说，Anthropic有意验证了一些批评者最担忧的供应链风险。</p>
+
+    <p>然而，那次事件的更广泛教训是，Anthropic认为他们应该对Anthropic如何被使用拥有最终决定权；鉴于他们认为只有他们应该开发前沿AI，他们进一步认为只有他们应该对AI总体拥有最终决定权。当你进一步将这一认识与公司关于AI能够进行所有经济活动的声明结合起来，你意识到Anthropic的领导层实际上想对一切和所有人拥有权力。</p>
+
+    <h3>安全叙事</h3>
+
+    <p>当然Anthropic永远不会如此赤裸地表达；故事是安全：</p>
+
+    <ul>
+        <li>我预计Anthropic会越来越多地通过越来越针对不同工作流程的端点向终端用户暴露其模型的能力，即使他们开始限制API。这种软件取代和访问限制将以安全的名义进行，即使Anthropic履行其向终端用户靠拢的经济必然性。</li>
+        
+        <li>Anthropic对其数据保留政策剧烈变化的解释是安全。具体来说，公司声称保留所有用户数据30天对于防止美国政府担心的越狱是必要的。我完全可以想象一个未来，安全迫使他们也在这些数据上训练，以更好地防止恶意使用。</li>
+        
+        <li>整个Anthropic起源故事植根于创始人认为OpenAI不够重视安全；公司认为只有他们能控制AI，而且因为他们独特地关心安全，他们有正当理由试图控制其他所有人，包括美国政府。</li>
+    </ul>
+
+    <p>关于这些安全辩护的问题是：我认为它们有效，因为对Anthropic来说，它们不仅仅是辩护。公司真的相信他们是唯一相信超级智能的人，因此是唯一足够关心危险的人。这为一个又一个决定、一项又一项政策、一场又一场对抗开脱，对外人来说，这些看起来像是犬儒主义和天真的奇异组合。</p>
+
+    <p>与OpenAI的对比是巨大的：我认为理解OpenAI如何以及为什么失去领先地位的一种方式是，在ChatGPT发布后的几年里，公司内部一直在与自身交战，因为一个曾经的研究实验室突然承担了成为<a href="https://stratechery.com/2023/the-accidental-consumer-tech-company-chatgpt-meta-and-product-market-fit-aggregation-and-apis/">意外的消费科技公司</a>的负担；在OpenAI解决这一冲突的程度上，是通过向Anthropic流失大量人才来实现的。</p>
+
+    <p>另一方面，Anthropic的人才、使命和业务之间有完美的对齐。公司可以向研究人员出售创造机器神的理念，披着关心危险且足够聪明以代表人类驾驭这些危险的人的外衣；由此产生的每一个政策变化恰好对业务来说都是好事，这是世界上最美丽的巧合。</p>
+
+    <p>我尊重这种对齐，我也害怕它。我尊重它因为它显然有效；最接近的类比可能是苹果，苹果总是将每一个自私的行为以对用户做正确之事的面貌包装——而且往往他们确实是对的。Anthropic也是如此。然而，我害怕的是，让确信自己知道最好的人构建一个我可以接受或拒绝的智能手机是一回事；让他们构建有可能匹敌或超越国家权力——或仅仅是巨型公司——的超级智能则相当令人担忧。坚信自己知道人类需要什么的人的历史是一部肮脏的历史，恰恰因为他们说服自己他们的意图是好的，为那些非常不好的行为开脱。</p>
+
+    <div class="original-link">
+        <strong>原文链接：</strong><a href="https://stratechery.com/2026/anthropics-safety-superpower/">https://stratechery.com/2026/anthropics-safety-superpower/</a>
+    </div>
+</body>
+</html>
