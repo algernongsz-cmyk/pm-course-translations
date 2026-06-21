@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>为最繁忙的一天做好准备：我们如何实现扩展</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 0.3em;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            padding-top: 1em;
+            border-top: 1px solid #eee;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 1.5em;
+            display: flex;
+            gap: 1em;
+            flex-wrap: wrap;
+        }
+        .meta a {
+            color: #0073e6;
+            text-decoration: none;
+        }
+        .meta a:hover {
+            text-decoration: underline;
+        }
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .author img {
+            border-radius: 50%;
+        }
+        .hero-image {
+            width: 100%;
+            height: auto;
+            margin: 1.5em 0;
+            border-radius: 4px;
+        }
+        blockquote {
+            border-left: 4px solid #0073e6;
+            padding-left: 1em;
+            margin: 1.5em 0;
+            color: #555;
+            font-style: italic;
+        }
+        p {
+            margin: 1em 0;
+        }
+        a {
+            color: #0073e6;
+        }
+        .iframe-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1.5em 0;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .footer {
+            margin-top: 3em;
+            padding-top: 1em;
+            border-top: 1px solid #eee;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .term-kept {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>为最繁忙的一天做好准备：我们如何实现扩展</h1>
+            <div class="meta">
+                <div class="author">
+                    <img width="28" height="28" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/01/fe83af9d71cdbf78adfc830c2e3058e34b3b9c8260ea0a41dc70fe55fa56e5d2-1.png" alt="Ryan Sherlock" />
+                    <span>Ryan Sherlock</span>
+                </div>
+                <span>发布时间：2026年5月19日</span>
+                <span>阅读时间：13分钟</span>
+                <span>原文：<a href="https://www.intercom.com/blog/ready-for-your-busiest-day-how-we-scale/" target="_blank">链接</a></span>
+            </div>
+            <img width="1400" height="653" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Blog-hero_-Handling-serious-scale-1-1536x717.png" alt="Handling serious scale" class="hero-image" srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Blog-hero_-Handling-serious-scale-1-1536x717.png 1536w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Blog-hero_-Handling-serious-scale-1-300x140.png 300w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Blog-hero_-Handling-serious-scale-1-700x327.png 700w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Blog-hero_-Handling-serious-scale-1-768x358.png 768w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Blog-hero_-Handling-serious-scale-1-1320x616.png 1320w, https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Blog-hero_-Handling-serious-scale-1.png 1800w" sizes="(max-width: 1400px) 100vw, 1400px" />
+        </header>
+
+        <p>随着我们与全球更多大型 B2B 和 B2C 企业合作，我们收到的关于扩展性的问题变得更加犀利和具体。</p>
+
+        <p>客户希望了解平台在他们最高峰时刻的表现——黑色星期五促销、体育赛事、生产事故。他们希望确信自己的增长不会超过所依赖系统的承载能力。</p>
+
+        <p>我们欢迎这些问题。对于任何关键业务组件，这都是应该提出的问题。</p>
+
+        <p>如今，我们的系统处理着大规模流量。在日高峰期，我们看到每秒超过 150,000 个客户请求进入平台，后台系统中每秒有超过 70,000 个异步请求流过。在我们每周最繁忙的日子里，我们处理超过 500 万次对话，平台中新增超过 1 亿条评论。</p>
+
+        <p>我们还针对单个客户峰值进行设计，而不仅仅是聚合平台流量。我们可以处理单个客户工作区每秒数百条评论的峰值，或每秒约 100 个新对话。如果持续一整天，这将映射到单个客户数百万次对话。</p>
+
+        <p>虽然这些数字很重要，但它们很快就会过时。每个成长的软件公司每年、每月、每周都能发布更大的数字。更重要的是架构是否有清晰的扩展杠杆，我们是否了解系统中的压力点，以及是否能在客户需要之前增加容量。</p>
+
+        <p>每个系统都有极限。能力在于知道它们在哪里、测量它们，并在客户触及之前移动它们。</p>
+
+        <p>以下是我们在 <span class="term-kept">Fin</span> 如何做到这一点的。</p>
+
+        <h2 id="we-build-on-boring-foundations">我们构建在稳定的基础上</h2>
+
+        <p>在边缘，我们尽量不耍聪明。</p>
+
+        <p>我们使用 <span class="term-kept">AWS</span> 提供 <span class="term-kept">AWS</span> 非常擅长运行的基础设施原语。我们不希望工程师将最好的精力浪费在重新创建 S3、负载均衡器、队列或通用基础设施模式上。我们希望这些精力投入到系统特有的、针对客户和产品的部分。</p>
+
+        <blockquote><p>这是一种刻意的权衡。它让我们需要理解的系统更少，在我们确实运行的系统中拥有更深入的专业知识，并在需要扩展时拥有更多杠杆。</p></blockquote>
+
+        <p>这是我们多年来一直谈论的原则的延伸：<a href="https://www.intercom.com/blog/podcasts/intercom-rich-archbold-run-less-software/">运行更少的软件</a>。目的不是为了拥有最小的技术栈本身。目的是复合专业知识。当许多团队在<a href="https://www.intercom.com/blog/core-technologies-team/">相同的小型技术集</a>上构建时，我们的工具、可观测性和运维实践都会一起改进。</p>
+
+        <p>稳定的技术选择并非缺乏雄心。它们是我们如何将雄心留给更微妙的扩展挑战。</p>
+
+        <h2 id="the-source-of-truth-is-the-hard-part">真相之源是最困难的部分</h2>
+
+        <p>对于许多公司来说，数据库是"我们扩展"声明接受检验的地方。</p>
+
+        <p>您可以通过添加更多机器来扩展无状态 Web 流量。您可以添加队列消费者。您可以添加缓存。这些是真正的问题，但通常不是最困难的问题。</p>
+
+        <p>真相数据库则不同。它是最重要数据所在的地方，存在最困难的正确性保证的地方，也是维护窗口通常来自的地方。它必须正确、快速、能够故障转移、能够进行大规模迁移，并能在我们改进它时继续提供服务。随着客户增长，它不能每次出现下一个上限都需要全面重新架构。</p>
+
+        <p>这就是为什么我们迁移到 <span class="term-kept">Vitess</span>，由 <span class="term-kept">PlanetScale</span> 管理。我们<a href="https://www.intercom.com/blog/evolving-intercoms-database-infrastructure/">广泛撰写了关于此迁移背后的架构决策</a>。</p>
+
+        <p>目标很明确：提高可用性、降低运维复杂性、使大表迁移更安全、简化 <span class="term-kept">MySQL</span> 扩展，并消除例行数据库维护和故障转移导致的客户停机时间。</p>
+
+        <p>当我们撰写<a href="https://www.intercom.com/blog/evolving-intercoms-database-infrastructure-lessons-and-progress/">上次的公开更新</a>时，迁移的最大部分仍在后面。我们在 2025 年完成了该迁移，其好处现在已成为我们日常运营平台的一部分。</p>
+
+        <p>如今，我们最高规模的真相数据分布在 128 个分片上。数据库层每秒处理约 200 万个请求，前面有超过 1000 万次缓存读取每秒。对于最大的客户，我们可以独立隔离和扩展数据库容量，包括在需要时将单个分片专用于单个客户。</p>
+
+        <p>我们远未达到需要这样做的程度，这很重要。这种架构的目标不是让每个系统都在容量边缘运行，而是在客户需要之前有移动空间。<span class="term-kept">Vitess</span> 为我们提供了<a href="https://vitess.io/docs/24.0/reference/features/sharding/">原生分片</a>、查询路由、在线架构变更能力、连接池和为这种工作负载构建的重分片原语。应用代码不必承担所有分片复杂性，数据库层可以做更多工作。这减少了工程师的认知负担并消除了整类运维风险。</p>
+
+        <p>最终，这为我们提供了实际的扩展选项而不是困难的架构重写，并让我们能够进行常规数据库改进而无需计划中的客户影响维护窗口。</p>
+
+        <h2 id="search-is-not-a-hidden-bottleneck">搜索不是隐藏的瓶颈</h2>
+
+        <p>搜索是扩展问题可能隐藏的另一个地方，因为它支撑着平台上的核心产品表面，从 <span class="term-kept">Fin</span> 的向量搜索到我们的实时报告。如果搜索缓慢或不健康，客户会在产品中感受到。</p>
+
+        <p>我们之前曾撰写过<a href="https://www.intercom.com/blog/optimising-elasticsearch-at-intercom/">如何优化 <span class="term-kept">Elasticsearch</span> 使用</a>，因为扩展不仅仅是添加更多机器。通常，更好的方法是让产品做更少不必要的工作。</p>
+
+        <p>如今，我们的 <span class="term-kept">Elasticsearch</span> 集群支持比过去更高吞吐量的产品，拥有超过 650TB 存储、超过 1.7 万亿文档，峰值超过每秒 40,000 个请求。我们更高效地服务更大的产品表面，而不仅仅是运行更大的集群。</p>
+
+        <p>但确切数字不如运营模式重要：当索引变得太大或流量分布变得不健康时，我们不希望这成为高风险的手动迁移。我们投资了在线重塑 <span class="term-kept">Elasticsearch</span> 索引的能力。这意味着按客户 ID 分区、双写到新旧索引、回填、验证、使用功能标志逐步迁移客户，并仅在确信时删除旧索引。我们多年来一直使用此模式，使大型搜索迁移更安全、更增量。</p>
+
+        <p>该模式出现在我们整个基础设施工作中。使大型变更增量、可观测、在可能的情况下可逆，并在客户继续使用产品时安全运行。</p>
+
+        <h2 id="a-large-customer-spike-should-mostly-be-their-spike">大型客户峰值应该主要是他们自己的峰值</h2>
+
+        <p>多租户系统需要公平性。单个客户的高峰时刻不应悄悄成为其他所有人的延迟问题。这是企业客户正确询问的核心风险之一。如果您与其他大型客户共享基础设施，当其中一个出现峰值时会发生什么？</p>
+
+        <p>我们在多层设计中考虑了这一点。</p>
+
+        <p>对于异步工作，我们使用溢出队列和队列策略，帮助防止一个高流量工作负载以伤害较安静租户的方式消耗共享容量。<a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fair-queues.html"><span class="term-kept">AWS</span> SQS 公平队列</a>是我们广泛使用的一个原语示例。它们专为这类问题设计。当一个租户在共享队列中创建积压时，公平队列有助于减少对其他租户的停留时间影响。</p>
+
+        <p>我们还构建自己的应用级护栏，在产品需要的地方。在大型多租户 Rails 应用中，客户隔离不能依赖每位工程师记住每条代码路径中的每条规则。安全路径必须构建到系统中。</p>
+
+        <p>我们的首席工程师之一 <a href="https://www.intercom.com/blog/author/milesmcguire/">Miles McGuire</a> 在"<a href="https://www.youtube.com/watch?v=5MLT-QP4S74">护栏：在多租户系统中保持客户数据分离</a>"中公开谈论了这项工作的一个示例。</p>
+
+        <div class="iframe-container">
+            <iframe loading="lazy" title="Miles McGuire - Guardrails: Keeping customer data separate in a multi tenant system - Rails World" width="500" height="281" src="https://www.youtube.com/embed/5MLT-QP4S74?feature=oembed&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <p>重点主要是正确性和客户数据分离，但这项工作也反映了更广泛的运营原则。重要的客户边界应由基础设施和应用框架强制执行。</p>
+
+        <p>同样的思维适用于扩展。我们希望客户特定的负载是可见的、可归因的、可控制的。当客户峰值发生时，我们应该能够将其理解为该客户的工作负载，保护平台的其余部分，并在实际需要的地方添加容量。</p>
+
+        <h2 id="fin-adds-a-new-dimension-to-scaling"><span class="term-kept">Fin</span> 为扩展增加了新维度</h2>
+
+        <p>我们的 <span class="term-kept">AI</span> Agent <span class="term-kept">Fin</span> 引入了一套新的基础设施挑战。要在规模上提供可靠的 <span class="term-kept">AI</span> 驱动支持，我们需要跨多个模型提供商运营、根据容量和延迟在它们之间路由，并保护面向客户的工作负载免受低优先级工作的影响。</p>
+
+        <p>细节与传统 SaaS 基础设施不同，但原则相同。我们仍需要了解瓶颈、构建清晰的扩展杠杆、监控客户结果。我们应该对此诚实。<span class="term-kept">AI</span> 提供商不是商品存储系统，我们不这样设计。</p>
+
+        <p>这就是为什么我们投资了<a href="https://fin.ai/research/fin-running-a-reliable-service-over-unreliable-parts/"><span class="term-kept">Fin</span> 特定的可靠性系统</a>。</p>
+
+        <p><span class="term-kept">Fin</span> 现在每周完全解决超过 200 万次对话。在该规模下，高可用性不能依赖单个模型、单个提供商、单个区域或单个容量池。我们的 <span class="term-kept">LLM</span> 路由层支持跨供应商故障转移、跨模型故障转移、基于延迟的路由、容量隔离和负载测试。我们还与主要提供商维护缓冲容量，随时有处理 2 到 3 倍正常 <span class="term-kept">Fin</span> 流量的余量。</p>
+
+        <p>这对企业客户很重要，因为 <span class="term-kept">AI</span> 支持量可能像人工支持量一样激增。如果客户自己的产品发生事故或发布导致问题突然激增，<span class="term-kept">AI</span> 层需要吸收该峰值，而不依赖一个脆弱的上游路径。</p>
+
+        <p>当客户依赖 <span class="term-kept">Fin</span> 吸收支持需求峰值时，<span class="term-kept">AI</span> 层需要与平台其余部分相同的运营纪律。</p>
+
+        <h2 id="real-production-traffic-teaches-us-things-tests-do-not">真实生产流量教给我们测试无法教给的东西</h2>
+
+        <p>性能测试有用。但生产中发生的是现实。</p>
+
+        <p>真实客户以性能测试无法完美预测的方式使用产品。他们有发布、事故、季节性模式、游戏事件和终端用户行为的突然变化。这些时刻给了我们没有任何合成测试能完全重现的数据。</p>
+
+        <p>通常，大型客户事件几乎不会移动平台范围的图表。我们的客户群足够广泛，一个行业可以在高峰期而另一个行业处于较安静期。黑色星期五和网络星期一是很好的例子。许多电商客户处于最繁忙时期，而许多 B2B SaaS 客户较安静。在聚合平台级别，变化可能比人们预期的要小得多。</p>
+
+        <blockquote><p>这并不意味着这些事件不重要。这意味着我们需要查看两个层面：整体平台的健康度和发生峰值的单个客户的体验。</p></blockquote>
+
+        <p>有时这些事件教会我们更具体的东西。</p>
+
+        <p>在一个案例中，一个非常大的客户以行使完整 Messenger 生命周期的方式使用 Messenger，即使可见的用户体验不需要。在正常流量下，这没问题。在重大客户侧事故期间，他们的用户激进刷新，产生了比集成实际需要大得多的 Messenger 流量爆发。</p>
+
+        <p>平台保持可用，但该事件暴露了该集成路径中的不必要工作。我们构建了一个更轻量级的集成路径，以更少的每请求工作服务客户的实际用例，使未来峰值更容易吸收。</p>
+
+        <p>即使没有广泛的客户影响，我们也以这种方式对待大型客户事件。它们是了解系统真实扩展属性并为下一个事件改进的机会。</p>
+
+        <h2 id="scale-is-also-an-operating-model">扩展也是一种运营模式</h2>
+
+        <p>支撑扩展的基础设施很重要，但这还不够。您可以拥有正确的数据库架构，但如果检测问题迟缓、恢复缓慢、沟通不畅或未能从事故中学习，仍然会伤害客户。</p>
+
+        <blockquote><p>这就是为什么我们的运营模式从客户结果开始。如果客户无法完成他们来做的工作，系统就是不健康的。多少仪表板是绿色的并不重要。</p></blockquote>
+
+        <p><a href="https://www.intercom.com/blog/stop-monitoring-systems-start-monitoring-outcomes/">心跳指标</a>告诉我们客户是否能完成他们雇佣我们要做的核心工作。它们穿透基础设施仪表板的噪音，帮助我们回答事故期间最重要的问题：客户能否成功使用产品？</p>
+
+        <p>这也塑造了我们如何发布。</p>
+
+        <p>如今，我们平均每个工作日约 250 次生产发布，平均合并到生产时间不到 10 分钟。<a href="https://www.intercom.com/blog/the-safety-of-speed-shipping-code-at-intercom/">今年早些时候我们撰写了背后的系统</a>，当时这些数字约为每个工作日 180 次发布和合并到生产 12 分钟。</p>
+
+        <p>这不是虚荣指标。它是安全模型的一部分。较小的变更更容易理解、更容易观测、更容易回滚。功能标志让我们将部署与发布分离。自动回滚和心跳驱动检测帮助我们在变更伤害客户时快速恢复。</p>
+
+        <blockquote><p>快速发布不是可靠性的对立面。做得正确，它是您保持变更控制的方法之一。</p></blockquote>
+
+        <p>标准很高。工程师被期望理解其变更的影响、观察它们上线，并在出现问题时快速行动。恢复服务不是事故的结束。我们期望团队理解根本原因、修复贡献系统并防止复发。</p>
+
+        <p>这就是扩展如何长期保持安全。</p>
+
+        <h2 id="scheduled-maintenance-should-be-extraordinary">计划维护应该是例外</h2>
+
+        <p>有时需要计划维护。但它不应成为运营现代客户服务平台的正常成本。</p>
+
+        <p>历史上，数据库维护是公司需要维护窗口的主要原因之一。升级数据库、更改实例大小、执行故障转移或移动大表可能需要客户影响的停机时间。</p>
+
+        <p>这正是我们想要消除的那种运营约束。</p>
+
+        <p>通过迁移到 <span class="term-kept">Vitess</span> 和 <span class="term-kept">PlanetScale</span>，我们改变了例行数据库改进的样子。我们可以升级、扩展和改进关键数据库基础设施，而不会将这项工作变成计划中的客户影响停机时间。我们一直在实践中这样做，而不仅仅是谈论它作为未来目标。</p>
+
+        <p>这很重要，因为客户依赖我们的平台进行实时客户运营。如果他们的支持团队、Messenger、Help Desk 或 <span class="term-kept">AI</span> Agent 不可用，影响是立竿见影的。计划维护不能被视为随意的运营便利。</p>
+
+        <blockquote><p>我们的立场很简单：例行基础设施改进不应需要计划中的客户影响停机时间。</p></blockquote>
+
+        <p>计划维护应该是例外的、非例行的、清晰沟通的，并在频率、持续时间和客户影响方面最小化。</p>
+
+        <p>这就是架构工作的实际好处。更好的扩展不仅是处理更多流量，还包括减少可能给客户带来不便的运营时刻。</p>
+
+        <h2 id="what-this-means-for-customers">这对客户意味着什么</h2>
+
+        <p>客户应该对模糊的扩展声明持怀疑态度。我们当然也是如此。</p>
+
+        <p>问题不在于供应商是否说他们可以扩展。问题在于他们是否能解释如何做、极限在哪里、测量什么、如何恢复以及从生产中学到什么后已经改变了什么。</p>
+
+        <p>在 <span class="term-kept">Fin</span>，我们了解系统的扩展属性，有清晰的杠杆在正确的层添加容量，为客户隔离和公平性设计，直接监控客户结果，并使用真实生产事件使下一个更安全。扩展从未完成。每个大型客户事件、流量峰值、迁移和事故都教给我们关于系统真实行为的东西。我们使用这些数据持续改进。</p>
+
+        <p>这就是客户应该从他们在最繁忙时刻依赖的平台期望的。</p>
+
+        <footer class="footer">
+            <p>翻译时间：2026-06-22</p>
+            <p>保留术语：Fin, Vitess, Elasticsearch, AWS, AI, LLM, MySQL, PlanetScale, B2B, B2C, SaaS, Rails</p>
+            <p>原文链接：<a href="https://www.intercom.com/blog/ready-for-your-busiest-day-how-we-scale/" target="_blank">https://www.intercom.com/blog/ready-for-your-busiest-day-how-we-scale/</a></p>
+        </footer>
+    </article>
+</body>
+</html>
