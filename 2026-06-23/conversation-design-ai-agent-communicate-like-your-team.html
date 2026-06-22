@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>对话设计：如何让你的 AI Agent 像团队一样沟通 | Intercom Blog 翻译</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #1a1a2e;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            color: #1a1a2e;
+            border-bottom: 2px solid #0011e6;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-top: 1.5em;
+            color: #333;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            padding-bottom: 1em;
+            border-bottom: 1px solid #ddd;
+        }
+        .toc {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 2em;
+        }
+        .toc h2 {
+            margin-top: 0;
+            font-size: 1em;
+            border-bottom: none;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin: 0.5em 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2em 0;
+        }
+        th {
+            background: #0011e6;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        td {
+            border: 1px solid #dcdcdc;
+            padding: 12px 15px;
+        }
+        tr:nth-child(even) td:first-child {
+            background: #e3f2fd;
+            font-weight: 600;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2em 0;
+        }
+        blockquote {
+            border-left: 3px solid #0011e6;
+            padding-left: 1em;
+            margin-left: 0;
+            color: #555;
+        }
+        .footer {
+            margin-top: 3em;
+            padding-top: 1em;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.85em;
+        }
+        .original-link {
+            display: block;
+            margin-top: 1em;
+            color: #0011e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>对话设计：如何让你的 AI Agent 像团队一样沟通</h1>
+    
+    <div class="meta">
+        <p>原文作者：Fred Walton | 发布日期：Jun 18, 2026 | 阅读时间：6 分钟</p>
+        <p>分类：AI & Automation</p>
+    </div>
+
+    <p class="intro">如果你的团队里没有人负责训练 Agent 如何沟通，当它与客户对话时，听起来就会像一个 LLM——因为它确实就是一个 LLM。</p>
+
+    <p>对话设计（Conversation design）是 AI-first 支持团队中一项新兴的学科，专门用来解决这个问题。对话设计师负责 Agent 的沟通方式：语气、结构、详细程度、客户体验、交接和升级流程。</p>
+
+    <p>如果没有专门的人来定义 Agent 应该遵循的沟通指导原则，它就会自己做出决定。这可能导致：当简短回答就够了时，它却提供了过多细节；当客户感到沮丧时，它却用平淡的语调回复；或者在应该交接时迟迟没有触发交接。</p>
+
+    <p>这些问题的成本是可以衡量的。收到尴尬结构化回答的客户不太可能信任这些答案——即使答案本身是准确的——所以他们会升级到人类客服，只是为了听同样的事情以不同的方式说出来。有些人会完全跳过 Agent。当 Agent 确实进行交接时，糟糕的过渡意味着人类客服继承了一个已经感到沮丧的客户。每一个这样的结果都是可以避免的，而对话设计正是确保这些情况不会发生的学科。</p>
+
+    <p>我们在 Fin 亲眼见证了这一点。我们 A/B 测试了两种开场消息：一种温暖且对话式，另一种是我们较旧的默认版本。对话式的问候将 CSAT 从 72.8% 提升到了 78.4%。一个单一的对话设计变更，应用到客户首先看到的内容上，就产生了可衡量的差异。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Group-2147230655.png" alt="我们 A/B 测试了两种开场消息：一种温暖且对话式（右侧），说'你好，你正在与 Fin AI Agent 对话。我能做到的远超你见过的其他聊天机器人。尽可能详细告诉我你的问题，我会立即尽力帮助你'，另一种是我们较旧的默认版本（左侧），说'你好，你正在与 Fin AI Agent 对话。我来回答你的问题。如果需要，你随时可以与团队对话。我能如何帮助你？'">
+
+    <div class="toc">
+        <h2>目录</h2>
+        <ul>
+            <li><a href="#what-conversation-design-covers">对话设计涵盖的内容</a></li>
+            <li><a href="#how-to-put-it-into-practice">如何付诸实践</a></li>
+            <li><a href="#getting-started-without-a-dedicated-hire">无需专门招聘如何开始</a></li>
+            <li><a href="#small-steps-compound">小步骤会累积</a></li>
+        </ul>
+    </div>
+
+    <h2 id="what-conversation-design-covers">对话设计涵盖的内容</h2>
+    <p>这个角色涵盖五个不同的领域，每个领域塑造客户体验的不同部分：</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>领域</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>语气和个性</td>
+                <td>声音、详细程度、Agent 听起来有多正式或随意，以及是否根据情况变化。</td>
+            </tr>
+            <tr>
+                <td>响应结构</td>
+                <td>Agent 是否将详细程度与客户的问题相匹配。</td>
+            </tr>
+            <tr>
+                <td>交接逻辑</td>
+                <td>何时升级、如何沟通过渡、以及传递什么上下文。</td>
+            </tr>
+            <tr>
+                <td>交互流程</td>
+                <td>对话如何通过提问、回答、解决或交接进行。</td>
+            </tr>
+            <tr>
+                <td>响应质量</td>
+                <td>答案是否感觉清晰、有帮助、符合品牌，即使技术上正确。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="how-to-put-it-into-practice">如何付诸实践</h2>
+
+    <h3>从对话应该感觉如何开始</h3>
+    <p>在调整个别响应之前，先定义声音。用一段话写下你希望 Agent 听起来如何。你不需要完整的品牌指南，只需要一个可以在做语气决定时回来参考的基准。</p>
+    <p>不同的对话类型可能需要不同的语调。一个账户被锁定的客户需要直接和速度，而一个探索新功能的人可能更喜欢更多上下文。声音保持一致，但语调应该适应。</p>
+
+    <h3>仔细设计交接</h3>
+    <p>从 Agent 到客服的过渡是摩擦最高的时刻之一。客户不应该需要重新解释他们的问题。客服应该收到完整的对话历史、问题背后的上下文、Agent 已经做了什么、以及为什么发生升级。</p>
+    <p>Agent 沟通交接的方式也很重要。"让我连接一个可以帮助这个问题的团队成员"感觉不同于无声的切换。</p>
+    <p>设计一个安全机制也是必不可少的。如果 Agent 不能干净地解决对话，你需要一个后备方法，仍然给客户一个平滑的交接体验。客户此时可能对 AI 感到沮丧，但一个处理得当的过渡可以扭转这种情况。</p>
+
+    <h3>不要忘记跟进</h3>
+    <p>跟进需要和交接同样的关注。如果有人在对话中途放弃了——无论是你的 Agent 还是客服——你如何重新联系以确保他们得到了需要的帮助？大多数团队不会考虑这一点，而客户会注意到。</p>
+
+    <h3>知道 Agent 应该何时停止说话</h3>
+    <p>最常见的对话设计错误之一是过度解释。Agent 可以访问大量信息，在没有指导的情况下，它很容易给出比客户需要更多的细节。</p>
+    <p>Agent 应该将详细程度与客户的问题相匹配。一个问如何重置密码的人不需要三段话。一个问复杂集成的客户可能需要。如果有更多可以分享的，它应该提供而不是一次全部给出。</p>
+
+    <h3>为客户正在进行的对话设计</h3>
+    <p>客户不遵循脚本。他们会在对话中途改变方向或提出与他们原始问题无关的后续问题。</p>
+    <p>Agent 需要处理这些过渡，而不是强迫客户回到固定的流程。当 Agent 在客户已经转向之后仍然试图解决原始问题时，感觉就像与一个不在倾听的人对话。</p>
+    <p>考虑相同的流程是否应该适用于不同的渠道，以及不同的客户细分是否需要不同的体验。</p>
+
+    <h3>保持你的指令简短</h3>
+    <p>最大的实际挑战之一是过度指导 Agent。每当新的边缘情况出现时，团队就添加规则。很快，LLM 在响应之前需要处理段落式的指令。</p>
+    <p>我在 Fin 看到这发生了，我也从其他团队听到同样的情况。本能总是添加更多，但纪律是知道何时停止。</p>
+    <p>我的规则：如果是关于内容或信息，它属于知识库。如果是关于语气或如何处理特定情况，它属于你的 Agent 指令。"在定价上要直接"比一段解释你定价沟通策略背后哲学的话做得更多。</p>
+
+    <hr>
+
+    <p>如果你正在使用 Fin，大部分工作发生在 <a href="https://www.intercom.com/help/en/articles/10210126-provide-fin-ai-agent-with-specific-guidance">Guidance</a> 中。这是对话设计成形的地方，帮助你定义 Agent 应该如何听起来、应该说多少、以及在不同情况下应该如何响应。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Screenshot-2026-06-18-at-17.43.49.png" alt="Fin 的 Guidance 功能">
+
+    <h2 id="getting-started-without-a-dedicated-hire">无需专门招聘如何开始</h2>
+    <p>大多数团队不会在第一天就招聘专门的对话设计师——这没问题。但某人需要负责 Agent 如何沟通，即使这是现有角色的一部分。</p>
+    <p>对话设计通常从支持运营或知识管理内部开始。团队中某人开始关注 Agent 听起来如何。随着时间的推移，当你的 Agent 处理更多对话时，这成为一个正式责任，最终成为一个专门角色。</p>
+
+    <h3>从哪里开始</h3>
+
+    <h4>1. 指定负责人</h4>
+    <p>你需要某人负责 Agent 如何沟通。这不需要是新招聘，但需要明确指定。</p>
+
+    <h4>2. 选择一个效果不佳的对话类型</h4>
+    <p>看看那些 Agent 正确回答但客户仍然升级或留下负面反馈的对话。从那里开始。</p>
+    <p>如果你正在使用 Fin，<a href="https://www.intercom.com/help/en/articles/10495092-understand-customer-experience-at-scale-with-the-cx-score">CX Score</a> 可以帮助你发现这些。它显示哪些主题和对话类型得分低，以及这些分数背后的原因，这样你可以看到问题是否是答案质量、客户努力，还是其他原因。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2055/11/Image-2-scaled.png" alt="Fin 的 CX Score 主题和原因">
+
+    <h4>3. 审计你的 Agent 指令</h4>
+    <p>如果它们已经超出几个集中的规则，修剪它们。将内容移到知识库，保持指令专注于行为。</p>
+
+    <h4>4. 修复你最差的交接</h4>
+    <p>走查几个 Agent 升级到人类的对话。客户必须重复自己吗？客服有足够的上下文吗？先重新设计那个单一的过渡。</p>
+
+    <h2 id="small-steps-compound">小步骤会累积</h2>
+    <p>每一个这些改进的影响都会累积。一个温暖的开场消息提升了我们的 CSAT，同时修剪指令使响应更清晰。设计更好的交接意味着客服不再继承沮丧的客户。</p>
+    <p>这些变更都不需要新知识；它们需要某人关注对话本身。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10.png" alt="AI Service Agent Blueprint">
+
+    <div class="footer">
+        <p><strong>翻译说明：</strong></p>
+        <ul>
+            <li>本文翻译自 Intercom 官方博客文章</li>
+            <li>专业术语保留原文：AI, Agent, Fin, CX, UX, API, CSAT, LLM 等</li>
+            <li>所有图片链接保留原始 URL</li>
+        </ul>
+        <a class="original-link" href="https://www.intercom.com/blog/conversation-design-for-your-ai-agent/">原文链接：Conversation design: How to make your AI Agent communicate like your team</a>
+    </div>
+</body>
+</html>
