@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anthropic的安全超能力 - Stratechery by Ben Thompson</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            line-height: 1.3;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-top: 1.5em;
+        }
+        p {
+            margin: 1em 0;
+        }
+        blockquote {
+            border-left: 4px solid #faa634;
+            padding: 0.5em 1.5em;
+            margin: 1.5em 0;
+            background-color: #FFFAF1;
+        }
+        hr {
+            border: none;
+            border-top: 1px dotted #ccc;
+            margin: 2em 0;
+        }
+        .meta {
+            color: #707070;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        a {
+            color: inherit;
+            text-decoration: underline;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 2em 0;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        ul {
+            padding-left: 1.5em;
+        }
+        li {
+            margin: 0.5em 0;
+        }
+        .original-link {
+            margin-top: 2em;
+            padding: 1em;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anthropic的安全超能力</h1>
+    <p class="meta">
+        原文：<a href="https://stratechery.com/2026/anthropics-safety-superpower/">Anthropic's Safety Superpower</a><br>
+        作者：Ben Thompson | Stratechery<br>
+        翻译日期：2026-06-25
+    </p>
+
+    <p>我理解那些一直将Anthropic的公开声明——尤其是围绕其模型发布的声明——描述为营销目的的恐吓手段的愤世嫉俗者。仅仅两个月前，Anthropic宣布了Mythos Preview，一个他们表示太危险而无法公开发布的模型，特别是因为其先进的网络安全能力。然后，两个月后，该公司公开发布了Fable，一个带有各种安全护栏的Mythos版本。</p>
+
+    <p>根据我有限的经验，Fable是一个非常令人印象深刻的模型。现在除了编码性能之外，越来越难客观地评估模型，但存在主观感受，我发现我与Fable的交互极其令人印象深刻；它让其他模型——包括GPT 5.5和Opus 4.8——感觉又小又笨。我之前有两次这种感觉，分别是<span class="stratechery-lining-numerals">GPT-4</span>和Grok 4，它们都代表了基础模型规模和复杂性的新一代；我的感觉是Fable是一次新的预训练的下游产品，是新一代的第一个。</p>
+
+    <p>对此，我当然可以接受Fable/Mythos在识别和利用安全问题方面实际上更有能力的说法，Anthropic谨慎的推出是合理的。然而，公开发布模型的问题在于护栏可以被越狱，而显然这正是发布后不久发生的事情。</p>
+
+    <h2>Anthropic与美国政府，再次</h2>
+
+    <p>接下来发生的事情有些不清楚。Anthropic在<a href="https://www.anthropic.com/news/fable-mythos-access">一篇博客文章</a>中写道：</p>
+
+    <blockquote>
+        <p>美国政府，援引国家安全权限，发布了一项出口管制指令，暂停所有外国国民对Fable 5和Mythos 5的访问，无论其是否在美国境内，包括Anthropic的外国员工。该命令的最终效果是我们必须突然禁用所有客户对Fable 5和Mythos 5的访问以确保合规。访问所有其他Anthropic模型将不受影响。</p>
+        <p>我们今天下午5:21（东部时间）收到了政府的指令。该信函没有提供其国家安全关切的具体细节。我们的理解是，政府认为它已意识到一种绕过或"越狱"Fable 5的方法。我们审查了使用这种特定技术识别少量已知的小漏洞的演示。这些漏洞看起来都相对简单，我们发现其他公开可用的模型也能够发现它们，而无需绕过。</p>
+    </blockquote>
+
+    <p>Anthropic接着论证说，非普遍性越狱是不可避免的，也是狭窄的，没有证据表明存在普遍性越狱；而发现的越狱似乎已被<a href="https://www.theinformation.com/articles/amazons-jassy-raised-concerns-anthropic-model-trump-crackdown?rc=gtxu6q">Amazon报告</a>，考虑到Amazon既是Anthropic的投资者又是该公司的主要推理提供商，这值得注意。在我撰写本文时，<a href="https://www.axios.com/2026/06/14/anthropic-white-house-mythos-fable">Anthropic的高级员工正在华盛顿特区</a>寻求解决他们坚持认为是误解的问题，而白宫官员则暗示这是公司领导层对合理国家安全关切的漫不经心。</p>
+
+    <p>考虑到如此多的事实存在争议，我实际上对当前的冲突没有太多补充；我并不惊讶的是冲突正在发生：我已在<a href="https://stratechery.com/2026/anthropic-and-alignment/">Anthropic与对齐</a>中解释过为什么美国政府与Anthropic之间的冲突是不可避免的。对此，那些认为Mythos不够强大以至于不能证明政府采取激烈行动的人错过了重点：如果它现在不够强大，下一个就会是，或者再下一个，特别是现在模型在创造其继任者方面越来越有用。</p>
+
+    <p>然而，这提出了另一个问题——一个似乎验证了愤世嫉俗者观点的问题：如果Mythos如此危险，为什么还要发布Fable，为什么要在政府做你声称想要的事情时与政府抗争？事实上，我认为Anthropic的行动是完全可以理解的；让该公司独特的是它如何证明这些行动，正是这些证明既给了愤世嫉俗者他们的燃料，也给了Anthropic它的魔力。</p>
+
+    <h2>经济当务之急</h2>
+
+    <p>在AI的头几年，大部分经济价值流向了算力，原因显而易见：我们没有足够的供应来满足需求，这意味着价格飙升；最大的受益者是Nvidia、TSMC和内存制造商（SK海力士、三星和美光）。与此同时，Anthropic和OpenAI集体损失了数百亿美元构建前沿模型，一旦发布，这些模型就被开源模型蒸馏和商品化，主要来自中国。</p>
+
+    <p>这代表了实验室的看空情况——它们永远无法覆盖成本，因为它们的差异化是短暂的，而免费的替代品变得"足够好"——我认为这是一个合理的情况。模型可互换的世界是一个模型成为商品的世界，而大部分价值流向其他地方。现在是算力，但在足够长的时间内，每当我们有足够的算力时，价值链中最有价值的位置将是一直以来最有价值的位置：拥有用户触点。</p>
+
+    <p>对此，长期以来我很清楚，前沿实验室有向用户靠近的经济当务之急。如果你拥有用户触点，那么你就有了有意义的锁定，而拥有用户触点的最好方法是为他们需要做的每件事提供画布。这反过来意味着，前沿实验室正与软件公司发生冲突：软件拥有用户触点，前沿实验室的长期利益是不仅仅成为软件的商品输入，而是直接取代软件。</p>
+
+    <p>与此同时，软件公司正在做相反的事情。Satya Nadella在<a href="https://x.com/satyanadella/status/2066182223213293753?s=46">X上的一篇文章</a>中阐述了他对公司应该如何在模型上构建的愿景：</p>
+
+    <blockquote>
+        <p>每家公司都需要建立我所说的人力资本和token资本。人力资本包括其人员的知识、判断、关系、创造力和模式识别，而token资本是公司构建和拥有的AI能力。重要的是，人力资本不会随着token资本的增长而变得不那么有价值。它只会变得更有价值！我相信人类能动性将是token资本增长的驱动力。人类将设定雄心勃勃的目标，跨越领域连接点，建立关系，并识别最重要的模式。没有人类的指导，你只是让算力在原地打转。</p>
+        <p>这意味着真正的机会不是选择最好的模型，而是在模型之上建立一个学习循环，让人力资本和token资本复合。你可以卸载一个任务，甚至一份工作，但你永远不能卸载你的学习。公司的未来是在人员和AI之间复合这种学习的能力。这需要一种新的架构方法，让每个企业都能构建随时间改进的Agent系统，同时仍保留对其IP的控制。公司应该能够更换"通才"模型，而不会失去嵌入其学习系统中的"公司老兵"专业知识。这是未来时代你对控制权和主权的关键"测试"。</p>
+    </blockquote>
+
+    <p>Nadella以一个警告结束这一愿景：</p>
+
+    <blockquote>
+        <p>我们任何人最不想要的是一个世界，每个行业的每家公司都在向少数几个吞噬它们所看到一切的模型让渡价值。如果所有价值都只由少数几个模型获得，政治经济将无法容忍。没有社会许可让一个AI未来掏空整个行业。</p>
+        <p>想想全球化的第一阶段发生了什么，整个工业经济被外包掏空。GDP数字表面上看还不错，但流离失所是真实的，后果至今仍在感受。让我们不要把这种动态带入AI时代，少数AI系统捕获所有经济回报，而整个行业发现他们的知识正被商品化掏空。</p>
+    </blockquote>
+
+    <p>这个类比的问题是：全球化确实发生了，工业经济确实被掏空了。这可能不是警告而是预言；难怪Nadella在敲响警钟，因为Microsoft可能是受害者之一。同样，模型制作者的经济当务之急正是要实现这一点。</p>
+
+    <h2>数据当务之急</h2>
+
+    <p>模型——甚至包括Mythos——还没有达到这一点。除了更多算力，它们需要更多更好的数据。模型改进越来越多地来自强化学习；其中一些可以合成生成，但前沿实验室最强大的杠杆是真实世界的使用。</p>
+
+    <p>我认为这是OpenAI和Anthropic都提供其大量补贴的订阅计划的一个主要原因。SemiAnalysis<a href="https://x.com/SemiAnalysis_/status/2064815044085318040">最近估计</a>，200美元的计划可以给你价值8000美元的Claude token和价值14000美元的Codex token。当然，两者都在争夺用户和开发者心智份额，但他们也在争夺获得实际使用数据来改进他们的模型。</p>
+
+    <p>Anthropic以重大方式加码Fable，宣布他们将保留所有使用数据30天，即使是以前承诺零数据保留的企业计划。该公司表示他们不会在这些数据上训练，但他们没有设置任何保障措施来保证他们将来不会这样做（比如将数据存储在第三方）。如果这一政策变化（无论Fable何时恢复）不会导致大量客户流失，我怀疑他们开始使用这些数据只是时间问题：这对他们的最终目标来说太有价值了。</p>
+
+    <p>还要注意进入用户触点的良性循环：直接用Claude或Codex完成的工作流越多，每家公司获得反馈到训练的数据就越多，这使他们的产品更加强大和有用，扩大他们可以服务的工作流数量，扩大他们获得数据的途径。</p>
+
+    <p>Nadella在他的文章中强调了这些数据的重要性，但自然认为它应该独立于模型：</p>
+
+    <blockquote>
+        <p>公司需要将其工作流、领域知识和积累的判断转化为每次使用都会改进的AI系统。私有评估应该捕获模型是否真正在对业务重要的结果上改进（不仅仅是外部基准！）。私有强化学习环境应该让模型在组织内部的真实痕迹上变得更强。其知识库使机构记忆可查询，token使用更高效。</p>
+        <p>这个循环成为公司的新IP。我把它想象成一座爬山机。与大多数资产不同，它会复合。每个改进的工作流都会产生更好的训练信号，加速积累公司独特的隐性知识。早期构建这个的公司将拥有难以复制的优势，无论任何新的单个模型能力如何。</p>
+    </blockquote>
+
+    <p>然而，如果屈从于Anthropic数据政策的公司现在就能获得更好的结果呢？或者如果现有公司抵制，为新公司——或模型制造商自己——在市场上竞争胜出留下机会呢？Anthropic当然正在考验Nadella所呼吁的决心。</p>
+
+    <h2>权力当务之急</h2>
+
+    <p>令人惊讶的是，围绕Fable/Mythos的数据保留政策甚至不是发布中最具争议的部分。相反，Anthropic在发布时表示，如果用于LLM开发，它会静默降低Fable性能；来自<a href="https://www-cdn.anthropic.com/d00db56fa754a1b115b6dd7cb2e3c342ee809620.pdf">系统卡</a>：</p>
+
+    <blockquote>
+        <p>我们还添加了与前沿LLM开发相关的保障措施。正如我们在<a href="https://anthropic.com/feb-2026-risk-report">2026年2月风险报告</a>第6.1节所讨论的，我们担心加速AI开发的整体步伐的风险，尽管我们对这些风险的严重程度仍不确定。具体来说，我们担心——正如我们当时所写——"加速其他AI开发者构建构成类似风险的强大AI系统——而不一定有相应的保障措施。"</p>
+        <p>鉴于最近模型<a href="https://www.anthropic.com/institute/recursive-self-improvement">加速其自身开发</a>的能力，我们实施了新的干预措施，限制Claude对针对前沿LLM开发的请求的有效性（例如，构建预训练流水线、分布式训练基础设施或ML加速器设计）。使用Claude开发竞争模型已经违反了我们的<a href="https://www.anthropic.com/legal/consumer-terms">服务条款</a>，但通过我们的保障措施执行这一限制避免了加速最愿意违反这些条款的行为者。</p>
+        <p>与我们针对网络安全、生物学和化学以及蒸馏尝试的干预措施不同，这些保障措施对用户是不可见的。Fable 5不会回退到不同的模型。相反，保障措施将通过提示修改、引导向量或参数高效微调（PEFT）等方法限制有效性。这些干预措施不会影响绝大多数编码工作。我们估计它们将影响约0.03%的流量，集中在不到0.1%的组织中。当这些干预措施激活时，我们预计它们对模型的行为影响最小，除了限制其在开发前沿LLM方面的有效性。Claude仍然会对用户请求做出有帮助的回应。我们将在该模型发布后继续改进检测方法的精度。</p>
+    </blockquote>
+
+    <p>Anthropic<a href="https://www.wired.com/story/anthropic-responds-to-backlash-on-claudes-secret-sabotage-on-ai-research/">撤回了这一变更</a>——Fable只会将LLM相关请求移交给Opus 4.8，并向用户披露这一移交——但我认为最初的政策非常有启发性。一方面，我实际上不怪Anthropic不想帮助其竞争对手；另一方面，应该非常清楚的是，Anthropic认为除了他们之外任何人都不应该制造前沿LLM。</p>
+
+    <p>让这一政策更加引人注目的是，它仅在Anthropic与战争部发生争议两个月后实施的：后者希望将Claude用于任何合法用途，而前者希望对监视和自主武器实施更严格的控制。这种降级代表了Anthropic既有能力也有意愿静默改变其模型以实现其政策偏好。换句话说，Anthropic刻意验证了其批评者对成为供应链风险的一些最糟糕的担忧。</p>
+
+    <p>然而，前一个事件的更广泛教训是，Anthropic认为他们应该对Anthropic如何被使用拥有最终决定权；鉴于他们认为只有他们应该开发前沿AI，他们进而认为只有他们应该对AI总体拥有最终决定权。当你进一步将这一认识与公司关于AI能够进行所有经济活动的声明结合起来时，你会意识到Anthropic的领导层实际上想要拥有对一切和每个人的权力。</p>
+
+    <h2>安全叙事</h2>
+
+    <p>当然，Anthropic永远不会如此直白地表达；相反，故事是安全：</p>
+
+    <ul>
+        <li>我预计Anthropic将越来越多地通过日益针对不同工作流的端点向最终用户公开其模型的能力，即使他们开始限制API。这种软件的取代和访问的限制将以安全的名义进行，即使Anthropic履行其更接近最终用户的经济当务之急。</li>
+        <li>Anthropic对其数据保留政策剧烈变化的解释是安全。具体来说，该公司声称保留所有用户数据30天对于防止美国政府担心的越狱是必要的。我当然可以想象一个未来，安全迫使他们也使用这些数据进行训练，以更好地防止恶意使用。</li>
+        <li>整个Anthropic的起源故事植根于创始人认为OpenAI对安全的重视程度不够；该公司认为只有他们可以控制AI，因为他们独特地关心安全，他们有理由试图控制其他人，包括美国政府。</li>
+    </ul>
+
+    <p>关于这些安全证明的事情是：我认为它们有效，因为对Anthropic来说，它们不仅仅是证明。该公司真的相信他们是唯一相信超级智能的人，因此是唯一足够关心危险的人。这为一个又一个决定、一项又一项政策、一次又一次对抗提供了借口，对外人来说，这些看起来像是愤世嫉俗和天真的奇怪组合。</p>
+
+    <p>与OpenAI的对比是巨大的：我认为理解OpenAI如何以及为什么失去领先地位的一种方式是，在ChatGPT发布后的几年里，公司内部一直在自我战争，因为一个曾经的研究实验室突然承担了成为<a href="https://stratechery.com/2023/the-accidental-consumer-tech-company-chatgpt-meta-and-product-market-fit-aggregation-and-apis/">意外的消费者科技公司</a>的负担；在OpenAI解决这一冲突的程度上，是通过大量人才流失到Anthropic来实现的。</p>
+
+    <p>另一方面，Anthropic在人才、使命和业务之间有着完美的一致性。该公司可以向研究人员推销创造机器之神，以及成为关心危险并足够聪明代表人类驾驭这些危险的人的外衣；随之而来的每一项政策变化恰好对业务有利，这是世界上最美丽的巧合。</p>
+
+    <p>我尊重这种一致性，我也害怕它。我尊重它是因为它显然有效；最接近的类比可能是Apple，它总是将每一个自私自利的行动框定为为用户做正确的事——而且通常他们是对的。Anthropic也是如此。然而，我害怕的是，让相信自己最了解的人构建我可以接受或离开的智能手机是一回事；让他们构建有潜力匹敌或超越民族国家权力，或者仅仅是大型公司权力的超级智能，就更令人担忧了。那些相信自己知道人类需要什么的聪明人的历史是肮脏的，正是因为他们说服自己他们的意图是好的，从而证明那些非常不好的行动是正当的。</p>
+
+    <hr>
+
+    <div class="video-container">
+        <iframe title="Anthropic的安全超能力 | Stratechery by Ben Thompson" width="500" height="281" src="https://www.youtube.com/embed/kXBvJRcPMkA?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <div class="original-link">
+        <strong>原文链接：</strong> <a href="https://stratechery.com/2026/anthropics-safety-superpower/">https://stratechery.com/2026/anthropics-safety-superpower/</a>
+    </div>
+</body>
+</html>
