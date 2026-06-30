@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Agent 知识管理终极指南 - Intercom 博客</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-top: 20px;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1F8BFF;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 30px;
+        }
+        h4 {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        .meta {
+            color: #666;
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        .meta img {
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        .hero-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .definition-box {
+            background-color: #f5f5f5;
+            border-left: 4px solid #1F8BFF;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .pro-tip {
+            background-color: #fff4e6;
+            border: 1px solid #ffcc00;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            color: #1F8BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .toc {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .toc h2 {
+            margin-top: 0;
+            border-bottom: none;
+            font-size: 1.4em;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin: 8px 0;
+        }
+        .original-link {
+            background-color: #e8f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <div style="color: #666; font-size: 0.9em;">
+                <span style="background-color: #1F8BFF; color: white; padding: 3px 12px; border-radius: 4px;">Customer Service</span>
+                <span style="margin-left: 15px;">发布于 2026年5月27日</span>
+            </div>
+
+            <h1>Service Agent 知识管理终极指南</h1>
+
+            <p style="font-size: 1.2em; color: #555; margin: 20px 0;">
+                关于构建和维护支撑 Service Agent 的知识库，你需要知道的一切，都在这份综合指南中。
+            </p>
+
+            <div class="meta">
+                <img width="28" height="28" src="https://blog.intercomassets.com/blog/wp-content/uploads/2023/04/Beth-Ann-Sher-48x48.jpg" alt="Author">
+                <strong>Beth-Ann Sher</strong>
+                <span style="margin-left: 20px;">📖 20 分钟阅读</span>
+            </div>
+
+            <img class="hero-image" src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/05/ChatGPT-Image-May-21-2026-03_36_42-PM-1536x715.png" alt="Managing knowledge for your Service Agent">
+        </header>
+
+        <nav class="toc">
+            <h2>目录</h2>
+            <ul>
+                <li><a href="#what-is-knowledge-management">什么是知识管理，为什么它如此重要？</a></li>
+                <li><a href="#why-important-in-ai-age">为什么在 AI 时代知识管理比以往任何时候都重要？</a></li>
+                <li><a href="#phase-1">阶段一：构建你的知识库</a></li>
+                <li><a href="#phase-2">阶段二：知识管理</a></li>
+                <li><a href="#make-it-core">让知识管理成为核心服务职能</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <p>AI 在客户服务中不再是实验性的，而是标准。</p>
+
+            <p>Fin 的<a href="https://www.intercom.com/customer-transformation-report">《2026 客户服务转型报告》</a>发现，82% 的高层领导表示他们的团队在过去 12 个月中投资了客户服务 AI，87% 计划在 2026 年继续投资。</p>
+
+            <p>AI 优先的客户服务带来了惊人的好处：7x24 小时可用、多语言支持、大幅节省时间，以及为客户快速高效的解决方案。但在每一个伟大的 AI 驱动支持体验背后，都有一个无名英雄：知识管理。</p>
+
+            <p>Service Agent 的能力取决于你提供给它的内容。如果你使用像 <a href="https://fin.ai/">Fin</a> 这样的 Agent 来端到端解决客户查询，它需要一个广泛的知识池来汲取。你需要为它提供关于你的产品、功能、政策和故障排除的准确答案。没有这些，你的 Agent 就无法完成工作，你的支持团队又回到了手动处理本可以自动解决的查询。</p>
+
+            <p>本指南涵盖知识管理旅程的两个不同阶段：</p>
+            <ul>
+                <li><strong>阶段一：</strong>构建你的知识库 – 适用于从零开始或对现有内容进行重大改造的团队。</li>
+                <li><strong>阶段二：</strong>知识管理 – 适用于已有内容基础，专注于维护、优化和扩展的团队。</li>
+            </ul>
+            <p>如果你已经有一个扎实的知识库，想直接进入优化和维护，请跳至阶段二。</p>
+
+            <h2 id="what-is-knowledge-management">什么是知识管理，为什么它如此重要？</h2>
+
+            <div class="definition-box">
+                <p style="margin: 0;"><strong>定义：</strong>知识管理是在企业中创建、组织、分享和维护知识的过程。</p>
+            </div>
+
+            <p>你的面向客户的知识库是一个经典例子，但你的帮助中心文章只是知识管理冰山的一角。事实上，知识管理涉及一系列活动，例如：</p>
+            <ul>
+                <li><strong>创建资源</strong>，如帮助中心 FAQ、故障排除指南、入门和最佳实践文档、博客、内部支持指导和学习材料。这些共同涵盖了客户可能遇到的全范围问题、任务，从简单的操作指南到更复杂的产品、账单和账户问题。</li>
+                <li><strong>识别差距</strong>，在已记录的信息中，如缺失的故障排除步骤、不清楚的政策解释、过时的功能细节或未回答的边缘情况。</li>
+                <li><strong>实施系统</strong>，使你的 Agent 和支持代表能够轻松访问和使用这些信息来解决客户问题。</li>
+                <li><strong>制定流程</strong>，确保现有材料持续更新以反映政策变更、产品更新或 bug 修复。</li>
+            </ul>
+
+            <h2 id="why-important-in-ai-age">为什么在 AI 时代知识管理比以往任何时候都重要？</h2>
+
+            <p>你的知识库不再仅面向那些愿意主动访问帮助中心自助服务的客户。它现在驱动着你的整个支持体验。</p>
+
+            <p>它是准确回答复杂客户查询、加快解决和处理时间、让客户满意的关键。</p>
+
+            <p>以下是知识管理现在成为每个前瞻性支持领导者关注重点的两个原因：</p>
+
+            <h3>1. 你的 Agent 只能与你"喂"给它的内容一样强大</h3>
+
+            <p>你的 Agent 只能与其训练的知识一样好。信息缺失、文章结构不良或文档过时，都会阻止它为客户提供清晰正确的答案，导致糟糕的客户体验，降低信任度，无法满足他们的高期望。</p>
+
+            <p>没有大型语言模型（LLM）能像你一样了解你的业务。它不理解你的客户需求、痛点和使用案例。这些知识是你和你的组织独有的，这意味着你需要成为那个梳理所有信息并使其对 Agent 可用的人。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2024/04/Container-14.png" alt="知识管理几乎与核心 AI 技术本身一样重要">
+
+            <h3>2. 对知识的每一项投资都会产生复利结果</h3>
+
+            <p>转向 AI 不仅仅是采用新工具。它意味着适应一个新的生态系统。你越早开始播种，就能越早收获回报。</p>
+
+            <p>它像一个飞轮。你对知识库的每一次改进都会让你的 Agent 更有效。它带来更多的解决方案和更好的数据，这些数据告诉你接下来要添加、更新或优化什么。你投入越多，这些收益就会复利增长。</p>
+
+            <p>无论你是雇人全职做这项工作，还是每周给支持代表一些时间离开收件箱，ROI 都是不言而喻的。</p>
+
+            <p>这样想：假设写一篇针对常见问题的新故障排除文章需要 30 分钟。这 30 分钟的投资会带来：</p>
+            <ul>
+                <li><strong>为你的支持团队节省数小时</strong>，他们不再需要花时间回复该查询，因为现在你的 Agent 可以处理它。
+                    <ul>
+                        <li><em><strong>计算：</strong>平均响应时间 × 查询频率 = 团队节省的时间。</em></li>
+                    </ul>
+                </li>
+                <li><strong>数百名满意的客户</strong>，他们获得即时、准确的回答，不需要等待可用的代表。
+                    <ul>
+                        <li><em><strong>计算：</strong>提出此查询的客户数量 × 平均解决时间 = 为客户节省的总时间。</em></li>
+                    </ul>
+                </li>
+                <li><strong>关于帮助文档和 AI 支持体验的数据</strong>，供你学习，以便你让它们更有效。
+                    <ul>
+                        <li><em><strong>监控：</strong>Agent 参与率、解决率和自动化率。</em></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>对于半小时的工作来说，这是一个相当不错的 ROI。开始产生这些数据的最好方法就是开始。你越早开始，就能越早捕捉到关于内容差距的洞察，了解客户在哪里遇到摩擦，以及你的支持体验如何改进。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Container-15.png" alt="我们到处都时间紧张，尤其是在支持方面。但这项投资的回报绝对是值得的">
+
+            <h2 id="phase-1">阶段一：构建你的知识库</h2>
+
+            <p>这个阶段涵盖让你的知识库准备好为 Agent 提供动力所需的一切：包含什么、如何获取、以及在上线前如何审核和优先排序。</p>
+
+            <h3>知识库应包含什么</h3>
+
+            <p>整理和优先排序所有内部和外部支持文档可能感觉像是一项艰巨的任务，但有了合适的技术帮助你，就不必如此。使用完整的 AI 驱动平台的好处是它为你提供：</p>
+            <ul>
+                <li><strong>数据驱动的洞察，帮助你根据客户实际寻找的内容识别和优先创建帮助内容。</strong>例如，在 Fin 中，<a href="https://fin.ai/analyze#:~:text=Every%20conversation%20becomes,a%20Fin%20improvement">Recommendations</a> 从真实的客户对话中揭示知识差距，其中帮助内容缺失、不清楚、重复或矛盾。</li>
+                <li><strong>一个集中创建、管理和优化知识内容的地方。</strong>例如，Intercom 的 <a href="https://www.intercom.com/helpdesk/knowledge-hub">Knowledge Hub</a> 使你能够为客户面向和内部支持内容创建单一事实来源。使用 Content Targeting，你可以细分这些信息，确保 Fin 只使用你想要的精确内容来帮助客户和团队。</li>
+            </ul>
+
+            <p>无论你是刚刚起步还是寻找一份复习清单，以下是一些在知识库中为 Agent 优先考虑的信息示例：</p>
+
+            <h4>1. 支持 FAQ</h4>
+            <ul>
+                <li><strong>是什么：</strong>回答客户最常见的支持问题，从账单和账户变更到功能使用、故障排除和日常支持中出现的政策问题。</li>
+                <li><strong>如何获取信息：</strong>寻找你的团队在收件箱中最常回答的问题，然后使用这些模式构建或扩展你的帮助中心内容。</li>
+                <li><strong>在哪里使用这些内容：</strong>帮助中心、Agent、Copilot 和主动支持，如产品内工具提示。</li>
+            </ul>
+
+            <h4>2. 入门和设置指南</h4>
+            <ul>
+                <li><strong>是什么：</strong>帮助客户快速上手、完成设置并开始从产品中获得价值的资源。</li>
+                <li><strong>如何获取信息：</strong>与你的客户成功团队或入门专家交谈，了解他们关于入门的建议，或要求你的产品团队在构建新功能时记录此过程。</li>
+                <li><strong>在哪里使用这些内容：</strong>帮助中心、Agent、Copilot、产品导览。</li>
+            </ul>
+
+            <h4>3. 故障排除和高级指南</h4>
+            <ul>
+                <li><strong>是什么：</strong>帮助客户解决更复杂问题、处理边缘情况，并在基础到位后从产品中获得更多价值的资源。</li>
+                <li><strong>如何获取信息：</strong>从产品经理、R&D 和客户成功经理等内部专家那里获取输入，以记录更深入的故障排除步骤、已知限制和建议的变通方法。</li>
+                <li><strong>在哪里使用这些内容：</strong>帮助中心、Agent、Copilot 和针对高级用户的定向消息，如应用内消息或电子邮件。</li>
+            </ul>
+
+            <h4>4. 特定使用案例和客户细分</h4>
+            <ul>
+                <li><strong>是什么：</strong>针对不同类型客户的内容，他们有独特的目标、设置或待完成任务，使你的支持对每个对话更具相关性和上下文。</li>
+                <li><strong>如何获取信息：</strong>使用来自产品、成功和支持团队的定向指导，加上显示不同客户如何描述其目标、工作流程和问题的真实客户对话。</li>
+                <li><strong>在哪里使用这些内容：</strong>帮助中心、Agent、Copilot、定制网络研讨会、学习课程。</li>
+            </ul>
+
+            <h3>内容格式和来源</h3>
+
+            <p>为服务获取知识时，要广撒网。你可能已经在帮助中心、内部文档、网站和过去的对话中分散着有用的支持内容。关键是以你的团队、Agent 和 Copilot 实际可以使用的方式整合它们。</p>
+
+            <p>在 Fin 中，你可以使用：</p>
+            <ul>
+                <li><strong>公开文章：</strong>帮助中心文章、故障排除指南、入门内容。</li>
+                <li><strong>内部文章：</strong>内部支持指导、升级步骤、政策澄清。</li>
+                <li><strong>过去的对话：</strong>以前的支持互动，可以帮助识别差距并提高覆盖率。</li>
+                <li><strong>片段：</strong>针对常见回复、例外或批准措辞的简短指导。</li>
+                <li><strong>网页：</strong>从公开 URL 同步的内容。</li>
+                <li><strong>文档：</strong>带有可选文本的 PDF 和 DOCX 文件。</li>
+            </ul>
+
+            <p>在 Intercom 的 Knowledge Hub 中，你可以在一个地方管理所有这些内容源，控制 Fin 和 Copilot 可以使用哪些源，并识别哪些内容表现最佳，以便你可以持续改进。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Container-16.png" alt="我们一直在尝试的练习是真正跳出思维定式">
+
+            <h3>审核你拥有的内容</h3>
+
+            <h4>对现有内容进行审核</h4>
+
+            <p>首先要做的是审查你目前拥有的材料。这有两个原因：首先，你需要确保你的 Agent 不是从过时的信息中学习；其次，它识别了当前的差距在哪里。</p>
+
+            <p>在 Fin，我们在将 700 多篇实时文章提供给 Agent 之前需要进行审核。为此，我们将文章按产品领域划分，给相关团队一周时间检查、更新或淘汰每篇文章。像这样分享所有权使其成为真正的团队努力，并将一项艰巨的工作分解为可实现的任务。</p>
+
+            <p>如果你现在投资服务知识，你不仅仅是在改善今天的支持。你正在为更广泛的 <a href="https://fin.ai/customer-agent">Customer Agent</a> 策略奠定基础。今天为服务提供动力的产品知识、故障排除内容、入门指导和客户背景，也使未来更容易提供更主动、个性化的客户体验。</p>
+
+            <h4>站在客户的角度</h4>
+
+            <p>走一遍客户在寻求帮助时将采取的相同步骤，包括他们与 Agent 的第一次接触。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Container-17.png" alt="作为首次部署的一部分，自己测试它">
+
+            <p>这将帮助你测试答案的质量，发现内容中任何缺失的主题或关键词。</p>
+
+            <p>在上线之前，自己测试以确保你体验客户将拥有的相同支持旅程。如果你使用 Fin，可以使用 <a href="https://fin.ai/testing#:~:text=In%2Dcontext%20previews%20for%20one%2Doff%20testing">Preview</a> 实时查看它将如何响应并在发布前优化答案。批量测试帮助你检查更广泛客户问题集的内容覆盖率，并在发布前发现差距。对于更复杂的工作流程，<a href="https://fin.ai/testing">Simulations</a> 帮助你验证它如何遵循每个步骤、处理移交，以及在到达客户之前内容和设置还需要在哪里改进。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/05/Simulations-1.gif" alt="Simulations in Fin for Service">
+
+            <h4>寻求团队的输入</h4>
+
+            <p>在审核和识别内容差距时，不要只依赖你的客户支持团队。采取"全员上阵"的方法。通过在流程中包括你的产品和工程团队，你可以从比你更了解产品的人那里获得专家建议。你的销售、营销和客户成功团队也将对客户关心什么以及他们试图实现什么有独特的洞察。</p>
+
+            <h4>使用 Agent 的初始数据</h4>
+
+            <p>在使用 Agent 30 天后，你将有足够的数据看到它在哪里能够成功解决问题，在哪里卡住以及原因。深入研究这些数据以找到需要加强的领域。这些可能是没有足够内容供 Agent 处理并移交给支持代表的主题。它也可能突出由于解决率低或客户满意度评分低而需要改进的文章。</p>
+
+            <p>如果你在同一个平台管理 Agent 和知识内容，你将能够获得关于内容在每个接触点如何表现的详细报告，这样你就可以精确定位需要集中精力的地方。</p>
+
+            <div class="pro-tip">
+                <p style="margin: 0;">⚡ <strong>专业提示：</strong>如果你刚刚开始，考虑先对一部分客户测试 Agent 以获得这些初始数据。然后，一旦你解决了任何紧急差距，就可以进行更广泛的推广。</p>
+            </div>
+
+            <h3>计划和优先排序</h3>
+
+            <h4>优先确定要先更新或创建哪些内容</h4>
+
+            <p>到现在为止，你可能已经从公司各个角落涌现出惊人的支持内容想法。下一步：决定从哪里开始。</p>
+
+            <p>当优先排序内容时，你真正想做的是找出什么在驱动客户支持团队的工作量，识别最容易获得的成果来减少该工作量。为帮助你管理资源并处理影响最大的事情，请尝试以下提示：</p>
+            <ul>
+                <li><strong>识别你的支持团队最常分享或依赖的内容</strong>，如帮助文章、故障排除指南、入门内容和政策信息，并确保你的 Agent 首先访问这些内容。</li>
+                <li><strong>查看对话中的数据和指标</strong>，了解客户最常问的问题、他们在哪里卡住、哪些主题处理时间最长、以及客户体验（CX）评分在哪里最弱。然后针对这些具体差距创建或改进内容。</li>
+                <li><strong>根据它们对业务和支持运营的价值优先排序主题。</strong>例如，首先关注驱动最多支持量的问、客户体验中摩擦最大的部分、或对高价值客户最重要的领域。</li>
+                <li><strong>使用报告</strong>查找浏览量最多的文章，并按"最后更新"筛选，查找一段时间未审查可能需要刷新的帮助内容。如果你的产品、政策或计划发生了变化，请立即更新该内容，这样你的 Agent 就不会基于过时的信息工作。</li>
+            </ul>
+
+            <h4>分配时间和资源</h4>
+
+            <p>有意地为处理支持内容腾出时间。构建高性能的 Service Agent 不应该是一个副业。</p>
+
+            <p>在 Fin，一个由一线代表、支持专家和工程师组成的专门团队每周都会从收件箱中抽出时间来处理知识和 AI 改进。通常，每个个人贡献者被分配 5-10 小时来处理内容请求、填补知识差距，并将来自培训、测试和分析的洞察反馈到知识库和 Agent 设置中。</p>
+
+            <p>这个团队共同处理内容请求、填补知识差距，并将来自培训、测试和分析的洞察反馈到你的知识库和 Agent 设置中。</p>
+
+            <div class="pro-tip">
+                <p style="margin: 0;">⚡ <strong>专业提示：</strong>这些项目是帮助你的支持代表提升技能并发展到 AI 在客户服务中创造的令人兴奋的新角色的绝佳方式。</p>
+            </div>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/05/Container-18.png" alt="有了 AI，有很多即时学习">
+
+            <h3>AI 友好内容的最佳实践</h3>
+
+            <p>如何写内容与写什么同样重要。这些最佳实践将帮助你创建 Agent 实际可以有效使用的内容。</p>
+
+            <h4>使用客户使用的术语</h4>
+
+            <p>在支持内容中正确使用语言至关重要。语言是多样化的，因行业、角色和岗位而异。例如，支持代表可能称某人为客户，而另一个团队称他们为用户或管理员。分析你的搜索数据以发现客户使用的词语，并训练你的 Agent 说他们的语言。</p>
+
+            <div class="pro-tip">
+                <p style="margin: 0;">⚡ <strong>专业提示：</strong>在上线之前，用不同群体测试你的 Agent，如新客户、高级用户或不同计划的客户。这揭示了人们如何提出相同问题的变化，发现内容中的差距，并确保你的 Agent 为不同情境提供正确的答案。</p>
+            </div>
+
+            <h4>简化你的语言并消除歧义</h4>
+
+            <p>AI 友好的语言也意味着客户友好的语言。记住你不仅仅是为 Agent 写作，而是为具有不同技术水平水平的真实客户写作。保持语言尽可能清晰和无歧义。避免不必要的内部行话，拼写出任何缩写词，并清楚地解释关键产品术语，使你的指导清晰明了。</p>
+
+            <h4>为答案添加上下文</h4>
+
+            <p>如果你现在有一个人类可以解释的 FAQ 文档，其中有简单的"是"或"否"答案，机器不会像人类那样解释这些答案。当你说的"是"是什么意思，当你说的"否"是什么意思，你需要扩展这些含义。为此，我们建议在答案中重述问题并在其后添加完整上下文。这为你的 Agent 提供了更准确回答客户问题所需的清晰度。</p>
+
+            <h4>为图像和视频添加文本</h4>
+
+            <p>既展示又告诉是好的，但你的 Agent 不能仅依靠视频或图像作为事实来源，因此始终在它们旁边包含清晰的解释性文本。这不仅使内容对 AI 更可访问，而且使对你的受众更可访问，确保有视觉或听觉障碍的客户不会被遗漏。</p>
+
+            <h4>使用格式创建可扫描的结构</h4>
+
+            <p>使用标题、列表和表格使内容易于扫描。清晰的 H1、H2 和 H3 帮助 Agent 和人类快速导航。避免隐藏信息或需要用户输入才能显示内容的动态交互元素（如下拉菜单）。</p>
+
+            <h4>在 FAQ 文章中收集小段信息</h4>
+
+            <p>如果你有一些不需要完整文章的小段信息，将它们编译成内部片段列表或集中的 FAQ 列表。这可能包括常见的边缘情况、政策澄清或高容量支持问题的简短答案。因为这些通常是一些最重复的查询，将它们结构化为小段答案使你的 Agent 更容易快速找到并提供正确的响应。</p>
+
+            <h2 id="phase-2">阶段二：知识管理</h2>
+
+            <p>随着知识库的建立，重点转移到随时间维护、优化和扩展它。这就是知识管理成为持续职能而非一次性项目的地方。</p>
+
+            <h3>上线并学习</h3>
+
+            <h4>跟踪指标以衡量成功</h4>
+
+            <p>一旦你开始使用 Agent，跟踪业务指标以衡量其产生的影响。一些相关的跟踪指标包括：</p>
+            <ul>
+                <li><strong>解决率：</strong>Agent 有机会回答时完全解决的对话。</li>
+                <li><strong>自动化率：</strong>Agent 在整个支持量中处理的对话总数。</li>
+                <li><strong>节省的时间：</strong>从支持团队卸载的手动工作小时数。</li>
+                <li><strong>客户体验（CX）评分：</strong>如果你在实时环境中测试 Fin，跟踪整体客户体验在 AI 和人工处理的对话中的比较。</li>
+                <li><strong>CSAT：</strong>如果你在实时环境中测试，跟踪客户对 AI 的满意度与人工互动的可比性。</li>
+            </ul>
+
+            <p>所有这些指标帮助你发现哪些内容表现最佳，以及你可以在哪里改进知识管理流程。</p>
+
+            <h4>将学习付诸行动</h4>
+
+            <p>理想情况下，你会立即看到惊人的结果，但你不太可能立即把一切都做对。会有一些你的 Agent 还无法解决的问题、需要优化的工作流程，以及随时间推移揭示内容差距的对话。</p>
+
+            <p>那是有用的，因为它为你提供了关于客户需要什么以及你的支持体验可以在哪里改进的真实数据。最有价值的洞察往往来自 Agent 挣扎、升级或未能达到高质量解决方案的地方。使用这些信号改进你的内容、优化你的设置，并持续监控性能。</p>
+
+            <h3>迭代和改进</h3>
+
+            <h4>将持续维护纳入你的工作流程</h4>
+
+            <p>知识管理是一个过程。一旦你发布了特定数量的帮助文章，它并不会结束。</p>
+
+            <p>随着你的产品、客户和业务目标的发展，你的支持内容也应该随之发展。这意味着你需要将"更新和创建新内容"持续纳入团队的工作流程。这不应该只在新功能发布前的匆忙中完成。</p>
+
+            <p>制定更新内容的计划，概述：</p>
+            <ul>
+                <li><strong>谁负责</strong>刷新或创建新内容。</li>
+                <li><strong>多久</strong>审查一次现有内容，使其不会过时。</li>
+                <li><strong>何时应该这样做</strong> – 每天一小时、每个星期五、每月，或任何适合你团队的频率。</li>
+            </ul>
+
+            <p>如果你使用 Fin，<a href="https://fin.ai/operator">Operator</a> 可以帮助你随着业务变化保持知识最新，通过识别你的团队需要创建、更新或删除的确切内容，然后为你起草这些更改。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/05/Container-19.png" alt="你需要定期审核内容">
+
+            <h4>开发记录请求的系统</h4>
+
+            <p>通过让每个人都能轻松分享新支持内容或改进支持内容的想法，鼓励向"知识管理"思维模式的文化转变。</p>
+
+            <p>我们在 Fin 的支持团队经常最先发现内容差距，因为他们每天与客户交谈。为了持续捕捉这些反馈，让他们通过 Intercom 中的工单轻松提交内容请求。</p>
+
+            <p>为团队成员创建一个简单的系统来记录内容请求，这样你就可以从所有面向客户和产品团队捕捉洞察，并从每个角度解决客户需求。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/05/Container-20.png" alt="训练 Agent 随时间改进是使用 AI 的基础">
+
+            <h3>将知识管理纳入未来的发布计划</h3>
+
+            <h4>使知识管理成为产品发布的必要部分</h4>
+
+            <p>根据你的行业，你可能经常发布新功能、发布产品更新或调整计划和策略。为这些变更创建高质量、Agent 就绪的支持内容应该是你发布清单的组成部分。</p>
+
+            <p>与你的产品、支持和产品营销经理合作，在发布前创建和更新正确的支持内容、最佳实践和预期的 FAQ。然后在发布后审查早期客户对话，发现额外资源的机会、反复出现的混淆点或内容中的差距，这样你的 Agent 和支持团队可以更有效地处理新发布。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/05/Container-25.png" alt="内容不应再是事后想法">
+
+            <h3>AI 友好知识管理的最佳实践</h3>
+
+            <p>一旦你的知识库上线，这些实践将帮助你随时间保持其准确性、一致性和有效性。</p>
+
+            <h4>创建一致、可信赖和符合品牌调性的体验</h4>
+
+            <p>品牌一致性对在整个支持体验中建立客户信任至关重要。它确保客户感觉像是在与一家公司交谈，无论他们是在阅读你的支持内容、与你的 Agent 聊天，还是与支持代表交谈。为此，确保产品和功能术语、计划名称和政策语言在每个接触点都是一致的。校对语气、拼写和语法，并在创建支持内容时使用标准化模板以保持一致性。</p>
+
+            <h4>为需要联系方式的客户包含联系信息</h4>
+
+            <p>包含联系信息让客户放心，如果你的 Agent 无法解决他们的查询，他们仍然可以获得所需的支持。只要确保包含上下文，以便清楚使用哪个渠道、何时使用以及它的用途。</p>
+
+            <h4>清楚标识内容的目标受众</h4>
+
+            <p>如果你为不同类型的用户提供不同的支持内容，确保每篇内容清楚地引用它是为谁准备的。例如，不同计划的客户可能无法访问提到的所有功能。如果你使用 Fin，可以使用 Content Targeting 控制 it 为不同受众使用哪些内容，这样客户获得更相关和准确的答案。</p>
+
+            <h4>连接的 Agent 将每个对话转化为洞察</h4>
+
+            <p>当你的 Agent 有权访问你的客户数据、支持系统和知识库时，每个对话和支持内容片段都流入一个连接的系统。</p>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/05/Container-22.png" alt="单一平台现在比以往任何时候都重要得多">
+
+            <h2 id="make-it-core">让知识管理成为核心服务职能</h2>
+
+            <p>在每一个高性能 Agent 背后，都有一个全面、AI 友好的知识管理流程。没有它，即使是最强大的 Agent 也难以实现 AI 可以带来的效率提升、解决率改进和客户体验好处。</p>
+
+            <p>这不是一次性项目；这是持续投资。将知识管理视为核心服务职能的团队，正在构建随每个对话改进的系统，将支持转化为洞察和改进的复利来源。</p>
+
+            <div style="text-align: center; margin: 40px 0;">
+                <a href="https://fin.ai/">
+                    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/05/try-fin-cta.png" alt="开始使用排名第一的 Agent" style="max-width: 100%; height: auto;">
+                </a>
+            </div>
+        </div>
+
+        <div class="original-link">
+            <p><strong>本文翻译自：</strong></p>
+            <p><a href="https://www.intercom.com/blog/guide-customer-service-knowledge-management-ai/">The ultimate guide to knowledge management for your Service Agent</a></p>
+            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">原文作者：Beth-Ann Sher | 发布时间：2026年5月27日</p>
+        </div>
+    </article>
+</body>
+</html>
