@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对话设计：如何让你的 AI Agent 像团队一样沟通 - Intercom 博客</title>
+    <meta name="description" content="如果你的团队没有人负责定义 Agent 如何沟通，它默认会听起来像 LLM。对话设计正是解决这个问题的学科。">
+    <meta property="og:title" content="对话设计：如何让你的 AI Agent 像团队一样沟通" />
+    <meta property="og:description" content="如果你的团队没有人负责定义 Agent 如何沟通，它默认会听起来像 LLM。对话设计正是解决这个问题的学科。" />
+    <meta property="og:url" content="https://www.intercom.com/blog/conversation-design-for-your-ai-agent/" />
+    <meta property="og:image" content="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Evergreen-3-700x392.png" />
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #fff;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+            color: #1a1a1a;
+            line-height: 1.3;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 2em;
+            color: #1a1a1a;
+            border-top: 2px solid #0011e6;
+            padding-top: 0.5em;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-top: 1.5em;
+            color: #1a1a1a;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 1em;
+        }
+        .meta .author {
+            font-weight: 600;
+        }
+        .meta .date {
+            margin-left: 1em;
+        }
+        .meta .reading-time {
+            margin-left: 1em;
+            color: #888;
+        }
+        .excerpt {
+            background: #f5f5f5;
+            padding: 1.5em;
+            border-left: 4px solid #0011e6;
+            margin-bottom: 2em;
+            font-style: italic;
+        }
+        p {
+            margin: 1.5em 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 2em auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .hero-image {
+            width: 100%;
+            margin: 0 0 2em 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2em 0;
+            font-size: 0.95em;
+        }
+        th {
+            background-color: #0011e6;
+            color: #ffffff;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px 15px;
+            border: 1px solid #dcdcdc;
+            text-align: left;
+        }
+        tr:nth-child(odd) td {
+            background-color: #e3f2fd;
+        }
+        tr:nth-child(odd) td:first-child {
+            font-weight: 600;
+            width: 25%;
+        }
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 2em 0;
+        }
+        .original-link {
+            background: #f9f9f9;
+            padding: 1em;
+            border-radius: 4px;
+            margin-top: 3em;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .original-link a {
+            color: #0011e6;
+            text-decoration: none;
+        }
+        .toc {
+            background: #f5f5f5;
+            padding: 1.5em;
+            border-radius: 4px;
+            margin: 2em 0;
+        }
+        .toc h2 {
+            font-size: 1.2em;
+            margin-top: 0;
+            border-top: none;
+            padding-top: 0;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .toc li {
+            padding: 0.3em 0;
+        }
+        .toc a {
+            color: #0011e6;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        strong {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <h1>对话设计：如何让你的 AI Agent 像团队一样沟通</h1>
+    
+    <div class="meta">
+        <span class="author">Fred Walton</span>
+        <span class="date">发布于 2026年6月18日</span>
+        <span class="reading-time">阅读时间：6分钟</span>
+    </div>
+
+    <div class="excerpt">
+        如果你的团队没有人负责定义 Agent 如何沟通，它默认会听起来像 LLM。对话设计正是解决这个问题的学科。
+    </div>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Evergreen-3.png" alt="对话设计" class="hero-image" />
+
+    <div class="toc">
+        <h2>目录</h2>
+        <ul>
+            <li><a href="#what-conversation-design-covers">对话设计涵盖什么</a></li>
+            <li><a href="#how-to-put-it-into-practice">如何付诸实践</a></li>
+            <li><a href="#getting-started-without-a-dedicated-hire">没有专人也能开始</a></li>
+            <li><a href="#small-steps-compound">小步积累，成效显著</a></li>
+        </ul>
+    </div>
+
+    <p>如果你的团队没有人培训过 Agent 应该如何沟通，那么当它与客户对话时，它会听起来像 LLM（因为它就是）。</p>
+
+    <p>对话设计是 AI 优先支持团队中出现的新兴学科，专门用来解决这个问题。对话设计师负责定义 Agent 的沟通方式：语气、结构、详细程度、客户体验、转接和升级流程。</p>
+
+    <p>如果没有专人定义 Agent 应该遵循的沟通指导，它就会自己做出决定。这可能导致：在简短回答就足够的情况下给出过多细节；在客户感到沮丧时用平淡的语气回复；或者触发转接的时间太晚。</p>
+
+    <p>所有这些成本都是可衡量的。收到结构尴尬回复的客户不太可能信任答案，即使答案准确，他们也会升级到人类队友那里，听到同样的事情用不同的方式表达。其他人会完全跳过 Agent。当 Agent 确实转接时，糟糕的过渡意味着人类支持代表要面对已经感到沮丧的客户。每一个这样的结果都是可以避免的，而对话设计正是确保它们不会发生的学科。</p>
+
+    <p>我们在 Fin 亲身经历了这一点。我们对两种开场消息进行了 A/B 测试，一种是温暖和对话式的，另一种是我们之前的默认版本。对话式的问候将 CSAT 从 72.8% 提升到 78.4%。一个单一的对话设计变更，应用到客户看到的第一件事上，就产生了可衡量的差异。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Group-2147230655.png" alt="A/B 测试对比：对话式问候 vs 默认问候" />
+
+    <h2 id="what-conversation-design-covers">对话设计涵盖什么</h2>
+
+    <p>这个角色涵盖五个不同的领域，每个领域都塑造着客户体验的不同部分：</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>领域</th>
+                <th>描述</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>语气和个性</td>
+                <td>声音、详细程度、Agent 听起来有多正式或多随意，以及这些是否会根据情况变化。</td>
+            </tr>
+            <tr>
+                <td>回复结构</td>
+                <td>Agent 是否将详细程度与客户的请求相匹配。</td>
+            </tr>
+            <tr>
+                <td>转接逻辑</td>
+                <td>何时升级、如何沟通过渡、以及要传递什么上下文。</td>
+            </tr>
+            <tr>
+                <td>交互流程</td>
+                <td>对话如何通过提问、回答、解决或转接来推进。</td>
+            </tr>
+            <tr>
+                <td>回复质量</td>
+                <td>答案是否感觉清晰、有帮助、符合品牌调性，即使在技术上正确时。</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 id="how-to-put-it-into-practice">如何付诸实践</h2>
+
+    <h3>从对话应该给人的感觉开始</h3>
+
+    <p>在调整单个回复之前，先定义声音。用一段话写下来你希望 Agent 听起来怎么样。你不需要完整的品牌指南，只需要一个在做关于语气的决定时可以回溯的参考点。</p>
+
+    <p>不同的对话类型可能需要不同的语域。被锁定在账户外的客户需要直接和速度，而探索新功能的人可能欣赏更多上下文。声音保持一致，但语域应该适应。</p>
+
+    <h3>仔细设计转接</h3>
+
+    <p>从 Agent 到支持代表的过渡是摩擦最大的时刻之一。客户不应该重新解释他们的问题。代表应该收到完整的对话历史、问题背后的上下文、Agent 已经做了什么、以及为什么升级。</p>
+
+    <p>Agent 沟通转接的方式也很重要。"让我为你连接一位可以帮助解决这个问题的队友"与无声转接的感觉是不同的。</p>
+
+    <p>设计故障安全机制也很重要。如果 Agent 无法干净利落地解决对话，你需要一个仍然能给客户流畅转接体验的后备方法。客户在那时可能对 AI 感到沮丧，但处理得当的过渡可以扭转局面。</p>
+
+    <h3>别忘了跟进</h3>
+
+    <p>跟进需要与转接同样的关注。如果有人在对话中途掉线，无论是与你的 Agent 还是支持代表，你如何重新联系以确保他们得到了所需的帮助？大多数团队不考虑这一点，而客户会注意到。</p>
+
+    <h3>知道 Agent 何时应该停止说话</h3>
+
+    <p>最常见的对话设计错误之一是过度解释。Agent 可以访问大量信息，如果不加引导，它很容易给出比客户需要更多的细节。</p>
+
+    <p>Agent 应该将详细程度与客户的请求相匹配。询问如何重置密码的人不需要三段话。询问复杂集成的客户可能需要。如果有更多要分享的内容，它应该主动提供，而不是一次性全部给出。</p>
+
+    <h3>为客户正在进行的对话而设计</h3>
+
+    <p>客户不遵循脚本。他们会在对话中途改变方向，或提出与原始问题无关的后续问题。</p>
+
+    <p>Agent 需要处理这些过渡，而不强迫客户回到固定流程。当客户已经转移话题后，Agent 仍然试图解决原始问题时，会让人感觉像是在与一个没有在听的人交谈。</p>
+
+    <p>考虑同样的流程是否应该适用于不同的渠道，以及不同的客户群体是否需要不同的体验。</p>
+
+    <h3>保持指令简短</h3>
+
+    <p>最大的实际挑战之一是对 Agent 的过度指导。每次出现新的边缘情况时，团队都会添加规则。不久之后，LLM 在响应之前需要处理大段指令。</p>
+
+    <p>我在 Fin 见过这种情况，也从其他团队听到过同样的情况。本能总是添加更多，但纪律在于知道何时停止。</p>
+
+    <p>我的规则：如果是关于内容或信息，它属于知识库。如果是关于语气或如何处理特定情况，它属于 Agent 的指令。"对定价直接"比解释定价沟通策略背后理念的一段话更有效。</p>
+
+    <hr />
+
+    <p>如果你正在使用 Fin，大部分工作在 <a href="https://www.intercom.com/help/en/articles/10210126-provide-fin-ai-agent-with-specific-guidance">Guidance</a> 中进行。这是对话设计成形的地方，帮助你定义 Agent 应该如何听起来、应该说多少、以及在不同情况下应该如何回应。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Screenshot-2026-06-18-at-17.43.49.png" alt="Fin 的 Guidance 功能" />
+
+    <h2 id="getting-started-without-a-dedicated-hire">没有专人也能开始</h2>
+
+    <p>大多数团队不会在第一天就雇佣专门的对话设计师——这没问题。但需要有人负责 Agent 如何沟通，即使这是现有角色的一部分。</p>
+
+    <p>对话设计通常从支持运营或知识管理开始。团队中的某人开始关注 Agent 的声音。随着时间的推移，当你的 Agent 处理更多对话时，这变成了正式责任，最终成为专门角色。</p>
+
+    <h3>从哪里开始</h3>
+
+    <h4>1. 指定负责人</h4>
+
+    <p>你需要有人对 Agent 如何沟通负责。不需要是新员工，但需要明确指定。</p>
+
+    <h4>2. 选择一个表现不佳的对话类型</h4>
+
+    <p>查看 Agent 回答正确但客户仍然升级或留下负面反馈的对话。从那里开始。</p>
+
+    <p>如果你正在使用 Fin，<a href="https://www.intercom.com/help/en/articles/10495092-understand-customer-experience-at-scale-with-the-cx-score">CX Score</a> 可以帮助你找到这些。它显示哪些主题和对话类型得分低，以及这些得分背后的原因，这样你可以看到问题是答案质量、客户努力还是其他原因。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2055/11/Image-2-scaled.png" alt="Fin 的 CX Score 主题和原因" />
+
+    <h4>3. 审计你的 Agent 指令</h4>
+
+    <p>如果它们已经超出了几条聚焦规则的范围，精简它们。将内容移到知识库，保持指令聚焦于行为。</p>
+
+    <h4>4. 修复你最糟糕的转接</h4>
+
+    <p>查看一些 Agent 升级到人类的对话。客户必须重复自己吗？支持代表有足够的上下文吗？先重新设计那单一过渡。</p>
+
+    <h2 id="small-steps-compound">小步积累，成效显著</h2>
+
+    <p>这些改进中每一个的影响都会累积。温暖的开场消息提高了我们的 CSAT，而精简指令使响应更敏锐。设计更好的转接意味着支持代表不再接手已经沮丧的客户。</p>
+
+    <p>这些变化都不需要新知识；它们需要有人关注对话本身。</p>
+
+    <a href="https://fin.ai/blueprint/service/">
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10.png" alt="AI Service Agent Blueprint" />
+    </a>
+
+    <div class="original-link">
+        <strong>原文链接：</strong> <a href="https://www.intercom.com/blog/conversation-design-for-your-ai-agent/" target="_blank">https://www.intercom.com/blog/conversation-design-for-your-ai-agent/</a>
+        <br><br>
+        <strong>翻译日期：</strong> 2026年7月26日
+    </div>
+</body>
+</html>
