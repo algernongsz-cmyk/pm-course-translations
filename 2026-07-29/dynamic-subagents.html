@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Deep Agents 中的动态 Subagent</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #2c3e50; }
+        h2 { color: #34495e; margin-top: 2em; }
+        h3 { color: #7f8c8d; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        img { max-width: 100%; height: auto; margin: 1em 0; }
+        .meta { color: #95a5a6; margin-bottom: 2em; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>Deep Agents 中的动态 Subagent</h1>
+            <div class="meta">
+                <span>作者：Sydney Runkle, Colin Francis, Hunter Lovell</span> | 
+                <span>日期：2026年6月29日</span> | 
+                <span><a href="https://www.langchain.com/blog/introducing-dynamic-subagents-in-deep-agents">原文链接</a></span>
+            </div>
+        </header>
+        
+        <p>随着 Agent 承担越来越有挑战性的任务，它们面临着困境：</p>
+        
+        <p>我们一直在试验一种称为"动态 subagent"的方法来应对这些挑战：Agent 不再通过通用的工具调用来发布 subagent 任务，而是编写一个简短的脚本来驱动 subagent 的执行。这意味着模型可以依赖它擅长的代码模式（如循环、分支或并发）来编写适合任务的编排逻辑。</p>
+        
+        <h2>为什么需要动态 subagent？</h2>
+        
+        <p>Deep Agents 已经支持 subagent。它们隔离上下文，让主 agent 委托离散的工作单元，并将中间结果排除在主上下文窗口之外。那么，为什么我们需要动态 subagent？</p>
+        
+        <p>对于普通的 subagent，它们是由主模型直接调用的，一次调用一个。这在规模较小时是有效的。但当你需要生成数百个 subagent，或者编排逻辑是条件性或多阶段时，这种方法就会崩溃。</p>
+        
+        <p>动态 subagent 通过程序化编排解决了这个问题。Agent 不再逐轮进行工具调用，而是编写一个简短的脚本来编排和调用 subagent，并在一个轻量级解释器中运行它。</p>
+        
+        <p>典型例子：一个 300 页文档的每一页对应一个 subagent。Agent 不需要调用 subagent 工具 300 次，而是编写一个循环：</p>
+        
+        <pre><code>const results = await Promise.all(pages.map(page =>
+  task({ description: `Summarize page ${page.number}`, subagentType: "summarizer" })
+));</code></pre>
+        
+        <p>这解锁了基于工具调用的编排无法可靠实现的两件事：</p>
+        
+        <ol>
+            <li><strong>大规模的确定性覆盖</strong>。没有结构，agent 会就范围做出判断，审查 500 个项目中的 75 个就宣布完成。分派循环不会这样。覆盖成为一个结构性保证，而不是一个提示工程问题。</li>
+            <li><strong>可靠的复杂编排</strong>。将编排写成代码比让模型将其重现为一系列工具调用更可靠，特别是对于扇出+合成、多阶段流水线或条件分支。</li>
+        </ol>
+        
+        <p>这与 Claude Code 和递归语言模型（RLM）中的工作流理念相同：模型编写代码，该代码分派更多的 agent。</p>
+        
+        <h2>快速开始</h2>
+        
+        <p>动态 subagent 需要两样东西：用于分派工作的 subagent，以及代码解释器：一个安全、轻量的运行时，模型在其中编写和执行编排代码。Deep Agents 包含一个基于 QuickJS 的可选代码解释器。要使用它，请安装 QuickJS 中间件包，然后通过 create_deep_agent 的 middleware 参数传递 CodeInterpreterMiddleware。</p>
+        
+        <pre><code>pip install -U "deepagents[quickjs]"</code></pre>
+        
+        <pre><code>from deepagents import create_deep_agent
+from langchain_quickjs import CodeInterpreterMiddleware
+
+agent = create_deep_agent(
+    model="openai:gpt-5.5",
+    middleware=[CodeInterpreterMiddleware()],
+)</code></pre>
+        
+        <p>Deep Agents 内置了一个通用 subagent，因此已经有一个可在工作流中使用的通用 subagent 配置文件。对于专门的工作流，配置具有自己名称、描述和系统提示的自定义 subagent：名称和描述是 agent 知道调用哪个角色的方式。</p>
+        
+        <p>要触发动态 subagent，请在提示词中使用"workflow"一词，如下所示：</p>
+        
+        <pre><code>result = await agent.ainvoke({
+    "messages": [{"role": "user", "content": "Run a workflow that reviews every file in src/routes/ and summarizes the top risks."}]
+})</code></pre>
+        
+        <h2>与编码 Agent 一起使用</h2>
+        
+        <p>尝试动态 subagent 的最快方法是使用 dcode，这是我们的终端编码 agent，基于 Deep Agent 构建。它默认启用了代码解释器，因此无需任何配置——动态 subagent 开箱即用。</p>
+        
+        <h3>安装</h3>
+        
+        <pre><code>curl -LsSf https://langch.in/dcode | bash</code></pre>
+        
+        <h3>运行</h3>
+        
+        <pre><code>dcode</code></pre>
+        
+        <p>要触发动态 subagent，只需请求"workflow"。Agent 不会自己艰难地完成工作，也不会尝试用其原生任务工具管理 subagent 扇出，而是编写一个调用内置 task() 全局函数的编排脚本，并在代码解释器中执行它。例如："运行一个工作流，审查 src/ 中的每个文件是否存在 SQL 注入。"</p>
+        
+        <p>当 subagent 生成时，dcode 会在动态 subagent 面板中实时显示它们，按分派阶段分组。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a4295905625ab550e02166c_Screenshot%202026-06-24%20at%204.04.09%E2%80%AFPM%20(1).png" alt="dcode 动态 subagent 面板">
+        
+        <p>你可以用 dcode 最快地尝试这个，但也可以通过 ACP 在你选择的工具中使用（例如 Zed）。</p>
+        
+        <h2>工作原理</h2>
+        
+        <p>Agent 获得一个 eval 工具。它编写 JavaScript，在解释器中安全执行。当配置了 subagent 时，解释器暴露一个内置的 task() 全局函数，从代码中分派它们。根据手头的任务，模型编写不同的代码——循环、分支、Promise.all——解释器确定性地运行它。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a4295a23a606f0c31601c72_Screenshot%202026-06-28%20at%2010.13.27%E2%80%AFAM.png" alt="代码解释器工作流程">
+        
+        <p>task() 接受描述、subagentType 和可选的 responseSchema——当提供时，结果已经是一个类型化对象，准备好过滤或传递给下一步。</p>
+        
+        <pre><code>const result = await task({
+  description: "Review src/auth/login.ts for security issues.",
+  subagentType: "reviewer",
+  responseSchema: {
+    type: "object",
+    properties: {
+      severity: { type: "string", enum: ["high", "medium", "low"] },
+      issues: { type: "array", items: { type: "string" } },
+    },
+  },
+});
+
+const critical = result.severity === "high" ? result.issues : [];
+critical; // model sees the last line</code></pre>
+        
+        <p>更多信息，请参阅文档中的<a href="#">程序化 subagent</a>和<a href="#">解释器</a>。</p>
+        
+        <h2>常见编排模式</h2>
+        
+        <p>Anthropic 的动态工作流推广了一组并行 agent 工作的编排模式。它们不是你开启的功能。它们是从工作中自然形成的形状，agent 会随着任务的变化而陷入不同的模式。下表将每种形状映射到适合的工作类型。</p>
+        
+        <p>下面我们将深入了解每种模式在 Deep Agents 中的工作方式，并提供实时追踪。我们还制作了一个解释这六种模式的视频，你可以<a href="#">在这里查看</a>。</p>
+        
+        <h3>分类后行动（Classify and act）</h3>
+        
+        <p>项目首先被分类，然后根据其分类由专门的 subagent 处理每个项目。这让你可以处理混合输入，其中不同项目需要不同的专业知识。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a4295f42ec3a9eed85aede2_01-classify-and-act.png" alt="分类后行动模式">
+        
+        <p><strong>使用场景：</strong>分类支持工单、错误日志、用户反馈，或任何需要根据类型进行不同处理的批量项目。</p>
+        
+        <p><strong>示例：</strong>分类支持工单积压。Agent 读取工单并将每个工单分类为错误、功能请求或问题。错误发送给 bug-investigator，功能请求发送给 feature-analyst，问题发送给 support-responder。结果是按类别分组的摘要。</p>
+        
+        <p><a href="#">查看追踪</a>。</p>
+        
+        <h3>扇出并合成（Fanout and synthesize）</h3>
+        
+        <p>Agent 并行地将相同类型的工作分派到多个项目，然后合并结果。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a4296613a606f0c3160ccd2_02-fanout-and-synthesize.png" alt="扇出并合成模式">
+        
+        <p><strong>使用场景：</strong>跨目录的代码审查、分析一批文档、处理日志文件、跨多个服务运行相同的检查。</p>
+        
+        <p><strong>示例：</strong>跨源代码树的逐文件安全审查。Agent 发现 src/ 下的每个 TypeScript 文件，并并行地为每个文件分派一个 security-reviewer。然后，它将结果合并为一个按严重性评级排序的单个报告，并指出需要更改的行。</p>
+        
+        <p><a href="#">查看追踪</a>。</p>
+        
+        <h3>对抗性验证（Adversarial verification）</h3>
+        
+        <p>两轮模式。第一轮产生发现。第二轮将每个发现发送给独立的验证者，只有通过一致的发现才会被保留。当置信度比速度更重要时，这可以减少误报。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a429a7c39c584a6eb68f9ec_03-adversarial-verification%20(1).png" alt="对抗性验证模式">
+        
+        <p><strong>使用场景：</strong>误报成本高的安全审计、合规检查、任何需要对发现具有高置信度的审查。</p>
+        
+        <p><strong>示例：</strong>不允许误报的安全审计。审计员广泛搜罗潜在漏洞，然后每个发现交给一个独立的验证者，该验证者重新阅读代码并返回 CONFIRMED 或 REFUTED 裁决。只有确认的发现进入最终报告。</p>
+        
+        <p><a href="#">查看追踪</a>。</p>
+        
+        <h3>生成并过滤（Generate and filter）</h3>
+        
+        <p>多个 subagent 为同一问题生成独立的解决方案。Agent 在代码中比较、评分和过滤结果，只保留最好的。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a429677bc4d3cb76aa0d232_04-generate-and-filter.png" alt="生成并过滤模式">
+        
+        <p><strong>使用场景：</strong>架构提案、重构策略、内容变体、任何在提交前探索多个选项以产生更好结果的任务。</p>
+        
+        <p><strong>示例：</strong>竞争性的限流器重设计，排名。Agent 使用架构师生成 rate-limiter.ts 的几个独立重设计，每个写入自己的文件，以免相互覆盖。然后，它在突发下的正确性、多实例支持和复杂性方面对它们进行评分。最强的一个获胜，并附带理由。</p>
+        
+        <p><a href="#">查看追踪</a>。</p>
+        
+        <h3>锦标赛（Tournament）</h3>
+        
+        <p>变体由裁判 subagent 进行一对一比较，获胜者通过淘汰赛晋级。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a429686c823afd69faa744e_05-tournament.png" alt="锦标赛模式">
+        
+        <p><strong>使用场景：</strong>主观标准下的优化、风格选择、在竞争实现之间做出选择。</p>
+        
+        <p><strong>示例：</strong>对混乱的 createOrder 处理程序重写进行成对淘汰赛。几个编写者各自产生不同优先级的候选重写，然后裁判将它们一对一比较，逐轮晋级获胜者，直到一个冠军脱颖而出。它返回裁判的推理。</p>
+        
+        <p><a href="#">查看追踪</a>。</p>
+        
+        <h3>循环直到完成（Loop until done）</h3>
+        
+        <p>Agent 运行发现循环，对已经发现的内容进行去重，直到没有新结果出现。当工作范围事先未知时很有用。</p>
+        
+        <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/6a42969e8a42096c1a054454_06-loop-until-done.png" alt="循环直到完成模式">
+        
+        <p><strong>使用场景：</strong>穷举搜索、死代码检测、依赖审计、任何追求完整性而非固定数量结果的扫描。</p>
+        
+        <p><strong>示例：</strong>基于遍历的安全扫描。Agent 运行扫描遍历，检查在代码中发现的内容，只有当前一次遍历发现新问题时才启动另一次遍历。当一次遍历没有发现新内容时停止。它报告合并的发现和遍历次数。</p>
+        
+        <p><a href="#">查看追踪</a>。</p>
+        
+        <h2>结论</h2>
+        
+        <p>动态 subagent 是如何赋予 agent 更多自主权和更高可靠性的方式。代码处理覆盖和中间上下文，模型仍然执行判断密集型工作。上述模式是一个起点。在实践中，agent 会根据任务需求组合和混合它们。</p>
+        
+        <p>这是递归语言模型理念的最简单形式。一个编写代码的 agent，该代码分派更多的 agent。这是一个递归调用自身的 agent，不受上下文窗口限制，也不被固定在固定工作流中。Agent 可以将问题分解到底，并以任何适合的形状重新组装碎片。上面强调的编排模式是可能性的早期瞥见，但随着模型在编写代码方面越来越好，上限只会继续提高。</p>
+        
+        <p>动态 subagent 是 Deep Agents 今天将其交到你手中的方式。通过向你的 agent 添加代码解释器开始，或者使用 dcode，那里动态 subagent 开箱即用。</p>
+        
+        <footer>
+            <p>翻译时间：2026-07-29</p>
+            <p>保留术语：Agent, Deep Agents, Subagent, dcode, QuickJS, ACP, eval, task(), Promise.all</p>
+        </footer>
+    </article>
+</body>
+</html>
