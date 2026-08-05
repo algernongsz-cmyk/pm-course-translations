@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 规模化时如何衡量客户体验</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            border-top: 2px solid #e0e0e0;
+            padding-top: 30px;
+        }
+        h3 {
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        ul {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 30px auto;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        .meta span {
+            margin-right: 20px;
+        }
+        .hero-image {
+            width: 100%;
+            margin: 30px 0;
+        }
+        .quote {
+            background: #f5f5f5;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 4px solid #007bff;
+            font-style: italic;
+        }
+        .english-original {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<article>
+    <header>
+        <div class="meta">
+            <span class="category">AI & Automation</span>
+            <span class="date">发布时间: 2026年7月1日</span>
+            <span class="author">作者: William Lane</span>
+            <span class="reading-time">阅读时间: 5分钟</span>
+        </div>
+
+        <h1>AI 规模化时如何衡量客户体验</h1>
+
+        <p class="excerpt">传统的支持指标并不是为 AI 处理大部分对话而设计的。随着你的 Agent 承担更多工作，你能看到的缺口会变得越来越大。这里是如何衡量完整客户体验的方法。</p>
+
+        <img class="hero-image" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/07/How-to-measure-the-customer-experience-as-AI-scales-hero.jpg" alt="How to measure the customer experience as AI scales" />
+    </header>
+
+    <div class="content">
+        <p>CSAT 只能捕捉<a href="https://ideas.fin.ai/p/why-an-ai-driven-customer-experience">不到 10% 的对话</a>，而你得到的回复往往偏向极端——那些非常满意的和非常愤怒的。</p>
+
+        <p>大多数客户根本什么都不会说，尤其是当他们很忙，更愿意继续做其他事情的时候。</p>
+
+        <p>这种沉默是一个盲点。你基于不代表大多数客户的样本向领导层汇报，并指导你的团队。再多的 CSAT 调整也无法解决如此低的回复率问题。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/CSAT-distribution-.png" alt="Chart: Extreme response bias in CSAT data" />
+
+        <p>覆盖率并不是唯一的限制。CSAT 还将多个问题压缩成一个分数。一个负面评价可能是由产品、政策挫折或服务质量差引起的。仅凭它本身无法告诉你具体是哪个。你最终花更多时间质疑数据，而不是基于数据采取行动，而且它隐藏了真正影响客户体验的摩擦：重复解释、多次转接，或者技术上正确但仍然令人沮丧的回答。</p>
+
+        <p>随着 AI 端到端处理更多对话，这个缺口只会变得更大。更大比例的客户体验超出了直接人工审查的范围，而 CSAT 仍然只反映生成回复的那部分对话。</p>
+
+        <p>团队需要了解每次对话中发生了什么，而不仅仅是那些有人选择填写调查的对话。</p>
+
+        <h2 id="what-full-coverage-looks-like">全覆盖是什么样的</h2>
+
+        <p>AI 使支持团队能够从抽样转向对每次对话进行评分，因此你不必等待客户告诉你情况如何，而是可以自动评估每次互动。当每次对话都这样可见时，你就能全面了解客户在服务质量、解决方案和客户努力方面实际经历的情况——这些是单一调查永远无法展示的内容。</p>
+
+        <p>如果你使用 Fin，<a href="https://www.intercom.com/help/en/articles/10495092-understand-customer-experience-at-scale-with-the-cx-score">CX Score</a> 提供了这种覆盖。它评估每次互动（AI 和人工），分配 1-5 的分数，并显示每个分数背后的原因。对于大多数团队来说，这比单独使用 CSAT 多出大约五倍的对话覆盖。如果你使用其他解决方案，原则是一样的：你需要 AI 驱动的对每次对话的可见性。</p>
+
+        <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2055/11/Image-1-scaled.png" alt="Fin CX Score showing conversation scores" />
+
+        <p>CSAT 仍然有其作用，作为希望直接分享体验的客户的开放渠道，但每个对话的评分视图告诉你整个客户体验中真正发生了什么，这在 AI 规模化时尤为重要。</p>
+
+        <h3>如何设定目标</h3>
+
+        <p>你不能将旧的 CSAT 目标映射到新指标上。覆盖率不同，因此你需要从数据本身构建目标。</p>
+
+        <p>在 Fin，我们首先将 CX Score 与首次响应时间和关闭时间等运营指标相关联。这为人工支持提供了有用的目标，但我们希望更深入地了解我们的 Agent Fin 的表现。</p>
+
+        <p>因此，我们将 CX Score 按其底层属性分解：回答质量、客户努力和产品反馈。Fin 的回答质量对总体分数影响最大，这很有道理，因为它处理了大部分对话。这告诉了我们应该关注哪里。</p>
+
+        <p>随着我们的自动化率大约达到 80%，我们建模了如果在 Fin 和人工对话中消除低回答质量，我们的分数会是什么样子。我们基于这些模型、历史表现和团队抱负设定了初始目标：</p>
+
+        <ul>
+            <li><strong>Fin 支持：</strong>80%</li>
+            <li><strong>人工支持：</strong>70%</li>
+            <li><strong>总体：</strong>78%</li>
+        </ul>
+
+        <p>此后我们提高了这些目标，因为表现持续改善。关键是从数据实际显示的内容构建目标，当你能看到一切时，而不是从像 CSAT 这样衡量不同内容的指标中沿用阈值。</p>
+
+        <h2 id="from-measurement-to-action">从衡量到行动</h2>
+
+        <p>当每次对话都被评分，且每个分数背后的原因都可见时，反复出现的问题变得可追溯。你可以识别哪些问题正在驱动负面分数，它们发生的频率，以及根本原因是在支持、产品还是特定工作流程中。</p>
+
+        <p>例如，你可以看到：</p>
+
+        <ul>
+            <li>哪些主题和对话类型评分较低，以及原因。</li>
+            <li>不同渠道之间，以及 Agent 和人工对话之间的分数差异。</li>
+            <li>哪些运营问题正在给客户带来摩擦。</li>
+        </ul>
+
+        <p>这改变了运营循环。团队不再基于少量调查回复并说明数据的代表性如何，而是可以将问题路由到正确的负责人，在源头解决它们，跟踪修复是否真的有效，并防止相同问题影响下一个客户。</p>
+
+        <h3>洞察如何反馈到支持中</h3>
+
+        <p>有了对客户体验的全面可见性，管理者可以识别出永远不会从个别调查回复中浮现的模式——反复出现的痛点、转接中的常见摩擦、回答质量持续较低的主题。</p>
+
+        <p>管理者可能会看到某个主题在整个团队中表现不佳，并利用这一点更新内容或运行一个关于如何处理它的专题会议。每个模式都导致具体行动，而不是一个模糊的信号表明可能有些不对劲。</p>
+
+        <p>这里的一个注意事项是分数需要上下文——一个处理复杂问题的高接触团队的评分会与处理交易性查询的大批量团队不同，这是预期的。你需要比较同类。</p>
+
+        <h2 id="the-opportunity-in-the-middle">中间的机会</h2>
+
+        <p>从历史上看，质量改进侧重于减少糟糕的体验。当你能看到每次对话时，一个不同的机会出现了。你可以改善那些不是糟糕的，但也不令人难忘的互动。</p>
+
+        <p>"还好"是一个你可以提高的上限。是什么让这些中间地带的对话停留在 3 分，什么会将它们移至 4 或 5 分？</p>
+
+        <p>正如 Culture Amp 的 Jared Ellis 所说：</p>
+
+        <div class="quote">
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Jared-Ellis-quote--scaled.png" alt="Jared Ellis quote" />
+        </div>
+
+        <p>当你能看到每次对话中发生的事情时，你可以超越修复破损的东西，开始改善那些不可见的东西；那些还好但容易被遗忘的中间地带，没有任何调查能够捕捉到它们。</p>
+
+        <a href="https://fin.ai/blueprint/service/introducing-ai-agents">
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10.png" alt="The AI Service Agent Blueprint" />
+        </a>
+
+    </div>
+
+    <footer>
+        <p><strong>原文链接：</strong> <a href="https://www.intercom.com/blog/how-to-measure-customer-experience-as-ai-scales/">https://www.intercom.com/blog/how-to-measure-customer-experience-as-ai-scales/</a></p>
+        <p><strong>翻译时间：</strong> 2026年8月6日</p>
+    </footer>
+</article>
+
+</body>
+</html>
