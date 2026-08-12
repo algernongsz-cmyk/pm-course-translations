@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nvidia 的冒险生意 - Stratechery</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+            padding-bottom: 1em;
+            border-bottom: 1px solid #eee;
+        }
+        .meta span {
+            margin-right: 1.5em;
+        }
+        blockquote {
+            border-left: 4px solid #ddd;
+            padding-left: 1.5em;
+            margin: 1.5em 0;
+            color: #555;
+            font-style: italic;
+        }
+        blockquote blockquote {
+            border-left-color: #ccc;
+            margin-left: 1em;
+        }
+        p {
+            margin: 1em 0;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        footer {
+            margin-top: 3em;
+            padding-top: 1.5em;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>Nvidia 的冒险生意</h1>
+            <div class="meta">
+                <span>来源：Stratechery</span>
+                <span>作者：Ben Thompson</span>
+                <span>原文：<a href="https://stratechery.com/2026/nvidias-risky-business/" target="_blank">Nvidia's Risky Business</a></span>
+                <span>翻译日期：2026-08-13</span>
+            </div>
+        </header>
+
+        <p>1870年1月1日，Jay Cooke——因其在内战中为联邦政府融资的角色而被誉为美国英雄——签署了一份合同，如果你眯起眼睛看，这份合同最终导致了世界大战。</p>
+
+        <p>1864年，国会创建了北太平洋铁路公司，目标是连接五大湖和普吉特海湾，铁轨最终将从德卢斯延伸到塔科马；章程包括授予铁路线沿线4000万英亩的土地，以换取完成建设。然而，在随后的六年里，北太平洋公司一直在努力获得融资，而联合太平洋公司和中央太平洋铁路公司却在互相建设，于1869年5月钉下了连接萨克拉门托和奥马哈的金色道钉。</p>
+
+        <p>北太平洋公司于1866年曾向Cooke寻求资金，但缺乏支撑联合太平洋公司和中央太平洋公司的慷慨联邦担保（应该指出，这导致了大量的贪污）；Cooke本人对联邦政府的财政力量并不陌生，但他不感兴趣。然而，最终北太平洋公司给了他一个无法拒绝的提议：每张债券12%的佣金，以及每卖出1000美元债券就获得200美元的北太平洋股票。</p>
+
+        <p>Cooke很快发现，他的机构同行同意他早先的拒绝，对他的债券不感兴趣，所以他依靠他在销售战争债券时磨练的同样策略：爱国主义的呼吁、对媒体的控制以及对铁路财富的承诺，并以工业规模的分销为后盾。在巅峰时期，Cooke雇佣了1500名销售人员，并资助了1300家报纸（通过广告和直接付款的组合），其品牌因内战而得到提升。零售投资者已经可以购买铁路债券；Cooke使他们成为他的主要融资机制。</p>
+
+        <p>这无疑是一个令人难以置信的创新。过去的情况是，如果你不能从政府或银行获得贷款，你就根本得不到多少钱。问题是北太平洋公司的资本需求是无止境的，到了1873年9月，由于维也纳证券交易所的崩盘和白银的非货币化，全球信贷紧缩，Cooke——他在债券发行之间一直用存款资助北太平洋公司——再也找不到买家了。Jay Cooke & Company随后的破产引发了1873年的恐慌，最终导致了全国范围内无休止的铁路破产、多年的萧条、几十年的通货紧缩，人们可以说，这创造了四十年后使欧洲成为火药桶的金融条件。</p>
+
+        <p>顺便说一句，北太平洋公司最终确实完成了他们的线路，在此过程中经历了多次破产；最终，他们是合并形成伯灵顿北方铁路的四条铁路之一。伯灵顿北方铁路最终将与阿奇森、托皮卡和圣塔菲铁路合并，形成BNSF铁路；伯克希尔·哈撒韦公司于2009年收购了其母公司。</p>
+
+        <h3>穿透债务</h3>
+
+        <p>如果这个故事听起来有些熟悉，那可能是因为Cooke——出于显而易见的原因——是Liaquat Ahamed今年早些时候出版的新书<a href="https://www.penguinrandomhouse.com/books/306461/1873-by-liaquat-ahamed/">《1873》</a>中的核心人物。Ahamed并不羞于在铁路建设的崩溃和当前的AI时刻之间建立联系；该书的第一页——甚至在第1页之前——就是关于翻译货币金额的，并这样总结道：</p>
+
+        <blockquote>
+            <p>为了理解与整个国家经济状况相关的货币金额的真正意义——例如普法战争后对法国征收的赔偿金额——最有用的方法不仅仅是考虑生活成本的变化，而是调整经济规模的变化。要将这些数字转换为可比的2026年数值，乘以1200的系数。因此，在19世纪70年代初的繁荣年份中，每年投入美国铁路债券的5亿美元，今天将相当于6000亿美元，大致相当于主要科技公司预计在2026年投资的数量。</p>
+        </blockquote>
+
+        <p>微软CEO Satya Nadella当然意识到了这种联系：他在<a href="https://www.microsoft.com/en-us/investor/events/fy-2026/earnings-fy-2026-q4">公司最近的财报电话会议</a>上引用《1873》作为"必读之书"。也许这并非巧合，微软——<a href="https://stratechery.com/2026/microsoft-earnings-microsoft-vs-meta-the-efficiency-payoff/">在超大规模云计算公司中独树一帜</a>——仍然保持着可观的自由现金流——上一季度为196亿美元。微软是唯一一家仍然遵守用于否认泡沫存在的格言的超大规模云计算公司：其CapEx不是由债务资助的。</p>
+
+        <p>令人难以置信的是，这是一年前几乎可以用来为几乎所有大型科技公司辩护的理由；然后，在9月至11月之间，Oracle、Meta、Alphabet和Amazon发行了总计800亿美元的债务用于基础设施建设。这只是开始：在2025年全年筹集了总计1080亿美元之后，这四家公司截至7月7日今年已经筹集了1940亿美元。毫不奇怪，利差正在上升，今年发行的债券中有86%已经以高于发行时的收益率交易。近期发行债券的覆盖率已从2月份的5倍降至不到2倍。</p>
+
+        <p>然而，真正的冲击发生在6月初，当时Google宣布将筹集850亿美元的股权，包括向前述的伯克希尔·哈撒韦公司特别发行100亿美元。我在当时在<a href="https://stratechery.com/2026/the-google-capital-company/">《Google资本公司》</a>中写道：</p>
+
+        <blockquote>
+            <p>值得注意的是，100亿美元对两家公司来说都是相对较小的金额。为此，其主要用途可能是一种信号机制。在Google方面，信号是预期需求实际上远超任何人的想象，公司准备并愿意使用其掌握的所有手段来资助供应，包括股权；对他们来说，伯克希尔·哈撒韦的投资是对这一观点的认可和对投资智慧的验证。另一方面，如果信号是正确的，那么伯克希尔·哈撒韦公司正在获得一笔交易，并让其现金流机器投入建设未来。</p>
+        </blockquote>
+
+        <p>我总结道：</p>
+
+        <blockquote>
+            <p>这一分析隐含的假设是，世界上有足够的计算能力可供购买；然而，如果没有怎么办？如果最终的战斗——决定谁能获得算力的战斗——变成了谁能拿出最多现金的问题？如果这种优势会复合增长，使得现金能力最强的公司最终获得最多的计算能力（我们已经知道他们会出售这些能力，除了自己使用之外），从而推动产生更多现金的能力？在那个世界里，你会押注哪家公司？</p>
+        </blockquote>
+
+        <p>隐含的答案，当然是Google。</p>
+
+        <h3>DeepMind的戏剧</h3>
+
+        <p>Google现在不是任何人的赌注，至少在前沿技术方面不是。在DeepMind CEO Demis Hassabis（技术上被提升为董事长，但不再负责日常运营）和Gemini联合负责人、前首席科学家Jeff Dean离职后，加上一大批其他知名研究人员的离职，SemiAnalysis宣称<a href="https://newsletter.semianalysis.com/p/gemini-is-cooked-but-gcp-is-cooking">Gemini已经完了</a>：</p>
+
+        <blockquote>
+            <p>出于所有实际目的，我们认为DeepMind不再是一个前沿实验室。我们几个月前就向我们的Tokenomics客户这样说过，因为他们的强化学习团队大量离职和计算分配不佳。Google将继续徘徊并发布模型，但他们再次达到SOTA的几率已降至零。</p>
+
+            <p>此外，今天新闻的最大受益者既不是Anthropic也不是OpenAI——而是Google Cloud。虽然Gemini和GCP过去曾拼命争夺计算分配，但现在很明显Thomas Kurian赢了。我们预计GCP收入增长将因此显著加速。</p>
+        </blockquote>
+
+        <p>从文章的后面部分：</p>
+
+        <blockquote>
+            <p>我们显然一直对DeepMind持悲观态度，如果我们必须为为什么他们仍然能够训练真正的SOTA模型提出最有力的论证，那将是这样：</p>
+
+            <ul>
+                <li>当前的设置显然不起作用。在现有领导团队的情况下，他们追赶Anthropic/OpenAI的几率看起来极其渺茫。</li>
+
+                <li>既然他们已经清理了门户，新团队可以从空白状态开始。也许他们甚至会收购聘用一个新实验室，如SSI或Thinking Machines。</li>
+
+                <li>有了这个新团队，他们追赶前沿的几率实际上会增加。</li>
+            </ul>
+
+            <p>也许在某个世界中会发生这种情况，但我们认为几率基本为零。Google的问题不是Jeff Dean或Noam Shazeer，而是他们极度官僚化、痛苦缓慢和战略胆怯的文化。请记住，DeepMind在ChatGPT之前1年就有一个AI聊天机器人，但由于担心破坏其核心业务而不被允许发布。</p>
+        </blockquote>
+
+        <p>实际上，你可以说问题也在于Hassabis和DeepMind。我在<a href="https://stratechery.com/2026/google-i-o-world-models-i-o-spaghetti/">Google I/O之后的更新</a>中解释了Hassabis对前沿技术的愿景如何与其他前沿实验室有根本不同，因为他相信世界模型，而不仅仅是文本/代码，并总结道：</p>
+
+        <blockquote>
+            <p>从[Hassabis的愿景]中产生的是具有多模态的模型——与Claude形成对比，后者仅输出文本——而且必须说，编程能力并不那么令人印象深刻。这触及了整个离题论点的要点：我认为Google在编程方面被认为落后于Anthropic和OpenAI的原因，特别是依赖于工具和模型本身的长时间运行的agentic工作流，仅仅是他们的研究团队有其他优先事项。这就是为什么本次主题演讲的编程部分落在了Antigravity团队身上，而不是DeepMind，也是为什么Hassabis几乎没有上台。</p>
+        </blockquote>
+
+        <p>从这个角度看，上周的事件并不那么令人惊讶，而且可以说在I/O上就已经预示了：Hassabis可能对世界模型是通往AGI的路径是正确的，但Google已经没有耐心让他找出答案了；据报导，Google联合创始人Sergey Brin深度参与，并与新任DeepMind CEO Koray Kavukcuoglu密切合作，如果公司转向Anthropic更加以文本（以及代码）为中心的方法，我不会感到惊讶。</p>
+
+        <h3>Google的基础设施押注</h3>
+
+        <p>Google立场的迷人之处在于，这些权谋并不一定意味着伯克希尔·哈撒韦的押注是错误的；事实上，这可以说是好消息。这就是SemiAnalysis文章所指向的观点，也是我上周关于<a href="https://stratechery.com/2026/google-earnings-the-frontier-case-amazon-earnings/">Google最近的财报</a>所提出的观点：</p>
+
+        <blockquote>
+            <p>故事似乎与<a href="https://stratechery.com/2026/google-earnings-meta-earnings/">上一季度</a>非常相似，Google Cloud的增长更多：同比增长82%（相比之下上一季度为63%，一年前为32%），利润率为36%（相比之下上一季度为33%，一年前为21%）。我当时想知道这种增长有多少实际上是Anthropic的，虽然我们本季度没有得到明确确认，但我认为CEO Sundar Pichai<a href="https://abc.xyz/investor/events/event-details/2026/2026-Q2-Earnings-Call-2026-GgTAq7Is0z/default.aspx">在财报电话会议</a>上关于为什么Google需要租用第三方计算能力的这个回答值得注意：</p>
+
+            <blockquote>
+                <p>关于过桥交易，我想说的主要事情是，看，在边际上，我们在Cloud上有一些非常大的客户，我们正试图在这个非凡时刻为他们提供支持。他们带给我们的增量机会，虽然几个月的短期成本可能很高，但在交易的生命周期内，随着我们带来更多计算能力，ROI非常高。所以这些是我们考虑的因素。你是否愿意接受一个六个月的交易，以便在一个多年机会中服务客户，而在那个多年时间范围内利润率和回报非常、非常有吸引力？所以希望这能为我们如何看待这些机会提供一些色彩。</p>
+            </blockquote>
+
+            <p>那个客户几乎肯定是Anthropic。</p>
+        </blockquote>
+
+        <p>再次来自SemiAnalysis：</p>
+
+        <blockquote>
+            <p>从2026年第三季度到2027年第四季度，TPU总出货量的20%以上直接卖给Anthropic。这不包括GCP今天已经租给Anthropic的数十万台TPU，以及他们在未来6个季度承诺租给Anthropic和Meta的更多数十万台...</p>
+
+            <p>如果你曾经听过Google Cloud CEO Thomas Kurian的采访，你会知道他没有被AGI洗脑。例如，在一个<a href="https://www.youtube.com/watch?v=bNdiBwXbLNw">播客</a>中，他认为TPU成为支持Citadel、能源部和高性能计算等客户的"通用基础设施"是件好事。当被问及为什么他向Anthropic出售计算能力尽管他们与Gemini竞争时，他说这是Google成为"平台公司"的自然结果。</p>
+        </blockquote>
+
+        <p>Kurian在<a href="https://stratechery.com/2026/an-interview-with-google-cloud-ceo-thomas-kurian-about-the-agentic-moment/">一次Stratechery采访</a>中对我说的也是一样：</p>
+
+        <blockquote>
+            <p>我们出售技术栈的不同部分。人们没有意识到的一件事是，我们以不同的方式将技术栈的许多不同部分货币化。像Anthropic一样，有很多实验室使用我们的技术栈——事实上，大多数大型AI实验室使用我们的技术栈。所以如果有人使用TPU来训练他们的模型或用于推理，我们将技术栈的那部分货币化，这给我们资源来资助我们的R&D和其他投资。一些实验室使用我们的TPU和Gemini模型，其他人可能使用我们的TPU，然后为他们的模型购买我们的网络安全保护。所以作为一个平台参与者，我们必须允许我们的技术以尽可能多的方式货币化，我们不认为这是零和游戏。</p>
+        </blockquote>
+
+        <p>我们将看看计算到底有多零和——有报导称<a href="https://www.bloomberg.com/news/articles/2026-05-18/google-s-own-ai-researchers-jockey-for-access-to-its-computing">Google的研究人员一直被饿着计算能力</a>——但总体结论是，无论Google是否在争夺前沿技术，他们绝对在争夺主导AI基础设施。而且，在一个智能成为商品的世界里，TPU尤其重要。</p>
+
+        <p>上个月，在<a href="https://stratechery.com/2026/whos-afraid-of-chinese-models/">《谁害怕中国模型？》</a>中，我谈到了前沿实验室与其他人之间的大宗商品市场背景；在大宗商品市场中，边际成本不仅决定盈利能力，还决定生存能力，我提出前沿实验室在任何给定智能单位上拥有优越的成本结构。</p>
+
+        <p>那个成本结构，至少目前，包括租用计算的成本，而且TPU似乎比Nvidia GPU更便宜；Anthropic可能为TPU（以及Amazon的Trainium芯片）构建，因为只有Google和Amazon有资金资助他们，但在这一点上，这种能力可能是一个显著优势。Anthropic直接为自己的数据中心购买TPU（将计算成本从边际成本转换为资本成本）这一事实表明情况确实如此。</p>
+
+        <p>值得注意的是，Google多么愿意分享，即使代价是需要发行股权。然而，这符合我在《Google资本公司》中写的伯克希尔·哈撒韦模式：</p>
+
+        <blockquote>
+            <p>伯克希尔·哈撒韦用See's糖果利润投资的业务之一是在资本利用光谱的另一端：BNSF铁路。铁路需要大量资本运营；BNSF去年消耗了38亿美元；他们也赚了很多钱：BNSF的净收入为55亿美元，收入为234亿美元。从这个角度来看，伯克希尔·哈撒韦从See's糖果赚取的总金额可能不到30亿美元（最后一次披露是2019年的"超过20亿美元"），即不到BNSF去年的收入...</p>
+
+            <p>实际上，你可以说Abel实际上只是在重播Buffett的策略，只是这次伯克希尔·哈撒韦是See's糖果，而Google是BNSF。在上一季度末，伯克希尔·哈撒韦拥有3730亿美元现金，2025年有250亿美元自由现金流。有多少公司实际上能够以产生高回报率的方式使用这些现金？</p>
+
+            <p>很难想象比Google更好的选择。该公司不仅投资AI，而且在结果方面具有可选性：其服务业务从投资中受益，它在模型层与Gemini竞争，可以向前沿实验室出售计算能力。此外，由于TPU，该计算能力具有可持续的成本优势，这意味着在一个计算成为商品的世界里——尽管现在很难想象——Google是最有可能赚取最多利润的超大规模云计算公司。</p>
+        </blockquote>
+
+        <p>请注意，我没有说利润率；如果那是Google关心的问题，他们几乎肯定会做出不同的选择。然而，利润是一个绝对数字，Google正在全力投入——首先是其现金流，然后是其债务，现在是其股权——以从基础设施建设中赚钱。</p>
+
+        <h3>Nvidia的可投资资产类别</h3>
+
+        <p>今天的企业高管和金融工程师不需要控制报纸；多亏了他的新<a href="https://x.com/JensenHuang">X账户</a>，Nvidia CEO黄仁勋可以直接向公众发声。来自昨晚发布的一篇<a href="https://x.com/JensenHuang/status/2086934705207959965">X文章</a>：</p>
+
+        <blockquote>
+            <p><strong>NVIDIA AI工厂计算正在成为一种可投资资产类别</strong></p>
+
+            <p>今天，我们宣布与Apollo、BlackRock、Blackstone、Brookfield、Goldman Sachs和KKR建立合作伙伴关系，建立独立的融资平台，旨在动员超过5000亿美元的第三方资本，随着时间推移支持AI基础设施的建设。</p>
+
+            <p>这是NVIDIA和AI行业的一个重要里程碑。我们已经从一个公司购买芯片并逐个项目构建数据中心的时代，转向一个AI工厂可以作为生产性基础设施融资的时代——具有可重复的平台、长期机构资本和使用计算创造收入的多元化客户群。</p>
+
+            <p>AI已经达到拐点。它正从研究转向生产。AI正在创造真正的价值，其背后的基础设施正在成为世界上生产力最高的资产之一。在AI中，计算就是收入。</p>
+        </blockquote>
+
+        <p>黄仁勋认为，基于Nvidia的AI工厂具有可替代性，可以保护残值，而CUDA使AI工厂随着时间的推移变得更好，延长了它们的经济价值；根据黄仁勋的说法：</p>
+
+        <blockquote>
+            <p>这些是可投资基础设施资产的特征：它产生收入，服务于广泛的市场，随着时间推移提高性能，并且可以重新部署。</p>
+        </blockquote>
+
+        <p>因此，尝试将新的投资结构正式化：</p>
+
+        <blockquote>
+            <p>对AI基础设施的需求是非凡的。但获得资本的机会是不均衡的。许多优秀的AI公司、企业和AI云对计算有需求，但尚无法获得以所需规模或成本快速建设所需的融资。这就是为什么我们与世界领先的长期资本提供者合作。</p>
+
+            <p>Apollo、BlackRock、Blackstone、Brookfield、Goldman Sachs和KKR也是世界领先的基础设施投资者，在承销长期、生产性资产方面拥有深厚的专业知识。我们正在共同创建可重复的融资平台，帮助AI生态系统建立所需的工厂。</p>
+        </blockquote>
+
+        <p>Apollo等人是投资级债券市场之外的新资本来源。从这个意义上说，这个提议的结构有点类似于Google的股权发行：一种在债券之外获得资金的方式。然而，差异是明显的：股权稀释投资者的上行空间，而不会给公司增加风险，而该结构通过寻找愿意承担风险的新资本池来保护Nvidia的利润率。</p>
+
+        <p>这对Nvidia来说并非完全免费的：公司为机会提供高达25%的基于残值的融资担保，这表明黄仁勋对他的"可投资资产类别"推销的信念远超市场。也就是说，在某种意义上，这是降价，因为目标是通过将Nvidia的利润用于不确定的投资，降低使用Nvidia芯片建设数据中心的实体的资本成本。该担保是Google（以及很快<a href="https://stratechery.com/2026/apple-earnings-more-on-amazons-earnings/">Amazon</a>）激进行为的下游结果：如果可以购买TPU或Trainium，为什么要用Nvidia芯片建设数据中心（Nvidia芯片可能更好，但如果新数据中心的制约因素是资本，较低的前期价格可能比token效率更重要）。</p>
+
+        <p>Nvidia更大的问题是一个长期以来显而易见的问题；<a href="https://stratechery.com/2024/nvidia-waves-and-moats/">我在2024年写道</a>：</p>
+
+        <blockquote>
+            <p>在前ChatGPT时代，Nvidia正在为其GPU建立相当不错的（免费）软件护城河；挑战在于，完全不清楚谁会使用所有这些软件。与此同时，今天，这些GPU的用例非常明确，这些用例发生在比CUDA框架更高的层次上（即在模型之上）；这与寻找Nvidia更便宜替代方案的巨大激励相结合，意味着逃离CUDA的压力和可能性比以往任何时候都高（即使对于低级工作仍然遥远，特别是在训练方面）。</p>
+        </blockquote>
+
+        <p>今天的情况，随着Anthropic和OpenAI似乎拉开距离，甚至更有问题：Anthropic多年来一直不依赖CUDA，而OpenAI正朝这个方向发展，至少在推理方面。如果这些公司获胜，那么Nvidia的利润将被挤压——事实上，该担保的含义是他们已经被挤压了（不用说，这就是为什么黄仁勋的<a href="https://x.com/JensenHuang/status/2080643682408321103">第一篇帖子</a>是一封捍卫开放模型的开信）。</p>
+
+        <h3>冒险生意</h3>
+
+        <p>最终这可能不会让Nvidia付出任何代价：如果AI收入真的腾飞，那么债券市场将重新开放，最终公司将回到通过自由现金流资助基础设施投资。然而，现在是危险区域，因为超大规模云计算公司穿透债券市场，而Google至少开始动用股权。在某种程度上，Nvidia通过新颖的融资机制竞争，归根结底，这些机制利用了保险浮存金和养老基金以及其合作资产管理公司的其他长期负债——这些风险与股权不同，未标记——要高得多。</p>
+
+        <p>这就是为什么我从1870年和Cooke与北太平洋公司命运多舛的协议开始的原因。是的，这笔交易为Cooke提供的上行空间是令人难以置信的，但它令人难以置信是有原因的：它风险很高，而开创性的新融资机制只是在一切都崩溃时传播了痛苦。花光所有的自由现金流是一回事；动用债券市场是另一回事。而且，除此之外，利用追求安全的资产是一件完全令人伤脑筋的新事情。AI最好在为时已晚之前兑现。</p>
+
+        <footer>
+            <p>翻译时间：2026-08-13</p>
+            <p>保留术语：AI, GPU, TPU, CPU, API, CUDA, AGI, CapEx, ROI, SOTA, ChatGPT, Anthropic, OpenAI, Gemini, DeepMind, Google Cloud, GCP</p>
+            <p>原文链接：<a href="https://stratechery.com/2026/nvidias-risky-business/" target="_blank">https://stratechery.com/2026/nvidias-risky-business/</a></p>
+        </footer>
+    </article>
+</body>
+</html>
