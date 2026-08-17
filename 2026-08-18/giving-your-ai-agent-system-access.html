@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>如何为 AI Agent 争取系统访问权限</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        article {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        header {
+            margin-bottom: 40px;
+        }
+        .meta {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        .meta span {
+            margin-right: 20px;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 20px 0;
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 24px 0 12px;
+        }
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        p {
+            margin: 16px 0;
+        }
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 24px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #eee;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+            vertical-align: top;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 24px auto;
+            border-radius: 4px;
+        }
+        .caption {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+            margin-top: 4px;
+            margin-bottom: 24px;
+        }
+        a {
+            color: #007cba;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+        .toc {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .toc h2 {
+            font-size: 18px;
+            margin: 0 0 12px;
+            border: none;
+            padding: 0;
+        }
+        .toc ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 6px 0;
+        }
+        .header-image {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <div class="meta">
+                <span>来源：<a href="https://www.intercom.com/blog/giving-your-ai-agent-system-access/" target="_blank">The Intercom Blog</a></span>
+                <span>作者：Dawn Perrott</span>
+                <span>发布时间：2026年6月11日</span>
+                <span>分类：AI &amp; Automation</span>
+            </div>
+            
+            <h1>如何为 AI Agent 争取系统访问权限</h1>
+            
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Frame-131-1.png" 
+                 alt="The case for Agent access" 
+                 class="header-image"
+                 srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Frame-131-1.png 1456w, 
+                         https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Frame-131-1-300x168.png 300w, 
+                         https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Frame-131-1-700x392.png 700w, 
+                         https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Frame-131-1-768x430.png 768w, 
+                         https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Frame-131-1-1320x740.png 1320w">
+        </header>
+
+        <div class="toc">
+            <h2>目录</h2>
+            <ul>
+                <li><a href="#what-system-access-changes">系统访问带来的改变</a></li>
+                <li><a href="#what-the-data-shows">数据说明了什么</a></li>
+                <li><a href="#how-to-scope-the-ask">如何界定需求范围</a></li>
+                <li><a href="#how-to-keep-momentum-going">如何保持推进势头</a></li>
+                <li><a href="#start-narrow-then-scale">从小处着手，逐步扩展</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <p>如果没有后端系统的访问权限，你的 AI Agent 可以回答问题，但无法采取行动。</p>
+
+            <p>客户要求更改付款计划，他们会得到清晰的解释，但客服代表仍然需要介入并完成更改。其他人需要更新他们的账户，同样的事情也会发生。Agent 知道答案，只是没有执行的能力。</p>
+
+            <p>这种回答查询和解决查询之间的差距让你的团队仍在处理 Agent 本可以承担的请求。弥合这一差距意味着将其连接到进行这些工作的系统，如你的 CRM、计费平台或订单管理工具。这通常是一个工程请求，而大多数支持团队很难获得优先级。以下是如何提出这个请求的方法。</p>
+
+            <h2 id="what-system-access-changes">系统访问带来的改变</h2>
+
+            <p>强大的知识管理系统使你的 Agent 能够解决许多查询。但当客户需要完成某件事时，它可以回答的和它可以行动的之间有明显的界限：</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50%; text-align: center;">无系统访问权限</th>
+                        <th style="width: 50%; text-align: center;">有系统访问权限</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>你的 Agent 告诉客户如何提交损坏订单索赔。</td>
+                        <td>你的 Agent 处理索赔，在数据库中检查订单状态，并确认更换——所有这些都在一次对话中完成。</td>
+                    </tr>
+                    <tr>
+                        <td>你的 Agent 告诉客户登录查看他们的订阅续订日期。</td>
+                        <td>你的 Agent 实时查找续订日期和订阅状态，并立即给客户答案——无需登录。</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>这种从回答到行动的转变正是 AI 优先支持经济学发生变化的地方。你的 Agent 可以端到端解决的每个查询都是不再落在你团队身上的工作，而这种区别正是证明工程请求合理性的依据。</p>
+
+            <h2 id="what-the-data-shows">数据说明了什么</h2>
+
+            <p>根据我们的《<a href="https://www.intercom.com/customer-transformation-report">2026年客户服务转型报告</a>》，87%拥有成熟 AI 部署的团队——即 AI 已集成到支持运营中并规模化工作——报告指标有所改善，而总体比例为62%。虽然82%的高层领导表示他们的团队在过去一年中投资了 AI，但只有10%表示他们已达到成熟部署阶段。</p>
+
+            <p>将采用与成熟区分开来的很大程度上是集成。Agent 擅长回答问题，但如果没有系统访问权限，它无法完成工作。</p>
+
+            <p>我们自己的支持团队直接测试了这一点。我们一直以固定、脚本化工作流的形式运行四个最高量的工作流——在 Fin 中称为 Tasks。它们适用于简单、线性的流程，但无法处理复杂性。当我们将其重建为<a href="https://fin.ai/procedures">Procedures</a>（具有真实系统访问权限的工作流）时，结果并不统一。这正是重点所在。Procedures 在需要判断、分支逻辑、实时数据或更好交接的工作中创造了最大的提升。</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">流程</th>
+                        <th style="text-align: center;">Task</th>
+                        <th style="text-align: center;">Procedure</th>
+                        <th style="text-align: center;">变化</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>退信列表</td>
+                        <td style="text-align: center;">9.3%</td>
+                        <td style="text-align: center;">79.9%</td>
+                        <td style="text-align: center;">+70.6 pp</td>
+                    </tr>
+                    <tr>
+                        <td>报告 Bug</td>
+                        <td style="text-align: center;">9.2%</td>
+                        <td style="text-align: center;">66.5%</td>
+                        <td style="text-align: center;">+57.3 pp</td>
+                    </tr>
+                    <tr>
+                        <td>邮件转发</td>
+                        <td style="text-align: center;">44.9%</td>
+                        <td style="text-align: center;">66.5%</td>
+                        <td style="text-align: center;">+21.6 pp</td>
+                    </tr>
+                    <tr>
+                        <td>Messenger 安装</td>
+                        <td style="text-align: center;">67%</td>
+                        <td style="text-align: center;">69.2%</td>
+                        <td style="text-align: center;">+2.2 pp</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="caption">数据反映截至2026年5月的过去12个月</div>
+
+            <p>每个流程都因不同的原因而改进。例如：</p>
+
+            <ul>
+                <li><strong>退信列表</strong>管理因投递失败而被阻止接收未来消息的电子邮件地址。它需要判断，具有多步骤逻辑、错误恢复和动态分支——这些是 Task 永远无法处理的事情。</li>
+                <li><strong>Bug 报告</strong>仍然会交给人工处理，但交接的质量有所提高。队友收到预先分类的工单，其中 GitHub 问题匹配已经呈现，正确的 URL 已提取，模拟访问权限已请求。</li>
+                <li><strong>Messenger 安装</strong>几乎没有变化，因为它不需要。这已经是一个简单、线性的工作流，Tasks 处理得很好。</li>
+            </ul>
+
+            <p>并非每个工作流都需要更深层次的集成，但需要集成的工作流正是收益最大的地方。</p>
+
+            <p><a href="https://fin.ai/procedures">
+                <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2036/06/Procedures.gif" 
+                     alt="Fin's Procedures" 
+                     width="1678" 
+                     height="710">
+            </a></p>
+
+            <h2 id="how-to-scope-the-ask">如何界定需求范围</h2>
+
+            <p>最有力的 Agent 集成内部提案始于一个范围紧密的请求。</p>
+
+            <p>你最好的首选候选是高量、可重复、与明确的系统负责人相关联，并且有现有的 API 或现实可行路径的流程。查看你的 Agent 分析数据以寻找模式：它在哪里解释流程而不是完成流程？客户在哪里被告知登录、检查另一个系统或等待人工处理？这些就是你的起点。</p>
+
+            <p>用简单的语言逐步映射工作流。标记 Agent 需要读取数据的地方和需要采取行动的地方。定义每个系统所需的最小字段集。请求越聚焦，就越容易获得批准。</p>
+
+            <p>如果你使用 Fin，<a href="https://fin.ai/help/en/articles/13975978-optimize-fin-instantly-with-the-help-of-ai">Recommendations</a>仪表板直接显示这些见解——按对话量优先排序——并包括每个推荐的 API 要求和所需数据、示例架构和工作量评级。</p>
+
+            <p>将此包含在你对工程资源的请求中，这样你的请求已经明确范围，更容易评估。</p>
+
+            <h3>分阶段思考</h3>
+
+            <p>最成功的团队随着时间的推移增加集成，而不是试图一次性连接所有内容：</p>
+
+            <h4>第一阶段：无需集成</h4>
+            <p>使用你的 Agent 进行引导式故障排除、分类、策略检查和路由逻辑。这不需要工程工作，可以帮助你识别哪些工作流最受益于系统访问。</p>
+
+            <h4>第二阶段：只读访问</h4>
+            <p>将你的 Agent 连接到一个系统，以便它可以查找信息，如订单状态或订阅详情。这通常是第一个工程请求——一个工作流、一小部分字段、没有写入权限。</p>
+
+            <h4>第三阶段：写入操作</h4>
+            <p>让你的 Agent 在系统中采取行动，如退款、取消订阅或更新记录。这是更深层次的集成，通常在团队在早期阶段建立了信心之后进行。</p>
+
+            <h2 id="how-to-keep-momentum-going">如何保持推进势头</h2>
+
+            <p>在你推进集成提案的过程中，工程团队可能会对容量、系统访问程度以及如何将其与现有路线图进行优先级排序有疑问。</p>
+
+            <p>以下是如何解决这些问题：</p>
+
+            <h3>1. 定义容量</h3>
+            <p>你不需要预先做出大承诺。从一个针对一个重复、高量工作流的狭窄试点开始。单个集成的工程投入通常比团队假设的要小。如果你使用 Fin，<a href="https://fin.ai/operator">Operator</a>可以从简单的语言描述中起草初始工作流，这意味着关于需求的来回沟通更少。</p>
+
+            <h3>2. 界定系统访问范围</h3>
+            <p>从小处着手，共同定义边界。将集成范围限定为特定端点和小部分批准的字段。只读访问通常是正确的起点，这意味着没有写入权限，没有意外更改的风险。</p>
+
+            <h3>3. 解决 API 准备就绪问题</h3>
+            <p>完全构建的 API 不必先行。大多数 Agent 支持模拟响应，这让你可以使用测试场景提前构建和验证工作流逻辑。如果你使用 Fin，并且集成——使用 Data Connectors 配置——还需要几个冲刺，那么<a href="https://www.intercom.com/help/en/articles/14468561-human-in-the-loop-approvals-for-fin-procedures">人在循环步骤</a>可以作为临时替代，队友可以手动完成步骤，同时你收集整个工作流影响的数据。这些数据为优先安排真正的集成提供了理由。</p>
+
+            <h3>4. 适应工程路线图</h3>
+            <p>如果将你的 Agent 与后端系统集成不在工程团队本季度的路线图上，请利用这段时间做好准备。映射流程、记录所需字段、定义成功指标。当容量开放时，一个完全界定范围且预期影响明确的请求比仍需定义的请求更容易安排。你现在做的准备工作使后续的工程对话更短。</p>
+
+            <h2 id="start-narrow-then-scale">从小处着手，逐步扩展</h2>
+
+            <p>第一次集成改变了内部对话。一旦领导层看到真实工作流上的解决率提高，工程团队看到了集成实际涉及的内容，第二个请求就会从不同的基准线开始。</p>
+
+            <p>你的 Agent 端到端解决的每个工作流都是不再落在支持代表身上的任务。在规模上，这意味着经验丰富的支持团队将时间花在真正需要人工判断的工作上。</p>
+
+            <p>更深层次集成的最有力的论据是你的团队仍在做的、你的 Agent 可以处理的工作，以及继续没有它的成本。</p>
+
+            <p>从系统集成中获得最大价值的团队不会一次性要求所有内容。他们从一个工作流开始，衡量结果，并使用该证据为下一步提出理由。</p>
+
+            <p><a href="https://fin.ai/blueprint/service/">
+                <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10.png" 
+                     alt="The AI Agent Blueprint" 
+                     width="1968" 
+                     height="921"
+                     srcset="https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10.png 1968w, 
+                             https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10-300x140.png 300w, 
+                             https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10-700x328.png 700w, 
+                             https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10-768x359.png 768w, 
+                             https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10-1536x719.png 1536w, 
+                             https://blog.intercomassets.com/blog/wp-content/uploads/2025/08/image-10-1320x618.png 1320w">
+            </a></p>
+        </div>
+
+        <footer>
+            <p><strong>翻译时间：</strong>2026-08-18</p>
+            <p><strong>保留术语：</strong>AI, Agent, Fin, Tasks, Procedures, API, CRM, Operator, Data Connectors, Recommendations</p>
+            <p><strong>原文链接：</strong><a href="https://www.intercom.com/blog/giving-your-ai-agent-system-access/" target="_blank">https://www.intercom.com/blog/giving-your-ai-agent-system-access/</a></p>
+        </footer>
+    </article>
+</body>
+</html>
