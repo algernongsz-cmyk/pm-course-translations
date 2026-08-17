@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布 Evals 和 Releases：在 Fin 上线前、中、后进行评估 - Intercom 博客翻译</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        .meta {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        .meta span {
+            margin-right: 20px;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        ul {
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        blockquote {
+            background: #f5f5f5;
+            border-left: 4px solid #007aff;
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+        .toc {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        .toc h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        .toc ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .original-link {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 10px 20px;
+            background: #007aff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .original-link:hover {
+            background: #0051a8;
+        }
+    </style>
+</head>
+<body>
+    <h1>发布 Evals 和 Releases：在 Fin 上线前、中、后进行评估</h1>
+    
+    <div class="meta">
+        <span>📅 2026年8月13日</span>
+        <span>👤 Brian Donohue</span>
+        <span>⏱️ 8分钟阅读</span>
+    </div>
+
+    <div class="toc">
+        <h2>目录</h2>
+        <ul>
+            <li><a href="#why-we-built-this">为什么要构建这个</a></li>
+            <li><a href="#evals-know-how-fin-will-behave-before-you-go-live">Evals：在上线前了解 Fin 的行为</a></li>
+            <li><a href="#releases-control-how-a-change-reaches-customers">Releases：控制变更如何触达客户</a></li>
+            <li><a href="#how-evals-releases-and-monitors-work-together">Evals、Releases 和 Monitors 如何协同工作</a></li>
+            <li><a href="#operator-runs-eval-driven-delivery-for-you">Operator 为你运行 Eval 驱动的交付</a></li>
+            <li><a href="#maintaining-customer-experience-as-your-business-evolves">随着业务发展保持客户体验</a></li>
+        </ul>
+    </div>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Evals__opengraph-1.jpg" alt="Evals and Releases">
+
+    <p>今天我们宣布推出 <a href="http://fin.ai/evals">Evals 和 Releases</a>。与 <a href="https://www.intercom.com/blog/announcing-monitors-opening-the-ai-black-box/">Monitors</a> 配合使用，它们为 Fin 提供了一个完整的评估系统，让你可以在变更上线前进行测试，以可控的方式推出，评估每一次实时对话，并对 Fin 提供的体验充满信心。</p>
+
+    <p>Evals 使用基于你自己的对话构建的模拟场景大规模测试 Fin 的行为。你可以将这些模拟对话围绕一个主题组织成一个 Eval——例如退款请求、升级规则或 Fin 的语气——每一个都会根据你设定的标准自动评分。Releases 为你的团队提供了一个专门的空间，可以在远离 Fin 实时版本的地方构建变更，在真实对话上测试，并安全地推出。</p>
+
+    <p>一旦上线，<a href="https://www.intercom.com/blog/announcing-monitors-opening-the-ai-black-box/">Monitors</a> 会保持流程持续运行：评估每一次对话的质量，捕捉你可以通过下一个 Eval 和 Release 处理的问题。</p>
+
+    <p>我们称之为"Eval-driven delivery"（Eval 驱动的交付）。这是我们 AI 研究团队用来构建和调优 AI 产品的方法论，现在它已经掌握在使用 Fin 运行支持的团队手中。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/evals_interstitial_diagram.gif" alt="显示 Eval、Releases 和 Monitors 循环的图表">
+
+    <h3><strong>以下是新功能：</strong></h3>
+    <ul>
+        <li><strong>Evals 端到端测试 Fin。</strong> 为一个主题创建一个 Eval，添加镜像真实客户对话的 <a href="https://fin.ai/glossary/simulations-fin-simulations">Simulations</a>，每一个都会根据你的成功和定性标准进行通过/失败评分。在对 Fin 进行任何更改后重新运行 Eval，以捕捉性能中的意外回归。</li>
+        <li><strong>Releases 为你提供一个安全的 Fin 版本进行工作。</strong> 将对内容、<a href="https://fin.ai/procedures">Procedures</a> 或 <a href="https://www.intercom.com/help/en/articles/10560969-fin-guidance-best-practices">Guidance</a> 的更改打包到一个 Release 中，与团队协作，并在上线前使用 Evals 测试性能。然后发布给所有人，逐步增加流量，或针对 Fin 的当前配置运行 A/B 测试。</li>
+        <li><strong>Evals、Releases 和 Monitors 作为一个系统工作。</strong> Monitors 根据你的标准检查每一次实时对话，并标记不符合标准的对话。将任何标记的对话转化为你的下一组改进，并再次运行系统。</li>
+    </ul>
+
+    <h2 id="why-we-built-this">为什么要构建这个</h2>
+    <p>随着 AI Agents 承担更多的工作量和复杂工作，确保它们每次都符合你的标准是一项艰巨的任务。</p>
+
+    <p>Fin 与任何 AI Agent 一样，是概率性的。它会在每次对话发生时进行推理，因此可能会以不同的方式回答同一个问题——而且你的客户也会以无数种方式问同一个问题。这创造了数千种可能的场景，没有团队能够手动验证。</p>
+
+    <p>而且成功不仅仅取决于最终答案是否正确。它取决于 Fin 是否遵循了你的 Procedures，是否使用了正确的内容和数据源，是否在正确的时刻转接，以及在此过程中是否听起来像你的品牌。</p>
+
+    <p>团队还会不断对 Fin 的内容进行更改，在推出产品、调整政策、重写帮助文章或添加 Procedure 时更新其上下文。这可能会引入漂移，即更改一件事可能会在你没有注意到的情况下影响其他事情。在我们的一些客户运行 Fin 的规模下，1% 的回归可能会影响每天数千次对话。</p>
+
+    <p>当前的监督和测试解决方案并非为这种规模和复杂性而构建。这意味着，要始终知道 Fin 如何处理一次对话可能非常困难。</p>
+
+    <p>我们认为每个支持团队都应该有能力严格测试变更并监控性能，而不需要开发人员或 ML 专家。</p>
+
+    <h2 id="evals-know-how-fin-will-behave-before-you-go-live">Evals：在上线前了解 Fin 的行为</h2>
+    <p>一个 Eval 是一组命名的 Simulations——多轮测试对话——用于验证 Fin 在一个主题、话题或问题上的行为。你可能会为最常见的查询构建一个，为 Fin 如何在政策内外处理退款请求构建一个，以及为各种情况下的语气构建另一个。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Evals--scaled.png" alt="Evals 菜单，显示几个主题，包括 Shipping & Delivery、Billing 等">
+
+    <h3>从真实对话构建 Simulations</h3>
+    <p>Simulations 由三个角色组成：</p>
+    <ul>
+        <li><strong>模拟客户</strong>——他们的开场消息，以及随着对话进行而揭示的上下文，如账户详情、订单信息或情绪变化。</li>
+        <li><strong>Fin 可以访问的内容</strong>——包括属性和数据连接器。</li>
+        <li><strong>LLM judge 评分的标准</strong>——Fin 是否回复以及它需要说什么，是否触发了正确的 Procedure，或是否调用了数据连接器。</li>
+    </ul>
+
+    <p>你可以手动创建 Simulations，从现有对话上传它们，或基于真实的收件箱对话生成它们。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Simulated-conversations-scaled.png" alt="Eval 中的对话示例">
+
+    <h3>像你最好的审阅者一样对每个 Simulation 评分</h3>
+    <p>运行 Eval 会运行其中的每个 Simulation，并为每个返回通过或失败。评分结合了确定性检查和 LLM judge，如果任何单个标准失败，Simulation 就会失败。</p>
+
+    <p>每次运行都会显示完整的对话记录、事件日志和结果——由 Fin 回答、转接给你的团队或转接到工作流——这样你就可以看到 Fin 是如何到达那里的。当一个场景需要多个 Procedure 时，Simulation 会显示 Fin 在对话中途切换它们。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Failed-Simulation-scaled.png" alt="失败的 Simulation 示例">
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Hila-quote-1-scaled.png" alt="Hila Horenshtein 的引用："在 Evals 之前，guidance 或内容更改是我们唯一无法自动测试的东西——guidance 不会在普通模拟中触发，所以我们会发布它并观察生产环境。现在我们在它上线前就能证明它。这是 Evals 为我们改变的最大事情。"">
+
+    <h3>在更改后重新运行 Eval 以捕捉回归</h3>
+    <p>一旦存在一个 Eval，它就成为一种持续测试回归的方法。在对 Fin 提交更改之前或之后重新运行它，这样可以确保修复一件事不会破坏另一件事。</p>
+
+    <blockquote>
+        <p>"我们将我们的 Evals 按不同主题分组，所以每次我们进行更改时，我们重新运行整个集合，并立即看到是否有任何回归。"</p>
+        <p>—— Hila Horenshtein，AutoDS CX AI Operations Team Lead</p>
+    </blockquote>
+
+    <h2 id="releases-control-how-a-change-reaches-customers">Releases：控制变更如何触达客户</h2>
+    <p>Releases 为你提供了一个专门的空间来计划、协作和测试对 Fin 的更改，这样没有任何东西会触达客户，直到你决定它准备好了。</p>
+
+    <h3>在不触及实时 Fin 的情况下处理更改</h3>
+    <p>在 Release 中，你可以编辑内容、添加或更新 Procedures、更改或删除 Guidance，所有这些都打包在一起。这简化了重大更改，如新产品发布，或对特定工作流的优化——比如将 Fin 从解释你的退款政策转移到使用 Procedure 处理退款。</p>
+
+    <p>你的队友可以在同一个 Release 中工作——审查编辑、添加他们自己的编辑或测试其中的内容。每个更改都列在一个地方，这样你就可以确切地看到 Release 中有什么以及谁做了每个编辑。</p>
+
+    <p>你还可以在发布 Release 之前对其中的任何更改运行 Eval。构建更改，运行你的 Eval，看看什么失败，进行调整，然后再次运行——而不触及实时 Fin。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Releases-scaled.png" alt="Releases 仪表板，其中一些处于实验阶段">
+
+    <h3>在广泛推出之前进行 A/B 测试</h3>
+    <p>当 Release 准备好时，你可以将其发布给所有人，或针对 Fin 的当前配置运行 A/B 测试。实验报告使用你关心的指标，如解决率、升级率和 CSAT，这样你可以对每个新发布充满信心。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/experiment-running-scaled.png" alt="Releases 实验，显示新发布与 Fin 现有配置的对比">
+
+    <h3>立即回滚</h3>
+    <p>如果在推出过程中某些事情看起来不对，暂停它。修复特定问题，重新运行 Eval 以确认修复有效，然后继续推出。如果你需要完全撤销 Release，可以一步回滚。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Jordan-quote-1.png" alt="Jordan Thompson from Raylo：通过 Releases，我们可以在广泛推出之前确认更改对客户更好。对于一家在支付和政策方面真正重要的企业，这种控制意味着很多。">
+
+    <h2 id="how-evals-releases-and-monitors-work-together">Evals、Releases 和 Monitors 如何协同工作</h2>
+    <p>这些功能单独使用都很有用。结合在一起，它们加强了 Fin Flywheel，这样只有最好的 Fin 版本才会触达你的客户。</p>
+
+    <p>你在 Release 中创建一个更改，并在上线前使用 Evals 验证它。你将其作为实验推出，然后在结果站得住脚后发布给所有人。从那里，Monitor 保持监控——根据你的质量标准检查实时对话，这样更改在完全上线后仍能保持性能。当 Monitor 标记一个不符合标准的对话时，你将其转化为 Simulation，将其添加到相关的 Eval 中，并将其用作测试新 Release 和推动更好性能的基准。这就是你如何能够对 Fin 在规模上提供的体验充满信心。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Monitors-scaled.png" alt="Monitors 示例">
+
+    <h2 id="operator-runs-eval-driven-delivery-for-you">Operator 为你运行 Eval 驱动的交付</h2>
+    <p>你不必自己逐步完成 Evals 和 Releases。<a href="https://fin.ai/operator">Operator</a>，我们的客户运营 Agent，可以代表你使用所有这些功能。</p>
+
+    <p>例如，你可以要求 Operator：</p>
+    <ul>
+        <li>更新你的退款政策，说明客户退款可以作为账户信用额度。</li>
+        <li>然后，为此添加一个测试到'refund policy' Eval。</li>
+        <li>最后，将此更改放入一个新的 Release。</li>
+    </ul>
+
+    <p>它将处理所有这三项。它起草内容更改、构建 Eval，并将工作打包到 Release 中。每一步都作为提案返回，这样你可以审查它并给予最终批准。</p>
+
+    <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/08/Operator-scaled.png" alt="与 Operator 对话的示例">
+
+    <h2 id="maintaining-customer-experience-as-your-business-evolves">随着业务发展保持客户体验</h2>
+    <p>你可以在第一天构建一个非常好的 AI Agent。在你的产品、政策和内容不断变化的同时保持这种性能是一个不同的问题。</p>
+
+    <p>Evals 和 Releases 为你的团队提供了工程团队为自己构建的相同技术严谨性——而不需要工程团队来运行它。你设定标准、构建测试并控制推出。当与 Monitors 集成时，你获得了在增长时维护标准所需的监督。</p>
+
+    <p>在<a href="http://fin.ai/evals">这里</a>了解更多。</p>
+
+    <hr style="margin: 60px 0 30px 0; border: none; border-top: 1px solid #ddd;">
+    
+    <p style="font-size: 0.9em; color: #666;">
+        <strong>翻译说明：</strong>本文翻译自 Intercom 官方博客。专业术语如 AI、Agent、Fin、CX、UX、API、Evals、Releases、Monitors、Simulations、Procedures、Guidance、Operator、Flywheel 等保持原文不变。所有图片链接保留原始 URL。
+    </p>
+    
+    <a href="https://www.intercom.com/blog/announcing-evals-and-releases/" class="original-link" target="_blank">查看原文 (英文)</a>
+</body>
+</html>
