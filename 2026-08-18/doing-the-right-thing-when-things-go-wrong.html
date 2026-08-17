@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在出问题时做正确的事 - Fin的事件管理之道</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            color: #2a2a2a;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            color: #2a2a2a;
+        }
+        h4 {
+            font-size: 1.2em;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: #2a2a2a;
+        }
+        .meta {
+            color: #666;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .author {
+            font-weight: 500;
+        }
+        .reading-time {
+            margin-left: 15px;
+        }
+        .hero-image {
+            width: 100%;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        blockquote {
+            border-left: 4px solid #1f7d5f;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #f9f9f9;
+            font-style: italic;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        a {
+            color: #1f7d5f;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #e8f5f3;
+            color: #1f7d5f;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <div class="meta">
+                <span class="tag">工程实践</span>
+                <span class="author">作者：Mark Gorman</span>
+                <span class="reading-time">阅读时间：11 分钟</span>
+                <br>
+                <time datetime="2026-07-14">发布时间：2026年7月14日</time>
+            </div>
+            
+            <h1>在出问题时做正确的事</h1>
+            
+            <p class="excerpt">当客户依赖你时，事件中的每一分钟都很重要。以下是 Fin 的工程师团队检测、缓解并从每一次事件中学习的过程。</p>
+            
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/07/Group-316126461-1536x717.png" 
+                 alt="Building a healthy incident culture" 
+                 class="hero-image">
+        </header>
+
+        <div class="content">
+            <p>周三下午2点。一次例行部署发布。几分钟内，客户无法打开应用。警报响起，寻呼机响了起来，<a href="https://www.intercom.com/blog/stop-monitoring-systems-start-monitoring-outcomes/">心跳指标</a>开始下降。</p>
+
+            <p>在某些方面，这是一个近乎最佳情况的事件。这是白天，团队在线，变更的作者随时待命。对于出了什么问题，已经有了强有力的假设。然而，如果没有正确的流程、工具和共同的本能，事件仍可能失控。</p>
+
+            <p>在 Fin，<a href="https://www.intercom.com/blog/shipping-is-your-companys-heartbeat/">发布是我们的心跳</a>。我们之前写过<a href="https://www.intercom.com/blog/ready-for-your-busiest-day-how-we-scale/">如何为最忙碌的日子做准备</a>，但可靠性不仅仅是处理峰值负载；它还关乎当意外发生时我们如何响应。当客户依赖 Fin 和 Intercom 来支持他们自己的客户时，一次事件可能会在最关键的时刻中断对话并造成不确定性。这就是为什么事件管理如此重要。</p>
+
+            <h2 id="the-discipline-of-helping">帮助的纪律</h2>
+
+            <p>事件管理可能看起来像是 Slack 频道、状态页面、运维手册和最新的 AI SRE 工具，但这些只是机制。它实际上是关于帮助人们在出问题时做正确的事情的纪律。我们的流程围绕客户影响构建：快速检测问题，让正确的人（我们的工程师和他们的 Agent）聚在一起，安全快速地减少影响，清晰沟通，并从发生的事情中学习。</p>
+
+            <p>有一个原则塑造了这一切：<strong>并非每个 P1 都是事件，但每个事件都应该是团队的 P1。</strong></p>
+
+            <p>事件意味着对客户体验存在时间敏感的中断、损害或降级，即使是一次运行良好的事件也会对受影响的客户造成真正的混乱。因此，解决它的工作不能在积压中等待我们完成其他事情。当宣布事件时，负责团队会停止他们正在做的事情，专注于回到安全状态。这可能意味着离开会议，引入有领域背景的工程师，升级到事件指挥团队，或者在任何人完全理解为什么中断之前回滚变更。事件未被处理的时间越长，它影响的客户就越多，侵蚀的信任就越多，协调就越困难。</p>
+
+            <h2 id="the-anatomy-of-an-incident">事件剖析</h2>
+
+            <p>要了解我们如何在 Fin 响应事件，我们将介绍我们如何看待它们，以及我们如何缓解和解决它们的机制。</p>
+
+            <h3>事件如何开始</h3>
+
+            <p>我们的事件流程通常以以下三种方式之一开始：</p>
+
+            <h4>1. 信号来自客户</h4>
+
+            <p>支持团队（以及越来越多的 <a href="https://www.intercom.com/help/en/articles/14804318-use-fin-operator-for-incident-detection-and-response">Operator</a>）在传入的对话中看到模式。我们可以在几分钟内打开 GitHub issue 并通过 <a href="http://incident.io">incident.io</a>（我们选择的事件响应平台）联系相关的工程团队。一线支持（包括我们的人工和 Fin 本身）通常比任何仪表板都更接近客户痛点，这使得他们的信号在速度方面极其有价值。</p>
+
+            <h4>2. 产品直接告诉我们</h4>
+
+            <p>除了常规的警报套件外，<a href="https://www.intercom.com/blog/stop-monitoring-systems-start-monitoring-outcomes/">我们为 Fin 和 Intercom 帮助台的核心部分提供心跳指标</a>。这些指标不只是监控我们的服务器是否正常运行，而是跟踪用户是否能够做他们来做的事情，比如回复客户查询。这些指标的下降可以告诉我们核心工作流是否不健康，从而触发事件并向拥有团队发送页面（incident.io 生成的响亮通知或电话呼叫）。我们不会等待某人手动注意到。</p>
+
+            <p>例如，我们主动跟踪 Fin 能够在对话中生成的响应数量。如果我们看到响应生成突然下降，我们立即知道出了问题，并让我们的响应者投入行动。</p>
+
+            <img loading="lazy" decoding="async" 
+                 src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/07/Screenshot-2026-07-14-at-14.21.40-scaled.png" 
+                 alt="A line graph depicting a sudden drop in Fin messages">
+
+            <h4>3. 发布代码的工程师主动监控产品健康</h4>
+
+            <p>在 Fin，所有工程师都被期望从部署开始到生产环境落地时监控他们的代码推出。有人在现场监控指标中的意外变化（并在上线后测试他们的变更）意味着在意外发生的瞬间，我们有能力通过将生产环境回滚到早期版本来恢复健康状态。</p>
+
+            <p>目前回滚落地需要不到两分钟。这意味着工程师或代表他们监控推出的 Agent 通常可以在客户开始注意到之前发现并删除产品中的任何不良行为。当涉及缓解客户影响时，秒秒必争，这就是为什么我们在产品中不断推动更快的回滚。</p>
+
+            <h3>谁做什么</h3>
+
+            <p>清晰的角色是混乱事件和运行良好的事件之间的最大区别之一。在事件期间，每个人都应该知道自己负责什么：</p>
+
+            <ul>
+                <li><strong>工程负责人</strong>是第一个技术负责人。他们确认页面，评估影响，并根据需要引入帮助。</li>
+                <li><strong>事件指挥官</strong>在需要升级时协调响应，做出决策以便技术调查人员可以保持专注。</li>
+                <li><strong>业务负责人</strong>处理面向客户的一面，让支持和销售团队保持知情。</li>
+                <li><strong>解决方案负责人</strong>，通常是团队的工程经理，确保在压力解除后完成后续工作。</li>
+            </ul>
+
+            <p>这些角色的存在是为了减少认知负荷，而不是强加等级制度。它们为人们提供了一种清晰的贡献方式，而不必在高压响应中间协商所有权。</p>
+
+            <p>这种结构在核心工程时间之外更重要。为确保影响客户的问题不会等到早上，我们有一个非工作时间的响应小组，名为 <a href="https://www.intercom.com/blog/rapid-response-how-we-developed-an-on-call-team-at-intercom/">STRIKE</a>。他们覆盖所有工程寻呼机，包括晚上、周末和假期，并在拥有团队可能不在线时充当第一响应线。他们的覆盖帮助我们避免了事件响应中最具破坏性的失败模式之一：在任何人承担责任之前浪费时间。我们的高级首席工程师 Brian Scanlan 在 <a href="https://www.youtube.com/watch?v=yoTZKUvG2io">Datadog DASH 会议上的演讲</a>中分享了更多关于 STRIKE 的信息，如果你有兴趣了解更多。</p>
+
+            <h3>事件生命周期</h3>
+
+            <p>当事件开始时，我们遵循一个四步流程，称为"事件生命周期"。我们分类、调查、缓解和学习——超越一次性解决方案以推动真正的改变。这些阶段和相关行动不是规定性的。有时我们需要灵活性在过程中跳跃，但它们作为我们事件的一般结构。</p>
+
+            <img loading="lazy" decoding="async" 
+                 src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/07/Cycle-scaled.png" 
+                 alt="A infographic depicting The Incident Lifecycle, including the steps Triage, Investigation, Mitigation, and Learning.">
+
+            <h4>1. 分类：快速找到信号</h4>
+
+            <p>无论问题如何被发现，我们的路径都快速收敛到相同的操作模式。我们通过 incident.io 运行事件，几乎完全从 Slack 运行，团队已经在那里协调。它通过分配角色、更新严重程度和为任何中途加入的人总结时间线来减少过程中的繁琐工作。事件频道成为作战基地：一个地方用于时间线、行动、更新、后续和升级。</p>
+
+            <p>从那里，第一响应者确认问题并评估问题的形状：</p>
+
+            <ul>
+                <li>客户是否受影响？</li>
+                <li>涉及什么产品区域？</li>
+                <li>最近有什么变化吗？</li>
+                <li>这个警报是否有运维手册来验证信号？</li>
+            </ul>
+
+            <p>如果没有客户影响，警报可能需要重新配置。在这些情况下，我们的响应者会拒绝事件，但创建后续工作以改进未来的警报。这有助于我们保持对任何警报以最大严重程度对待的立场，并避免造成警报或寻呼机疲劳。</p>
+
+            <p>如果有客户影响，他们接受事件。从那里，下一个工作是了解影响：</p>
+
+            <ul>
+                <li>这是一个客户、一组客户，还是核心产品路径？</li>
+                <li>它是在部署后开始的吗？</li>
+                <li>它在恶化，还是已经稳定？</li>
+            </ul>
+
+            <p>影响驱动严重程度，严重程度驱动我们如何为响应配置资源。一个小问题可能需要一两个工程师，但核心路径上的重大事件可能从一开始就引入多个团队和事件指挥官。</p>
+
+            <p>在这个早期阶段，清晰的沟通与技术评估同样重要。让人们知道出了问题（或没有）通常会提高我们解决它的能力。</p>
+
+            <p>一个好的早期更新可以是简单的：</p>
+
+            <img loading="lazy" decoding="async" 
+                 src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/07/Screenshot-2026-07-14-at-14.35.44-1.png" 
+                 alt="Incident update example">
+
+            <p>这并没有解决事件，但它给了每个人一个共享的画面，减少了重复的问题，并帮助人们决定是否参与。</p>
+
+            <h4>2. 调查：使工作明确</h4>
+
+            <p>一旦事件被接受和分类，工程师收集证据、检查最近的变更、检查仪表板并形成假设。在这个阶段，协调与技术调试同样重要。事件用延长的影影响窗口、更高的压力和更差的客户体验来惩罚模糊性。</p>
+
+            <p>当事件开始时，有效利用所有可用资源以提高恢复速度很重要，这意味着确保每个人都知道正在进行什么工作以及谁在做。事件中没有拐弯抹角的余地。"有人应该检查队列深度"需要变成一个具体且分配的行动，而不是一个飘走的句子。</p>
+
+            <p>如果团队陷入困境、客户影响广泛或涉及多个团队，升级到事件指挥官是正确的选择。他们帮助创建结构、澄清角色、决定采取哪个缓解路径，并处理内部和外部沟通。这让技术调查人员能够专注。</p>
+
+            <p>在整个调查过程中，我们保持行动偏见，因为在我们寻找确定性时客户仍在受影响。我们想了解是什么导致了事件，但也想尽可能快地减少影响。</p>
+
+            <p>随着事件的发展，沟通向外扩展。清晰的更新让支持、销售和客户成功团队能够自信地回答客户问题，当需要更广泛的外部沟通时，事件指挥官通过正确的渠道协调，包括我们的状态页面（如适用）。</p>
+
+            <h4>3. 缓解：回滚胜过英雄主义</h4>
+
+            <p>在许多事件中，减少客户影响的最快路径是回滚。</p>
+
+            <blockquote>
+                <p><em>"事件不是优化优雅的地方。它们是优化安全恢复的地方"</em></p>
+            </blockquote>
+
+            <p>这与我们如何思考<a href="https://www.intercom.com/blog/the-safety-of-speed-shipping-code-at-intercom/">在 Fin 安全发布</a>密切相关。速度很重要，但只有当恢复也很快时，速度才是可持续的。我们在培训中重复的一个教训是：先回滚，稍后向前修复。</p>
+
+            <p>向前修复可能感觉令人满意。你找到 bug，编写修复，然后发布它。但事件不是优化优雅的地方。它们是优化安全恢复的地方。</p>
+
+            <p>回滚通常比编写和部署新修复更快让我们回到已知状态。它还避免了在系统已经不稳定时添加新变量。一旦客户影响减少，团队就有更多空间来正确理解问题。</p>
+
+            <p>然而，回滚并不总是可能的。问题可能与数据相关，功能标志可能需要更改，队列可能需要清空，或者依赖项可能需要绕过。关键是要明确选项：</p>
+
+            <ul>
+                <li>这能多快减少影响？</li>
+                <li>谁在采取行动去做？</li>
+                <li>我们可以并行运行多个缓解措施吗？</li>
+            </ul>
+
+            <p>整个过程中的定期更新让每个人在情况变化时保持一致。</p>
+
+            <h4>4. 学习：超越解决方案</h4>
+
+            <p>当客户影响得到缓解时，消失回正常工作是很诱人的。在 Fin，我们不那样做。</p>
+
+            <p>重要的是我们解决开放的行动、清理临时缓解措施，并确保问题真正得到控制。之后，我们可以从恢复转向学习。</p>
+
+            <p>好的后续工作是具体且可操作的。"改进监控"不是一个好的后续工作。"当导出队列延迟超过 X 持续 Y 分钟时发出警报，并附有链接到拥有团队的运维手册"会更好。</p>
+
+            <p>我们寻找至少做以下四件事之一的后续工作：</p>
+
+            <ul>
+                <li>减少复发的可能性。</li>
+                <li>如果确实复发，限制影响范围。</li>
+                <li>改进检测。</li>
+                <li>改进响应和调查。</li>
+            </ul>
+
+            <p>它们也需要是有界限的。一个好的后续工作是团队可以在合理时间内完成的事情，而不是模糊的愿望。</p>
+
+            <p>对于值得注意的事件，我们编写事件审查文档并与我们的工程组织举办会议。这个审查过程是一个痛苦时刻如何变成共享组织知识的方式，以及我们如何履行对受影响客户的义务，以确保同一类故障不会再次发生。在那里的人捕获发生了什么，而更广泛的组织从中学习，未来的响应者得到一个更好的系统。</p>
+
+            <h2 id="making-the-right-response-repeatable">使正确的响应可重复</h2>
+
+            <p>健康的事件文化不能依赖个人英雄主义。客户不应该依赖一个人知道系统、发现问题、记住命令并在压力下保持冷静。</p>
+
+            <blockquote>
+                <p><em>"当存在对客户可信风险时，宣布事件并不是过度反应"</em></p>
+            </blockquote>
+
+            <p>我们需要更可靠的东西：训练有素的响应者、熟悉的工具、清晰的角色、正常的升级路径以及快速减少客户影响的共同倾向。</p>
+
+            <p>这也意味着将早期升级视为良好判断。我们宁愿早期动员并取消，也不愿在客户影响增长时等待确定性。寻求帮助不是失败。回滚不是承认失败。当存在对客户可信风险时，宣布事件并不是过度反应。</p>
+
+            <p>在事件管理中，许多事情可以纠正。我们可以更改严重程度、合并事件或修订我们对根本原因的理解。我们无法恢复的是因不作为而损失的时间。</p>
+
+            <p>当出现问题时，客户不应该怀疑 Fin 是否认真对待。我们应该在我们动员、沟通和减少影响的速度上可见。我们可以通过坚持我们的事件管理流程来做到这一点——并且每次使用它时都学到一些东西。</p>
+
+            <p>&nbsp;</p>
+        </div>
+
+        <footer>
+            <hr style="margin: 40px 0; border: none; border-top: 1px solid #eee;">
+            <p style="color: #666; font-size: 0.9em;">
+                <strong>原文：</strong> <a href="https://www.intercom.com/blog/doing-the-right-thing-when-things-go-wrong/" target="_blank">Doing the right thing when things go wrong</a><br>
+                <strong>翻译日期：</strong> 2026年8月18日
+            </p>
+        </footer>
+    </article>
+</body>
+</html>
