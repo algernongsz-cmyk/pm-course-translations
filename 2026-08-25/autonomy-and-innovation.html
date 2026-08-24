@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>自主与创新 - Stratechery by Ben Thompson</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 1.5em;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.3em;
+        }
+        h3 {
+            font-size: 1.4em;
+            margin-top: 1.5em;
+        }
+        p {
+            margin: 1em 0;
+        }
+        blockquote {
+            border-left: 4px solid #faa634;
+            background-color: #FFFAF1;
+            padding: 1em 1.5em;
+            margin: 1.5em 0;
+        }
+        blockquote p {
+            margin: 0.5em 0;
+        }
+        .meta {
+            color: #707070;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        iframe {
+            max-width: 100%;
+        }
+        a {
+            color: inherit;
+            text-decoration: underline;
+        }
+        .video-container {
+            margin: 2em 0;
+        }
+        .footnote {
+            background-color: #FFFAF1;
+            border-left: 2px solid #faa634;
+            padding: 0.5em 1em;
+            font-size: 0.9em;
+            margin: 1em 0;
+        }
+        .share-links {
+            margin-top: 3em;
+            padding-top: 1em;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>自主与创新</h1>
+    <p class="meta">
+        原文：<a href="https://stratechery.com/2026/autonomy-and-innovation/" target="_blank">Autonomy and Innovation</a><br>
+        作者：Ben Thompson<br>
+        日期：2026年8月25日<br>
+        翻译：Claude AI
+    </p>
+
+    <p>虽然并非所有的西部片都遵循这一老套路，但到了1930年代，牛仔系列剧已经形成了一套一致的视觉提示：剧中的英雄戴着白帽子，而反派戴着黑帽子。然而归根结底，他们都是戴着牛仔帽的牛仔。</p>
+
+    <p>西部片如今已不再是什么文化标杆了，但"白帽子"和"黑帽子"这个术语在科技领域却非常贴切：专注于修补漏洞和保护软件的黑客被称为"白帽黑客"，而专注于出于恶意目的利用漏洞的黑客则被称为"黑帽黑客"。当然，这很快就会变得复杂：政府可能会雇用黑客入侵敌方软件系统——他们是白帽还是黑帽？或者考虑一下漏洞赏金计划，大型软件公司向发现并报告漏洞的黑客支付赏金；这基本上是用金钱激励那些本可能成为黑帽黑客的人成为白帽黑客。</p>
+
+    <p>真正的结论是，所有这些复杂性都是多余的：就像牛仔就是牛仔一样，黑客就是黑客；帽子不是能力的陈述，而是意图的陈述，而这些意图是由激励塑造的。攻击基础设施的最好方法是发现漏洞并利用它；防御基础设施的最好方法是发现漏洞并修补它。这是一样的技能组合。</p>
+
+    <p>这种能力、意图和激励之间的区别在涉及 AI 时至关重要。在上个月的文章<a href="https://stratechery.com/2026/whos-afraid-of-chinese-models/">《谁害怕中国模型》</a>结尾，我讨论了模型托管平台 Hugging Face 刚刚遭受的一次神秘攻击，他们只能借助开源权重的中国模型才能抵御这次攻击，并写道：</p>
+
+    <blockquote>
+        <p>特朗普政府对 Anthropic 发布 Fable 的恐慌反应是多么错误，这一点怎么强调都不为过，特别是它加剧了 Anthropic 最糟糕的倾向，即假设只有他们才能被信任拥有强大的 AI。在一个只有一种 AI 的世界里，将最强大的网络安全能力保留给美国政府及其盟友可能是有意义的；然而，那不是我们要面对的世界。</p>
+        <p>现在有，将来也会有能够对现有基础设施发起网络安全攻击的模型，而且这些模型将——已经——广泛可用。最好的防御——实际上唯一可行的防御——将是确保防御者也能使用最好的模型。现在，防御者实际上被禁止在网络安全方面使用 Fable 或 Sol，因为特朗普政府的指令；这意味着最好的替代方案是使用一个多年来一直试图削弱我们网络防御的国家生产的模型。这太疯狂了！</p>
+    </blockquote>
+
+    <p>关键在于我引言中提出的观点：当涉及网络安全时，良好防御所需的能力与良好进攻所需的能力完全相同；帽子的颜色取决于实际向 AI 发出提示的人。</p>
+
+    <p>而且，有时甚至连这一点也不清楚：事实证明，入侵 Hugging Face 的实体实际上是 OpenAI，作为一系列正在评估其网络安全能力的无约束 Agent 发现并利用了其沙箱中包管理器的一个漏洞；该包管理器有互联网访问权限和足够可写的文件系统，使得 Agent 可以随时间相互通信。整个漏洞发现和漏洞利用创建链最终导致了所谓的"Hugging Face 事件"。</p>
+
+    <h2>Hugging Face 事件</h2>
+
+    <p>关于这一具体事件及其对 AI 风险的启示，可以写整整一篇文章；我的一些结论仍在等待 OpenAI 承诺发布的深度技术报告（我初步的结论是 Agent 并没有"作弊"，而是在做它们被告知要做的事；当然，那<a href="https://stratechery.com/2026/openai-hacks-hugging-face-what-happened-alignment-and-paper-clips/">可能更可怕</a>）。然而，我今天想关注的部分出现在 OpenAI 的 Eric Wallace 和 Michael Dalton 在黑帽美国大会上的<a href="https://www.youtube.com/watch?v=87DyyMV0kCY">关于 Hugging Face 事件的演讲</a>末尾。这是 Dalton 总结的经验教训：</p>
+
+    <div class="video-container">
+        <iframe width="500" height="281" src="https://videopress.com/embed/BcmPzjBf?cover=1&autoPlay=0&controls=1&loop=0&muted=0&persistVolume=1&playsinline=0&preloadContent=metadata&useAverageColor=1&hd=0" frameborder="0" allowfullscreen data-resize-to-parent="true" allow="clipboard-write; presentation"></iframe>
+        <script src='https://v0.wordpress.com/js/next/videopress-iframe.js?m=1770107250'></script>
+    </div>
+
+    <blockquote>
+        <p>我们已经看到攻击者的攻击能力将急剧加速。我们有一个存在证明，虽然是无意的，但它确实存在，作为结果，我们看到了这个行业未来攻击方式的缩影。挑战是我们需要类似的防御加速。今天我们看到完全自动化的进攻是可能的，但我们还没有核心防御循环和行为完全自动化的存在证明。</p>
+
+        <p>我们认为在这个时刻开始加速防御并找到自动化 SDLC 的方法至关重要，用现代术语来说，即事件响应、漏洞检测、漏洞修补。有一些挑战需要行业以高度紧迫性开始应对。其中之一是持续 Agent 红队测试。从这个事件可以看出，Agent 非常擅长在公司基础设施中发现零日攻击。现在的问题是，公司是否能够投入足够的模型智能和精力，在威胁行为者之前发现并修复其漏洞。</p>
+
+        <p>这种运营方式现在将有所不同，但最终我们需要投资于让 AI Agent 红队测试，使防御者能够在攻击者之前发现并修复漏洞。但是自动化这些防御循环并非易事，所以如果我们部分做到这一点，我们将无法满足我们刚刚看到的进攻加速的可扩展性。例如，如果我们自动化漏洞发现而不自动化修补，我们将把瓶颈从漏洞转移到修补到修复，我们将简单地淹没或淹没人类软件工程师，让他们修复和修补新漏洞。这不是一个我们可以部分解决最终状态的问题。我们需要将这些核心防御循环完全自动化，这将需要与基础设施和产品合作伙伴进行对话，并达到一个可以说，如果发现漏洞，不仅可以有 Agent 识别该漏洞，我们可以让 Agent 提出补丁，我们可以有自动化基础设施推出带有该补丁的更改，如果出现可用性事件或中断则回滚。该循环在其最终状态需要完全自动化。当然，我们要尽可能快地渐进和迭代地自动化，但如果我们不达到那个最终状态，那么我们将比较一个核心防御循环，即修复漏洞，这是一个人类在循环中，并且速度更慢且可扩展性更差，与一个完全自动化的进攻循环，这是该行业无法维持的位置。</p>
+    </blockquote>
+
+    <p>这种情况显然是完全新颖的；Dalton 认为它将变得司空见惯。然而，他提出的一些问题并非新鲜事。</p>
+
+    <p>回到漏洞赏金计划的概念。软件极其复杂且脆弱，建立在代码基础之上，如果深入挖掘，通常可以追溯到几十年前；有太多的代码和太多的依赖项，以至于无论多么注重安全，没有任何公司能够确保它是完美的。这一现实为黑帽黑客创造了机会：不良行为者可以探测软件，发现漏洞，并利用它们；最有效的防御准备是完全相同的事情。这可能涉及"红队"定期进行渗透测试，或者简单地付钱给潜在的不良行为者让他们站在你这一边。</p>
+
+    <p>然而，值得注意的是，这种防御方法只出现在攻击性黑帽黑客多年来入侵系统之后。问题不在于他们有独特的能力，而在于他们有独特的激励：入侵系统是一门好生意；另一方面，托管这些系统的公司在防御投资方面激励不足。在什么都没发生的情况下，安全支出是值得的，不幸的是，当它只影响成本而不影响收入时，这是一个难以争辩的预算项目。</p>
+
+    <p>这就是 Dalton 的担忧与过去行业冷漠的共鸣。Hugging Face 事件表明，Agent 能够利用计算扩展攻击，并自主为其发现的漏洞开发利用程序，这在今天是一个威胁，但公司并未投资于防御自己的能力。</p>
+
+    <p>然而，有好消息：在这个新的 Agent 定义的安全环境中，防御应该比黑客时代更有优势。过去，防御者最好的做法是模仿攻击者的策略，和/或付钱给他们，因为先发制人地发现所有漏洞是不可行的。然而，这正在改变：实际上确实——或很快将——可以仔细检查整个代码库，包括其所有依赖项，并查找漏洞并修补它们。注意防御者可用的结构优势：他们实际上拥有所涉及的代码；攻击性 Agent 需要在没有同样优势的情况下探测和发现漏洞。</p>
+
+    <p>然而，Dalton 的概述之所以有启发性，是因为他解释了为什么目前这还不够的原因。具体而言，黑客的自动化攻击的期望值总是正的。如果攻击性 Agent 发现漏洞并创建利用程序，而该利用程序失败或本身有漏洞，那么现状没有任何改变：利用程序不起作用（或者反常地，由于自身的漏洞使原始漏洞更大）；与此同时，如果 Agent 完美地执行利用程序，攻击者已经获得了对系统的访问权。攻击只需要成功一次，整个努力就会有积极的回报。</p>
+
+    <p>另一方面，防御者面临的挑战是他们需要保持所涉及的软件正常工作，而不是让情况变得更糟。这意味着任何自动化都有负期望值：成功的自动化漏洞发现和修补保持现状，即软件未被黑客入侵。然而，任何不成功的修补都会使情况变得更糟，要么通过破坏软件，要么通过引入新的漏洞。Agent 只需要失败一次，整个努力就会有负面回报。</p>
+
+    <p>这种动态导致了 Dalton 描述的确切情况，即攻击性参与者完全自动化，而防御系统，即使使用 AI，也将被激励保持人类在循环中，而循环中的人类将无法跟上完全自动化的 Agent。真正有效的防御将意味着真正信任 Agent 自主行动，但大多数公司不会这样做，直到他们被完全自主的攻击者定期和持续的黑客攻击所迫。</p>
+
+    <h2>为什么 AI 扩散需要时间</h2>
+
+    <p>周末，David Senra 发布了<a href="https://www.youtube.com/watch?v=kG8AoExkX40">一期与 OpenAI CEO Sam Altman 的新播客节目</a>，Altman 承认他对 AI 扩散到更广泛经济的速度的看法是错误的：</p>
+
+    <div class="video-container">
+        <iframe width="500" height="281" src="https://videopress.com/embed/xa78etgz?cover=1&autoPlay=0&controls=1&loop=0&muted=0&persistVolume=1&playsinline=0&preloadContent=metadata&useAverageColor=1&hd=0" frameborder="0" allowfullscreen data-resize-to-parent="true" allow="clipboard-write; presentation"></iframe>
+        <script src='https://v0.wordpress.com/js/next/videopress-iframe.js?m=1770107250'></script>
+    </div>
+
+    <blockquote>
+        <p>我喜欢初创公司。我认为初创公司是经济中最酷的东西，我花了我的职业生涯试图真正理解初创公司，我认为当我们达到 GPT-4 时，那是在 2023 年，我认为，在那之后很快，软件业务将很快面临更多的颠覆。结果证明是错的。</p>
+
+        <p>我在几件事上错了，但就速度而言，其中一件事是经济有那么大的惯性。人们继续做他们正在做的事情。他们继续从同一家公司购买。他们继续以同样的方式使用他们的工具。我认为这在许多方面实际上是一件积极的事情，它将使我们面前的这个大过渡更加顺利和缓慢。我对此表示感谢。但我认为这意味着即使有了这项令人难以置信的技术，我们在时间线上都太雄心勃勃了。我认为 AI 是人类发明的最令人难以置信的技术之一。社会和经济将更缓慢地适应。</p>
+    </blockquote>
+
+    <p>我当然认为 Altman 关于 AI 在整体经济和软件领域传播需要更长时间的观点是正确的；<a href="https://stratechery.com/2024/enterprise-philosophy-and-the-first-wave-of-ai/">我一直在反驳这些时间线</a>。我也认为他的回答在解释原因方面是不完整的，而 Dalton 关于攻击性 Agent 和防御准备之间不匹配的警告解释了这一点。</p>
+
+    <p>首先，GPT-4 是一个令人难以置信的突破；它也是一个根本没有能力足够强大以实际取代现实世界软件的模型。它甚至没有推理能力，这是解锁 Dalton 描述的能力的关键突破。</p>
+
+    <p>其次，模型能力不足的意味着它会犯错且不能被信任。人们可以并且确实对 AI 能做什么感到敬畏，但实际上实施 AI 的决定不是根据可以做什么来决定的，而是关于是否可以避免关键错误。</p>
+
+    <p>换句话说，现有公司不可避免地会以负期望值框架的偏见来对待 AI：理想情况下，AI 将使其现有业务更高效；他们最担心的是 AI 犯错并搞砸他们的业务。这意味着人类将继续留在循环中，这将永远是一个瓶颈。</p>
+
+    <p>从长远来看，这将是一个错误，就像公司在涉及 Agent 防御时保持人类在循环中是一个错误一样。正如 Dalton 指出的，防御完全自动化攻击的唯一方法是完全自动化你的防御，但防御者接受这所带来的权衡需要一段时间。同样，在各自类别中获胜的公司将真正由 AI 驱动，而不仅仅是 AI 作为生产力增强器。Altman 回答中的巨大讽刺是，他实际上确定了这些公司将如何出现：它们不会是彻底改革其工作方式的现有公司；相反，真正的 AI 原生公司将是初创公司。</p>
+
+    <h2>持续性创新与颠覆性创新</h2>
+
+    <p>早在 2023 年，ChatGPT 出现后不久，我在<a href="https://stratechery.com/2023/ai-and-the-big-five/">《AI 与五大巨头》</a>中提出了一个问题，即 AI 将是持续性创新还是颠覆性创新：</p>
+
+    <blockquote>
+        <p>2022 年的故事是 AI 的出现，首先是图像生成模型，包括 DALL-E、MidJourney 和开源的 Stable Diffusion，然后是 ChatGPT，第一个以重大方式突破的文本生成模型。对我来说，这似乎显然是技术的一个新时代。然而，为了确定这个时代可能如何发展，回顾 26 年前最著名的战略书籍之一是有用的：Clayton Christensen 的<a href="http://claytonchristensen.com/books/the-innovators-dilemma/">《创新者的窘境》</a>，特别是这段关于不同类型创新的文字：</p>
+
+        <blockquote>
+            <p>大多数新技术促进产品性能的提升。我称这些为持续性技术。一些持续性技术可能在性质上是不连续的或激进的，而另一些则是渐进的。所有持续性技术的共同点是它们提高了现有产品的性能，沿着主要市场中的主流客户历史上重视的性能维度。给定行业中的大多数技术进步都是持续性的...</p>
+
+            <p>颠覆性技术为市场带来了与以前可用的价值主张非常不同的价值主张。通常，颠覆性技术在主流市场中表现不如现有产品。但它们具有少数边缘（通常是新）客户重视的其他功能。基于颠覆性技术的产品通常更便宜、更简单、更小，并且经常更方便使用。</p>
+        </blockquote>
+
+        <p>通过观察创新上市后现有公司的表现，回过头来看很容易确定一项创新是持续性的还是颠覆性的：如果创新是持续性的，那么现有公司变得更强；如果它是颠覆性的，那么初创公司可能捕获了大部分价值。</p>
+    </blockquote>
+
+    <p>我认为 AI 的令人难以置信的能力在于它正准备成为两者。现在 AI 带来了巨大的生产力效益；对于大多数知识工作者来说，利用这些效益是一个主动性的问题，但对于软件开发人员来说，这越来越是一个必要性的问题。</p>
+
+    <p>然而，主动性和必要性之间的区别是一个重要的区别：如果利用一项技术取决于人类弄清楚它，那么渗透将受到人类创造力和冒险精神的限制。这些限制在任何类型的老牌公司中都将非常强烈，因为风险计算将偏向于避免负面影响。这些计算将使 AI 成为持续性的，但仅此而已。</p>
+
+    <p>然而，以初创公司形式出现的人类创造力和冒险精神以一种完全不同的风险概况运作。对于初创公司来说，基本情况是失败；这意味着任何使成功更有可能的事情都有正期望值，也就是说，真正拥抱 AI 将只有好处。或者，换句话说，初创公司将是没有什么可失去的攻击性黑客，通过自动化一切来攻击；他们攻击的现有公司将如此担心失去他们所拥有的东西，以至于他们将在错误的循环中保留人类太长时间。</p>
+
+    <p>相同的工具，不同的激励，从长远来看，结果截然不同。</p>
+
+    <div class="share-links">
+        <p><strong>分享：</strong></p>
+        <p>
+            <a href="https://stratechery.com/2026/autonomy-and-innovation/?share=facebook" target="_blank">Facebook</a> | 
+            <a href="https://stratechery.com/2026/autonomy-and-innovation/?share=twitter" target="_blank">Twitter</a> | 
+            <a href="https://stratechery.com/2026/autonomy-and-innovation/?share=linkedin" target="_blank">LinkedIn</a>
+        </p>
+    </div>
+
+    <hr style="margin-top: 3em; margin-bottom: 2em;">
+    
+    <p style="color: #707070; font-size: 0.85em;">
+        上一篇：<a href="https://stratechery.com/2026/app-snore/">2026.34: App Snore</a>
+    </p>
+
+    <hr style="margin-top: 2em; margin-bottom: 2em;">
+    
+    <p style="font-size: 0.9em; color: #707070;">
+        本文翻译自 Stratechery，版权归原作者 Ben Thompson 所有。<br>
+        原文链接：<a href="https://stratechery.com/2026/autonomy-and-innovation/" target="_blank">https://stratechery.com/2026/autonomy-and-innovation/</a>
+    </p>
+</body>
+</html>
