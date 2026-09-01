@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新产品引入流程：如何确保你的 Agent 每次发布都准备就绪</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: #fff;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 40px;
+        }
+        article { margin: 40px 0; }
+        header { margin-bottom: 40px; }
+        h1 {
+            font-size: 2em;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            color: #111;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .meta a { color: #0066cc; text-decoration: none; }
+        .meta a:hover { text-decoration: underline; }
+        .excerpt {
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 24px;
+            padding: 16px 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #0066cc;
+            border-radius: 4px;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin: 36px 0 16px;
+            color: #111;
+        }
+        h3 {
+            font-size: 1.25em;
+            margin: 28px 0 14px;
+            color: #222;
+        }
+        h4 {
+            font-size: 1.1em;
+            margin: 24px 0 12px;
+            color: #333;
+        }
+        p { margin: 14px 0; }
+        ul, ol { margin: 14px 0; padding-left: 24px; }
+        li { margin: 8px 0; }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 24px auto;
+            border-radius: 8px;
+        }
+        .aligncenter { display: block; margin: 24px auto; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        em { font-style: italic; }
+        strong { font-weight: 700; }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 12px 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .video-embed {
+            position: relative;
+            padding-bottom: 56.25%;
+            padding-top: 0;
+            height: 0;
+            overflow: hidden;
+            margin: 24px 0;
+            border-radius: 8px;
+        }
+        .video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.85em;
+        }
+        .toc {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: 24px 0 36px;
+        }
+        .toc h2 { font-size: 1.1em; margin: 0 0 12px; }
+        .toc ul { list-style: none; padding: 0; margin: 0; }
+        .toc li { margin: 6px 0; }
+        .toc a { color: #0066cc; font-size: 0.95em; }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <div class="meta">
+                <span>分类：Customer Service</span>
+                <span>发布时间：2026年6月26日</span>
+                <span>作者：Sean Reid</span>
+                <span>阅读时间：9分钟</span>
+            </div>
+
+            <h1>新产品引入流程：如何确保你的 Agent 每次发布都准备就绪</h1>
+
+            <div class="excerpt">
+                <p>每次发布产品时，你的 Agent 知识库都需要同步更新。以下是 Fin 使用的 NPI 流程，将 Agent 就绪性纳入每次产品发布。</p>
+            </div>
+
+            <div class="meta">
+                <span>原文：<a href="https://www.intercom.com/blog/npi-how-to-ensure-your-agent-is-ready-every-time-you-ship/" target="_blank">The Intercom Blog</a></span>
+            </div>
+
+            <img src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/06/Keeping-your-Agent-current-scaled.png" alt="Keeping your Agent current" />
+        </header>
+
+        <nav class="toc">
+            <h2>目录</h2>
+            <ul>
+                <li><a href="#make-agent-readiness-a-prioritized-part-of-the-launch">将 Agent 就绪性作为发布的优先环节</a></li>
+                <li><a href="#the-npi-checklist">NPI 清单：如何在发布日前准备、审查和测试内容</a></li>
+                <li><a href="#in-practice">实践：我们在 Fin 是怎么做的</a></li>
+                <li><a href="#start-with-your-next-launch">从你的下一次发布开始</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <p>当你在一家不断发布新产品功能的公司工作时，保持知识库的及时更新是一项挑战。</p>
+
+            <p>当你使用 AI Agent 时，知识库过时的代价很高。这意味着每次产品团队发布新功能、客户问题开始涌入时，Agent 没有所需的信息来回答。它将对话转交给人工客服，短短几小时内，你的团队就要处理一批本应由 Agent 处理的问题，而且恰逢咨询量最高峰的时候。</p>
+
+            <p>久而久之，你的客户开始对 Agent 失去信任，而你的团队也失去了本应获得的产能提升。</p>
+
+            <p>确保你的 Agent 为每次产品发布做好准备，关键在于遵循一个流程——在每次新发布中更新知识。在 Fin，我们称之为"新产品引入"（NPI）流程。以下是具体内容。</p>
+
+            <img class="aligncenter" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/06/Two-ways-to-handle-a-product-launch-scaled.png" alt="Two ways to handle a product launch" />
+
+            <h2 id="make-agent-readiness-a-prioritized-part-of-the-launch">将 Agent 就绪性作为发布的优先环节</h2>
+
+            <p>如果你依赖客户来发现内容缺口，然后匆忙去填补，你将永远慢一步。更有效的做法是将 Agent 就绪性前移到发布流程本身中。只有当 Agent 能够正确回答关于某功能的问题时，该功能才算"已发布"。</p>
+
+            <p>你能倡导的最重要的变革之一，是让支持团队尽早参与发布规划。让你的团队成员参加产品和工程的演示会、产品营销启动会，并在新功能发布前进行测试。</p>
+
+            <p>这种程度的参与有助于及早发现 Bug 和异常行为，并让团队 firsthand 了解功能的实际运作方式。它还让你更容易看到哪些现有信息需要废弃，从而在更新时淘汰旧内容。在 Fin，这是我作为新产品引入（NPI）Manager 承担的工作，但知识经理或支持主管也可以负责这个角色。</p>
+
+            <p>支持团队越接近产品和营销团队，Agent 就绪性就越能自然地成为发布流程的一部分。</p>
+
+            <h2 id="the-npi-checklist">NPI 清单：如何在发布日前准备、审查和测试内容</h2>
+
+            <p>在发布前让 Agent 做好准备，需要你准备新内容、审查现有内容并移除过时内容，以及在客户开始互动之前测试 Agent 的表现。作为 NPI Manager，我在 Fin 监督这个流程。不过，你也可以在团队中分担这个职责——知识经理可能负责准备和审查阶段，而 QA Manager 负责测试。</p>
+
+            <p>以下是每个阶段需要完成的工作清单。</p>
+
+            <img class="aligncenter" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/06/NPI-Checklist-scaled.png" alt="NPI Checklist" />
+
+            <h3>步骤一：准备新知识</h3>
+
+            <p>在为 Agent 准备关于最新发布的新信息时，你需要确保内容尽可能清晰、易于理解。这些文章的质量和结构将是决定 Agent 回答质量的最大因素。</p>
+
+            <h4>使用客户正在使用的术语</h4>
+
+            <p>在为发布撰写内容时，使用客户的语言而非内部术语。例如，你的产品团队可能将新功能称为"自动化工作流触发器"，但你的客户搜索的是"如何设置自动回复"。在功能名称旁边使用客户实际会用的语言，这样当客户提问时内容能被正确检索到。</p>
+
+            <h4>明确且无歧义</h4>
+
+            <p>你的 Agent 会字面理解内容，因此确保文字易于它理解。解释内部细节，展开缩写，定义关键产品术语。如果你给 Agent 喂入模糊或有歧义的语言，它返回的答案可能会让客户感到困惑。</p>
+
+            <h4>给 Agent 完整的上下文</h4>
+
+            <p>不要假设你的 Agent 能像人类读者那样推断含义。如果你刚在某个套餐上发布了新功能，而客户问他们是否有权限使用，一句"取决于你的套餐"是不够的。Agent 需要完整信息：哪些套餐包含该功能、它的作用、如何访问，以及任何所需的设置步骤。把每个答案写成 Agent 没有任何上下文的样子——因为它确实没有。</p>
+
+            <h4>在图片和视频旁边附上说明文字</h4>
+
+            <p>你的 Agent 不能仅依赖视觉内容。始终为产品截图、GIF 或视频演示配上清晰的文字步骤说明，覆盖相同的内容。</p>
+
+            <h3>步骤二：审查和淘汰</h3>
+
+            <p>一旦你规划好支持发布所需的所有新内容，就要审查已有内容——哪些需要更新，哪些需要从知识库中完全移除。</p>
+
+            <h4>使用关键词搜索找出可能受影响的内容</h4>
+
+            <p>搜索与发布主题相关的每篇文章、宏指令或其他内容。如果你的知识管理工具能自动标记过时或矛盾的内容，利用它来加速这个过程。</p>
+
+            <h4>检查重复内容</h4>
+
+            <p>如果同一主题有多篇文章，确认你希望 Agent 使用的是哪篇作为权威来源。过时的重复内容会与新内容竞争，导致不一致。</p>
+
+            <h3>步骤三：上线前测试</h3>
+
+            <p>在功能正式发布前，测试 Agent 如何处理新内容，以便在客户接触之前发现并修复问题。</p>
+
+            <h4>一次性运行完整问题集并评分</h4>
+
+            <p>使用你的知识管理工具从新发布内容中生成可能的 FAQ，如果有的话，加入 Beta 反馈和早期支持对话。这些反映了真实的客户语言，而不仅仅是你认为客户可能会问的问题。在客户将要使用的同一环境中测试 Agent 的回答。对每个答案评分，如果结果不好，找出根本原因。很可能是仍然存在内容缺口、信息存在但不准确，或者信息存在但结构太差无法被检索到。针对性地修复后再次运行测试。</p>
+
+            <h4>审查 Agent 规则和边界情况指导</h4>
+
+            <p>在上线前，检查发布是否引入了仅靠内容无法覆盖的细微差异——例如，功能是否在分阶段向客户推出，或者某些特定查询是否应始终转给人工处理。如果发布没有这类条件，可以跳过这一步。</p>
+
+            <h4>设定发布后成功指标</h4>
+
+            <p>确定你将监控哪些发布相关指标。至少从解决率和客户满意度得分（CSAT）开始。这将帮助你在问题一出现时就发现，而不是在汇总数据中后才看到。</p>
+
+            <h2 id="in-practice">实践：我们在 Fin 是怎么做的</h2>
+
+            <p>在发布前，产品经理和工程师会通过产品发布跟踪器提交新功能及"我们构建了什么"文档。这份文档记录了功能的构建者和负责人、Beta 开始日期、计划发布日期、套餐可用性、功能描述（详细说明工作原理）以及故障排除指南。</p>
+
+            <p>然后，我们的知识经理和我会被拉入与产品和工程团队的会议和 Slack 讨论中，尽早了解产品变更，包括演示和 Walkthrough。我们还会被邀请参加 GTM 启动会议，对齐消息传达和发布策略。这些会议的记录、演示摘要或 GTM 简报都会被汇总，与"我们构建了什么"文档合并，作为内容创建的单一输入包。</p>
+
+            <p>有了这个输入包，我们将其上传到 <a href="https://fin.ai/operator">Operator</a>——我们的 Agent，它代表我们构建、测试和部署对 Fin 的改进——并使用如下 prompt：</p>
+
+            <img class="aligncenter" src="https://blog.intercomassets.com/blog/wp-content/uploads/2026/06/Fin-Operator-prompt.png" alt="Fin Operator prompt" />
+
+            <p>这个 prompt 帮助我们识别哪些现有内容需要更新、如果仅依赖现有材料 Fin 可能会错误回答什么，以及哪些缺口需要我们填补。然后我们使用后续 prompt 让 Operator 采取行动，起草新的面向客户的内容和面向内部团队的指导：</p>
+
+            <ol>
+                <li><em>为你识别的每个内容缺口起草一篇新的面向客户的文章，使用客户语言而非工程师语言。</em></li>
+                <li><em>使用提供的故障排除步骤或工具，起草或更新相关的内部文章供团队成员参考。</em></li>
+            </ol>
+
+            <div class="note">
+                <strong>注意：</strong>如果你使用 Fin，<a href="https://www.intercom.com/help/en/articles/15461132-ai-knowledge-management-workflow-from-setup-to-content-readiness">这里有一份完整指南</a>介绍如何使用 Operator 进行知识管理，包括设置、prompt 和内容就绪框架。
+            </div>
+
+            <div class="video-embed">
+                <iframe loading="lazy" src="https://fast.wistia.net/embed/iframe/ly0ommbgvd?web_component=true&seo=true" title="Brian clip: Operator makes knowledge management a breeze" allowfullscreen></iframe>
+            </div>
+
+            <p>这会生成一个内容计划，包含需要更新的文章优先级列表和任何新草稿。对于较小的发布，我们在功能上线前刚刚发布内容。对于较大的发布，我们更早开始并分阶段发布内容，确保 Fin 在新对话涌入收件箱之前已经完全吸收了变更。</p>
+
+            <p>内容上线后，我们使用 Operator 生成可能的 FAQ 列表并测试 Fin 如何处理每个问题，在答案质量差或不完整时提出修复建议。如果有 Beta 反馈或早期支持对话可用，我们会将它们与生成的问题一起纳入，确保测试覆盖面反映真实的客户语言，而不仅仅是预期的问题。</p>
+
+            <p>然后，我们创建一个 <a href="https://fin.ai/analyze#:~:text=Complete%20control,over%20conversation%20quality">Monitor</a> 来捕获关于发布的新对话，并使用 Scorecard 评估它们的处理情况。一个新功能可能跨越多个主题或子主题，使得在一个地方查看所有相关对话变得困难，但 Monitor 正是为此而设计的。我们追踪这些对话中 Fin 的解决率和 CX Score，对于复杂的发布最多追踪四周，对于常规发布追踪两周，如果低于基准线则深入分析并改进。</p>
+
+            <h2 id="start-with-your-next-launch">从你的下一次发布开始</h2>
+
+            <p>保持 Agent 的及时更新需要纪律，但一旦你建立了强大的流程，每次都会变得更加容易。</p>
+
+            <p>选择产品团队下一个即将发布的功能，按照上述清单执行，并记录当前流程需要改进的地方。与你的产品、工程和 GTM 团队合作，围绕发布建立强大的跨职能协作机制，将 Agent 就绪性作为你运营方式的核心组成部分。</p>
+
+            <p>这就是你确保 Agent 和你的团队对任何发布都做好准备的方式——无论产品路线图推进得多快。</p>
+        </div>
+
+        <footer>
+            <p>翻译时间：2026-09-02</p>
+            <p>保留术语：AI, Agent, NPI, API, Fin, Operator, Monitor, Scorecard, CSAT, CX Score, GTM, QA, Bug, Slack, prompt</p>
+            <p>原文链接：<a href="https://www.intercom.com/blog/npi-how-to-ensure-your-agent-is-ready-every-time-you-ship/" target="_blank">The new product introduction process: How to make sure your Agent is ready every time you ship</a></p>
+        </footer>
+    </article>
+</body>
+</html>
