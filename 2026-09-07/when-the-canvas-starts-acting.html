@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>当画布开始自主行动，谁真正掌握控制权？</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            line-height: 1.8;
+            color: #333;
+            background: #fff;
+        }
+        h1 {
+            font-size: 1.8rem;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+        h3 {
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
+        h4 {
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+        }
+        p {
+            margin-bottom: 1rem;
+        }
+        figure {
+            margin: 1.5rem 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        figcaption {
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        blockquote {
+            border-left: 3px solid #ddd;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: #555;
+            font-style: italic;
+        }
+        a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .meta span {
+            margin-right: 1rem;
+        }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+            color: #999;
+        }
+        ul {
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <article>
+        <header>
+            <h1>当画布开始自主行动，谁真正掌握控制权？</h1>
+            <div class="meta">
+                <span>来源：UX Collective</span>
+                <span>作者：Aurélie Radom</span>
+                <span>发布日期：2026-09-02</span>
+                <span>原文：<a href="https://uxdesign.cc/when-the-canvas-starts-acting-whos-really-in-control-0128f641223c">链接</a></span>
+            </div>
+        </header>
+
+        <h4><em>Agentic 交互界面正在改变设计师掌控的对象——从交互设计到代理能力、编排与注意力。</em></h4>
+
+        <figure><img alt="一位设计师观察着 agentic 画布，画布将跨工具的上下文连接起来，使 agent 能够解读所见内容并在没有预定义指令的情况下采取行动。" src="https://cdn-images-1.medium.com/max/1024/1*rDh7sc1FjwfRZMRmRciEnw.png"><figcaption><em>Agentic 画布如今能将跨工具的上下文汇聚到一处，然后无需逐步指令即可据此行动。AI 生成的视觉素材，Aurélie Radom ©。</em></figcaption></figure>
+
+        <p>在软件发展的大部分历史中，界面是人们告诉系统该做什么的地方。我们点击、拖拽、输入和选择，系统做出响应。大量交互设计的工作就是让这些操作更容易理解，让下一步变得显而易见。</p>
+
+        <p>终端一直是一种不同类型的界面。它赋予你很强的能力，但大部分能力隐藏在命令背后。你需要知道系统能做什么以及如何要求它去做。这是设计师一直难以适应终端工具的原因之一——它们暴露的是机器的语言，而非工具的可能性。</p>
+
+        <p>AI 编程 agent 正在将这种交互模型带回来。你可以描述一个结果，然后让 agent 决定运行哪些命令、修改哪些文件、执行哪些测试。你不再需要逐步操作软件，但一个熟悉的设计问题以另一种形式重新出现了：系统理解了什么？它正在做什么？它改变了什么？我能阻止什么？我应该审查什么？</p>
+
+        <p>界面不再仅仅是我们操作的对象——它可以自主行动。</p>
+
+        <h3><strong>什么都不透露的界面</strong></h3>
+
+        <p>第一代生成式 AI 让这个问题变得尤为明显。我们面对一个空白输入框，被要求描述我们想要什么。这看起来像是另一个版本的"白纸问题"：当没有任何东西可以回应时，很难知道从哪里开始。</p>
+
+        <figure><img alt="Perplexity AI 首页，显示一个空输入框，占位文字为"Ask anything。"" src="https://cdn-images-1.medium.com/max/1024/1*KLxSUQuXZ2kdML4Z2UJ_dw.png"><figcaption>Perplexity AI 首页，显示一个空输入框，占位文字为"Ask anything"。</figcaption></figure>
+
+        <p>Takuma Kakehi 的文章《<a href="https://uxdesign.cc/nobody-wants-a-blank-page-nobody-touches-a-perfect-one-48d452a26dae"><em>Nobody wants a blank page. Nobody touches a perfect one</em></a>》探讨了创意工具中的这种张力，主张在"没有任何可操作素材"和"被 handed 一个已经感觉完成的东西"之间应该有一个中间地带。但 AI 界面引入了一个不同的问题。</p>
+
+        <p>空白提示词的困难不仅仅在于它要求我们从零开始。它的困难在于它不给我们任何关于可能性的提示。系统的能力隐藏在语言背后，意味着用户必须已经知道该问什么，才能发现工具能做什么。</p>
+
+        <p>因此，界面将探索的负担置于用户身上。它不是揭示自身的可能性并邀请实验，而是要求用户先去想象这些可能性。</p>
+
+        <p>正是在这里，我们多年来在交互设计中使用的一些原则重新变得相关。优秀的界面一直都在帮助人们理解什么是可能的，而不要求他们已经理解系统。它们提供 affordance（可供性），展示正在发生的事情，并给人们足够的上下文来决定下一步该做什么。空白提示词将大部分责任重新推给了人。</p>
+
+        <h3><strong>启发式原则依然重要</strong></h3>
+
+        <p><a href="https://www.nngroup.com/articles/ten-usability-heuristics/">Nielsen 启发式原则</a>为我们思考这种新关系提供了有用的框架。<em>系统状态可见性</em>意味着人们需要理解 agent 理解了什么、正在做什么以及处于流程的哪个阶段。<em>识别而非回忆</em>变成了一个问题：如何通过面前已有的上下文和素材来让 agent 的能力可见，而不是期望人们记住正确的命令或构建完美的提示词。<em>用户控制与自由</em>现在包括中断、重定向或撤销操作的能力。<em>错误预防</em>意味着定义 agent 应该被允许独立做什么，什么应该需要人的参与。原则依然存在，但它们描述的关系已经改变了。</p>
+
+        <p>我们过去设计的是等待指令的软件。现在我们设计的是能够理解意图、采取行动并决定何时需要我们的软件。</p>
+
+        <h3><strong>当画布开始行动</strong></h3>
+
+        <p>这就是画布变得自主的地方。Miro 的 agentic 画布将来自 Slack、GitHub、Amplitude 和 Granola 等工具的上下文，以及 PDF、演示文稿、电子表格和截图，汇聚到一个共享空间中。不再是页面、幻灯片或聊天记录，画布变成了一个空间环境，你可以缩放、平移、分组想法并连接不同的工作片段。它的 Sidekicks 能够理解这些上下文并创建文档、图表、原型或看板，而 Flows 将这些交互转化为团队可以查看、运行和复用的工作流。</p>
+
+        <figure><img alt="一段短视频展示 Miro 的 AI 工作流和 agentic 画布，多个参与者在无限画布上连接工具和技能，实时编排操作。" src="https://cdn-images-1.medium.com/max/960/1*M0e36r7L6Oo_Ua8fr_eabA.gif"><figcaption>Miro© AI 工作流在无限画布上运行，多个参与者可以在实时上下文中连接工具和技能，编排工作流，并将操作直接发送回外部世界。</figcaption></figure>
+
+        <p>重要的转变在于，AI 不再从孤立的提示词工作。它可以读取画布、引用上游资源，并将输出从一个步骤传递到下一步。价值不仅在于 AI 创建了什么，还在于这些工作成果落地在哪里。人们可以检查输入、更改输出并在其基础上继续构建。</p>
+
+        <p>Figma 正在朝类似的方向发展。其 <a href="https://www.figma.com/blog/the-figma-agent-is-here/">设计 agent</a> 直接在画布上工作，而 Figma Make 使用户能够从创意和现有设计走向可工作的原型和应用程序。公司还向第三方 agent 开放了画布，并引入了 <a href="https://help.figma.com/hc/en-us/articles/39166810751895-Figma-skills-for-MCP">skills</a>，为 agent 提供关于设计决策和意图的上下文，这与 <a href="https://support.claude.com/en/articles/12512176-what-are-skills">Anthropic 生态系统中 skills 的运作方式</a>相呼应。</p>
+
+        <p>Miro 看板包含项目的上下文。Figma 文件包含组件、布局和关系。代码库包含文件、依赖项、测试和错误。Agent 有了可以操作的东西，这改变了交互的本质。但还有另一个转变：agent 不仅仅在消费上下文，它们开始决定需要哪些上下文。</p>
+
+        <p><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-agentic-video-in-gemini/">Google DeepMind 在 agentic video 理解方面的工作</a>是一个很好的例子。Gemini 不再将视频作为固定帧流来处理，而是可以确定需要检查视频的哪个部分、以什么速度，以及是否需要帧、音频还是转录文本。它可以通过 agentic loop 检索与任务相关的时刻和信号。这听起来可能像是一个技术优化，但它指向了界面中更大的变化。系统不再只是等待我们为它指向正确的信息。它可以自行确定哪些信息与任务相关并自行检索。</p>
+
+        <figure><img alt="使用 agentic video 理解，Gemini 3.7 能够基于视频内容准确回答复杂问题，同时与静态分析相比消耗显著更少的 token。" src="https://cdn-images-1.medium.com/max/960/1*f71d75XIQeRzGo_jcrdaAw.gif"><figcaption>Token 高效的大海捞针搜索。<em>使用 agentic video 理解，Gemini 3.7 能够基于视频内容准确回答复杂问题，同时与静态分析相比消耗显著更少的 token。</em></figcaption></figure>
+
+        <p>同样的模式正在 agentic 画布中出现。画布为 agent 提供了工作的环境，但 agent 也在导航这个环境。它可以找到相关上下文、跨工具连接信息、决定要操作什么并将结果传递下去。上下文不再只是系统接收的东西，而是系统可以主动寻求的东西。</p>
+
+        <p>这意味着<em>注意力</em>成为了设计问题的一部分。</p>
+
+        <h3><strong>Human in the loop</strong></h3>
+
+        <p>我们花了很多时间讨论如何让人类保持在回路中。Ge Wang 在他的斯坦福文章 <a href="https://hai.stanford.edu/news/humans-loop-design-interactive-ai-systems"><em>Humans in the Loop: The Design of Interactive AI Systems</em></a> 中做了一个有用的区分：自动化一个任务与设计一个让人们仍然能够影响结果的系统是不同的。</p>
+
+        <p>人类参与不一定意味着手动完成工作。它可以意味着决定 agent 应该在哪里自主行动、在哪里应该汇报、在哪里需要人来做决定。目标不是在"全部自己做"和"全部交给 AI"之间做非此即彼的选择，而是一种更灵活的责任分工。</p>
+
+        <p>这对 agent 来说尤其相关。想象你要求一个 agent 规划旅行。我可能给它我的预算、偏好和大致想去的地方，然后让它搜索选项并制定行程。我不希望批准每一个搜索或预订步骤，因为那等于我在做大部分工作。但我也不希望 agent 替我做每一个决定。如果两家酒店差不多但其中一家位于我不喜欢的街区，或者最便宜的航班涉及不方便的过夜中转，这些是需要上下文和个人偏好的决策。Agent 可以处理常规工作，然后把这些决策带回来给我。工作在我们之间流动，取决于谁更适合处理。</p>
+
+        <p><a href="https://hai.stanford.edu/news/ai-loop-humans-must-remain-charge"><em>AI in the loop, humans in charge</em></a>（AI 在回路中，人类掌控全局）概括了这里最重要的东西。人类参与不应以一个人必须点击多少次"批准"来衡量。真正重要的是人们是否在依赖判断力、上下文或偏好的决策中保持控制权。设计这个边界——决定 agent 应该处理什么、应该呈现什么、何时应该将控制权交还——是一个编排问题。</p>
+
+        <h3><strong>设计交接</strong></h3>
+
+        <p>一旦系统能够行动，交接就成了界面的一部分。我们需要决定 agent 何时应该在没有我们的情况下继续、何时应该询问、何时应该将工作返回等待决策。这意味着我们要设计的不只是屏幕和交互。</p>
+
+        <blockquote>我们在设计人与系统之间的责任分配。</blockquote>
+
+        <p>一旦我们开始为能自主行动的系统做设计，过去游离于界面之外的决策成为了设计的一部分：</p>
+
+        <ul>
+            <li>Agent 可以在不询问的情况下做什么？</li>
+            <li>何时应该请求确认？</li>
+            <li>哪些操作应该是可逆的？</li>
+            <li>哪些决策应该始终由人来做出？</li>
+        </ul>
+
+        <p>这些选择在传统意义上可能看起来不像界面设计，但它们对体验的塑造与屏幕或交互一样深刻。这就是 agency 成为设计材料的地方。</p>
+
+        <h3><strong>那么设计师在设计什么？</strong></h3>
+
+        <p>如果人类不再直接操作界面，很容易认为界面设计师的角色变得不那么重要了。我认为恰恰相反正在发生，但设计的对象正在转移。</p>
+
+        <p>我们仍然设计屏幕、组件和交互，但我们也在设计行为、约束、默认值、权限和结果。我们还在决定系统可以不经询问做什么、需要许可做什么，以及哪些情况应该将人重新带入流程。这些大部分永远不会作为传统界面元素出现。它存在于决定系统如何行为的规则和假设中。</p>
+
+        <p><strong><em>这是产品的策略层。</em></strong></p>
+
+        <p>设计师不再仅仅定义人们操作系统的界面。他们在定义系统自行运作的条件。这已经开始改变我们对设计系统和设计知识的思考方式。Figma 围绕 agent 和 skills 的工作指向了一个未来：曾经主要存在于设计师脑中或设计文档中的决策和约定，可以成为 agent 工作的上下文的一部分。</p>
+
+        <p>设计系统可以成为塑造机器如何运作的指令和约束的一部分，而不仅仅是人类设计师的参考。</p>
+
+        <p>这也改变了"品味"（taste）的含义。</p>
+
+        <p>当 AI 能够生成各种可能性时，品味帮助我们决定哪些值得追求。当 AI 能够执行决策时，品味还帮助我们决定哪些决策应该属于人类、哪些可以委托。设计师塑造的不仅是结果，更是产生结果的 agency 分配方式。</p>
+
+        <h3><strong>什么值得我们的注意力？</strong></h3>
+
+        <p>这种转变还有另一个后果。如果 agent 能够收集上下文、生成选项、做出修改并推进工作，执行就变得不那么稀缺了。注意力变得更加重要。但现在有两种注意力需要考虑：系统关注什么，以及它要求人类关注什么。</p>
+
+        <p>设计师不需要做每一个决定，他们需要识别哪些决定值得做。这改变了 human in the loop 设计的含义。目标不是让一个人参与每一步。而是确保正确的东西到达他们面前。</p>
+
+        <p>一个 agent 可能检查数百个文件、比较数十个选项或搜索数小时的视频而不涉及我们。设计问题是决定当它确实需要我们时应该呈现什么，以及什么应该被信任由它自行处理。人类注意力成为系统可以帮助分配的资源，而这正是智能界面、编排和品味交汇之处。</p>
+
+        <blockquote>设计师的角色正在从"指定每一个交互"转向"决定责任和注意力应如何 在人与系统之间流动"。</blockquote>
+
+        <p>我们在设计系统能看到什么、能做什么、应该留什么不动，以及何时应该向我们请求。当画布开始行动时，我们仍然在设计界面。但现在我们还在设计其背后的行为、围绕它的边界，以及控制权回归人的那些时刻。</p>
+
+        <p>也许问题不再仅仅是界面应该长什么样。而是：谁应该决定下一步发生什么，以及当它发生时，谁应该给予关注。</p>
+
+        <h4><strong>来自 AI × Taste 系列</strong></h4>
+
+        <p><em>每月探索 AI 时代品味的经济学：</em></p>
+
+        <ul>
+            <li>
+                <a href="https://uxdesign.cc/ai-made-everyone-a-creator-not-a-designer-e28deb6e603b?source=user_profile_page---------2-------------594e163637c3----------------------"><strong>AI made everyone a creator, not a designer</strong></a><br>
+                AI 如何让生成变得充裕，使设计判断和品味成为新的竞争优势。
+            </li>
+            <li>
+                <a href="https://uxdesign.cc/the-organizational-cost-of-low-taste-135cb8b10c34?source=user_profile_page---------1-------------594e163637c3----------------------"><strong>The organizational costs of low taste</strong></a><br>
+                薄弱的设计判断如何在产品、团队和组织中复合叠加。
+            </li>
+            <li>
+                <a href="https://uxdesign.cc/taste-cannot-be-delegated-1706847a0b4b?gi=20a0b2f4a5d5&amp;source=user_profile_page---------0-------------594e163637c3----------------------"><strong>Taste cannot be delegated</strong></a><br>
+                为什么 AI 可以生成无限可能，但决定什么应该存在仍然是根本性的人类特质。
+            </li>
+            <li>
+                <a href="https://uxdesign.cc/designing-for-the-proxy-2606ffac2335"><strong>Designing for the Proxy</strong></a><br>
+                为什么 AI 正在改变谁先阅读内容，以及当我们为中介而非终端用户优化时会发生什么。
+            </li>
+            <li>
+                <strong>When the canvas starts acting, who's really in control?</strong><br>
+                交互界面如何改变设计师掌控的对象——从交互到 agency、编排和注意力。
+            </li>
+        </ul>
+
+        <footer>
+            <p>翻译时间：2026-09-07</p>
+            <p>保留术语：AI, Agent, CX, UX, UI, agentic, affordance, token, skills, Sidekicks, Flows, human in the loop, taste</p>
+            <p>原文链接：<a href="https://uxdesign.cc/when-the-canvas-starts-acting-whos-really-in-control-0128f641223c">UX Collective</a></p>
+        </footer>
+    </article>
+</body>
+</html>
